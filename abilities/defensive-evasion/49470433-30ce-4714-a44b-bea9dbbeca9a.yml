@@ -12,7 +12,5 @@
       command: |
         Set-MPPreference -DisableRealtimeMonitoring 1
         Start-Sleep -s 10
-        $status = Get-MpPreference
-        $status.DisableRealtimeMonitoring
       clean-up:
         Set-MPPreference -DisableRealtimeMonitoring 0
