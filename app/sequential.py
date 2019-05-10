@@ -2,28 +2,12 @@ import asyncio
 import re
 from base64 import b64decode
 from datetime import datetime
+from caldera.app.utility.planner_base import PlannerBase
 
-
-class LogicalPlanner:
+class LogicalPlanner(PlannerBase):
 
     def __init__(self, data_svc, utility_svc, log):
-        self.data_svc = data_svc
-        self.utility_svc = utility_svc
-        self.log = log
-        self.loop = asyncio.get_event_loop()
-
-    async def execute(self, operation, phase):
-        for member in operation['host_group']['agents']:
-            agent = await self.data_svc.dao.get('core_agent', dict(id=member['agent_id']))
-            await self._exhaust_agent(agent[0], operation, phase)
-
-    async def _exhaust_agent(self, agent, operation, phase):
-        while True:
-            operation = await self.wait_for_agent(operation['id'], agent['id'])
-            link, cleanup = await self.choose_next_link(operation, agent, phase)
-            if not link:
-                break
-            await self.data_svc.create_link(link, cleanup)
+        super().__init__(data_svc, utility_svc, log)
 
     async def choose_next_link(self, operation, agent, phase):
         completed_tests = [l['command'] for l in operation['chain'] if l['host_id'] == agent['id'] and l['collect']]
@@ -40,6 +24,9 @@ class LogicalPlanner:
                             command=encoded_test, score=0, jitter=self.utility_svc.jitter(operation['jitter'])), \
                        dict(op_id=operation['id'], agent_id=agent['id'], command=a.get('cleanup'), ability_id=a['id'])
         return None, None
+
+    async def handle_links(self, link, cleanup):
+        await self.data_svc.create_link(link, cleanup)
 
     async def wait_for_agent(self, op_id, agent_id):
         op = await self.data_svc.explode_operation(dict(id=op_id))
