@@ -4,6 +4,7 @@ from base64 import b64decode
 from datetime import datetime
 from caldera.app.utility.planner_base import PlannerBase
 
+
 class LogicalPlanner(PlannerBase):
 
     def __init__(self, data_svc, utility_svc, log):
