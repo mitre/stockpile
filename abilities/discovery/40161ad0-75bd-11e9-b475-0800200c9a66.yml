@@ -1,0 +1,13 @@
+---
+
+- id: 40161ad0-75bd-11e9-b475-0800200c9a66
+  name: net use (Alice)
+  description:
+  tactic: discovery
+  technique:
+    attack_id: T1003
+    name: Discovery
+  executors:
+    psh:
+      command: |
+         net use \\#{host.domain.name}\c$ /user:#{user.name}@#{network.domain} #{user.password}
