@@ -7,6 +7,8 @@ import subprocess
 import sys
 import time
 
+from cryptography.fernet import Fernet
+
 
 def command_registrar():
     registry = {}
