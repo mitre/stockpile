@@ -5,8 +5,8 @@
   description: Determine the Windows Domain of a computer
   tactic: discovery
   technique:
-    attack_id:
-    name: T1482
+    attack_id: T1482
+    name: Domain Trust Discovery  
   executors:
     psh:
       command: |
