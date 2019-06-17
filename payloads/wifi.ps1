@@ -26,7 +26,7 @@ if ($scan){
 } elseif ($off) {
 
     Write-Host "Turning WIFI off"
-    netsh interface set interface name="Wi-Fi" admin=ENABLED
+    netsh interface set interface name="Wi-Fi" admin=DISABLE
 
 } elseif ($pref) {
 
