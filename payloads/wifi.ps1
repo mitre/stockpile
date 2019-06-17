@@ -6,12 +6,15 @@ param(
 )
 
 if ($scan){
-    Write-Host "Getting all WIFI networks"
-    netsh wlan sh net mode=bssid
+   Write-Host "Getting all WIFI networks"
+   netsh wlan sh net mode=bssid
 } elseif ($on) {
-    Write-Host "Turning WIFI on"
+   Write-Host "Turning WIFI on"
+   netsh interface set interface name="Wi-Fi" admin=ENABLED
 } elseif ($off) {
-    Write-Host "Turning WIFI off"
+   Write-Host "Turning WIFI off"
+   netsh interface set interface name="Wi-Fi" admin=ENABLED
 } elseif ($pref) {
-    Write-Host "Getting preferred WIFI networks"
+   Write-Host "Getting preferred WIFI networks"
+   netsh wlan show profiles
 }
