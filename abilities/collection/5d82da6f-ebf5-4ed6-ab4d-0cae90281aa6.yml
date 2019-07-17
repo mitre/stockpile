@@ -11,13 +11,13 @@
     darwin:
       command: |
         tar -czvf #{files}/staged.tgz #{files}/staged;
-        openssl enc -aes-256-cbc -salt -in #{files}/staged.tgz -out #{files}/staged.tgz.enc -k password123;
+        openssl enc -aes-256-cbc -salt -in #{files}/staged.tgz -out #{files}/staged.tgz.enc -k password123 ;
       cleanup: |
         rm #{files}/staged.tgz; rm #{files}/staged.tgz.enc;
     linux:
       command: |
         tar -czvf #{files}/staged.tgz #{files}/staged;
-        openssl enc -aes-256-cbc -salt -in #{files}/staged.tgz -out #{files}/staged.tgz.enc -k password123;
+        openssl enc -aes-256-cbc -salt -in #{files}/staged.tgz -out #{files}/staged.tgz.enc -k password123 ;
       cleanup: |
         rm #{files}/staged.tgz; rm #{files}/staged.tgz.enc;
     windows:
