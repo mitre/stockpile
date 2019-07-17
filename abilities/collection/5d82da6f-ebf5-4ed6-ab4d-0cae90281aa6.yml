@@ -23,7 +23,7 @@
     windows:
       command: |
         Compress-Archive -Path #{files}\staged -DestinationPath #{files}\staged;
-        #{files}\xor.ps1 "#{files}\staged.zip";
+        #{files}\xor.ps1 #{files}\staged.zip;
       payload: xor.ps1
       cleanup: |
         Remove-Item -Path "#{files}\staged.zip"; Remove-Item -Path "#{files}\staged.zip.enc";
