@@ -1,7 +1,7 @@
 import json
 import re
 
-def _json(parser, blob):
+def json(parser, blob):
     matched_facts = []
     if blob:
         structured = json.loads(blob)
@@ -20,12 +20,12 @@ def _json(parser, blob):
     return matched_facts
 
 
-def _regex(parser, blob):
+def regex(parser, blob):
     matched_facts = []
     for i, v in enumerate([m for m in re.findall(parser['script'], blob)]):
         matched_facts.append(dict(fact=parser['property'], value=v, set_id=i))
     return matched_facts
 
-def _line(parser, blob):
+def line(parser, blob):
     return [dict(fact=parser['property'], value=f.strip(), set_id=0) for f in blob.split('\n') if f]
 
