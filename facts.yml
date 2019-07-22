@@ -24,3 +24,15 @@
       value: P@ssw0rd
     - property: remote.host.name
       value: work001-testdomain
+
+- name: wiggle worm
+  facts:
+    - property: host.user.name
+      value: Administrator
+    - property: host.user.password
+      value: changeme
+    - property: remote.host.ip
+      value: 192.168.38.104
+    - property: host.ip.address
+      value: 192.168.38.103
+

