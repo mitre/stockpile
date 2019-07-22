@@ -15,6 +15,6 @@
       command: |
         host #{target.org.domain} | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
     parser:
-	  name: line
-	  property: target.org.emailhost
-	  script: ''
+      name: line
+      property: target.org.emailhost
+      script: ''
