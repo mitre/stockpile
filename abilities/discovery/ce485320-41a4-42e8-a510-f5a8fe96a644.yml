@@ -9,12 +9,15 @@
     name: Remote System Discovery
   executors:
     linux:
-      command: |
-        host #{target.org.domain} | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
+      command: host "#{target.org.domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
+      parser:
+        name: line
+        property: target.org.emailhost
+        script: ''
     darwin:
-      command: |
-        host #{target.org.domain} | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
-    parser:
-      name: line
-      property: target.org.emailhost
-      script: ''
+      command: host "#{target.org.domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
+      parser:
+        name: line
+        property: target.org.emailhost
+        script: ''
+
