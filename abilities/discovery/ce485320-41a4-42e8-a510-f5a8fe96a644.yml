@@ -2,7 +2,7 @@
 
 - id: ce485320-41a4-42e8-a510-f5a8fe96a644
   name: Discover Mail Server
-  description: Identify the mail server
+  description: Identify the organizations mail server
   tactic: discovery
   technique:
     attack_id: T1018
