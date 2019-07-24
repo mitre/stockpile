@@ -27,18 +27,19 @@
 - name: Worm (stockpile)
   description: Move laterally any way possible
   phases:
-    1: #installations
-#      - ac22dcfd-33aa-42cd-89ef-cfd3aea78933 #psexec
-      - eb814e03-811a-467a-bc6d-dcd453750fa2
+    #1: #installations
+     #- ac22dcfd-33aa-42cd-89ef-cfd3aea78933 #psexec
+     #- eb814e03-811a-467a-bc6d-dcd453750fa2
     2: #discovery
       - 02de522f-7e0a-4544-8afc-0c195f400f5f #ssh commands
       - 422526ec-27e9-429a-995b-c686a29561a4 #ssh commands
-    4: #copy 54ndc47
+      - baac2c6d-4652-4b7e-ab0a-f1bf246edd12
+    3: #copy 54ndc47
       - 4908fdc4-74fc-4d7c-8935-26d11ad26a8d #remoting
-     # - bddc0abc-07a0-41b7-813f-e0c64d9226b3
-    5: #run 54ndc47
+      #- bddc0abc-07a0-41b7-813f-e0c64d9226b3
+    4: #run 54ndc47
       - 10a9d979-e342-418a-a9b0-002c483e0fa6 #ssh
       - 2a32e46f-5346-45d3-9475-52b857c05342 #wmi
-     # - 3b4f745a-7ed2-4bf0-91fd-6357f871b6b
+      #- 3b4f745a-7ed2-4bf0-91fd-6357f871b6b
       - 41bb2b7a-75af-49fd-bd15-6c827df25921
 
