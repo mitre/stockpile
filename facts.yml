@@ -27,18 +27,10 @@
 
 - name: wiggle worm
   facts:
-    - property: host.user.name
-      value: Administrator
-    - property: host.user.password
-      value: changeme
     - property: remote.host.ip
       value: 192.168.38.103
     - property: host.ip.address
       value: 192.168.38.102
-    - property: host.user.name
-      value: vagrant
-    - property: host.user.password
-      value: vagrant
     - property: remote.host.name
       value: wef
 
