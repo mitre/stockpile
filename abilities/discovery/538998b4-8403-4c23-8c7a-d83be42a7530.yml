@@ -1,0 +1,17 @@
+---
+
+- id: 538998b4-8403-4c23-8c7a-d83be42a7530
+  name: Find IP address
+  description: Determine local IP of machine
+  tactic: collection
+  technique:
+    attack_id: T1251
+    name: Obtain domain/IP registration information
+  executors:
+    windows:
+      command: |
+        ipconfig | findstr /R /C:"IP.* Address"
+      parser:
+        name: regex
+        property: host.ip.address
+        script: '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
