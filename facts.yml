@@ -28,9 +28,9 @@
 - name: wiggle worm
   facts:
     - property: remote.host.ip
-      value: 192.168.38.103
+      value: <INSERT TARGET IP>
     - property: host.ip.address
-      value: 192.168.38.102
+      value: <INSERT LOCAL IP>
     - property: remote.host.name
-      value: wef
+      value: <INSERT TARGET HOST>
 
