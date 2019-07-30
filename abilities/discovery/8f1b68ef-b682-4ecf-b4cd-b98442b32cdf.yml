@@ -1,0 +1,17 @@
+---
+
+- id: 8f1b68ef-b682-4ecf-b4cd-b98442b32cdf
+  name: Find Hostname
+  description: Find Hostname
+  tactic: discovery
+  technique:
+    attack_id: T1018
+    name: Remote System Discovery
+  executors:
+    windows:
+      command: |
+       nbtstat -A #{remote.ip.address}
+      parser:
+        name: regex
+        property: remote.host.name
+        script: '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
