@@ -25,8 +25,5 @@
     - property: remote.host.name
       value: work001-testdomain
 
-- name: wiggle worm
-  facts:
-    - property: remote.host.name
-      value: wef
+
 
