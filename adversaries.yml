@@ -23,7 +23,15 @@
       - 90c2efaa-8205-480d-8bb6-61d90dbaf81b
     2:
       - 5d199f56-698a-41ff-8ae9-bb7b8536adcb
-
+      
+- name: File Hunter 2 (using private facts)
+  description: Locate and steal sensitive files
+  phases:
+    1:
+      - 90c2efaa-8205-480d-8bb6-61d90dbaf81c
+    2:
+      - 5d199f56-698a-41ff-8ae9-bb7b8536adcc
+      
 - name: Worm
   description: Move laterally any way possible
   phases:
