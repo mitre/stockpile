@@ -3,7 +3,7 @@
 - id: fdf8bf36-797f-4157-805b-fe7c1c6fc903
   name: Find Hostname
   description: Find hostname of remote host
-  tactic: credential-access
+  tactic: discovery
   technique:
     attack_id: T1018
     name: Remote System Discovery
@@ -12,6 +12,6 @@
       command: |
         nbtstat -A #{remote.host.ip}
       parser:
-        name: host name
+        name: host
         property: remote.host.name
-        script: '^\s*([^<\s]+)\s*<00>\s*UNIQUE'
+        script: ' \s*([^<\s]+)\s*<00>\s*UNIQUE'
