@@ -15,4 +15,6 @@
           $password = '#{host.user.password}';
           $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
           $credential = New-Object System.Management.Automation.PSCredential $username, $securePassword;
-          Start-Process Notepad.exe -NoNewWindow -PassThru -Credential $credential;}; Receive-Job -Job $job -Wait;
+          Start-Process Notepad.exe -NoNewWindow -PassThru -Credential $credential;
+        };
+        Receive-Job -Job $job -Wait;
