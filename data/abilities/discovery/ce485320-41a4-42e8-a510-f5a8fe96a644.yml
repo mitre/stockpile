@@ -22,7 +22,7 @@
         script: ''
     windows:
       command: |
-        nslookup -querytype=mx #{target.org.domain}. | Select-String -pattern 'mail'
+        (nslookup -querytype=mx #{target.org.domain}. | Select-String -pattern 'mail' | Out-String).Trim()
       parser:
         name: regex
         property: target.org.emailhost
