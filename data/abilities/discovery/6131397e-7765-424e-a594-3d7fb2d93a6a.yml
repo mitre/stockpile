@@ -12,7 +12,7 @@
       psh:
         command: |
           Import-Module PowerView.ps1 -Verbose -Force;
-          Get-NetDomain | ConvertTo-Json
+           $out = Get-NetDomain; $out -replace "`"","'" | ConvertTo-Json
         payload: PowerView.ps1
         parser:
           name: json

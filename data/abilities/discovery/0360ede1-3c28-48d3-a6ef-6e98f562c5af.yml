@@ -12,7 +12,7 @@
       psh:
         command: |
           Import-Module PowerView.ps1 -Verbose -Force;
-          Get-NetComputer;
+          $out = Get-NetComputer; $out -replace "`"","'";
         payload: PowerView.ps1
         parser:
           name: regex
