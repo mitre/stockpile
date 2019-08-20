@@ -1,8 +1,8 @@
 class LogicalPlanner:
 
-    def __init__(self, data_svc, planning_svc):
-        self.data_svc = data_svc
-        self.planning_svc = planning_svc
+    def __init__(self, services, **params):
+        self.data_svc = services.get('data_svc')
+        self.planning_svc = services.get('planning_svc')
 
     async def execute(self, operation, phase):
         for member in operation['host_group']:
