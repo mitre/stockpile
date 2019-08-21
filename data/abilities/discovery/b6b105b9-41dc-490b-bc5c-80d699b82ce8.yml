@@ -9,5 +9,6 @@
     name: System Information Discovery
   executors:
     windows:
-      command: |
-        [environment]::OSVersion.Version
+      psh:
+        command: |
+          [environment]::OSVersion.Version
