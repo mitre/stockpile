@@ -10,13 +10,10 @@
   platforms:
     windows:
       psh,pwsh:
-        command: |
-          die
+        command: die
     darwin:
       sh:
-        command: |
-          die
+        command: die
     linux:
       sh:
-        command: |
-          die
+        command: die
