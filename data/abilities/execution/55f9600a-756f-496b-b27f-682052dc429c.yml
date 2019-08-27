@@ -1,0 +1,15 @@
+---
+
+- id: 55f9600a-756f-496b-b27f-682052dc429c
+  name: Run Mission 1
+  description: Run Mission 1
+  tactic: execution
+  technique:
+    attack_id: T1072
+    name: Third-party Software
+  platforms:
+    darwin:
+      sh:
+        command: |
+          ./mission.go-darwin -server #{server} -duration 60
+        payload: mission.go
