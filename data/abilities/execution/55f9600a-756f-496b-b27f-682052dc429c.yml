@@ -3,10 +3,10 @@
 - id: 55f9600a-756f-496b-b27f-682052dc429c
   name: File Hunter Mission
   description: Hunts for files of a certain extension and inserts a message
-  tactic: NA
+  tactic: Impact
   technique:
-    attack_id: NA
-    name: NA
+    attack_id: T1492
+    name: Stored Data Manipulation
   platforms:
     darwin:
       sh:
