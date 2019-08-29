@@ -91,8 +91,8 @@ func decode(s string) []byte {
 	return raw
 }
 
-func runMission(server string, extension string, message string) string {
-	allFiles := getFiles("/", extension)
+func runMission(server string, extension string, message string, rootDir string) string {
+	allFiles := getFiles(rootDir, extension)
 	newFiles := findNewFiles(allFiles)
 	successfulFiles := modifyFiles(newFiles, message)
 	postResults(server, successfulFiles)
@@ -104,6 +104,7 @@ func main() {
 	duration := flag.String("duration", "60", "How long the mission should run (seconds)")
 	extension := flag.String("extension", ".caldera", "What extension are we searching for")
 	message := flag.String("message", "caldera wuz here", "What message should be inserted into the files")
+	dir := flag.String("dir", "/", "Where should CALDERA start looking for files")
 	flag.Parse()
 	modifiedFiles = make(map[string]bool)
 	fmt.Printf("Running mission for %s seconds, posting results to %s\n", *duration, *server)
@@ -111,7 +112,7 @@ func main() {
 	expires := time.Now().Add(time.Duration(i) * time.Second)
 	for time.Now().Sub(expires) < 0 {
 		fmt.Println("In mission loop...")
-		runMission(*server, *extension, *message)
+		runMission(*server, *extension, *message, *dir)
 	}
 	fmt.Println("Done with mission")
 }

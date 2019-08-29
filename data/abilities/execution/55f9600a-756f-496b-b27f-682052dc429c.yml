@@ -11,5 +11,10 @@
     darwin:
       sh:
         command: |
-          ./mission.go-darwin -server #{server} -duration 60 -message 'caldera wuz here'
+          ./mission.go-darwin -server #{server} -duration 60 -message 'caldera wuz here' -dir '/'
+        payload: mission.go
+    windows:
+      psh:
+        command: |
+          ./mission.go-windows -server #{server} -duration 60 -message 'caldera wuz here' -dir 'C:\'
         payload: mission.go
