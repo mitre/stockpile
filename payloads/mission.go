@@ -111,7 +111,7 @@ func runMission(server string, extension string) string {
 
 func main() {
 	server := flag.String("server", "http://localhost:8888", "The FQDN of the server")
-	duration := flag.String("duration", "10", "How long the mission should run (seconds)")
+	duration := flag.String("duration", "60", "How long the mission should run (seconds)")
 	extension := flag.String("extension", ".caldera", "What extension are we searching for")
 	modified_files = make(map[string]bool)
 	flag.Parse()
