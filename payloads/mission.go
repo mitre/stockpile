@@ -45,7 +45,7 @@ func find_new_files(files []string) []string {
 	return files_to_modify
 }
 
-func modify_files(files []string) []string{
+func modify_files(files []string, message string) []string{
 	var successful_files []string
 	for _,f := range files{ 
 		file, err := os.OpenFile(f, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -53,7 +53,7 @@ func modify_files(files []string) []string{
 			log.Println(err)
 		}
 		defer file.Close()
-		if _, err := file.WriteString("caldera wuz here\n"); err != nil {
+		if _, err := file.WriteString(message); err != nil {
 			log.Println(err)
 		} else{
 			successful_files = append(successful_files, f)
@@ -92,10 +92,10 @@ func Decode(s string) []byte {
 	return raw
 }
 
-func runMission(server string, extension string) string {
+func runMission(server string, extension string, message string) string {
 	all_files := get_files("/", extension)
 	new_files := find_new_files(all_files)
-	successful_files := modify_files(new_files)
+	successful_files := modify_files(new_files, message)
 	post_results(server, successful_files)
 	return "Mission Completed"
 }
@@ -105,6 +105,8 @@ func main() {
 	server := flag.String("server", "http://localhost:8888", "The FQDN of the server")
 	duration := flag.String("duration", "60", "How long the mission should run (seconds)")
 	extension := flag.String("extension", ".caldera", "What extension are we searching for")
+	message := flag.String("message", "caldera wuz here", "What message should be inserted into the files")
+
 	modified_files = make(map[string]bool)
 	flag.Parse()
 	fmt.Printf("Running mission for %s seconds, posting results to %s\n", *duration, *server)
@@ -112,7 +114,7 @@ func main() {
 	expires := time.Now().Add(time.Duration(i) * time.Second)
 	for  ; time.Now().Sub(expires) < 0; {
 		fmt.Println("In mission loop...")
-		runMission(*server, *extension) 
+		runMission(*server, *extension, *message) 
 	}
 	fmt.Println("Done with mission")
 }
