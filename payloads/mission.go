@@ -4,7 +4,8 @@ import (
 	"flag"
 	"time"
 	"bytes"
-	//"encoding/json"
+	"strings"
+	"encoding/json"
 	"encoding/base64"
 	"io/ioutil"
 	"net/http"
@@ -14,11 +15,6 @@ import (
 	"log"
 	"strconv"
 )
-
-//1. Collect all yaml files
-//2. Add uncollected to list
-//3. For each not disrupted, disrupt
-//4. Post results to CALDERA
 
 var iteration = 60
 var modified_files map[string]bool
@@ -67,19 +63,17 @@ func modify_files(files []string) []string{
 }
 
 func post_results(server string, files[]string){
-
 	address := fmt.Sprintf("%s/sand/results", server)
-	fmt.Println("About to Post Results:")
-	
 	for _,f := range files{ 
 		fmt.Println(string(f))
 	}
-	//data, _ := json.Marshal(map[string]string{"output": string(util.Encode(string(f))), "status": status})
-	request(address, []byte("YOYO"))
+	results := strings.Join(files, ",")
+	data, _ := json.Marshal(map[string]string{"modified_files": results})
+	request(address, Encode(data))
 }
 
 func request(address string, data []byte) []byte {
-	req, _ := http.NewRequest("POST", address, bytes.NewBuffer(Encode(data)))
+	req, _ := http.NewRequest("POST", address, bytes.NewBuffer(data))
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -89,12 +83,10 @@ func request(address string, data []byte) []byte {
 	return Decode(string(body))
 }
 
-//Encode base64 encodes bytes
 func Encode(b []byte) []byte {
 	return []byte(base64.StdEncoding.EncodeToString(b))
 }
 
-// Decode base64 decodes a string
 func Decode(s string) []byte {
 	raw, _ := base64.StdEncoding.DecodeString(s)
 	return raw
@@ -119,9 +111,10 @@ func main() {
 	i, _ := strconv.Atoi(*duration)
 	expires := time.Now().Add(time.Duration(i) * time.Second)
 	for  ; time.Now().Sub(expires) < 0; {
+		fmt.Println("In mission loop...")
 		runMission(*server, *extension) 
 	}
-	fmt.Println("DONE WITH MISSION")
+	fmt.Println("Done with mission")
 }
 
 var key = "3TEU4UD15V29OBJB7U9HNCR2JPWL1U"
