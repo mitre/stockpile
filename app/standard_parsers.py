@@ -1,25 +1,22 @@
 import json as json_library
 import re
 
+
 class StandardParsers:
 
     def __init__(self, log):
         self.log = log
     
     def parse(self, parser, blob):
-        if parser[0]['name'] == 'json':
-            matched_facts = self.json_parse(parser[0], blob)
-        elif parser[0]['name'] == 'line':
-            matched_facts = self.line(parser[0], blob)
-        else:
-            matched_facts = self.regex(parser[0], blob)
-            
-        return matched_facts
+        if parser['name'] == 'json':
+            return self._json_parse(parser, blob)
+        elif parser['name'] == 'line':
+            return self._line_parse(parser, blob)
+        return self._regex_parse(parser, blob)
 
-    def line_parse(self, parser, blob):
-        return [dict(fact=parser['property'], value=f.strip(), set_id=0) for f in blob.split('\n') if f]
-    
-    def json_parse(self, parser, blob):
+    """ PRIVATE """
+
+    def _json_parse(self, parser, blob):
         matched_facts = []
         if blob:
             try:
@@ -40,10 +37,14 @@ class StandardParsers:
             else:
                 matched_facts.append((dict(fact=parser['property'], value=structured[parser['script']], set_id=0)))
         return matched_facts
-    
-    
-    def regex_parse(self, parser, blob):
+
+    @staticmethod
+    def _regex_parse(parser, blob):
         matched_facts = []
         for i, v in enumerate([m for m in re.findall(parser['script'], blob.strip())]):
             matched_facts.append(dict(fact=parser['property'], value=v, set_id=i))
         return matched_facts
+
+    @staticmethod
+    def _line_parse(parser, blob):
+        return [dict(fact=parser['property'], value=f.strip(), set_id=0) for f in blob.split('\n') if f]
