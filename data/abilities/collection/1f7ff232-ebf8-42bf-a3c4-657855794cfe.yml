@@ -16,3 +16,5 @@
           name: regex
           property: target.org.email
           script: '[\w\.-]+@[\w\.-]+'
+  consequence:
+    - '#{host.user.name}, has_email,#{target.org.email}'
