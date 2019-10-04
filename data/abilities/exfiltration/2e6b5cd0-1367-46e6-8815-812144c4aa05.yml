@@ -5,7 +5,7 @@
   description: Exfiltrate contents of sensitive file
   tactic: Experimentation
   technique:
-    attack_id: T9998
+    attack_id: T1020
     name: Impact
   platforms:
     linux:
@@ -17,7 +17,7 @@
           command: |
             cat #{host.directory.name}/#{host.file.sensitive}
     windows:
-        pwsh,cmd:
+        pwsh:
           command: |
             cat #{host.directory.name}/#{host.file.sensitive}
   requires:
