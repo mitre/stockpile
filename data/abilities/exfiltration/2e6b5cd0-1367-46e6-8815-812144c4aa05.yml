@@ -1,0 +1,25 @@
+---
+
+- id: 2e6b5cd0-1367-46e6-8815-812144c4aa05
+  name: Exfiltrate File
+  description: Exfiltrate contents of sensitive file
+  tactic: Experimentation
+  technique:
+    attack_id: T9998
+    name: Impact
+  platforms:
+    linux:
+      sh:
+        command: |
+          cat #{host.directory.name}/#{host.file.sensitive}
+    darwin:
+        sh:
+          command: |
+            cat #{host.directory.name}/#{host.file.sensitive}
+    windows:
+        pwsh,cmd:
+          command: |
+            cat #{host.directory.name}/#{host.file.sensitive}
+  requires:
+    - '#{host.directory.name},has_file,#{host.file.sensitive}'
+
