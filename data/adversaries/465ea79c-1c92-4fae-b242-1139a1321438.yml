@@ -1,0 +1,15 @@
+---
+
+id: 465ea79c-1c92-4fae-b242-1139a1321438
+name: Simple Windows Worm 
+description: Windows worm that dumps creds, finds accessible hosts, attempts to laterally move to those hosts, and dumps creds on all hosts it was able to move to.
+phases:
+  1: # Initial discovery
+    - 95c69c32-6ca6-4540-b8ff-e072b95076b2 # Powerview:Get-DomainComputer 
+    - 9179709f-23f6-482f-9a1e-025cea20bd6e # Invoke-Mimikatz 
+  2: # Copy remotely
+    - bf1f4169-e387-48b2-8d50-f9dc218d3c94 # SMB copy 
+  3: # Remote exec
+    - 103fb99c-3450-4b6d-a62d-dff09ce0f274 # WMI exec  
+  4:
+    - 9179709f-23f6-482f-9a1e-025cea20bd6e # Invoke-Mimikatz 
