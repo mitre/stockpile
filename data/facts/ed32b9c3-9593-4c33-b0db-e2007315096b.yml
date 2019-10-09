@@ -9,3 +9,12 @@ facts:
     value: yml
   - property: host.service.modifiable
     value: fax
+  - property: host.user.password
+    value: P@ssw0rd!
+  - property: host.user.name
+    value: admin
+relationships:
+  1:
+    value1: admin
+    relationship: has_password
+    value2: P@ssw0rd!
