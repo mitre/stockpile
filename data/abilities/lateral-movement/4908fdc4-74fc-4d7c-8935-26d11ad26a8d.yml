@@ -24,6 +24,8 @@
           };
           Receive-Job -Job $job -Wait;
         payload: sandcat.go-windows
+        requires: |
+          - #{host.user.name},has_password,#{host.user.password}
     darwin:
       sh:
         command: |

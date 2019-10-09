@@ -17,5 +17,5 @@
           name: mimikatz
           property: host.user.password
           script: 'Password\s:\s(.*)'
-  consequence:
-    - '#{host.user.name},has_password,#{host.user.password}'
+  consequence: |
+    #{host.user.name},has_password,#{host.user.password}

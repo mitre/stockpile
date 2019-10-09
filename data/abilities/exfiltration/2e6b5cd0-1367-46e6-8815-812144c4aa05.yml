@@ -20,6 +20,6 @@
         pwsh:
           command: |
             cat #{host.directory.name}/#{host.file.sensitive}
-  requires:
-    - '#{host.directory.name},has_file,#{host.file.sensitive}'
+  requires: |
+    - #{host.directory.name},has_file,#{host.file.sensitive}
 
