@@ -10,5 +10,5 @@ class Parser(BaseParser):
         relationships = []
         for r in self.relationships:
             for m in self.line(blob):
-                relationships.append(Relationship(source=(r.get('source'), m), edge=None, target=None))
+                relationships.append(Relationship(source=(r.get('source'), m), edge=r.get('edge'), target=None))
         return relationships
