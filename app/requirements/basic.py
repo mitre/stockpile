@@ -1,28 +1,33 @@
-from plugins.stockpile.app.requirements.base_requirements import BaseRequirement
 
 
-class Requirement(BaseRequirement):
+class Requirement():
 
     def __init__(self, requirement_info):
         self.enforcements = requirement_info['enforcements']
         self.fact_relationships = requirement_info['fact_relationships']
 
-    def enforce(self, fact_combinations):
+    def enforce(self, potential_fact, used_facts, all_operation_facts):
         """
-        Given a tuple combo of facts, list of fact relationships and a relationships requirement, prune all facts
-        that don't comply
-        :param combos: List of facts that are available
-        :param fact_relationships: List of relationships
-        :param relationship: Relationship object that has source
-        :return: a list of combo tuples that comply with the relationship requirements
+        Given a potential fact, all facts used by the current link and all operation facts, determine if it complies
+        with this fact relationships enforcement mechanism
+        :param potential_fact: List of facts that are available
+        :param used_facts
+        :param all_operation_facts
+        :return: True if it complies, False if it doesn't
         """
-        #facts = []
-        # for i in range(len(fact_combinations) - 1):
-        #     if self.get('property1') == fact_combo[i]['property'] \
-        #             and relationship.get('property2') == fact_combo[i + 1]['property']:
-        #         for r in operation['fact_relationships']:
-        #             if fact_combo[i]['value'] == r['value1'] and fact_combo[i + 1]['value'] == r['value2'] \
-        #                     and relationship['relationship'] == r['relationship']:
-        #                 return True
-        # return False
-        return fact_combinations
+        for uf in used_facts:
+            f = self._get_fact(all_operation_facts, uf)
+            if self.enforcements.get('source') == f.get('property'):
+                if self.enforcements.get('target') == potential_fact.get('property'):
+                    for relationship in f.get('relationships'):
+                        if self.enforcements.get('edge') == relationship.get('edge'):
+                            if relationship.get('target').get('value') == potential_fact.get('value'):
+                                return True
+                            return False
+        return True
+
+    @staticmethod
+    def _get_fact(fact_list, fact_id):
+        for f in fact_list:
+            if fact_id == f['id']:
+                return f
