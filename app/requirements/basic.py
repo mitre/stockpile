@@ -26,6 +26,8 @@ class Requirement():
                             return False
         return True
 
+    """ PRIVATE """
+
     @staticmethod
     def _get_fact(fact_list, fact_id):
         for f in fact_list:
