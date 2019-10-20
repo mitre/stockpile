@@ -7,7 +7,7 @@ class BaseRequirement:
     def check_source_target(self, source, target):
         """
         Give a source and target fact, return True if the source and target comply with the enforcement mechanism and
-        False if the source and target to don't comply. Also Return True if the source and target are of a type that the
+        False if the source and target don't comply. Also return True if the source and target are of a type that the
         doesn't concern the enforcement mechanism
         :param source:
         :param target:
