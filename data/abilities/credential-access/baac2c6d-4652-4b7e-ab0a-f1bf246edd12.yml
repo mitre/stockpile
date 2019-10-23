@@ -19,4 +19,4 @@
           plugins.stockpile.app.parsers.katz:
             - source: host.user.name
               edge: has_password
-              target}: host.user.password
+              target: host.user.password
