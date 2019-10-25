@@ -51,10 +51,7 @@ class Parser(BaseParser):
                 if pstate:
                     pstate = False
                     package = {}
-            # save the current ssp if necessary
-            if 'Username' in package and package['Username'] != '(null)' and \
-                    (('Password' in package and package['Password'] != '(null)') or 'NTLM' in package):
-                mk_section.packages[package_name].append(package)
+            self._package_extend(package, package_name, mk_section)  # save the current ssp if necessary
             if mk_section.packages:  # save this section
                 creds.append(mk_section)
         return creds
