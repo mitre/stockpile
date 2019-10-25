@@ -39,62 +39,18 @@ class Parser(BaseParser):
             package = {}
             package_name = ''
             in_header = True
+            pstate = False
             for line in section.splitlines():
                 line = line.strip()
                 if in_header:
-                    if line.startswith('msv'):
-                        in_header = False
-                    else:
-                        session = re.match(r'^\s*Session\s*:\s*([^\r\n]*)', line)
-                        if session:
-                            mk_section.session = session.group(1)
-                        username = re.match(r'^\s*User Name\s*:\s*([^\r\n]*)', line)
-                        if username:
-                            mk_section.username = username.group(1)
-                        domain = re.match(r'^\s*Domain\s*:\s*([^\r\n]*)', line)
-                        if domain:
-                            mk_section.domain = domain.group(1)
-                        logon_server = re.match(r'^\s*Logon Server\s*:\s*([^\r\n]*)', line)
-                        if logon_server:
-                            mk_section.logon_server = logon_server.group(1)
-                        logon_time = re.match(r'^\s*Logon Time\s*:\s*([^\r\n]*)', line)
-                        if logon_time:
-                            mk_section.logon_time = logon_time.group(1)
-                        sid = re.match(r'^\s*SID\s*:\s*([^\r\n]*)', line)
-                        if sid:
-                            mk_section.sid = sid.group(1)
-                        continue
+                    in_header = self._parse_header(line, mk_section)
+                    if in_header:
+                        continue #avoid excess parsing work
 
-                if line.startswith('['):
-                    # this might indicate the start of a new account
-                    if 'Username' in package and package['Username'] != '(null)' and \
-                            (('Password' in package and package['Password'] != '(null)') or 'NTLM' in package):
-                        mk_section.packages[package_name].append(package)
-
-                    # reset the package
+                pstate, package_name = self._process_package(line, package, package_name, mk_section)
+                if pstate:
+                    pstate = False
                     package = {}
-                    pass
-                elif line.startswith('*'):
-                    m = re.match(r'\s*\* (.*?)\s*: (.*)', line)
-                    if m:
-                        package[m.group(1)] = m.group(2)
-
-                elif line:
-                    # parse out the new section name
-                    match_group = re.match(r'([a-z]+) :', line)
-                    if match_group:
-                        # this is the start of a new ssp
-                        # save the current ssp if necessary
-                        if 'Username' in package and package['Username'] != '(null)' and \
-                                (('Password' in package and package['Password'] != '(null)') or 'NTLM' in package):
-                            mk_section.packages[package_name].append(package)
-
-                        # reset the package
-                        package = {}
-
-                        # get the new name
-                        package_name = match_group.group(1)
-
             # save the current ssp if necessary
             if 'Username' in package and package['Username'] != '(null)' and \
                     (('Password' in package and package['Password'] != '(null)') or 'NTLM' in package):
@@ -122,3 +78,56 @@ class Parser(BaseParser):
             self.log.warning('Mimikatz parser encountered an error - {}. Continuing...'.format(error))
         return relationships
 
+    # Private Functions
+
+    def _parse_header(self, line, mk_section):
+            if line.startswith('msv'):
+                return False
+            else:
+                session = re.match(r'^\s*Session\s*:\s*([^\r\n]*)', line)
+                if session:
+                    mk_section.session = session.group(1)
+                username = re.match(r'^\s*User Name\s*:\s*([^\r\n]*)', line)
+                if username:
+                    mk_section.username = username.group(1)
+                domain = re.match(r'^\s*Domain\s*:\s*([^\r\n]*)', line)
+                if domain:
+                    mk_section.domain = domain.group(1)
+                logon_server = re.match(r'^\s*Logon Server\s*:\s*([^\r\n]*)', line)
+                if logon_server:
+                    mk_section.logon_server = logon_server.group(1)
+                logon_time = re.match(r'^\s*Logon Time\s*:\s*([^\r\n]*)', line)
+                if logon_time:
+                    mk_section.logon_time = logon_time.group(1)
+                sid = re.match(r'^\s*SID\s*:\s*([^\r\n]*)', line)
+                if sid:
+                    mk_section.sid = sid.group(1)
+                return True
+
+    def _process_package(self, line, package, package_name, mk_section):
+        if line.startswith('['):
+            # this might indicate the start of a new account
+            self._package_extend(package, package_name, mk_section)
+
+            # reset the package
+            return True, package_name
+        elif line.startswith('*'):
+            m = re.match(r'\s*\* (.*?)\s*: (.*)', line)
+            if m:
+                package[m.group(1)] = m.group(2)
+        elif line:
+            # parse out the new section name
+            match_group = re.match(r'([a-z]+) :', line)
+            if match_group:
+                # this is the start of a new ssp
+                # save the current ssp if necessary
+                self._package_extend(package, package_name, mk_section)
+
+                # reset the package
+                return True, match_group.group(1)
+        return False, package_name
+
+    def _package_extend(self, package, package_name, mk_section):
+        if 'Username' in package and package['Username'] != '(null)' and \
+                (('Password' in package and package['Password'] != '(null)') or 'NTLM' in package):
+            mk_section.packages[package_name].append(package)
