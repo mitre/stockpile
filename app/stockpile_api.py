@@ -15,7 +15,7 @@ class StockpileApi:
         ability_dirs = ['plugins/%s/data/abilities' % p.name.lower() for p in self.services.get('plugin_svc').get_plugins()
                         if os.path.isdir('plugins/%s/data/abilities' % p.name.lower())]
         ability_dirs.append('data/abilities')
-        stripped_name = str(os.path.join('travesal', ability['ability_id']).split(os.path.sep)[-1])
+        stripped_name = str(os.path.join('travesal', ability['ability_id']).split(os.path.sep)[-1]).strip('%')
         for d in ability_dirs:
             for filename in Path(d).rglob('%s.yml' % stripped_name):
                 ability_file = filename.read_text()
