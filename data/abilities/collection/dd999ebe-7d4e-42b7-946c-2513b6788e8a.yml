@@ -12,20 +12,11 @@
       sh:
         command: |
           pbpaste
-        parsers:
-          plugins.stockpile.app.parsers.basic:
-            - source: demo.clipboard.raw
     windows:
       psh,pwsh:
         command: |
           Get-Clipboard -raw
-        parsers:
-          plugins.stockpile.app.parsers.basic:
-            - source: demo.clipboard.raw
     linux:
       sh:
         command: |
           xclip -o
-        parsers:
-          plugins.stockpile.app.parsers.basic:
-            - source: demo.clipboard.raw
