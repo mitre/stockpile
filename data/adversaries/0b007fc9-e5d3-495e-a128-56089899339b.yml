@@ -9,5 +9,5 @@ packs:
 phases:
   1:
     - dd999ebe-7d4e-42b7-946c-2513b6788e8a  # copy clipboard
-    - 316251ed-6a28-4013-812b-ddf5b5b007f8  # screen capture
+#    - 316251ed-6a28-4013-812b-ddf5b5b007f8  # screen capture
   # add more abilities here
