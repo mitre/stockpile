@@ -1,0 +1,31 @@
+---
+
+- id: dd999ebe-7d4e-42b7-946c-2513b6788e8a
+  name: Copy Clipboard
+  description: copy the contents for the clipboard and print them
+  tactic: collection
+  technique:
+    attack_id: T1115
+    name: Clipboard Data
+  platforms:
+    darwin:
+      sh:
+        command: |
+          pbpaste
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: demo.clipboard.raw
+    windows:
+      psh,pwsh:
+        command: |
+          Get-Clipboard -raw
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: demo.clipboard.raw
+    linux:
+      sh:
+        command: |
+          xclip -o
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: demo.clipboard.raw
