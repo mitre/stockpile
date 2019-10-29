@@ -1,0 +1,11 @@
+---
+
+id: a40ba587-28b3-498c-8e25-cafc7cfa412e
+name: Hypervisor attack
+description: Enumerates and stops a vm with an agent running on a hypervisor
+visible: 1
+phases:
+  1: # enumerate VMs
+    - 0093c0e0-68b6-4cab-b0d4-2b40b3c78f71
+  2: # shutdown all vms
+    - 465be689-2520-4700-8922-a2610deb1bf0
