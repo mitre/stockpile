@@ -12,6 +12,6 @@
       sh:
         command: |
           vm_list
-        #parsers:
-        #  plugins.stockpile.app.parsers.acrn:
-        #    - source: hypervisor.vm.name
+        parsers:
+          plugins.stockpile.app.parsers.acrn:
+            - source: hypervisor.vm.name
