@@ -11,6 +11,8 @@ facts:
     value: fax
   - property: target.org.name
     value: mitre.org
+  - property: remote.host.ip
+    value: 127.0.0.1
 rules:
   - action: DENY
     fact: file.sensitive.extension
@@ -20,5 +22,5 @@ rules:
     match: txt
   - action: ALLOW
     fact: file.sensitive.extension
-    match: yml  
-  
+    match: yml
+
