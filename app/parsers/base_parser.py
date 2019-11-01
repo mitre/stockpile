@@ -45,3 +45,7 @@ class BaseParser:
     def ip(blob):
         return re.findall(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', blob)
 
+    @staticmethod
+    def broadcastip(blob):
+        return re.findall(r'(?<=broadcast ).*', blob)
+
