@@ -10,4 +10,4 @@ class LogicalPlanner:
         operation = (await self.data_svc.locate('operations', match=dict(name=self.operation.name)))[0]
         for member in operation.agents:
             for l in await self.planning_svc.select_links(operation, member, phase):
-                await self.agent_svc.perform_action(l)
+                await operation.apply(l)
