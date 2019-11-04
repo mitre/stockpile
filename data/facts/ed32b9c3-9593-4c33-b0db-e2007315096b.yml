@@ -12,8 +12,6 @@ facts:
   - trait: target.org.name
     value: mitre.org
   - trait: remote.host.ip
-  - property: remote.host.ip
->>>>>>> 1b4f966... adding a localhost fact
     value: 127.0.0.1
 rules:
   - action: DENY
