@@ -2,6 +2,7 @@ from plugins.stockpile.app.parsers.base_parser import BaseParser
 from app.objects.c_relationship import Relationship
 
 
+
 class Parser(BaseParser):
 
     def parse(self, blob):
