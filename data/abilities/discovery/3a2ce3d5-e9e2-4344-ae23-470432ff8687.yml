@@ -16,8 +16,3 @@
       sh:
         command: |
           nmap -sV -p #{remote.host.port} #{remote.host.ip}
-  requirements:
-    plugins.stockpile.app.requirements.basic:
-     - source: remote.host.ip
-       edge: has_open_port
-       target: remote.host.port
