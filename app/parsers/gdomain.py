@@ -15,7 +15,7 @@ class Parser(BaseParser):
     def gd_parser(self, text):
         results = dict()
 
-        for block in text.split("\r\n\r\n"):
+        for block in text.split('\r\n\r\n'):
             if block:
                 hostname = None
                 pvi = None
@@ -23,14 +23,14 @@ class Parser(BaseParser):
                     hostname = self._parse_hostname(line, hostname)
                     pvi = self._parse_version(line, pvi)
 
-                    if line.startswith("Exception") and '(0x80005000)' in line:
+                    if line.startswith('Exception') and '(0x80005000)' in line:
                         # Domain communication error
                         self.log.warning('Get-Domain parser: Domain Issue 0x80005000: Verify that the rat is running '
                                          'under a Domain Account, and that the Domain Controller can be reached.')
                 if hostname and pvi:
                     results[hostname] = dict(parsed_version_info=pvi)
         if not results:
-            self.log.warning("Get-Domain Parser: Returned data contained no parseable information!")
+            self.log.warning('Get-Domain Parser: Returned data contained no parseable information!')
         return results
 
     def parse(self, blob):
@@ -48,19 +48,19 @@ class Parser(BaseParser):
             self.log.warning('Get-Domain parser encountered an error - {}. Continuing...'.format(error))
         return relationships
 
-    """    PRIVATE FUNCTION     """
+    '''    PRIVATE FUNCTION     '''
     def _parse_hostname(self, line, current):
-        if line.startswith("dnshostname"):
+        if line.startswith('dnshostname'):
             field_name, value = [c.strip() for c in line.split(':')]
             return value.lower()
         return current
 
     def _parse_version(self, line, current):
-        if line.startswith("operatingsystemversion"):
-            value = line.split(":")[-1].strip()  # Looks like: "10.0 (14393)"
+        if line.startswith('operatingsystemversion'):
+            value = line.split(':')[-1].strip()  # Looks like: '10.0 (14393)'
             os_version, build_number = value.split(' ')
             build_number = build_number[1:-1]  # remove parens
             major_version, minor_version = os_version.split('.')
-            return dict(os_name="windows", major_version=major_version,
+            return dict(os_name='windows', major_version=major_version,
                                        minor_version=minor_version, build_number=build_number)
         return current
