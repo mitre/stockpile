@@ -2,9 +2,6 @@ from app.objects.c_relationship import Relationship
 from plugins.stockpile.app.parsers.base_parser import BaseParser
 from app.utility.logger import Logger
 
-import re
-from collections import defaultdict
-
 class Parser(BaseParser):
 
     def __init__(self, parser_info):
