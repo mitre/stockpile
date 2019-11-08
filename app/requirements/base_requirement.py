@@ -28,4 +28,3 @@ class BaseRequirement:
         if edge == self.enforcements.edge:
             return True
         return False
-
