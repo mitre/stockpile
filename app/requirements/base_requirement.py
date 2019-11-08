@@ -5,6 +5,12 @@ class BaseRequirement:
         self.enforcements = requirement_info['enforcements']
 
     def is_valid_relationship(self, used_facts, relationship):
+        """
+        Checks if the used facts for a link match with the list of known fact relationships
+        :param used_facts:
+        :param relationship:
+        :return: True if there is a match, False if not
+        """
         if not self._check_edge(relationship.edge):
             return False
         for fact in used_facts:
