@@ -1,0 +1,10 @@
+---
+
+id: 3dbb59fc-905c-4708-a4f2-e30bc9ac2903
+name: Gist
+module: plugins.stockpile.app.c2.gist
+type: active
+config:
+  keys:
+    - cb649f04f43274cf4e368863cdae32c71f736b8f
+    - 02c1c99e33585f5ff1e7a68b792e5ea2ee0599e5
