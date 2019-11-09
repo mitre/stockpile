@@ -17,7 +17,8 @@ class Gist(C2):
         """ Returns one of the API keys to be encoded into the agent """
         return self.key
 
-    def get_beacons(self):
+    async def get_beacons(self):
+        """ Retrieve all GitHub gists for a particular api key"""
         g = Github(self.key)
         beacons = []
         for gist in g.get_user().get_gists():
