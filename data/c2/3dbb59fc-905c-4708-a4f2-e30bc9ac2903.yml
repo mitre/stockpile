@@ -6,5 +6,5 @@ module: plugins.stockpile.app.c2.gist
 type: active
 config:
   keys:
-    - cb649f04f43274cf4e368863cdae32c71f736b8f
-    - 02c1c99e33585f5ff1e7a68b792e5ea2ee0599e5
+    - {INSERT HERE}
+    - {INSERT HERE}
