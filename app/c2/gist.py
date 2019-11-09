@@ -1,5 +1,7 @@
 import random
+import json
 
+from base64 import b64encode, b64decode
 from app.objects.c_c2 import C2
 from github import Github
 
@@ -15,14 +17,18 @@ class Gist(C2):
         """ Returns one of the API keys to be encoded into the agent """
         return self.key
 
-    def recieve_beacon(self):
-        """ """
-        pass
-
-    def handle_beacon(self):
+    def get_beacons(self):
         g = Github(self.key)
+        beacons = []
         for gist in g.get_user().get_gists():
             if 'beacon' == gist.description:
                 for file in gist.files:
-                    print(gist.files[file].content)
-                    #data = json.loads(gist.files[file].content)
+                    beacon = self._decode_bytes(gist.files[file].content)
+                    beacons.append(json.loads(beacon))
+        return beacons
+
+    """ PRIVATE """
+
+    @staticmethod
+    def _decode_bytes(s):
+        return b64decode(s).decode('utf-8', errors='ignore').replace('\n', '')
