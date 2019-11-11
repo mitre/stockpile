@@ -14,11 +14,17 @@ class Gist(C2):
         self.c2_type = module_info['c2_type']
 
     def encode_config_info(self):
-        """ Returns one of the API keys to be encoded into the agent """
+        """
+        Returns one of the GIST API keys to be encoded into the agent
+        :return: GIST api key
+        """
         return self.key
 
     async def get_results(self):
-        """ Retrieve all GIST posted results for a particular api key"""
+        """
+        Retrieve all GIST posted results for a particular api key
+        :return:
+        """
         results = await self._get_raw_gist_urls(comm_type='results')
         result_content = await self._get_gist_content([result[0] for result in results])
         await self._delete_gists([result[1] for result in results])
@@ -33,7 +39,8 @@ class Gist(C2):
 
     async def post_payloads(self, payloads, paw):
         """
-
+        Given a list of payloads and an agent paw, posts the payloads as a series of base64 encoded
+        files attached to a single gist
         :param payloads:
         :param paw:
         :return:
@@ -45,7 +52,12 @@ class Gist(C2):
         return await self._post_gist(gist)
 
     async def post_instructions(self, text, paw):
-        """ Post an instruction for the agent to execute as an encoded GIST """
+        """
+        Post an instruction for the agent to execute as an encoded GIST
+        :param text: The instruction text for the agent to execute
+        :param paw: The paw for the agent to execute
+        :return:
+        """
         if len(json.loads(self.decode_bytes(text))['instructions']) < 1 or \
                 await self._wait_for_paw(paw, comm_type='instructions'):
             return
