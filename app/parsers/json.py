@@ -14,7 +14,7 @@ class Parser(BaseParser):
             return []
         for mp in self.mappers:
             json_key = mp.misc.get('json_key')
-            if not json_key:
+            if json_key is None:
                 self.log.warning("JSON Parser not given a 'json_key', not parsing")
                 continue
             for match in self.get_vals_from_json(json_obj, json_key):
