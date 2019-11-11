@@ -2,6 +2,7 @@ import random
 import json
 import uuid
 import aiohttp
+from base64 import b64encode, b64decode
 
 from app.objects.c_c2 import C2
 
@@ -45,7 +46,7 @@ class Gist(C2):
         :param paw:
         :return:
         """
-        files = {payload[0]: dict(content=self.encode_string(str(payload[1]))) for payload in payloads}
+        files = {payload[0]: dict(content=self.encode_string(payload[1])) for payload in payloads}
         if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
             return
         gist = self._build_gist_content(comm_type='payloads', paw=paw, files=files)
@@ -127,3 +128,7 @@ class Gist(C2):
     async def _delete(session, url):
         async with session.delete(url) as response:
             return await response.text()
+
+    @staticmethod
+    def encode_string(s):
+        return str(b64encode(s), 'utf-8')
