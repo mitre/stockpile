@@ -127,7 +127,7 @@ class Gist(C2):
     @staticmethod
     async def _delete(session, url):
         async with session.delete(url) as response:
-            return await response.text()
+            return await response.text('ISO-8859-1')
 
     @staticmethod
     def encode_string(s):
