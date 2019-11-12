@@ -2,12 +2,13 @@ from app.objects.c_relationship import Relationship
 from plugins.stockpile.app.parsers.base_parser import BaseParser
 from app.utility.logger import Logger
 
+
 class Parser(BaseParser):
 
     def __init__(self, parser_info):
         self.mappers = parser_info['mappers']
         self.used_facts = parser_info['used_facts']
-        self.log = Logger('parsing_svc')
+        self.log = Logger('Parser')
 
     def gd_parser(self, text):
         results = dict()
@@ -19,7 +20,6 @@ class Parser(BaseParser):
                 for line in block.splitlines():
                     hostname = self._parse_hostname(line, hostname)
                     pvi = self._parse_version(line, pvi)
-
                     if line.startswith('Exception') and '(0x80005000)' in line:
                         # Domain communication error
                         self.log.warning('Get-Domain parser: Domain Issue 0x80005000: Verify that the rat is running '
@@ -39,25 +39,27 @@ class Parser(BaseParser):
                     relationships.append(
                         Relationship(source=(mp.source, match),
                                      edge=mp.edge,
-                                     target=(mp.target, None)
-                    ))
+                                     target=(mp.target, None)))
         except Exception as error:
             self.log.warning('Get-Domain parser encountered an error - {}. Continuing...'.format(error))
         return relationships
 
     '''    PRIVATE FUNCTION     '''
-    def _parse_hostname(self, line, current):
+
+    @staticmethod
+    def _parse_hostname(line, current):
         if line.startswith('dnshostname'):
             field_name, value = [c.strip() for c in line.split(':')]
             return value.lower()
         return current
 
-    def _parse_version(self, line, current):
+    @staticmethod
+    def _parse_version(line, current):
         if line.startswith('operatingsystemversion'):
             value = line.split(':')[-1].strip()  # Looks like: '10.0 (14393)'
             os_version, build_number = value.split(' ')
             build_number = build_number[1:-1]  # remove parens
             major_version, minor_version = os_version.split('.')
             return dict(os_name='windows', major_version=major_version,
-                                       minor_version=minor_version, build_number=build_number)
+                        minor_version=minor_version, build_number=build_number)
         return current
