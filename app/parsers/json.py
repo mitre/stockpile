@@ -3,6 +3,7 @@ import json
 from app.objects.c_relationship import Relationship
 from plugins.stockpile.app.parsers.base_parser import BaseParser
 
+
 class Parser(BaseParser):
 
     def parse(self, blob):
