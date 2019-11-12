@@ -25,14 +25,14 @@ class Parser(BaseParser):
                     )
         return relationships
 
-    def __load_json(self, blob):
+    def _load_json(self, blob):
         try:
             return json.loads(blob)
         except Exception as error:
             self.log.warning("Output not JSON, use a different parser")
             return None
 
-    def __get_vals_from_json(self, json_obj, key):
+    def _get_vals_from_json(self, json_obj, key):
         """Get all values for a specified key recursively from JSON output."""
         if isinstance(json_obj, list):
             for item in json_obj:
