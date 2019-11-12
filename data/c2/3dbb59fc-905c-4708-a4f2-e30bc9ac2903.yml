@@ -6,6 +6,4 @@ module: plugins.stockpile.app.c2.gist
 type: active
 enabled: True
 config:
-  keys:
-    - {INSERT HERE}
-    - {INSERT HERE}
+  key: {INSERT HERE}
