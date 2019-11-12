@@ -1,8 +1,8 @@
-import random
 import json
 import uuid
 import aiohttp
-from base64 import b64encode, b64decode
+import re
+from base64 import b64encode
 
 from app.objects.c_c2 import C2
 
@@ -132,3 +132,6 @@ class Gist(C2):
     @staticmethod
     def encode_string(s):
         return str(b64encode(s), 'utf-8')
+
+    def valid_key(self):
+        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.encode_config_info()))
