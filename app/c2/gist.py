@@ -10,6 +10,7 @@ from app.objects.c_c2 import C2
 class Gist(C2):
 
     def __init__(self, module_info):
+        self.name = 'Gist'
         self.key = module_info['config']['key']
         self.c2_type = module_info['c2_type']
 
@@ -133,5 +134,5 @@ class Gist(C2):
     def encode_string(s):
         return str(b64encode(s), 'utf-8')
 
-    def valid_key(self):
+    def valid_config(self):
         return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.encode_config_info()))
