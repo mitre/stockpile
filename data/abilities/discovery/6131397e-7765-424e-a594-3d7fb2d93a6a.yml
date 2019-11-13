@@ -14,3 +14,9 @@
           Import-Module .\PowerView.ps1 -Force;
           Get-NetDomain | ConvertTo-Json
         payload: PowerView.ps1
+        parsers:
+          plugins.stockpile.app.parsers.json:
+            - source: domain.ad.forest
+              json_key: Forest
+            - source: domain.ad.name
+              json_key: Name
