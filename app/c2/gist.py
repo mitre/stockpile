@@ -14,16 +14,16 @@ class Gist(C2):
         self.key = module_info['config']['key']
         self.c2_type = module_info['c2_type']
 
-    def encode_config_info(self):
+    def get_key(self):
         """
-        Returns one of the GIST API keys to be encoded into the agent
+        Returns this C2 objects api key
         :return: GIST api key
         """
         return self.key
 
     async def get_results(self):
         """
-        Retrieve all GIST posted results for a particular api key
+        Retrieve all GIST posted results for a this C2's api key
         :return:
         """
         results = await self._get_raw_gist_urls(comm_type='results')
@@ -32,7 +32,10 @@ class Gist(C2):
         return result_content
 
     async def get_beacons(self):
-        """ Retrieve all GIST beacons for a particular api key"""
+        """
+        Retrieve all GIST beacons for a particular api key
+        :return: the beacons
+        """
         beacons = await self._get_raw_gist_urls(comm_type='beacon')
         beacon_content = await self._get_gist_content([beacon[0] for beacon in beacons])
         await self._delete_gists([beacon[1] for beacon in beacons])
@@ -82,12 +85,14 @@ class Gist(C2):
 
     async def _get_gist_content(self, urls):
         all_content = []
+        headers = {'Authorization': 'token {}'.format(self.key)}
         for url in urls:
-            headers = {'Authorization': 'token {}'.format(self.key)}
-            async with aiohttp.ClientSession(headers=headers, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
-                content = json.loads(self.decode_bytes(await self._fetch(session, url)))
-                all_content.append(content)
+            all_content.append(await self._fetch_content(url, headers))
         return all_content
+
+    async def _fetch_content(self, url, headers):
+        async with aiohttp.ClientSession(headers=headers, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
+            return json.loads(self.decode_bytes(await self._fetch(session, url)))
 
     async def _get_raw_gist_urls(self, comm_type):
         raw_urls = []
@@ -135,4 +140,4 @@ class Gist(C2):
         return str(b64encode(s), 'utf-8')
 
     def valid_config(self):
-        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.encode_config_info()))
+        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.get_key()))
