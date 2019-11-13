@@ -33,7 +33,7 @@ class Parser(BaseParser):
     def _load_json(self, blob):
         try:
             return json.loads(blob)
-        except Exception as error:
+        except Exception:
             self.log.warning("Output not JSON, use a different parser")
             return None
 
