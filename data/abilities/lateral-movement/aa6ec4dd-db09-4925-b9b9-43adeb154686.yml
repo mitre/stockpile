@@ -11,6 +11,6 @@
     windows:
       psh:
         command: |
-          net use \\#{remote.host.fqdn}\C$ /user:#{network.domain.name}\#{comp.user.name} #{comp.user.password}
+          net use \\#{remote.host.fqdn}\C$ /user:#{network.domain.name}\#{domain.user.name} #{domain.user.password}
         cleanup: |
           net use \\#{remote.host.fqdn}\C$ /delete

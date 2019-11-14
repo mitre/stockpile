@@ -15,6 +15,6 @@
           Invoke-Mimikatz -DumpCreds
         parsers:
           plugins.stockpile.app.parsers.katz:
-            - source: comp.user.name
+            - source: domain.user.name
               edge: has_password
-              target: comp.user.password
+              target: domain.user.password

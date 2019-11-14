@@ -2,12 +2,12 @@ from app.objects.c_relationship import Relationship
 from plugins.stockpile.app.parsers.base_parser import BaseParser
 import re
 
+
 class Parser(BaseParser):
 
     def __init__(self, parser_info):
         self.mappers = parser_info['mappers']
         self.used_facts = parser_info['used_facts']
-
 
     def nbt_parser(self, text):
         if text and len(text) > 0:
@@ -25,7 +25,8 @@ class Parser(BaseParser):
                         Relationship(source=(mp.source, match),
                                      edge=mp.edge,
                                      target=(mp.target, None)
-                    ))
-        except Exception as error:
+                                     )
+                    )
+        except Exception:
             pass
         return relationships
