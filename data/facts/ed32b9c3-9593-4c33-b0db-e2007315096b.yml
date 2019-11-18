@@ -13,6 +13,8 @@ facts:
     value: mitre.org
   - trait: remote.host.ip
     value: 127.0.0.1
+  - trait: remote.host.ip
+    value: 10.0.0.2
 rules:
   - action: DENY
     fact: file.sensitive.extension
