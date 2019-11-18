@@ -17,8 +17,8 @@ class Parser(BaseParser):
         json_output = self._load_json(blob)
         if json_output is not None:
             for mp in self.mappers:
-                if "json_key" not in dir(mp):
-                    self.log.warning("JSON Parser not given a 'json_key', not parsing")
+                if 'json_key' not in dir(mp):
+                    self.log.warning('JSON Parser not given a json_key, not parsing')
                     continue
                 for match in self._get_vals_from_json(json_output, mp.json_key):
                     source = self.set_value(mp.source, match, self.used_facts)
@@ -34,7 +34,7 @@ class Parser(BaseParser):
         try:
             return json.loads(blob)
         except Exception:
-            self.log.warning("Output not JSON, use a different parser")
+            self.log.warning('Output not JSON, use a different parser')
             return None
 
     def _get_vals_from_json(self, json_output, key):
