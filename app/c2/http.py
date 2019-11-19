@@ -13,9 +13,9 @@ class HTTP(C2):
         super().__init__(services, module, config, name)
 
     def start(self, app):
-        app.router.add_route('POST', '/sand/ping', self._ping)
-        app.router.add_route('POST', '/sand/instructions', self._instructions)
-        app.router.add_route('POST', '/sand/results', self._results)
+        app.router.add_route('POST', '/ping', self._ping)
+        app.router.add_route('POST', '/instructions', self._instructions)
+        app.router.add_route('POST', '/results', self._results)
 
     """ PRIVATE """
 
