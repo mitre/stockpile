@@ -18,3 +18,5 @@
           plugins.stockpile.app.parsers.json:
             - source: domain.user.name
               json_key: samaccountname
+              json_type:
+                - str
