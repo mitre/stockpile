@@ -2,7 +2,6 @@ import json
 import uuid
 import aiohttp
 import re
-from base64 import b64encode
 
 from app.objects.c_c2 import C2
 from app.interfaces.c2_active_interface import C2Active
@@ -136,10 +135,6 @@ class Gist(C2, C2Active):
     async def _delete(session, url):
         async with session.delete(url) as response:
             return await response.text('ISO-8859-1')
-
-    @staticmethod
-    def encode_string(s):
-        return str(b64encode(s), 'utf-8')
 
     def valid_config(self):
         return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.key))
