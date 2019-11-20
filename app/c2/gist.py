@@ -3,6 +3,8 @@ import uuid
 import aiohttp
 import re
 
+from base64 import b64encode
+
 from app.objects.c_c2 import C2
 from app.interfaces.c2_active_interface import C2Active
 
@@ -49,7 +51,7 @@ class Gist(C2, C2Active):
         :return:
         """
 
-        files = {payload[0]: dict(content=self.encode_string(payload[1])) for payload in payloads}
+        files = {payload[0]: dict(content=self._encode_string(payload[1])) for payload in payloads}
         if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
             return
         gist = self._build_gist_content(comm_type='payloads', paw=paw, files=files)
@@ -138,3 +140,7 @@ class Gist(C2, C2Active):
 
     def valid_config(self):
         return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.key))
+
+    @staticmethod
+    def _encode_string(s):
+        return str(b64encode(s), 'utf-8')
