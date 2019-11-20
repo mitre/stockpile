@@ -2,6 +2,7 @@ import json
 import uuid
 import aiohttp
 import re
+import asyncio
 
 from app.objects.c_c2 import C2
 from app.interfaces.c2_active_interface import C2Active
@@ -12,6 +13,10 @@ class Gist(C2, C2Active):
     def __init__(self, services, module, config, name):
         self.key = config.get('key')
         super().__init__(services, module, config, name)
+
+    def start(self, app):
+        loop = asyncio.get_event_loop()
+        loop.run_forever(self._default_active_c2_loop())
 
     def get_config(self):
         """
