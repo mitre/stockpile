@@ -65,7 +65,8 @@ class Gist(C2):
         if len(json.loads(self.decode_bytes(text))['instructions']) < 1 or \
                 await self._wait_for_paw(paw, comm_type='instructions'):
             return
-        gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()): {"content": text}})
+        gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()):
+                                                                                      {"content": text}})
         return await self._post_gist(gist)
 
     """ PRIVATE """
