@@ -13,7 +13,7 @@ class Gist(C2):
         self.key = config.get('key')
         super().__init__(services, module, config, name)
 
-    def get_key(self):
+    def get_config(self):
         """
         Returns this C2 objects api key
         :return: GIST api key
@@ -141,4 +141,4 @@ class Gist(C2):
         return str(b64encode(s), 'utf-8')
 
     def valid_config(self):
-        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.get_key()))
+        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.get_config()))
