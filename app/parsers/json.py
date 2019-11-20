@@ -48,7 +48,7 @@ class Parser(BaseParser):
         elif isinstance(json_output, dict):
             for k, v in json_output.items():
                 if k == key and (json_type is None or v.__class__.__name__ in json_type):
-                    yield v
+                    yield json.dumps(v) if v.__class__.__name__ in ['list', 'dict'] else v
                 if isinstance(v, list) or isinstance(v, dict):
                     for res in self._get_vals_from_json(v, key, json_type):
                         yield res
