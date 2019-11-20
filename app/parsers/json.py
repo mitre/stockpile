@@ -40,7 +40,13 @@ class Parser(BaseParser):
             return None
 
     def _get_vals_from_json(self, json_output, key, json_type):
-        """Get all values for a specified key recursively from JSON output."""
+        """
+        Get all values for a specified key recursively from JSON output.
+        :param json_output:
+        :param key:
+        :param json_type: a list of types to filter matches by. Example options are - 'str', 'int', 'list', 'dict'
+        :return: generator that yields matched values
+        """
         if isinstance(json_output, list):
             for item in json_output:
                 for res in self._get_vals_from_json(item, key, json_type):
