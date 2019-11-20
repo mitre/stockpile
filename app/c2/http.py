@@ -19,7 +19,7 @@ class HTTP(C2):
 
     def valid_config(self):
         """
-        Overriding of super classes function. Always returns True because config is done in code
+        Overriding of super class function. Always returns True because config is done in code
         :return:
         """
         return True
