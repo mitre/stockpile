@@ -18,6 +18,10 @@ class HTTP(C2):
         app.router.add_route('POST', '/results', self._results)
 
     def valid_config(self):
+        """
+        Overriding of super classes function. Always returns True because config is done in code
+        :return:
+        """
         return True
 
     """ PRIVATE """
