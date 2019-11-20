@@ -5,9 +5,10 @@ from urllib.parse import urlparse
 from aiohttp import web
 
 from app.objects.c_c2 import C2
+from app.interfaces.c2_passive_interface import C2Passive
 
 
-class HTTP(C2):
+class HTTP(C2, C2Passive):
 
     def __init__(self, services, module, config, name):
         super().__init__(services, module, config, name)

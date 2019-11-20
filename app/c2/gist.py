@@ -5,9 +5,10 @@ import re
 from base64 import b64encode
 
 from app.objects.c_c2 import C2
+from app.interfaces.c2_active_interface import C2Active
 
 
-class Gist(C2):
+class Gist(C2, C2Active):
 
     def __init__(self, services, module, config, name):
         self.key = config.get('key')
@@ -18,7 +19,7 @@ class Gist(C2):
         Returns this C2 objects api key
         :return: GIST api key
         """
-        return self.key
+        return 'githubToken', self.key
 
     async def get_results(self):
         """
@@ -141,4 +142,4 @@ class Gist(C2):
         return str(b64encode(s), 'utf-8')
 
     def valid_config(self):
-        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.get_config()))
+        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.key))
