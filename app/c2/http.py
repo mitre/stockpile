@@ -17,6 +17,9 @@ class HTTP(C2):
         app.router.add_route('POST', '/instructions', self._instructions)
         app.router.add_route('POST', '/results', self._results)
 
+    def valid_config(self):
+        return True
+
     """ PRIVATE """
 
     async def _ping(self, request):
@@ -38,3 +41,4 @@ class HTTP(C2):
         data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         status = await self.save_results(data['id'], data['output'], data['status'], data['pid'])
         return web.Response(text=self.encode_string(status))
+
