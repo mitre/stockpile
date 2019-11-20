@@ -1,8 +1,8 @@
 ---
 
 - id: f1cf4ea1-43f0-4604-9537-3d1b1b2d5b1c
-  name: GetAdminServiceAccounts
-  description: Get Administrator Service Accounts for a computer
+  name: GetServiceAccounts
+  description: Get Service Accounts for a domain
   tactic: discovery
   technique:
     attack_id: T1033
