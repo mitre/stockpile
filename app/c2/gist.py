@@ -18,7 +18,7 @@ class Gist(C2, C2Active):
 
     def start(self, app):
         loop = asyncio.get_event_loop()
-        loop.run_forever(self._default_active_c2_loop())
+        loop.create_task(self._default_active_c2_loop())
 
     def get_config(self):
         """
