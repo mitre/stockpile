@@ -32,20 +32,28 @@ class Gist(C2, C2Active):
         Retrieve all GIST posted results for a this C2's api key
         :return:
         """
-        results = await self._get_raw_gist_urls(comm_type='results')
-        result_content = await self._get_gist_content([result[0] for result in results])
-        await self._delete_gists([result[1] for result in results])
-        return result_content
+        try:
+            results = await self._get_raw_gist_urls(comm_type='results')
+            result_content = await self._get_gist_content([result[0] for result in results])
+            await self._delete_gists([result[1] for result in results])
+            return result_content
+        except Exception:
+            self.log.debug('Retrieving results over c2 (%s) failed!' % self.name)
+            return []
 
     async def get_beacons(self):
         """
         Retrieve all GIST beacons for a particular api key
         :return: the beacons
         """
-        beacons = await self._get_raw_gist_urls(comm_type='beacon')
-        beacon_content = await self._get_gist_content([beacon[0] for beacon in beacons])
-        await self._delete_gists([beacon[1] for beacon in beacons])
-        return beacon_content
+        try:
+            beacons = await self._get_raw_gist_urls(comm_type='beacon')
+            beacon_content = await self._get_gist_content([beacon[0] for beacon in beacons])
+            await self._delete_gists([beacon[1] for beacon in beacons])
+            return beacon_content
+        except Exception:
+            self.log.debug('Receiving beacons over c2 (%s) failed!' % self.name)
+            return []
 
     async def post_payloads(self, payloads, paw):
         """
@@ -55,11 +63,15 @@ class Gist(C2, C2Active):
         :param paw:
         :return:
         """
-        files = {payload[0]: dict(content=self._encode_string(payload[1])) for payload in payloads}
-        if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
-            return
-        gist = self._build_gist_content(comm_type='payloads', paw=paw, files=files)
-        return await self._post_gist(gist)
+        try:
+            files = {payload[0]: dict(content=self._encode_string(payload[1])) for payload in payloads}
+            if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
+                return
+            gist = self._build_gist_content(comm_type='payloads', paw=paw, files=files)
+            return await self._post_gist(gist)
+        except Exception:
+            self.log.warning('Posting payload over c2 (%s) failed!' % self.name)
+            return None
 
     async def post_instructions(self, text, paw):
         """
@@ -68,12 +80,15 @@ class Gist(C2, C2Active):
         :param paw: The paw for the agent to execute
         :return:
         """
-        if len(json.loads(self.decode_bytes(text))['instructions']) < 1 or \
-                await self._wait_for_paw(paw, comm_type='instructions'):
-            return
-        gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()): dict(content=text)
-                                                                                  })
-        return await self._post_gist(gist)
+        try:
+            if len(json.loads(self.decode_bytes(text))['instructions']) < 1 or \
+                    await self._wait_for_paw(paw, comm_type='instructions'):
+                return
+            gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()): dict(content=text)
+                                                                                      })
+            return await self._post_gist(gist)
+        except Exception:
+            self.log.warning('Posting instructions over c2 (%s) failed!' % self.name)
 
     def valid_config(self):
         """
