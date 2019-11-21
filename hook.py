@@ -4,6 +4,7 @@ from plugins.stockpile.app.stockpile_svc import StockpileService
 name = 'Stockpile'
 description = 'A stockpile of abilities, adversaries, payloads and planners'
 address = None
+directory = 'plugins/stockpile/data'
 
 
 async def enable(app, services):
@@ -13,6 +14,6 @@ async def enable(app, services):
     stockpile_api = StockpileApi(services)
     data_svc = services.get('data_svc')
     app.router.add_route('POST', '/stockpile/ability', stockpile_api.load_ability)
-    await data_svc.load_data(directory='plugins/stockpile/data')
+    #await data_svc.load_data(directory='plugins/stockpile/data')
     for c2 in await data_svc.locate('c2'):
         c2.start(app)
