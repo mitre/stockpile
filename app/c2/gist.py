@@ -55,7 +55,6 @@ class Gist(C2, C2Active):
         :param paw:
         :return:
         """
-
         files = {payload[0]: dict(content=self._encode_string(payload[1])) for payload in payloads}
         if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
             return
@@ -72,27 +71,31 @@ class Gist(C2, C2Active):
         if len(json.loads(self.decode_bytes(text))['instructions']) < 1 or \
                 await self._wait_for_paw(paw, comm_type='instructions'):
             return
-        gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()): {"content": text}}
+        gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()): dict(content=text)}
                                         )
         return await self._post_gist(gist)
+
+    def valid_config(self):
+        """
+        Overriding of super class function. Returns true if the API key is valid
+        :return:
+        """
+        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.key))
 
     """ PRIVATE """
 
     async def _post_gist(self, gist):
-        headers = {'Authorization': 'token {}'.format(self.key)}
+        headers = dict(Authorization='token {}'.format(self.key))
         async with aiohttp.ClientSession(headers=headers, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
             return await self._post(session, 'https://api.github.com/gists', body=gist)
 
     @staticmethod
     def _build_gist_content(comm_type, paw, files):
-        return {
-            "description": "{}-{}".format(comm_type, paw),
-            "public": False,
-            "files": files}
+        return dict(description='{}-{}'.format(comm_type, paw), public=False, files=files)
 
     async def _get_gist_content(self, urls):
         all_content = []
-        headers = {'Authorization': 'token {}'.format(self.key)}
+        headers = dict(Authorization='token {}'.format(self.key))
         for url in urls:
             all_content.append(await self._fetch_content(url, headers))
         return all_content
@@ -111,12 +114,12 @@ class Gist(C2, C2Active):
         return raw_urls
 
     async def _get_gists(self):
-        headers = {'Authorization': 'token {}'.format(self.key)}
+        headers = dict(Authorization='token {}'.format(self.key))
         async with aiohttp.ClientSession(headers=headers, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
             return json.loads(await self._fetch(session, 'https://api.github.com/gists'))
 
     async def _delete_gists(self, gist_ids):
-        headers = {'Authorization': 'token {}'.format(self.key)}
+        headers = dict(Authorization='token {}'.format(self.key))
         for _id in gist_ids:
             async with aiohttp.ClientSession(headers=headers,
                                              connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
@@ -142,9 +145,6 @@ class Gist(C2, C2Active):
     async def _delete(session, url):
         async with session.delete(url) as response:
             return await response.text('ISO-8859-1')
-
-    def valid_config(self):
-        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.key))
 
     @staticmethod
     def _encode_string(s):
