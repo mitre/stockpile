@@ -84,8 +84,8 @@ class Gist(C2, C2Active):
             if len(json.loads(self.decode_bytes(text))['instructions']) < 1 or \
                     await self._wait_for_paw(paw, comm_type='instructions'):
                 return
-            gist = self._build_gist_content(comm_type='instructions', paw=paw, files={str(uuid.uuid4()): dict(content=text)
-                                                                                      })
+            gist = self._build_gist_content(comm_type='instructions', paw=paw,
+                                            files={str(uuid.uuid4()): dict(content=text)})
             return await self._post_gist(gist)
         except Exception:
             self.log.warning('Posting instructions over c2 (%s) failed!' % self.name)
