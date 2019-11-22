@@ -9,7 +9,7 @@
     name: Network Service Scanning
   platforms:
     windows:
-      cmd:
+      psh:
         command: |
           $local_addr = (Get-NetIPConfiguration | Where-Object {$_.NetAdapter.Status -ne "Disconnected" }).IPv4Address.IPAddress;
           $temp = $local_addr.split('.')[0..2];

@@ -9,7 +9,7 @@
     name: Application Window Discovery
   platforms:
     windows:
-      cmd:
+      psh:
         command: |
           $x = Get-Process | Where-Object {$_.MainWindowTitle -ne ""} | Select-Object MainWindowTitle;
           $a = New-Object -com "Shell.Application"; $b = $a.windows() | select-object LocationName;

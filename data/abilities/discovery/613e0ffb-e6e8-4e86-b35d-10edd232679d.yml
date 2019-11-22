@@ -9,7 +9,7 @@
     name: System Network Connections Discovery
   platforms:
     windows:
-      cmd:
+      psh:
         command: |
           netstat -ano;
           Get-NetTCPConnection
