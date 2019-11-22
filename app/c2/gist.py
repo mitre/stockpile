@@ -71,7 +71,6 @@ class Gist(C2, C2Active):
             return await self._post_gist(gist)
         except Exception:
             self.log.warning('Posting payload over c2 (%s) failed!' % self.name)
-            return None
 
     async def post_instructions(self, text, paw):
         """
