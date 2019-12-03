@@ -11,6 +11,14 @@
     windows:
       psh:
         command: |
-          Set-MPPreference -DisableRealtimeMonitoring 1
-        cleanup:
-          Set-MPPreference -DisableRealtimeMonitoring 0
+          Set-MpPreference -DisableIntrusionPreventionSystem $true;
+          Set-MpPreference -DisableIOAVProtection $true;
+          Set-MpPreference -DisableRealtimeMonitoring $true;
+          Set-MpPreference -DisableScriptScanning $true;
+          Set-MpPreference -EnableControlledFolderAccess Disabled;
+        cleanup: |
+          Set-MpPreference -DisableIntrusionPreventionSystem $false;
+          Set-MpPreference -DisableIOAVProtection $false;
+          Set-MpPreference -DisableRealtimeMonitoring $false;
+          Set-MpPreference -DisableScriptScanning $false;
+          Set-MpPreference -EnableControlledFolderAccess Enabled;
