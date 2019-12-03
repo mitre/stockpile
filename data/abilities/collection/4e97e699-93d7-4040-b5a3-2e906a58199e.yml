@@ -16,3 +16,7 @@
       sh:
         command: |
           cp "#{host.file.sensitive}" #{host.dir.staged}
+    windows:
+      psh:
+        command: |
+          cp "#{host.file.sensitive}" #{host.dir.staged}
