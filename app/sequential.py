@@ -6,7 +6,6 @@ class LogicalPlanner:
         self.stopping_conditions = stopping_conditions
 
     async def execute(self, phase):
-        for link in await self.planning_svc.get_links(operation=self.operation, phase=phase):
-            if await self.planning_svc.check_stopping_conditions(self.operation, self.stopping_conditions):
-                return
+        for link in await self.planning_svc.get_links(operation=self.operation, phase=phase,
+                                                      stopping_conditions=self.stopping_conditions):
             await self.operation.apply(link)
