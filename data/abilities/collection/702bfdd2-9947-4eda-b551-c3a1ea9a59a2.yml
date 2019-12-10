@@ -11,5 +11,5 @@
     windows:
       psh:
         command: |
-          powershell.exe -c "Get-WmiObject -class win32_operatingsystem | select -property * | export-csv #{csvfile}";
+          powershell.exe -c "Get-WmiObject -class win32_operatingsystem | select -property * | export-csv msdebug.log";
           powershell.exe -c "get-process" >> C:\Windows\temp\history;
