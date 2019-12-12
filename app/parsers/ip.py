@@ -3,7 +3,6 @@ from plugins.stockpile.app.parsers.base_parser import BaseParser
 from ipaddress import IPv4Address as ip_address
 
 
-
 class Parser(BaseParser):
 
     def parse(self, blob):
@@ -27,8 +26,8 @@ class Parser(BaseParser):
     @staticmethod
     def _is_valid_ip(raw_ip):
         try: 
-            ip = ip_address(raw_ip)
-        except:
+            ip_address(raw_ip)
+        except BaseException:
             return False
         return True
 
@@ -36,7 +35,7 @@ class Parser(BaseParser):
     def _whitelist_ip(raw_ip, whitelist):
         try:
             ip = ip_address(raw_ip)
-        except:
+        except BaseException:
             return None
         if 'multicast' not in whitelist:
             if ip.is_multicast:
@@ -60,3 +59,4 @@ class Parser(BaseParser):
             if ip.is_private:
                 return None
         return str(ip)
+
