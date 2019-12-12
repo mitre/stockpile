@@ -6,7 +6,6 @@ from app.utility.logger import Logger
 class Parser(BaseParser):
 
     def __init__(self, parser_info):
-        super().__init__(parser_info)
         self.mappers = parser_info['mappers']
         self.used_facts = parser_info['used_facts']
         self.log = Logger('Parser')
@@ -14,7 +13,10 @@ class Parser(BaseParser):
     def gd_parser(self, text):
         results = dict()
 
-        for block in text.split('\r\n\r\n'):
+        chunks = text.split('\n\n')
+        if text.find('\r') != -1:
+            chunks = text.split('\r\n\r\n')
+        for block in chunks:
             if block:
                 hostname = None
                 pvi = None
