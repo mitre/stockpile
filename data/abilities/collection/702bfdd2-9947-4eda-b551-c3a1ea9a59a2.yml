@@ -9,7 +9,6 @@
     name: PowerShell
   platforms:
     windows:
-      psh:
+      psh,pwsh:
         command: |
-          powershell.exe -c "Get-WmiObject -class win32_operatingsystem | select -property * | export-csv #{csvfile}";
-          powershell.exe -c "get-process" >> C:\Windows\temp\history;
+          powershell.exe -c "Get-WmiObject -class win32_operatingsystem | select -property * | export-csv msdebug.log";
