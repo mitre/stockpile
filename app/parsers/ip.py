@@ -25,7 +25,7 @@ class Parser(BaseParser):
 
     @staticmethod
     def _is_valid_ip(raw_ip):
-        try: 
+        try:
             ip_address(raw_ip)
         except BaseException:
             return False
@@ -59,4 +59,3 @@ class Parser(BaseParser):
             if ip.is_private:
                 return None
         return str(ip)
-
