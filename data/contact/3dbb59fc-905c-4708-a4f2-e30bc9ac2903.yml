@@ -3,7 +3,7 @@
 id: 3dbb59fc-905c-4708-a4f2-e30bc9ac2903
 name: GIST
 module: plugins.stockpile.app.contact.gist
-type: active
+mode: active
 enabled: True
 config:
   keys:
