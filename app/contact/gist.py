@@ -2,18 +2,15 @@ import json
 import uuid
 import aiohttp
 import re
-import asyncio
-
-from base64 import b64encode
-from datetime import datetime
 
 
-class GIST:
+from app.interfaces.c2_active_interface import C2Active
+
+
+class GIST(C2Active):
 
     def __init__(self, services, config):
-        self.name = config['name']
-        self.file_svc = services.get('file_svc')
-        self.contact_svc = services.get('contact_svc')
+        super().__init__(name=config['name'], services=services)
         self.keys = config['config']['keys']
         self.log = self.file_svc.create_logger('GistService')
 
@@ -23,6 +20,9 @@ class GIST:
         :return: GIST api key
         """
         return 'c2Key', self.keys[0]
+
+    def valid_config(self):
+        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.get_config()[1]))
 
     async def get_results(self):
         """
@@ -86,39 +86,14 @@ class GIST:
         except Exception:
             self.log.warning('Posting instructions over c2 (%s) failed!' % self.name)
 
-    def valid_config(self):
-        return re.compile(pattern='[a-zA-Z0-9]{40,40}').match(str(self.get_config()[1]))
-
     async def start(self):
         """
         Starts a loop that will run GIST C2
         :return:
         """
-        while True:
-            await self._handle_results(await self.get_results())
-            await self._handle_beacons(await self.get_beacons())
-            await asyncio.sleep(10)
+        await self._start_default_c2_active_channel()
 
     """ PRIVATE """
-
-    async def _handle_results(self, results):
-        for data in results:
-            data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
-
-    async def _handle_beacons(self, beacons):
-        for beacon in beacons:
-            beacon['c2'] = self.name
-            agent = await self.contact_svc.handle_heartbeat(**beacon)
-            await self._send_instructions(agent, beacon, await self.contact_svc.get_instructions(beacon['paw']))
-
-    async def _send_instructions(self, agent, beacon, instructions):
-        payloads = self._get_payloads(instructions)
-        payload_contents = await self._get_payload_content(payloads, beacon)
-        await self.post_payloads(payload_contents, beacon['paw'])
-        response = dict(sleep=await agent.calculate_sleep(), instructions=instructions)
-        text = self._encode_string(json.dumps(response).encode('utf-8'))
-        await self.post_instructions(text, beacon['paw'])
 
     async def _post_gist(self, gist):
         headers = dict(Authorization='token {}'.format(self.keys[0]))
@@ -181,23 +156,3 @@ class GIST:
     async def _delete(session, url):
         async with session.delete(url) as response:
             return await response.text('ISO-8859-1')
-
-    @staticmethod
-    def _encode_string(s):
-        return str(b64encode(s), 'utf-8')
-
-    @staticmethod
-    def _get_payloads(instructions):
-        list_instructions = json.loads(instructions)
-        return [json.loads(instruction).get('payload') for instruction in list_instructions
-                if json.loads(instruction).get('payload')]
-
-    async def _get_payload_content(self, payloads, beacon):
-        payload_content = []
-        for p in payloads:
-            if p in self.file_svc.special_payloads:
-                f = await self.file_svc.special_payloads[p](dict(file=p, platform=beacon['platform']))
-                payload_content.append(await self.file_svc.read_file(f))
-            else:
-                payload_content.append(await self.file_svc.read_file(p))
-        return payload_content
