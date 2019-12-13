@@ -8,6 +8,7 @@ from aiohttp import web
 class HTTP:
 
     def __init__(self, services):
+        self.name = 'HTTP'
         self.app = services.get('app_svc').application
         self.contact_svc = services.get('contact_svc')
 
