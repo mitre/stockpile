@@ -201,4 +201,3 @@ class GIST:
             else:
                 payload_content.append(await self.file_svc.read_file(p))
         return payload_content
-
