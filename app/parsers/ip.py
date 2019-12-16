@@ -5,6 +5,16 @@ from ipaddress import IPv4Address as ip_address
 
 class Parser(BaseParser):
 
+    whitelist_options = {
+        'multicast': 'is_multicast',
+        'loopback': 'is_loopback',
+        'link_local': 'is_link_local',
+        'reserved': 'is_reserved',
+        'global': 'is_global',
+        'unspecified': 'is_unspecified',
+        'private': 'is_private',
+    }
+
     def parse(self, blob):
         relationships = []
         for ip in self.ip(blob):
@@ -30,16 +40,6 @@ class Parser(BaseParser):
         except BaseException:
             return False
         return True
-
-    whitelist_options = {
-        'multicast': 'is_multicast',
-        'loopback': 'is_loopback',
-        'link_local': 'is_link_local',
-        'reserved': 'is_reserved',
-        'global': 'is_global',
-        'unspecified': 'is_unspecified',
-        'private': 'is_private',
-    }
 
     def _whitelist_ip(self, raw_ip, whitelist):
         ip = ip_address(raw_ip)
