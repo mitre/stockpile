@@ -31,31 +31,20 @@ class Parser(BaseParser):
             return False
         return True
 
-    @staticmethod
-    def _whitelist_ip(raw_ip, whitelist):
-        try:
-            ip = ip_address(raw_ip)
-        except BaseException:
-            return None
-        if 'multicast' not in whitelist:
-            if ip.is_multicast:
-                return None
-        if 'loopback' not in whitelist:
-            if ip.is_loopback:
-                return None
-        if 'link_local' not in whitelist:
-            if ip.is_link_local:
-                return None
-        if 'reserved' not in whitelist:
-            if ip.is_reserved:
-                return None
-        if 'global' not in whitelist:
-            if ip.is_global:
-                return None
-        if 'unspecified' not in whitelist:
-            if ip.is_unspecified:
-                return None
-        if 'private' not in whitelist:
-            if ip.is_private:
-                return None
-        return str(ip)
+    whitelist_options = {
+        'multicast': 'is_multicast',
+        'loopback': 'is_loopback',
+        'link_local': 'is_link_local',
+        'reserved': 'is_reserved',
+        'global': 'is_global',
+        'unspecified': 'is_unspecified',
+        'private': 'is_private',
+    }
+
+    def _whitelist_ip(self, raw_ip, whitelist):
+        ip = ip_address(raw_ip)
+        for whitelist_option in self.whitelist_options:
+            if whitelist_option not in whitelist:
+                if getattr(ip, self.whitelist_options[whitelist_option]):
+                    return None
+        return raw_ip
