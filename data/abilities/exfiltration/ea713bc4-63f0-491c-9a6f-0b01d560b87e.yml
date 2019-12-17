@@ -26,6 +26,11 @@
           $url = "#{server}/file/upload";
 
           Add-Type -AssemblyName 'System.Net.Http';
+          
+          #Support for HTTPS
+          Add-type "using System.Net; using System.Security.Cryptography.X509Certificates;  public class NoSSLCheckPolicy : ICertificatePolicy { public NoSSLCheckPolicy() {} public bool CheckValidationResult( ServicePoint sPoint, X509Certificate cert, WebRequest wRequest, int certProb) { return true; } }";
+          [System.Net.ServicePointManager]::CertificatePolicy = new-object NoSSLCheckPolicy; 
+          [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12;         
 
           $client = New-Object System.Net.Http.HttpClient;
           $content = New-Object System.Net.Http.MultipartFormDataContent;
