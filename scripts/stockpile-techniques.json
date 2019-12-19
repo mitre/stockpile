@@ -1,0 +1,1392 @@
+{
+    "version": "2.2",
+    "name": "stockpile",
+    "description": "stockpile",
+    "domain": "mitre-enterprise",
+    "techniques": [
+        {
+            "techniqueID": "T1077",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1184",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1184",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1047",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1077",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1021",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1115",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1115",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1115",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1115",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1074",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1005",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1113",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1113",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1113",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1254",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1046",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1124",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1124",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1124",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1046",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1046",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1049",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1201",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1201",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1201",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1063",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1482",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1082",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1087",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1010",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1046",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1046",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1063",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1518",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1217",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1049",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1049",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1049",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1082",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1082",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1135",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1135",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1069",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1069",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1497",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1082",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1082",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1087",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1057",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1120",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1018",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1069",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1069",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1069",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1083",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1012",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1007",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1072",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1064",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1047",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1047",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1078",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1078",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1031",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1041",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1041",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1041",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1041",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1002",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1002",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1002",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1002",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1070",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1070",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1108",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1108",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1108",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1107",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1107",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1107",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1089",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1480",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1480",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1480",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1480",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1055",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1089",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1086",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1064",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1055",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1055",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1088",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1088",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1088",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1088",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1088",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1044",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1044",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1139",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1139",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1145",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1145",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1145",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1145",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1040",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1055",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1214",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1492",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1492",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1492",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1492",
+            "score": 1,
+            "color": "",
+            "comment": "",
+            "enabled": true
+        }
+    ],
+    "legendItems": [],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#205b8f",
+    "selectTechniquesAcrossTactics": true,
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66ff66"
+        ],
+        "minValue": 0,
+        "maxValue": 1
+    }
+}
