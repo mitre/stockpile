@@ -4,7 +4,7 @@ from plugins.stockpile.app.stockpile_svc import StockpileService
 from plugins.stockpile.app.contact.gist import GIST
 
 name = 'Stockpile'
-description = 'A stockpile of abilities, adversaries, payloads and planners'
+description = 'A stockpile of abilities, adversaries, payloads, planners and more'
 address = None
 
 
@@ -26,8 +26,13 @@ async def enable(services):
                    module='plugins.stockpile.app.obfuscators.base64_basic')
     )
     await stockpile_svc.data_svc.store(
-        Obfuscator(name='base64jumble',
+        Obfuscator(name='base64 jumble',
                    description='Obfuscates commands in base64, then adds characters to evade base64 detection. '
-                               'Disclaimer: this may cause duplicate links to run.',
+                               'This may cause duplicate links to run.',
                    module='plugins.stockpile.app.obfuscators.base64_jumble')
+    )
+    await stockpile_svc.data_svc.store(
+        Obfuscator(name='OTP',
+                   description='',
+                   module='plugins.stockpile.app.obfuscators.simple_encryption')
     )
