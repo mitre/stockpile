@@ -1,5 +1,3 @@
-from base64 import b64encode
-
 from app.utility.base_obfuscator import BaseObfuscator
 
 
@@ -8,7 +6,6 @@ class Obfuscation(BaseObfuscator):
     @property
     def supported_platforms(self):
         return dict(
-            windows=['psh'],
             darwin=['sh'],
             linux=['sh']
         )
@@ -18,10 +15,8 @@ class Obfuscation(BaseObfuscator):
 
     """ EXECUTORS """
 
-    def psh(self, link):
-        recoded = b64encode(self.decode_bytes(link.command).encode('UTF-16LE'))
-        return 'powershell -Enc %s' % recoded.decode('utf-8')
-
-    @staticmethod
-    def sh(link):
-        return 'eval "$(echo %s | base64 --decode)"' % str(link.command.encode(), 'utf-8')
+    def sh(self, link):
+        decryption_key = self.generate_name(size=20)
+        #encrypted_command = 'curl -X POST -H "Content-Type: application/json" localhost:8888/generic -d \'{"link":"%s"}\' -H "function:get_link_key";echo %s | openssl aes-256-cbc -a -d -salt -k $x' % (self.decode_bytes(link.command), link.unique)
+        #print(encrypted_command)
+        #return encrypted_command
