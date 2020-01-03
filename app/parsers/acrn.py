@@ -21,7 +21,6 @@ class Parser(BaseParser):
     @staticmethod
     def _get_vm_names(blob):
         vm_names = []
-        index = 0
         for line in blob.split('\n'):
             line = line.split('\t\t')
             vm_names.append(line[0])
