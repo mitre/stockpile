@@ -23,11 +23,6 @@ class Parser(BaseParser):
         vm_names = []
         index = 0
         for line in blob.split('\n'):
-            if 'VM NAME' in line:
-                index = line.index('VM ID')
-                continue
-            if '=====' in line:
-                continue
-            if len(line) > 0:
-                vm_names.append(line[0:index].strip())
+            line = line.split('\t\t')
+            vm_names.append(line[0])
         return vm_names
