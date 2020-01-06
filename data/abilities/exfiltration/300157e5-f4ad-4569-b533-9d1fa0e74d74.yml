@@ -38,4 +38,4 @@
             - source: host.dir.compress
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.file.sensitive
+      - source: host.dir.staged
