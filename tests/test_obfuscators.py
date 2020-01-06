@@ -14,7 +14,7 @@ class TestObfuscators(TestBase):
         dummy_ability = Ability(ability_id=None, tactic=None, technique_id=None, technique=None, name=None, test=None,
                                 description=None, cleanup=None, executor='sh', platform=None, payload=None,
                                 parsers=None, requirements=None, privilege=None)
-        self.dummy_agent = Agent(paw='123', platform='linux', executors=['sh'])
+        self.dummy_agent = Agent(paw='123', platform='linux', executors=['sh'], server='http://localhost:8888')
         self.dummy_link = Link(id='abc', operation='123', command=self.command, paw='123', ability=dummy_ability)
 
     def test_plain_text(self):
