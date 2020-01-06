@@ -15,26 +15,33 @@ class TestObfuscators(TestBase):
                                 description=None, cleanup=None, executor='sh', platform=None, payload=None,
                                 parsers=None, requirements=None, privilege=None)
         self.dummy_agent = Agent(paw='123', platform='linux', executors=['sh'])
-        self.dummy_link = Link(operation=None, command=self.command, paw='123', ability=dummy_ability)
+        self.dummy_link = Link(id='abc', operation='123', command=self.command, paw='123', ability=dummy_ability)
 
     def test_plain_text(self):
-        o = Obfuscator(name='plain-text', module='plugins.stockpile.app.obfuscators.plain_text')
+        o = Obfuscator(name='plain-text', description='', module='plugins.stockpile.app.obfuscators.plain_text')
         mod = o.load(self.dummy_agent)
         obfuscated_command = mod.run(self.dummy_link)
         self.assertEqual('whoami', obfuscated_command)
 
     def test_base64_basic(self):
-        o = Obfuscator(name='base64basic', module='plugins.stockpile.app.obfuscators.base64_basic')
+        o = Obfuscator(name='base64basic', description='', module='plugins.stockpile.app.obfuscators.base64_basic')
         mod = o.load(self.dummy_agent)
         obfuscated_command = mod.run(self.dummy_link)
         self.assertEqual('eval "$(echo %s | base64 --decode)"' % self.command, obfuscated_command)
 
     def test_base64_jumble(self):
-        o = Obfuscator(name='base64jumble', module='plugins.stockpile.app.obfuscators.base64_jumble')
+        o = Obfuscator(name='base64jumble', description='', module='plugins.stockpile.app.obfuscators.base64_jumble')
         mod = o.load(self.dummy_agent)
         obfuscated_command = mod.run(self.dummy_link)
         actual_cmd = obfuscated_command.split()[2]
         self.assertEqual(len(self.command)+1, len(actual_cmd))
+
+    def test_otp(self):
+        o = Obfuscator(name='caesar cipher', description='', module='plugins.stockpile.app.obfuscators.caesar_cipher')
+        mod = o.load(self.dummy_agent)
+        obfuscated_command = mod.run(self.dummy_link)
+        print(obfuscated_command)
+        self.assertEqual(len(self.dummy_link.command), len(obfuscated_command))
 
 
 if __name__ == '__main__':

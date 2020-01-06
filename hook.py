@@ -32,7 +32,9 @@ async def enable(services):
                    module='plugins.stockpile.app.obfuscators.base64_jumble')
     )
     await stockpile_svc.data_svc.store(
-        Obfuscator(name='OTP',
-                   description='',
-                   module='plugins.stockpile.app.obfuscators.simple_encryption')
+        Obfuscator(name='caesar cipher',
+                   description='A shifting caesar cipher algorithm to obfuscate commands before running them. The '
+                               'shift value can only be accessed before a command has been executed, making it '
+                               'harder for the defense to perform reverse-engineering.',
+                   module='plugins.stockpile.app.obfuscators.caesar_cipher')
     )
