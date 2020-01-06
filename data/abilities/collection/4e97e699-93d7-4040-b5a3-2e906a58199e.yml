@@ -27,5 +27,5 @@
     - plugins.stockpile.app.requirements.paw_provenance:
       - source: host.file.sensitive
     - plugins.stockpile.app.requirements.paw_provenance:
-        - source: host.dir.staged
+      - source: host.dir.staged
 
