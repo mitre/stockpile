@@ -40,7 +40,6 @@ class TestObfuscators(TestBase):
         o = Obfuscator(name='caesar cipher', description='', module='plugins.stockpile.app.obfuscators.caesar_cipher')
         mod = o.load(self.dummy_agent)
         obfuscated_command = mod.run(self.dummy_link)
-        print(obfuscated_command)
         actual_cmd = obfuscated_command.split()[-2]
         self.assertEqual(len(self.dummy_link.command), len(actual_cmd))
 
