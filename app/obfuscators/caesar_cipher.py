@@ -19,4 +19,4 @@ class Obfuscation(BaseObfuscator):
         decrypted = self.decode_bytes(link.command)
         encrypted, shift = self.apply_cipher(decrypted)
         link.pin = shift
-        return '(shift=$(curl -s -X POST -H "Content-Type: application/json" localhost:8888/internals -d \'{"link":"%s"}\' -H "property:pin");$(python -c "print(\'\'.join([chr(ord(c)+-$shift) for c in \'%s\']))");)' % (link.unique, encrypted)
+        return '(shift=$(curl -s -X POST -H "Content-Type: application/json" localhost:8888/internals -d \'{"link":"%s"}\' -H "property:pin");$(python -c "print(\'\'.join([chr(ord(c)+-$shift) for c in \'%s\' ]))");)' % (link.unique, encrypted)
