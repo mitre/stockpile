@@ -22,20 +22,20 @@ class Obfuscation(BaseObfuscator):
         encrypted, shift = self._apply_cipher(decrypted)
         link.pin = shift
         return 'shift=$(curl -s -X POST -H "Content-Type: application/json" '+self.agent.server+'/internals -d \'{"link":"'+link.unique+'"}\' -H "property:pin"); ' \
-               'cmd=""; chr (){ [ "$1" -lt 256 ] || return 1;printf "\\$(printf \'%03o\' "$1")";};' \
+               'cmd=""; chr (){ [ "$1" -lt 256 ] || return 1; printf "\\\$(printf \'%03o\' "$1")";};' \
                'ord (){ LC_CTYPE=C printf \'%d\' "\'$1";return $LC_CTYPE; }; ' \
-               'st="'+encrypted+'"; for i in $(seq 1 ${#st}); do x=$(ord "${st:i-1:1}"); x=$((x+'+str(shift)+'));' \
+               'st="'+encrypted+'"; for i in $(seq 1 ${#st}); do x=$(ord "${st:i-1:1}"); if [[ "$x" =~ [^a-zA-Z] ]]; then x=$((x+'+str(-shift)+')); fi;' \
                'cmd+="$(echo $(chr $x))";done;echo $cmd;'
 
     """ PRIVATE """
 
     @staticmethod
-    def _apply_cipher(s, bounds=20):
+    def _apply_cipher(s, bounds=5):
         """
         Encode a command with a simple caesar cipher
         :param s: the string to encode
         :param bounds: the number of unicode code points to shift
         :return: a tuple containing the encoded command and the shift value
         """
-        shift = randint(-bounds, -1)
-        return ''.join([chr(ord(c) + shift) for c in s]), shift
+        shift = randint(1, bounds)
+        return ''.join([chr(ord(c) + shift) if c.isalpha() else c for c in s]), shift
