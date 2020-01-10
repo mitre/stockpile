@@ -1,3 +1,4 @@
+import asyncio
 import json
 import zlib
 import uuid
@@ -7,10 +8,36 @@ from base64 import urlsafe_b64encode, urlsafe_b64decode
 from datetime import datetime
 from expiringdict import ExpiringDict
 
-from dnslib import RR, QTYPE, RCODE, CLASS, TXT, A
+from dnslib import DNSRecord, RR, QTYPE, RCODE, CLASS, TXT, A
 from dnslib.server import DNSServer, BaseResolver
 
 from app.interfaces.c2_passive_interface import C2Passive
+
+
+class UDPAsyncDNSHandler(object):
+    udplen = 0
+
+    def __init__(self, resolver):
+        self.loop = asyncio.get_event_loop()
+        self.protocol = None
+        self.resolver = resolver
+
+    def connection_made(self, transport):
+        self.transport = transport
+
+    def datagram_received(self, data, addr):
+        self.protocol = "udp"
+        request = DNSRecord.parse(data)
+        reply = asyncio.create_task(self.resolver.resolve(request, self))
+        asyncio.wait_for(reply, 10)
+
+        rdata = reply.result().pack()
+        if self.udplen and len(rdata) > self.udplen:
+            truncated_reply = reply.truncate()
+            rdata = truncated_reply.pack()
+
+        self.transport.sendto(rdata, addr)
+        print(reply)
 
 
 class C2Transmission(object):
@@ -74,7 +101,7 @@ class C2Resolver(BaseResolver):
             ret = dict(success=False, error='Invalid request type')
         return ret
 
-    def resolve(self, request, handler):
+    async def resolve(self, request, handler):
         data = request.q.qname
         print(data)
         if data.matchSuffix('ping.%s' % self.suffix):
@@ -172,13 +199,13 @@ class C2Resolver(BaseResolver):
     def _ping(self, request):
         return self._generate_response(request, self._generate_rr(request.q.qname, 'A', "80.79.78.71"))
 
-    def _get_instructions(self, data):
+    async def _get_instructions(self, data):
         agent = await self.contact_svc.handle_heartbeat(**data)
         instructions = await self.contact_svc.get_instructions(data['paw'])
         response = dict(sleep=await agent.calculate_sleep(), instructions=instructions)
         return response
 
-    def _parse_results(self, data):
+    async def _parse_results(self, data):
         data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         status = await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
 
@@ -220,7 +247,15 @@ class DNS(C2Passive):
         self.udp_server = DNSServer(self.resolver, port=5353)
 
     async def start(self):
-        self.udp_server.start_thread()
+        loop = asyncio.get_event_loop()
+        transport, protocol = await loop.create_datagram_endpoint(
+            lambda: UDPAsyncDNSHandler(self.resolver),
+            local_addr=('127.0.0.1', 5353)
+        )
+        try:
+            await asyncio.sleep(3600)
+        finally:
+            transport.close()
 
     def valid_config(self):
         return True
