@@ -5,6 +5,7 @@ import uuid
 import multiprocessing
 
 from base64 import urlsafe_b64encode, urlsafe_b64decode
+from collections import deque
 from datetime import datetime
 from expiringdict import ExpiringDict
 
@@ -14,7 +15,7 @@ from dnslib.server import DNSServer, BaseResolver
 from app.interfaces.c2_passive_interface import C2Passive
 
 
-class UDPAsyncDNSHandler(object):
+class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
     udplen = 0
 
     def __init__(self, resolver):
@@ -26,6 +27,10 @@ class UDPAsyncDNSHandler(object):
         self.transport = transport
 
     async def dns_work(self, request, addr):
+        """
+        Process data with the resolver and generate a response
+        for the client
+        """
         reply = await self.resolver.resolve(request, self)
         rdata = reply.pack()
         if self.udplen and len(rdata) > self.udplen:
@@ -35,23 +40,40 @@ class UDPAsyncDNSHandler(object):
         self.transport.sendto(rdata, addr)
 
     def datagram_received(self, data, addr):
+        """
+        Process a datagram received from the UDP socket
+        """
         self.protocol = "udp"
         request = DNSRecord.parse(data)
         asyncio.create_task(self.dns_work(request, addr))
 
 
 class C2Transmission(object):
+    """
+    C2Transmission
+
+    Maintains the state of an existing transmission communications.
+    """
+
     def __init__(self, id):
         self.id = id
         self.data = dict()
         self.final_contents = ""
-        self.response = []
+        self.response = None
 
     def add_data(self, data, idx):
+        """
+        Adds data to an existing transmission if the indexed chunk does not already exist in the transmission.
+        """
         if idx not in self.data:
             self.data[idx] = data
 
     def end(self, final_length):
+        """
+        Finalizes an existing transmission and concatenates all the data into the final contents.
+
+        Returns successfully if all sequential chunks up to `final_length` are present.
+        """
         if all(k in self.data for k in range(final_length)):
             for i in range(final_length):
                 self.final_contents += self.data[i]
@@ -140,7 +162,7 @@ class C2Resolver(BaseResolver):
                     response = self.chunk_string(self.encode_string(json.dumps(response)))
                     if len(response) > 2:
                         # data needs to be chunked
-                        self.transmissions[tid].response = self.chunk_data_for_packets(response, 2)
+                        self.transmissions[tid].response = deque(self.chunk_data_for_packets(response, 2))
                         print(self.transmissions[tid].response)
                         chunk_msg = dict(success=True, chunked=True, total_chunks=len(self.transmissions[tid].response))
                         chunk_msg = self.chunk_string(self.encode_string(json.dumps(chunk_msg)))
@@ -180,7 +202,7 @@ class C2Resolver(BaseResolver):
                     return reply
 
                 transmission_resp = self.transmissions[tid].response
-                data = transmission_resp.pop(0)
+                data = transmission_resp.popleft()
 
                 return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', data))
 
@@ -254,10 +276,6 @@ class DNS(C2Passive):
             lambda: UDPAsyncDNSHandler(self.resolver),
             local_addr=('127.0.0.1', 5353)
         )
-        try:
-            await asyncio.sleep(3600)
-        finally:
-            transport.close()
 
     def valid_config(self):
         return True
