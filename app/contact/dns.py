@@ -25,19 +25,19 @@ class UDPAsyncDNSHandler(object):
     def connection_made(self, transport):
         self.transport = transport
 
-    def datagram_received(self, data, addr):
-        self.protocol = "udp"
-        request = DNSRecord.parse(data)
-        reply = asyncio.create_task(self.resolver.resolve(request, self))
-        asyncio.wait_for(reply, 10)
-
-        rdata = reply.result().pack()
+    async def dns_work(self, request, addr):
+        reply = await self.resolver.resolve(request, self)
+        rdata = reply.pack()
         if self.udplen and len(rdata) > self.udplen:
             truncated_reply = reply.truncate()
             rdata = truncated_reply.pack()
 
         self.transport.sendto(rdata, addr)
-        print(reply)
+
+    def datagram_received(self, data, addr):
+        self.protocol = "udp"
+        request = DNSRecord.parse(data)
+        asyncio.create_task(self.dns_work(request, addr))
 
 
 class C2Transmission(object):
@@ -89,14 +89,14 @@ class C2Resolver(BaseResolver):
             del data[:chunk_size]
         return ret
 
-    def handle_message(self, req_type, data):
+    async def handle_message(self, req_type, data):
         data = json.loads(data)
         ret = None
         if req_type == 1:
             print(data)
-            ret = self._get_instructions(data)
+            ret = await self._get_instructions(data)
         elif req_type == 2:
-            ret = self._parse_results(data)
+            ret = await self._parse_results(data)
         else:
             ret = dict(success=False, error='Invalid request type')
         return ret
@@ -134,7 +134,7 @@ class C2Resolver(BaseResolver):
 
                 if transmission.end(tid_cache_expected):
                     data = self.decode_bytes(transmission.final_contents)
-                    result = self.handle_message(req_type, data)
+                    result = await self.handle_message(req_type, data)
 
                     response = dict(success=True, data=result)
                     response = self.chunk_string(self.encode_string(json.dumps(response)))
@@ -207,7 +207,9 @@ class C2Resolver(BaseResolver):
 
     async def _parse_results(self, data):
         data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(data)
         status = await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
+        print(status)
 
         return status
 
