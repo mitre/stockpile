@@ -115,7 +115,6 @@ class C2Resolver(BaseResolver):
         data = json.loads(data)
         ret = None
         if req_type == 1:
-            print(data)
             ret = await self._get_instructions(data)
         elif req_type == 2:
             ret = await self._parse_results(data)
@@ -124,10 +123,14 @@ class C2Resolver(BaseResolver):
         return ret
 
     async def resolve(self, request, handler):
+        """
+        Receives a parsed DNSRecord, determines the logic depending on the request name, and execute the corresponding logic
+        required to process the data properly.
+        """
         data = request.q.qname
-        print(data)
         if data.matchSuffix('ping.%s' % self.suffix):
-            return self._ping(request)
+            # PING command
+            return self._generate_response(request, self._generate_rr(request.q.qname, 'A', "80.79.78.71"))
         elif data.matchSuffix(self.suffix):
             data = data.stripSuffix(self.suffix)  # 41414140.01.s.<paw>.
             data_arr = str(data).split('.')[:-1]  # [41414140, 01, s, <paw>]
@@ -135,6 +138,7 @@ class C2Resolver(BaseResolver):
             paw = data_arr.pop()  # [41414140, 01, s]
             command = data_arr.pop()  # [41414140, 01]
             if command == 's':  # [41414140]
+                # START TRANSMISSION COMMAND
                 tid = uuid.uuid4().hex[-8:]
                 self.transmissions[tid] = C2Transmission(tid)
                 # generate response with TXT record and transmission ID
@@ -143,6 +147,7 @@ class C2Resolver(BaseResolver):
                 return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
 
             elif command == 'd':  # [length of transmission, req type, transmission id, ]
+                # COMPLETE TRANSMISSION COMMAND
                 tid = data_arr.pop()  # [length of transmission, command]
                 transmission = self.transmissions.get(tid)
 
@@ -175,8 +180,8 @@ class C2Resolver(BaseResolver):
                     response = self.chunk_string(self.encode_string(json.dumps(response)))
                     return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
 
-                # generate response with TXT and instructions
             elif command == 'c':  # [base64 data, seq number, req type, transmission id, ]
+                # APPEND TRANSMISSION DATA COMMAND
                 tid = data_arr.pop()  # [base64 data, seq, req, ]
                 req_type = int(data_arr.pop())  # [base64 data, seq, ]
                 seq_num = int(data_arr.pop())  # [base64 data, ]
@@ -190,6 +195,7 @@ class C2Resolver(BaseResolver):
                     return self._generate_response(request, self._generate_rr(request.q.qname, 'A', '255.255.255.255'))
 
             elif command == 'r':  # [seq number, req type, transmission id]
+                # CHUNK TRANSMISSION RESPONSE RECEIVE
                 tid = data_arr.pop()  # [seq num, req type]
                 req_type = int(data_arr.pop())
                 seq_num = int(data_arr.pop())
@@ -207,6 +213,7 @@ class C2Resolver(BaseResolver):
                 return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', data))
 
             elif command == 'rd':  # [req type, transmission id]
+                # CHUNK TRANSMISSION COMPLETE COMMAND
                 tid = data_arr.pop()
                 del self.transmissions[tid]
 
@@ -218,9 +225,6 @@ class C2Resolver(BaseResolver):
 
     """ PRIVATE """
 
-    def _ping(self, request):
-        return self._generate_response(request, self._generate_rr(request.q.qname, 'A', "80.79.78.71"))
-
     async def _get_instructions(self, data):
         agent = await self.contact_svc.handle_heartbeat(**data)
         instructions = await self.contact_svc.get_instructions(data['paw'])
@@ -228,21 +232,26 @@ class C2Resolver(BaseResolver):
         return response
 
     async def _parse_results(self, data):
+        """
+        Results command logic
+
+        :param: data Client result data
+        :return: Status of saving results
+        """
         data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print(data)
         status = await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
-        print(status)
 
         return status
 
-    def _parse_data(self, qname):
-        json_str = self.contact_svc.decode_bytes(str(qname))
-        try:
-            return json.loads(json_str)
-        except ValueError:
-            return None
-
     def _generate_rr(self, qname, rrtype, data):
+        """
+        Generates a DNS RR answer.
+
+        :param: qname DNS query name
+        :param: rrtype DNS query type
+        :param: data Arbitary data to put into the record
+        :return: dnslib.RR DNS RR answer
+        """
         if rrtype == "TXT":
             return RR(rname=qname, rtype=QTYPE.TXT, rclass=CLASS.IN, ttl=0, rdata=TXT(data))
         elif rrtype == "A":
@@ -251,14 +260,19 @@ class C2Resolver(BaseResolver):
             return None
 
     def _generate_response(self, request, rrs):
+        """
+        Generates a reply to the request with any input RR answers.
+
+        :param: request DNSRecord request
+        :param: rrs Array of RR answers
+        :return: DNSRecord DNS reply
+        """
         resp = request.reply()
-        print(type(resp))
         if isinstance(rrs, list):
             for rr in rrs:
                 resp.add_answer(rr)
         else:
             resp.add_answer(rrs)
-
         return resp
 
 
