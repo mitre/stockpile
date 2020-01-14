@@ -136,7 +136,7 @@ class C2Resolver(BaseResolver):
             data = data.stripSuffix(self.suffix)  # 41414140.01.s.<paw>.
             data_arr = str(data).split('.')[:-1]  # [41414140, 01, s, <paw>]
 
-            paw = data_arr.pop()  # [41414140, 01, s]
+            _ = data_arr.pop()  # [41414140, 01, s]  # Agent PAW
             command = data_arr.pop()  # [41414140, 01]
             if command == 's':
                 req_type = int(data_arr.pop())  # [41414140]
