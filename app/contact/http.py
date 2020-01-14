@@ -94,5 +94,5 @@ class HTTP(C2Passive):
 
     async def upload_exfil_http(self, request):
         dir_name = request.headers.get('X-Request-ID', str(uuid.uuid4()))
-        exfil_dir = await self._create_exfil_sub_directory(dir_name=dir_name)
+        exfil_dir = await self.file_svc._create_exfil_sub_directory(dir_name=dir_name)
         return await self.save_multipart_file_upload(request, exfil_dir)
