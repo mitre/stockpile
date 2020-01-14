@@ -83,8 +83,9 @@ class C2Transmission(object):
 
 
 class C2Resolver(BaseResolver):
-    def __init__(self, contact_svc, suffix=''):
+    def __init__(self, contact_svc, file_svc, suffix=''):
         self.contact_svc = contact_svc
+        self.file_svc = file_svc
         self.suffix = '54ndc47.%s' % suffix
         self.transmissions = {}
         self.cache = ExpiringDict(max_len=100000, max_age_seconds=100)
@@ -137,12 +138,19 @@ class C2Resolver(BaseResolver):
 
             paw = data_arr.pop()  # [41414140, 01, s]
             command = data_arr.pop()  # [41414140, 01]
-            if command == 's':  # [41414140]
+            if command == 's':
+                req_type = int(data_arr.pop())  # [41414140]
                 # START TRANSMISSION COMMAND
+                # generate response with TXT record and transmission ID
                 tid = uuid.uuid4().hex[-8:]
                 self.transmissions[tid] = C2Transmission(tid)
-                # generate response with TXT record and transmission ID
-                response = dict(success=True, tid=tid)
+
+                if req_type == 3:  # start download file
+                    # get file
+                    # response = dict(success=True, tid=tid, total_chunks=len(chunks)
+                    pass
+                else:
+                    response = dict(success=True, tid=tid)
                 response = self.chunk_string(self.encode_string(json.dumps(response)))
                 return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
 
@@ -281,7 +289,8 @@ class DNS(C2Passive):
     def __init__(self, services, config):
         super().__init__(config=config)
         self.contact_svc = services.get('contact_svc')
-        self.resolver = C2Resolver(self.contact_svc, '')
+        self.file_svc = services.get('file_svc')
+        self.resolver = C2Resolver(self.contact_svc, self.file_svc, '')
         self.udp_server = DNSServer(self.resolver, port=5353)
 
     async def start(self):
