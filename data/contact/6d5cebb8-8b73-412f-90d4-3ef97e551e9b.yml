@@ -6,6 +6,6 @@ description: |
   Allows agents to communicate over DNS to the C2 server
 module: plugins.stockpile.app.contact.gist
 mode: active
-enabled: True
+enabled: False
 config:
   domain: domain.tld
