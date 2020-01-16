@@ -4,8 +4,11 @@ id: 6d5cebb8-8b73-412f-90d4-3ef97e551e9b
 name: DNS
 description: |
   Allows agents to communicate over DNS to the C2 server
-module: plugins.stockpile.app.contact.gist
-mode: active
-enabled: False
+module: plugins.stockpile.app.contact.dns
+mode: passive
+enabled: True
 config:
   domain: domain.tld
+  listen:
+    address: 127.0.0.1
+    port: 5353
