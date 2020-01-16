@@ -27,8 +27,6 @@ class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
     def __init__(self, resolver):
         """Constructor method
         """
-        self.loop = asyncio.get_event_loop()
-        self.protocol = None
         self.resolver = resolver
 
     def connection_made(self, transport):
