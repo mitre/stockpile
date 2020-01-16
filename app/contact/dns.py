@@ -10,7 +10,7 @@ from datetime import datetime
 from expiringdict import ExpiringDict
 
 from dnslib import DNSRecord, RR, QTYPE, RCODE, CLASS, TXT, A
-from dnslib.server import DNSServer, BaseResolver
+from dnslib.server import BaseResolver
 
 from app.interfaces.c2_passive_interface import C2Passive
 
@@ -114,18 +114,53 @@ class C2Resolver(BaseResolver):
 
     @staticmethod
     def decode_bytes(s):
+        """
+        Receives a zlib compressed base64 string and returns the plaintext.
+
+        :param s: Zlib compressed, base64 encoded string
+        :type s: str
+        :return: plaintext
+        :rtype: str
+        """
         return str(zlib.decompress(urlsafe_b64decode(s)).decode().replace('\n', ''))
 
     @staticmethod
     def encode_string(s):
+        """
+        Receives a plaintext string, zlib compresses it, and encodes it into a base64 string.
+
+        :param s: plaintext string
+        :type s: str
+        :return: Zlib compressed, base64 encoded string
+        :rtype: str
+        """
         return str(urlsafe_b64encode(zlib.compress(s.encode(), 9)).decode())
 
     @staticmethod
     def chunk_string(s, n=150):
+        """
+        Takes a string and splits it into x chunks of n length.
+
+        :param s: string
+        :type s: str
+        :param n: Number of characters per chunk
+        :type n: int
+        :return: Array of n-length chunks of original string
+        :rtype: list
+        """
         return [s[i:i+n] for i in range(0, len(s), n)]
 
     @staticmethod
     def chunk_data_for_packets(data, chunk_size):
+        """
+        Takes a list of string chunks and creates a list of `chunk_size` lists from the original data.
+
+        :param data: list of string chunks
+        :type data: list
+        :param chunk_size: number of string chunks per data chunk
+        :type chunk_size: int
+        :return: List of `chunk_size` lists from original string chunk list.
+        """
         ret = []
         while len(data) > 0:
             ret.append(data[:chunk_size])
@@ -133,12 +168,25 @@ class C2Resolver(BaseResolver):
         return ret
 
     async def handle_message(self, req_type, data):
+        """
+        Handle requests depending on their request type.
+
+        :param req_type: Request type
+        :type req_type: int
+        :param data: Request data
+        :type data: dict
+        :return: Return dictionary from message processing function
+        :rtype: dict
+        """
         data = json.loads(data)
         ret = None
         if req_type == 1:
             ret = await self._get_instructions(data)
         elif req_type == 2:
             ret = await self._parse_results(data)
+        elif req_type == 3:
+            # ret = await self._save_upload(data)
+            pass
         else:
             ret = dict(success=False, error='Invalid request type')
         return ret
@@ -227,8 +275,6 @@ class C2Resolver(BaseResolver):
                 tid = data_arr.pop()  # [seq num, req type]
                 req_type = int(data_arr.pop())
                 seq_num = int(data_arr.pop())
-                print("r data %s" % self.transmissions[tid].response)
-                print("seq num %d, len %d" % (seq_num, len(self.transmissions[tid].response)))
 
                 if not len(self.transmissions[tid].response):
                     reply = request.reply()
@@ -263,7 +309,7 @@ class C2Resolver(BaseResolver):
         """
         Results command logic
 
-        :param: data Client result data
+        :param data: Client result data
         :return: Status of saving results
         """
         data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -275,10 +321,11 @@ class C2Resolver(BaseResolver):
         """
         Generates a DNS RR answer.
 
-        :param: qname DNS query name
-        :param: rrtype DNS query type
-        :param: data Arbitary data to put into the record
-        :return: dnslib.RR DNS RR answer
+        :param qname: DNS query name
+        :param rrtype: DNS query type
+        :param data: Arbitary data to put into the record
+        :return: DNS RR answer or None if rrtype is not accounted for
+        :rtype: dnslib.RR or None
         """
         if rrtype == "TXT":
             return RR(rname=qname, rtype=QTYPE.TXT, rclass=CLASS.IN, ttl=0, rdata=TXT(data))
@@ -291,8 +338,8 @@ class C2Resolver(BaseResolver):
         """
         Generates a reply to the request with any input RR answers.
 
-        :param: request DNSRecord request
-        :param: rrs Array of RR answers
+        :param request: DNSRecord request
+        :param rrs: Array of RR answers
         :return: DNSRecord DNS reply
         """
         resp = request.reply()
@@ -305,34 +352,42 @@ class C2Resolver(BaseResolver):
 
 
 class DNS(C2Passive):
+    """
+    DNS C2 channel
+
+    :param services: Object services
+    :type services: object
+    :param config: Configuration file
+    :type config: dict
+    """
 
     def __init__(self, services, config):
         super().__init__(config=config)
         self.contact_svc = services.get('contact_svc')
         self.file_svc = services.get('file_svc')
         self.resolver = C2Resolver(self.contact_svc, self.file_svc, '')
-        self.udp_server = DNSServer(self.resolver, port=5353)
+        self.config = config['config']
 
     async def start(self):
+        """
+        Starts DNS C2 loop and UDP datagram endpoint
+        """
         loop = asyncio.get_event_loop()
+        laddr = self.config['listen']['address']
+        lport = self.config['listen']['port']
         transport, protocol = await loop.create_datagram_endpoint(
             lambda: UDPAsyncDNSHandler(self.resolver),
-            local_addr=('127.0.0.1', 5353)
+            local_addr=(laddr, lport)
         )
 
     def valid_config(self):
-        return True
+        """
+        Determine if module configuration is valid.
 
-    """ PRIVATE """
-
-    async def _start_dns_server(self):
-        pass
-
-    async def _ping(self, request):
-        pass
-
-    async def _instructions(self, request):
-        pass
-
-    async def _results(self, request):
-        pass
+        :return: Status of valid configuration
+        :rtype: bool
+        """
+        if 'listen' in self.config:
+            keys = self.config['listen'].keys()
+            return ('address' in keys and 'port' in keys)
+        return False
