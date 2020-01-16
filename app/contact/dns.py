@@ -16,9 +16,17 @@ from app.interfaces.c2_passive_interface import C2Passive
 
 
 class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
+    """
+    Handles UDP datagrams received by the socket and sends them for resolver processing.
+
+    :param resolver: DNS resolver object
+    :type resolver: C2Resolver
+    """
     udplen = 0
 
     def __init__(self, resolver):
+        """Constructor method
+        """
         self.loop = asyncio.get_event_loop()
         self.protocol = None
         self.resolver = resolver
@@ -30,6 +38,10 @@ class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
         """
         Process data with the resolver and generate a response
         for the client
+
+        :param request: DNS request message
+        :type request: dnslib.DNSRecord
+        :param addr: Source address
         """
         reply = await self.resolver.resolve(request, self)
         rdata = reply.pack()
@@ -42,8 +54,12 @@ class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
     def datagram_received(self, data, addr):
         """
         Process a datagram received from the UDP socket
+
+        :param data: Raw data from the datagram endpoint
+        :type data: bytes
+        :param addr: Source address
+        :type addr: bytes
         """
-        self.protocol = "udp"
         request = DNSRecord.parse(data)
         asyncio.create_task(self.dns_work(request, addr))
 
@@ -51,11 +67,15 @@ class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
 class C2Transmission(object):
     """
     C2Transmission
-
     Maintains the state of an existing transmission communications.
+
+    :param id: Transmission ID
+    :type id: str
     """
 
     def __init__(self, id):
+        """Constructor Method
+        """
         self.id = id
         self.data = dict()
         self.final_contents = ""
