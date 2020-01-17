@@ -9,8 +9,8 @@
 - 5a39d7ed-45c9-4a79-b581-e5fb99e24f65:
     score: 35
     adjustments:
-      - host.user.name:
-          value: davidhunt
+      - host.installed.av:
+          value: symantec
           offset: 50
       - host.installed.av:
           value: mcafee
