@@ -9,14 +9,14 @@
           micro)"
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.av
+            - source: host.installed.av
     windows:
       psh:
         command: wmic /NAMESPACE:\\root\SecurityCenter2 PATH AntiVirusProduct GET
           /value
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.av
+            - source: host.installed.av
   tactic: discovery
   technique:
     attack_id: T1063
