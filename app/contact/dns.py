@@ -157,6 +157,15 @@ class C2Resolver(BaseResolver):
                 self.transmissions[tid] = C2Transmission(tid)
 
                 if req_type == 3:  # start download file
+                    try:
+                        data = json.loads(self.decode_bytes(data_arr.pop()))
+                        if 'filename' in data.keys() and 'platform' in data.keys():
+                            _, req_file, _ = self.file_svc.get_file(data['filename'], data['platform'])
+                        else:
+                            _, req_file, _ = self.file_svc.get_file(data['filename'])
+                        self.transmissions[tid].response = req_file
+                    except ValueError as e:
+                        response = dict(success=False, error="Invalid request: %s" % e)
                     # get file
                     # response = dict(success=True, tid=tid, total_chunks=len(chunks)
                     pass
@@ -259,6 +268,16 @@ class C2Resolver(BaseResolver):
         status = await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
 
         return status
+    
+    async def _save_file(self, data):
+        """
+        Save file from client.
+
+        :param data: Client file data
+        :return: Status of saving file
+        """
+
+
 
     def _generate_rr(self, qname, rrtype, data):
         """
