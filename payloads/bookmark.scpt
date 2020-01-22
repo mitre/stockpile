@@ -12,8 +12,8 @@ on run argv
       end try
       log "Setting new bookmark: " & item 1 of argv & ""
       tell its bookmark folder bookmarkFolder
-          set theResult to make new bookmark item with properties {URL:"" & item 1 of argv & ""}
-          set title of theResult to theTitle
+          set theResult to make new bookmark item with properties {URL:"" & item 2 of argv & ""}
+          set title of theResult to "" & item 1 of argv & ""
       end tell
     end tell
 end run
