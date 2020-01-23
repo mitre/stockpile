@@ -71,11 +71,12 @@ class C2Transmission(object):
     :type id: str
     """
 
-    def __init__(self, id):
+    def __init__(self, id, req_type):
         """Constructor Method
         """
         self.id = id
         self.data = dict()
+        self.req_type = req_type
         self.final_contents = ""
         self.response = None
 
@@ -128,7 +129,9 @@ class C2Resolver(BaseResolver):
         elif req_type == 2:
             ret = await self._parse_results(data)
         elif req_type == 3:
-            # ret = await self._save_upload(data)
+            ret = await self._download_file(data)
+        elif req_type == 4:
+            # ret = await self._upload_file(data)
             pass
         else:
             ret = dict(success=False, error='Invalid request type')
@@ -154,23 +157,9 @@ class C2Resolver(BaseResolver):
                 # START TRANSMISSION COMMAND
                 # generate response with TXT record and transmission ID
                 tid = uuid.uuid4().hex[-8:]
-                self.transmissions[tid] = C2Transmission(tid)
+                self.transmissions[tid] = C2Transmission(tid, req_type)
 
-                if req_type == 3:  # start download file
-                    try:
-                        data = json.loads(self.decode_bytes(data_arr.pop()))
-                        if 'filename' in data.keys() and 'platform' in data.keys():
-                            _, req_file, _ = self.file_svc.get_file(data['filename'], data['platform'])
-                        else:
-                            _, req_file, _ = self.file_svc.get_file(data['filename'])
-                        self.transmissions[tid].response = req_file
-                    except ValueError as e:
-                        response = dict(success=False, error="Invalid request: %s" % e)
-                    # get file
-                    # response = dict(success=True, tid=tid, total_chunks=len(chunks)
-                    pass
-                else:
-                    response = dict(success=True, tid=tid)
+                response = dict(success=True, tid=tid)
                 response = self.chunk_string(self.encode_string(json.dumps(response)))
                 return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
 
@@ -189,8 +178,10 @@ class C2Resolver(BaseResolver):
 
                 if transmission.end(tid_cache_expected):
                     data = self.decode_bytes(transmission.final_contents)
+                    print("req_type %d" % (req_type))
                     result = await self.handle_message(req_type, data)
 
+                    print("req_type %d resp %s" % (req_type, result))
                     response = dict(success=True, data=result)
                     response = self.chunk_string(self.encode_string(json.dumps(response)))
                     if len(response) > 2:
@@ -268,7 +259,18 @@ class C2Resolver(BaseResolver):
         status = await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
 
         return status
-    
+
+    async def _download_file(self, data):
+        """
+        Reads a file from `file_svc` and returns response to the client.
+
+        :param data: Client file request data
+        :return: Response with file payload that is zlib compressed and base64 encoded.
+        """
+        _, req_file, _ = await self.file_svc.get_file(data)
+        req_file = self.encode_string(req_file)
+        return req_file
+
     async def _save_file(self, data):
         """
         Save file from client.
@@ -276,8 +278,7 @@ class C2Resolver(BaseResolver):
         :param data: Client file data
         :return: Status of saving file
         """
-
-
+        pass
 
     def _generate_rr(self, qname, rrtype, data):
         """
@@ -334,7 +335,9 @@ class C2Resolver(BaseResolver):
         :return: Zlib compressed, base64 encoded string
         :rtype: str
         """
-        return str(urlsafe_b64encode(zlib.compress(s.encode(), 9)).decode())
+        if isinstance(s, str):
+            s = s.encode()
+        return str(urlsafe_b64encode(zlib.compress(s, 9)).decode())
 
     @staticmethod
     def chunk_string(s, n=150):
