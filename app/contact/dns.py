@@ -71,11 +71,12 @@ class C2Transmission(object):
     :type id: str
     """
 
-    def __init__(self, id, req_type):
+    def __init__(self, id, paw, req_type):
         """Constructor Method
         """
         self.id = id
         self.data = dict()
+        self.paw = paw
         self.req_type = req_type
         self.final_contents = ""
         self.response = None
@@ -111,7 +112,7 @@ class C2Resolver(BaseResolver):
         self.response_handler_lock = multiprocessing.Lock()
         pass
 
-    async def handle_message(self, req_type, data):
+    async def handle_message(self, paw, req_type, data):
         """
         Handle requests depending on their request type.
 
@@ -124,18 +125,18 @@ class C2Resolver(BaseResolver):
         """
         data = json.loads(data)
         ret = None
+        success = False
         if req_type == 1:
-            ret = await self._get_instructions(data)
+            success, ret = await self._get_instructions(data)
         elif req_type == 2:
-            ret = await self._parse_results(data)
+            success, ret = await self._parse_results(data)
         elif req_type == 3:
-            ret = await self._download_file(data)
+            success, ret = await self._download_file(data)
         elif req_type == 4:
-            # ret = await self._upload_file(data)
-            pass
+            success, ret = await self._upload_file(paw, data)
         else:
-            ret = dict(success=False, error='Invalid request type')
-        return ret
+            success, ret = False, "Invalid request type"
+        return success, ret
 
     async def resolve(self, request, handler):
         """
@@ -150,14 +151,14 @@ class C2Resolver(BaseResolver):
             data = data.stripSuffix(self.suffix)  # 41414140.01.s.<paw>.
             data_arr = str(data).split('.')[:-1]  # [41414140, 01, s, <paw>]
 
-            _ = data_arr.pop()  # [41414140, 01, s]  # Agent PAW
+            paw = data_arr.pop()  # [41414140, 01, s]  # Agent PAW
             command = data_arr.pop()  # [41414140, 01]
             if command == 's':
                 req_type = int(data_arr.pop())  # [41414140]
                 # START TRANSMISSION COMMAND
                 # generate response with TXT record and transmission ID
                 tid = uuid.uuid4().hex[-8:]
-                self.transmissions[tid] = C2Transmission(tid, req_type)
+                self.transmissions[tid] = C2Transmission(tid, paw, req_type)
 
                 response = dict(success=True, tid=tid)
                 response = self.chunk_string(self.encode_string(json.dumps(response)))
@@ -179,16 +180,18 @@ class C2Resolver(BaseResolver):
                 if transmission.end(tid_cache_expected):
                     data = self.decode_bytes(transmission.final_contents)
                     print("req_type %d" % (req_type))
-                    result = await self.handle_message(req_type, data)
+                    if req_type == 4:
+                        print(data)
+                    success, result = await self.handle_message(transmission.paw, req_type, data)
 
                     print("req_type %d resp %s" % (req_type, result))
-                    response = dict(success=True, data=result)
+                    response = dict(success=success, data=result)
                     response = self.chunk_string(self.encode_string(json.dumps(response)))
                     if len(response) > 2:
                         # data needs to be chunked due to DNS UDP packet size limitations
                         self.transmissions[tid].response = deque(self.chunk_data_for_packets(response, 2))
                         print(self.transmissions[tid].response)
-                        chunk_msg = dict(success=True, chunked=True, total_chunks=len(self.transmissions[tid].response))
+                        chunk_msg = dict(success=success, chunked=True, total_chunks=len(self.transmissions[tid].response))
                         chunk_msg = self.chunk_string(self.encode_string(json.dumps(chunk_msg)))
                         return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', chunk_msg))
                     else:
@@ -246,7 +249,7 @@ class C2Resolver(BaseResolver):
         agent = await self.contact_svc.handle_heartbeat(**data)
         instructions = await self.contact_svc.get_instructions(data['paw'])
         response = dict(sleep=await agent.calculate_sleep(), instructions=instructions)
-        return response
+        return True, response
 
     async def _parse_results(self, data):
         """
@@ -258,7 +261,7 @@ class C2Resolver(BaseResolver):
         data['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         status = await self.contact_svc.save_results(data['id'], data['output'], data['status'], data['pid'])
 
-        return status
+        return True, status
 
     async def _download_file(self, data):
         """
@@ -267,18 +270,29 @@ class C2Resolver(BaseResolver):
         :param data: Client file request data
         :return: Response with file payload that is zlib compressed and base64 encoded.
         """
-        _, req_file, _ = await self.file_svc.get_file(data)
-        req_file = self.encode_string(req_file)
-        return req_file
+        try:
+            _, req_file, _ = await self.file_svc.get_file(data)
+            req_file = self.encode_string(req_file)
+            return True, req_file
+        except FileNotFoundError as e:
+            return False, str(e)
 
-    async def _save_file(self, data):
+    async def _upload_file(self, paw, data):
         """
         Save file from client.
 
-        :param data: Client file data
+        :param data: Client save request `{"filename": "foo.bar", "contents": ""}`
         :return: Status of saving file
         """
-        pass
+        print("upload file")
+        try:
+            if 'filename' in data and 'contents' in data:
+                target_dir = await self.file_svc.create_exfil_sub_directory(data.get('X-Request-ID', paw))
+                contents = self.decode_raw(data['contents'])
+                await self.file_svc.save_file(data['filename'], contents, target_dir)
+                return True, dict()
+        except Exception as e:
+            return False, str(e)
 
     def _generate_rr(self, qname, rrtype, data):
         """
@@ -324,6 +338,14 @@ class C2Resolver(BaseResolver):
         :rtype: str
         """
         return str(zlib.decompress(urlsafe_b64decode(s)).decode().replace('\n', ''))
+
+    @staticmethod
+    def decode_raw(s):
+        """
+        Receives a zlib compressed base64 string and returns raw bytes
+
+        """
+        return zlib.decompress(urlsafe_b64decode(s))
 
     @staticmethod
     def encode_string(s):
