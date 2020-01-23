@@ -1,5 +1,6 @@
 from app.objects.c_obfuscator import Obfuscator
 from plugins.stockpile.app.contact.gist import GIST
+from plugins.stockpile.app.contact.ftp import FTP
 from plugins.stockpile.app.stockpile_svc import StockpileService
 
 name = 'Stockpile'
@@ -14,6 +15,7 @@ async def enable(services):
 
     c2_configs = await stockpile_svc.load_c2_config(directory='plugins/stockpile/data/contact')
     await stockpile_svc.contact_svc.register(GIST(services, c2_configs['GIST']))
+    await stockpile_svc.contact_svc.register(FTP(services, c2_configs['FTP']))
     await stockpile_svc.data_svc.store(
         Obfuscator(name='plain-text',
                    description='Does no obfuscation to any command, instead running it in plain text',

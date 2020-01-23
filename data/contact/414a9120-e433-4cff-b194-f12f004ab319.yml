@@ -1,0 +1,17 @@
+---
+
+id: 414a9120-e433-4cff-b194-f12f004ab319
+name: FTP
+description: |
+  Connects the agents to the server through FTP.
+  --Change below --
+  The server posts instructions to a GitHub gist, by using an API
+  key. The agent periodically checks the same account for new gists assigned to it. When it finds one, the agent pulls
+  it down, executes the instruction, then posts the result back up for the server to retrieve.
+module: plugins.stockpile.app.contact.ftp
+mode: active
+enabled: True
+config:
+  username: ftpuser
+  password: ftpuser
+  host: localhost
