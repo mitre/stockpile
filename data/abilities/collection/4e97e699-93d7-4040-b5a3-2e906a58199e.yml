@@ -11,7 +11,7 @@
     darwin:
       sh:
         command: |
-          cp "#{host.file.sensitive}" #{host.dir.staged}
+          cp "#{host.file.sensitive}" #{host.dir.staged[0]}
     linux:
       sh:
         command: |
