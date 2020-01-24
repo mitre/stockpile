@@ -25,7 +25,7 @@ class FTP(C2Active):
         return 'TODO'
 
     def valid_config(self):
-        #TODO
+        # TODO
         return True
 
     async def get_results(self):
@@ -38,7 +38,7 @@ class FTP(C2Active):
             results = await self._get_file(client, 'result')
             client.close()
             return results
-        except Exception as e:
+        except Exception:
             self.log.debug('Receiving results over c2 (%s) failed!' % self.name)
             return []
 
@@ -52,7 +52,7 @@ class FTP(C2Active):
             beacons = await self._get_file(client, 'beacon')
             client.close()
             return beacons
-        except Exception as e:
+        except Exception:
             self.log.debug('Receiving beacons over c2 (%s) failed!' % self.name)
             return []
 
@@ -70,7 +70,7 @@ class FTP(C2Active):
                 return
             gist = self._build_gist_content(comm_type='payloads', paw=paw, files=files)
             return await self._post_gist(gist)
-        except Exception as e:
+        except Exception:
             self.log.warning('Posting payload over c2 (%s) failed! %s' % (self.name, e))
 
     async def post_instructions(self, text, paw):
@@ -87,7 +87,7 @@ class FTP(C2Active):
             async with client.upload_stream('instructions-{}'.format(paw), offset=0) as stream:
                 await stream.write(text.encode())
             client.close()
-        except Exception as e:
+        except Exception:
             self.log.warning('Posting instructions over c2 (%s) failed!' % self.name)
 
     async def start(self):
