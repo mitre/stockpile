@@ -15,91 +15,45 @@ from dnslib.server import BaseResolver
 from app.interfaces.c2_passive_interface import C2Passive
 
 
-class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
+class DNS(C2Passive):
     """
-    Handles UDP datagrams received by the socket and sends them for resolver processing.
+    DNS C2 channel
 
-    :param resolver: DNS resolver object
-    :type resolver: C2Resolver
+    :param services: Object services
+    :type services: object
+    :param config: Configuration file
+    :type config: dict
     """
-    udplen = 0
+    def __init__(self, services, config):
+        super().__init__(config=config)
+        self.contact_svc = services.get('contact_svc')
+        self.file_svc = services.get('file_svc')
+        self.resolver = C2Resolver(self.contact_svc, self.file_svc, '')
+        self.config = config['config']
 
-    def __init__(self, resolver):
-        """Constructor method
+    async def start(self):
         """
-        self.resolver = resolver
-
-    def connection_made(self, transport):
-        self.transport = transport
-
-    async def dns_work(self, request, addr):
+        Starts DNS C2 loop and UDP datagram endpoint
         """
-        Process data with the resolver and generate a response
-        for the client
+        loop = asyncio.get_event_loop()
+        laddr = self.config['listen']['address']
+        lport = self.config['listen']['port']
+        transport, protocol = await loop.create_datagram_endpoint(
+            lambda: UDPAsyncDNSHandler(self.resolver),
+            local_addr=(laddr, lport)
+        )
 
-        :param request: DNS request message
-        :type request: dnslib.DNSRecord
-        :param addr: Source address
+    def valid_config(self):
         """
-        reply = await self.resolver.resolve(request, self)
-        rdata = reply.pack()
-        if self.udplen and len(rdata) > self.udplen:
-            truncated_reply = reply.truncate()
-            rdata = truncated_reply.pack()
+        Determine if module configuration is valid.
 
-        self.transport.sendto(rdata, addr)
-
-    def datagram_received(self, data, addr):
+        :return: Status of valid configuration
+        :rtype: bool
         """
-        Process a datagram received from the UDP socket
-
-        :param data: Raw data from the datagram endpoint
-        :type data: bytes
-        :param addr: Source address
-        :type addr: bytes
-        """
-        request = DNSRecord.parse(data)
-        asyncio.create_task(self.dns_work(request, addr))
-
-
-class C2Transmission(object):
-    """
-    C2Transmission
-    Maintains the state of an existing transmission communications.
-
-    :param id: Transmission ID
-    :type id: str
-    """
-
-    def __init__(self, id, paw, req_type):
-        """Constructor Method
-        """
-        self.id = id
-        self.data = dict()
-        self.paw = paw
-        self.req_type = req_type
-        self.final_contents = ""
-        self.response = None
-
-    def add_data(self, data, idx):
-        """
-        Adds data to an existing transmission if the indexed chunk does not already exist in the transmission.
-        """
-        if idx not in self.data:
-            self.data[idx] = data
-
-    def end(self, final_length):
-        """
-        Finalizes an existing transmission and concatenates all the data into the final contents.
-
-        Returns successfully if all sequential chunks up to `final_length` are present.
-        """
-        if all(k in self.data for k in range(final_length)):
-            for i in range(final_length):
-                self.final_contents += self.data[i]
-            return True
-        else:
-            return False
+        if 'listen' in self.config:
+            keys = self.config['listen'].keys()
+            return ('address' in keys and 'port' in keys)
+        return False
 
 
 class C2Resolver(BaseResolver):
@@ -243,6 +197,71 @@ class C2Resolver(BaseResolver):
                 reply.header.rcode = RCODE.NXDOMAIN
                 return reply
 
+    @staticmethod
+    def decode_bytes(s):
+        """
+        Receives a zlib compressed base64 string and returns the plaintext.
+
+        :param s: Zlib compressed, base64 encoded string
+        :type s: str
+        :return: plaintext
+        :rtype: str
+        """
+        return str(zlib.decompress(urlsafe_b64decode(s)).decode().replace('\n', ''))
+
+    @staticmethod
+    def decode_raw(s):
+        """
+        Receives a zlib compressed base64 string and returns raw bytes
+
+        """
+        return zlib.decompress(urlsafe_b64decode(s))
+
+    @staticmethod
+    def encode_string(s):
+        """
+        Receives a plaintext string, zlib compresses it, and encodes it into a base64 string.
+
+        :param s: plaintext string
+        :type s: str
+        :return: Zlib compressed, base64 encoded string
+        :rtype: str
+        """
+        if isinstance(s, str):
+            s = s.encode()
+        return str(urlsafe_b64encode(zlib.compress(s, 9)).decode())
+
+    @staticmethod
+    def chunk_string(s, n=150):
+        """
+        Takes a string and splits it into x chunks of n length. The default is 150 to safely account for DNS overhead.
+
+        :param s: string
+        :type s: str
+        :param n: Number of characters per chunk
+        :type n: int
+        :return: Array of n-length chunks of original string
+        :rtype: list
+        """
+        return [s[i:i+n] for i in range(0, len(s), n)]
+
+    @staticmethod
+    def chunk_data_for_packets(data, chunk_size):
+        """
+        Takes a list of string chunks and creates a list of `chunk_size` lists from the original data.
+
+        :param data: list of string chunks
+        :type data: list
+        :param chunk_size: number of string chunks per data chunk
+        :type chunk_size: int
+        :return: List of `chunk_size` lists from original string chunk list.
+        """
+        ret = []
+        while len(data) > 0:
+            ret.append(data[:chunk_size])
+            del data[:chunk_size]
+        return ret
+
     """ PRIVATE """
 
     async def _get_instructions(self, data):
@@ -327,109 +346,89 @@ class C2Resolver(BaseResolver):
             resp.add_answer(rrs)
         return resp
 
-    @staticmethod
-    def decode_bytes(s):
-        """
-        Receives a zlib compressed base64 string and returns the plaintext.
 
-        :param s: Zlib compressed, base64 encoded string
-        :type s: str
-        :return: plaintext
-        :rtype: str
-        """
-        return str(zlib.decompress(urlsafe_b64decode(s)).decode().replace('\n', ''))
-
-    @staticmethod
-    def decode_raw(s):
-        """
-        Receives a zlib compressed base64 string and returns raw bytes
-
-        """
-        return zlib.decompress(urlsafe_b64decode(s))
-
-    @staticmethod
-    def encode_string(s):
-        """
-        Receives a plaintext string, zlib compresses it, and encodes it into a base64 string.
-
-        :param s: plaintext string
-        :type s: str
-        :return: Zlib compressed, base64 encoded string
-        :rtype: str
-        """
-        if isinstance(s, str):
-            s = s.encode()
-        return str(urlsafe_b64encode(zlib.compress(s, 9)).decode())
-
-    @staticmethod
-    def chunk_string(s, n=150):
-        """
-        Takes a string and splits it into x chunks of n length. The default is 150 to safely account for DNS overhead.
-
-        :param s: string
-        :type s: str
-        :param n: Number of characters per chunk
-        :type n: int
-        :return: Array of n-length chunks of original string
-        :rtype: list
-        """
-        return [s[i:i+n] for i in range(0, len(s), n)]
-
-    @staticmethod
-    def chunk_data_for_packets(data, chunk_size):
-        """
-        Takes a list of string chunks and creates a list of `chunk_size` lists from the original data.
-
-        :param data: list of string chunks
-        :type data: list
-        :param chunk_size: number of string chunks per data chunk
-        :type chunk_size: int
-        :return: List of `chunk_size` lists from original string chunk list.
-        """
-        ret = []
-        while len(data) > 0:
-            ret.append(data[:chunk_size])
-            del data[:chunk_size]
-        return ret
-
-
-class DNS(C2Passive):
+class UDPAsyncDNSHandler(asyncio.DatagramProtocol):
     """
-    DNS C2 channel
+    Handles UDP datagrams received by the socket and sends them for resolver processing.
 
-    :param services: Object services
-    :type services: object
-    :param config: Configuration file
-    :type config: dict
+    :param resolver: DNS resolver object
+    :type resolver: C2Resolver
+    """
+    udplen = 0
+
+    def __init__(self, resolver):
+        """Constructor method
+        """
+        self.resolver = resolver
+
+    def connection_made(self, transport):
+        self.transport = transport
+
+    async def dns_work(self, request, addr):
+        """
+        Process data with the resolver and generate a response
+        for the client
+
+        :param request: DNS request message
+        :type request: dnslib.DNSRecord
+        :param addr: Source address
+        """
+        reply = await self.resolver.resolve(request, self)
+        rdata = reply.pack()
+        if self.udplen and len(rdata) > self.udplen:
+            truncated_reply = reply.truncate()
+            rdata = truncated_reply.pack()
+
+        self.transport.sendto(rdata, addr)
+
+    def datagram_received(self, data, addr):
+        """
+        Process a datagram received from the UDP socket
+
+        :param data: Raw data from the datagram endpoint
+        :type data: bytes
+        :param addr: Source address
+        :type addr: bytes
+        """
+        request = DNSRecord.parse(data)
+        asyncio.create_task(self.dns_work(request, addr))
+
+
+class C2Transmission(object):
+    """
+    C2Transmission
+    Maintains the state of an existing transmission communications.
+
+    :param id: Transmission ID
+    :type id: str
     """
 
-    def __init__(self, services, config):
-        super().__init__(config=config)
-        self.contact_svc = services.get('contact_svc')
-        self.file_svc = services.get('file_svc')
-        self.resolver = C2Resolver(self.contact_svc, self.file_svc, '')
-        self.config = config['config']
+    def __init__(self, id, paw, req_type):
+        """Constructor Method
+        """
+        self.id = id
+        self.data = dict()
+        self.paw = paw
+        self.req_type = req_type
+        self.final_contents = ""
+        self.response = None
 
-    async def start(self):
+    def add_data(self, data, idx):
         """
-        Starts DNS C2 loop and UDP datagram endpoint
+        Adds data to an existing transmission if the indexed chunk does not already exist in the transmission.
         """
-        loop = asyncio.get_event_loop()
-        laddr = self.config['listen']['address']
-        lport = self.config['listen']['port']
-        transport, protocol = await loop.create_datagram_endpoint(
-            lambda: UDPAsyncDNSHandler(self.resolver),
-            local_addr=(laddr, lport)
-        )
+        if idx not in self.data:
+            self.data[idx] = data
 
-    def valid_config(self):
+    def end(self, final_length):
         """
-        Determine if module configuration is valid.
+        Finalizes an existing transmission and concatenates all the data into the final contents.
 
-        :return: Status of valid configuration
-        :rtype: bool
+        Returns successfully if all sequential chunks up to `final_length` are present.
         """
-        if 'listen' in self.config:
-            keys = self.config['listen'].keys()
-            return ('address' in keys and 'port' in keys)
-        return False
+        if all(k in self.data for k in range(final_length)):
+            for i in range(final_length):
+                self.final_contents += self.data[i]
+            return True
+        else:
+            return False
