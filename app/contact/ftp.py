@@ -36,6 +36,7 @@ class FTP(C2Active):
         try:
             client = await self._make_ftp_connection(self.host, self.port, self.username, self.password)
             results = await self._get_file(client, 'result')
+            await self._delete_files(client, 'result')
             client.close()
             return results
         except Exception:
@@ -50,6 +51,7 @@ class FTP(C2Active):
         try:
             client = await self._make_ftp_connection(self.host, self.port, self.username, self.password)
             beacons = await self._get_file(client, 'beacon')
+            await self._delete_files(client, 'beacon')
             client.close()
             return beacons
         except Exception:
@@ -124,3 +126,8 @@ class FTP(C2Active):
             if '{}-{}'.format(comm_type, paw) in str(path):
                 return True
         return False
+
+    async def _delete_files(self, client, comm_type):
+        for path, info in (await client.list(recursive=True)):
+            if comm_type in str(path):
+                await client.remove(path)
