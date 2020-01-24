@@ -1,8 +1,4 @@
 import json
-import uuid
-import aiohttp
-import re
-import asyncio
 import aioftp
 
 
@@ -16,6 +12,7 @@ class FTP(C2Active):
         self.username = config['config']['username']
         self.password = config['config']['password']
         self.host = config['config']['host']
+        self.port = config['config']['port']
         self.log = self.file_svc.create_logger('FTPService')
 
     def get_config(self):
@@ -34,8 +31,14 @@ class FTP(C2Active):
         Retrieve all GIST posted results for a this C2's api key
         :return:
         """
-        #TODO
-        return []
+        try:
+            client = await self._make_ftp_connection(self.host, self.port, self.username, self.password)
+            results = await self._get_file(client, 'result')
+            client.close()
+            return results
+        except Exception as e:
+            self.log.debug('Receiving results over c2 (%s) failed!' % self.name)
+            return []
 
     async def get_beacons(self):
         """
@@ -43,7 +46,9 @@ class FTP(C2Active):
         :return: the beacons
         """
         try:
-            beacons = await self._get_file(self.host, 21, self.username, self.password)
+            client = await self._make_ftp_connection(self.host, self.port, self.username, self.password)
+            beacons = await self._get_file(client, 'beacon')
+            client.close()
             return beacons
         except Exception as e:
             self.log.debug('Receiving beacons over c2 (%s) failed!' % self.name)
@@ -58,6 +63,7 @@ class FTP(C2Active):
         :return:
         """
         try:
+            return
             files = {payload[0]: dict(content=self._encode_string(payload[1])) for payload in payloads}
             if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
                 return
@@ -74,13 +80,13 @@ class FTP(C2Active):
         :return:
         """
         try:
-            if len(json.loads(self.file_svc.decode_bytes(text))['instructions']) < 1 or \
-                    await self._wait_for_paw(paw, comm_type='instructions'):
+            client = await self._make_ftp_connection(self.host, self.port, self.username, self.password)
+            if await self._wait_for_paw(client=client, paw=paw, comm_type='instructions'):
                 return
-            gist = self._build_gist_content(comm_type='instructions', paw=paw,
-                                            files={str(uuid.uuid4()): dict(content=text)})
-            return await self._post_gist(gist)
-        except Exception:
+            async with client.upload_stream('instructions-{}'.format(paw), offset=0) as stream:
+                await stream.write(text.encode())
+            client.close()
+        except Exception as e:
             self.log.warning('Posting instructions over c2 (%s) failed!' % self.name)
 
     async def start(self):
@@ -92,25 +98,28 @@ class FTP(C2Active):
 
     """ PRIVATE """
 
-    async def _list_dir(self, host, port, login, password):
-        async with aioftp.ClientSession(host, port, login, password) as client:
-            files = await client.list()
-            return files
+    async def _get_file(self, client, comm_type):
+        comms = []
+        for path, info in (await client.list(recursive=True)):
+            if comm_type in str(path):
+                async with client.download_stream(path, offset=0) as stream:
+                    data = await stream.read(int(info['size']))
+                comms.append(await self._process_agent_comms(data))
+        return comms
 
-    async def _get_file(self, host, port, login, password):
-        beacons = []
-        async with aioftp.ClientSession(host, port, login, password) as client:
-            for path, info in (await client.list(recursive=True)):
-                if "beacon" in str(path):
-                    async with client.download_stream(path, offset=0) as stream:
-                        temp = b""
-                        async for block in stream.iter_by_block():
-                            temp = temp + block
-                    beacons.append(await self._process_beacons(temp))
-        return beacons
-
-    async def _process_beacons(self, content):
+    async def _process_agent_comms(self, content):
         return json.loads(self.file_svc.decode_bytes(content))
 
+    @staticmethod
+    async def _make_ftp_connection(host, port, login, password):
+        client = aioftp.Client()
+        await client.connect(host=host, port=port)
+        await client.login(user=login, password=password)
+        return client
 
-
+    @staticmethod
+    async def _wait_for_paw(client, paw, comm_type):
+        for path, info in (await client.list(recursive=True)):
+            if '{}-{}'.format(comm_type, paw) in str(path):
+                return True
+        return False

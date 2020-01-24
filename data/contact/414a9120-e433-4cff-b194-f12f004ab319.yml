@@ -15,3 +15,4 @@ config:
   username: ftpuser
   password: ftpuser
   host: localhost
+  port: 2121
