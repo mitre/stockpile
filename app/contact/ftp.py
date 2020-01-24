@@ -1,11 +1,13 @@
 import json
 import aioftp
-
+import logging
 
 from app.interfaces.c2_active_interface import C2Active
 
 
 class FTP(C2Active):
+
+    logging.getLogger('aioftp').setLevel(logging.WARNING)
 
     def __init__(self, services, config):
         super().__init__(config=config, services=services)
@@ -18,7 +20,7 @@ class FTP(C2Active):
     def get_config(self):
         """
         Returns this C2 objects api key
-        :return: GIST api key
+        :return: FTP server, port, username, password
         """
         return 'TODO'
 
@@ -42,7 +44,7 @@ class FTP(C2Active):
 
     async def get_beacons(self):
         """
-        Retrieve all GIST beacons for a particular api key
+        Retrieve all beacons from a particular FTP server
         :return: the beacons
         """
         try:
@@ -63,7 +65,6 @@ class FTP(C2Active):
         :return:
         """
         try:
-            return
             files = {payload[0]: dict(content=self._encode_string(payload[1])) for payload in payloads}
             if len(files) < 1 or await self._wait_for_paw(paw, comm_type='payloads'):
                 return
@@ -74,9 +75,9 @@ class FTP(C2Active):
 
     async def post_instructions(self, text, paw):
         """
-        Post an instruction for the agent to execute as an encoded GIST
+        Post an instruction for the agent to execute on a known FTP server
         :param text: The instruction text for the agent to execute
-        :param paw: The paw for the agent to execute
+        :param paw: The paw of the agent
         :return:
         """
         try:
@@ -91,7 +92,7 @@ class FTP(C2Active):
 
     async def start(self):
         """
-        Starts a loop that will run GIST C2
+        Starts a loop that will run FTP C2
         :return:
         """
         await self._start_default_c2_active_channel()
