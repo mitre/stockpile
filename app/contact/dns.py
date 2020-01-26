@@ -107,9 +107,9 @@ class C2Resolver(BaseResolver):
         elif data.matchSuffix(self.suffix):
             data = data.stripSuffix(self.suffix)  # 41414140.01.s.<paw>.
             data_arr = str(data).split('.')[:-1]  # [41414140, 01, s, <paw>]
-
             paw = data_arr.pop()  # [41414140, 01, s]  # Agent PAW
             command = data_arr.pop()  # [41414140, 01]
+
             if command == 's':
                 req_type = int(data_arr.pop())  # [41414140]
                 response = await self.start_transmission(paw, req_type)
@@ -194,18 +194,12 @@ class C2Resolver(BaseResolver):
 
         if transmission.end(expected_length):
             data = self.decode_bytes(transmission.final_contents)
-            print("req_type %d" % (req_type))
-            if req_type == 4:
-                print(data)
             success, result = await self.handle_message(transmission.paw, req_type, data)
-
-            print("req_type %d resp %s" % (req_type, result))
             response = dict(success=success, data=result)
             response = self.chunk_string(self.encode_string(json.dumps(response)))
             if len(response) > 2:
                 # data needs to be chunked due to DNS UDP packet size limitations
                 self.transmissions[tid].response = deque(self.chunk_data_for_packets(response, 2))
-                print(self.transmissions[tid].response)
                 chunk_msg = dict(success=success, chunked=True, total_chunks=len(self.transmissions[tid].response))
                 return self.chunk_string(self.encode_string(json.dumps(chunk_msg)))
             else:
@@ -321,7 +315,6 @@ class C2Resolver(BaseResolver):
         :param data: Client save request `{"filename": "foo.bar", "contents": ""}`
         :return: Status of saving file
         """
-        print("upload file")
         try:
             if 'filename' in data and 'contents' in data:
                 target_dir = await self.file_svc.create_exfil_sub_directory(data.get('X-Request-ID', paw))
