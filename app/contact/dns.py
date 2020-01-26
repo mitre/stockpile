@@ -186,6 +186,25 @@ class C2Resolver(BaseResolver):
         return self.chunk_string(self.encode_string(json.dumps(response)))
 
     async def finish_transmission(self, tid, req_type, expected_length):
+        """
+        Finalize a transmission object and return any response data in the object.
+        If there the response data is greater than 2 TXT strings in length, the
+        response will be chunked to ensure that the DNS packet is below the max
+        size.
+        If the response data is less than 2 TXT strings, the response is returned
+        and the object is deleted.
+        If the transmission length does not match the length of the received data
+        array, the function returns an error indicating a transmission mismatch.
+
+        :param tid: Transmission ID
+        :type tid: str
+        :param req_type: Request Type
+        :type req_type: int
+        :param expected_length: Expected transmission length
+        :type expected_length: int
+        :return: Response data, chunked response message, or transmission error
+        :rtype: list
+        """
         transmission = self.transmissions.get(tid)
 
         if not transmission:
