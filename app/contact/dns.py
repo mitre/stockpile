@@ -28,7 +28,8 @@ class DNS(C2Passive):
         super().__init__(config=config)
         self.contact_svc = services.get('contact_svc')
         self.file_svc = services.get('file_svc')
-        self.resolver = C2Resolver(self.contact_svc, self.file_svc, '')
+        self.logger = self.file_svc.create_logger('DNSService')
+        self.resolver = C2Resolver(self.contact_svc, self.logger, self.file_svc, '')
         self.config = config['config']
 
     async def start(self):
@@ -57,8 +58,9 @@ class DNS(C2Passive):
 
 
 class C2Resolver(BaseResolver):
-    def __init__(self, contact_svc, file_svc, suffix=''):
+    def __init__(self, contact_svc, log, file_svc, suffix=''):
         self.contact_svc = contact_svc
+        self.log = log
         self.file_svc = file_svc
         self.suffix = '54ndc47.%s' % suffix
         self.transmissions = {}
@@ -97,10 +99,11 @@ class C2Resolver(BaseResolver):
         Receives a parsed DNSRecord, determines the logic depending on the request name, and execute the corresponding logic
         required to process the data properly.
         """
+        answers = []
         data = request.q.qname
         if data.matchSuffix('ping.%s' % self.suffix):
             # PING command
-            return self._generate_response(request, self._generate_rr(request.q.qname, 'A', "80.79.78.71"))
+            answers.append(self._generate_rr(request.q.qname, 'A', "80.79.78.71"))
         elif data.matchSuffix(self.suffix):
             data = data.stripSuffix(self.suffix)  # 41414140.01.s.<paw>.
             data_arr = str(data).split('.')[:-1]  # [41414140, 01, s, <paw>]
@@ -109,52 +112,17 @@ class C2Resolver(BaseResolver):
             command = data_arr.pop()  # [41414140, 01]
             if command == 's':
                 req_type = int(data_arr.pop())  # [41414140]
-                # START TRANSMISSION COMMAND
-                # generate response with TXT record and transmission ID
-                tid = uuid.uuid4().hex[-8:]
-                self.transmissions[tid] = C2Transmission(tid, paw, req_type)
-
-                response = dict(success=True, tid=tid)
-                response = self.chunk_string(self.encode_string(json.dumps(response)))
-                return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
+                response = await self.start_transmission(paw, req_type)
+                answers.append(self._generate_rr(request.q.qname, 'TXT', response))
 
             elif command == 'd':  # [length of transmission, req type, transmission id, ]
                 # COMPLETE TRANSMISSION COMMAND
                 tid = data_arr.pop()  # [length of transmission, command]
-                transmission = self.transmissions.get(tid)
-
-                if not transmission:
-                    response = dict(success=False, error='Attempted to end transmission that didn\'t exist')
-                    response = self.chunk_string(self.encode_string(json.dumps(response)))
-                    return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
-
                 req_type = int(data_arr.pop())  # [length of transmission]
                 tid_cache_expected = int(data_arr.pop())  # []
 
-                if transmission.end(tid_cache_expected):
-                    data = self.decode_bytes(transmission.final_contents)
-                    print("req_type %d" % (req_type))
-                    if req_type == 4:
-                        print(data)
-                    success, result = await self.handle_message(transmission.paw, req_type, data)
-
-                    print("req_type %d resp %s" % (req_type, result))
-                    response = dict(success=success, data=result)
-                    response = self.chunk_string(self.encode_string(json.dumps(response)))
-                    if len(response) > 2:
-                        # data needs to be chunked due to DNS UDP packet size limitations
-                        self.transmissions[tid].response = deque(self.chunk_data_for_packets(response, 2))
-                        print(self.transmissions[tid].response)
-                        chunk_msg = dict(success=success, chunked=True, total_chunks=len(self.transmissions[tid].response))
-                        chunk_msg = self.chunk_string(self.encode_string(json.dumps(chunk_msg)))
-                        return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', chunk_msg))
-                    else:
-                        del self.transmissions[tid]
-                        return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
-                else:
-                    response = dict(success=False, error='Transmission length mismatch')
-                    response = self.chunk_string(self.encode_string(json.dumps(response)))
-                    return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', response))
+                response = await self.finish_transmission(tid, req_type, tid_cache_expected)
+                answers.append(self._generate_rr(request.q.qname, 'TXT', response))
 
             elif command == 'c':  # [base64 data, seq number, req type, transmission id, ]
                 # APPEND TRANSMISSION DATA COMMAND
@@ -165,10 +133,12 @@ class C2Resolver(BaseResolver):
 
                 try:
                     self.transmissions[tid].add_data(data, seq_num)
-                    return self._generate_response(request, self._generate_rr(request.q.qname, 'A', '41.41.41.41'))
+                    answers.append(self._generate_rr(request.q.qname, 'A', '41.41.41.41'))
                 except KeyError:
-                    # tried to add data to nonexistent transmission
-                    return self._generate_response(request, self._generate_rr(request.q.qname, 'A', '255.255.255.255'))
+                    self.log.warning('Client attempted to append data to a non-existent transmission')
+                    reply = request.reply()
+                    reply.header.rcode = RCODE.NXDOMAIN
+                    return reply
 
             elif command == 'r':  # [seq number, req type, transmission id]
                 # CHUNK TRANSMISSION RESPONSE RECEIVE
@@ -177,25 +147,73 @@ class C2Resolver(BaseResolver):
                 seq_num = int(data_arr.pop())
 
                 if not len(self.transmissions[tid].response):
+                    self.log.warning('Chunked response requested but transmission doesn\'t have a response')
                     reply = request.reply()
                     reply.header.rcode = RCODE.NXDOMAIN
                     return reply
 
                 transmission_resp = self.transmissions[tid].response
                 data = transmission_resp.popleft()
-
-                return self._generate_response(request, self._generate_rr(request.q.qname, 'TXT', data))
+                answers.append(self._generate_rr(request.q.qname, 'TXT', data))
 
             elif command == 'rd':  # [req type, transmission id]
                 # CHUNK TRANSMISSION COMPLETE COMMAND
                 tid = data_arr.pop()
                 del self.transmissions[tid]
 
-                return self._generate_response(request, self._generate_rr(request.q.qname, 'A', '41.41.41.41'))
+                answers.append(self._generate_rr(request.q.qname, 'A', '41.41.41.41'))
             else:
                 reply = request.reply()
                 reply.header.rcode = RCODE.NXDOMAIN
                 return reply
+        return self._generate_response(request, answers)
+
+    async def start_transmission(self, paw, req_type):
+        """
+        Instantiate a transmission object and return a DNS response indicating
+        that the system is ready for data transfers.
+
+        :param paw: Agent PAW
+        :type paw: str
+        :param req_type: Request type
+        :type req_type: int
+        :return: Returns JSON dictionary
+        """
+        tid = uuid.uuid4().hex[-8:]
+        self.transmissions[tid] = C2Transmission(tid, paw, req_type)
+
+        response = dict(success=True, tid=tid)
+        return self.chunk_string(self.encode_string(json.dumps(response)))
+
+    async def finish_transmission(self, tid, req_type, expected_length):
+        transmission = self.transmissions.get(tid)
+
+        if not transmission:
+            response = dict(success=False, error='Attempted to end transmission that didn\'t exist')
+            return self.chunk_string(self.encode_string(json.dumps(response)))
+
+        if transmission.end(expected_length):
+            data = self.decode_bytes(transmission.final_contents)
+            print("req_type %d" % (req_type))
+            if req_type == 4:
+                print(data)
+            success, result = await self.handle_message(transmission.paw, req_type, data)
+
+            print("req_type %d resp %s" % (req_type, result))
+            response = dict(success=success, data=result)
+            response = self.chunk_string(self.encode_string(json.dumps(response)))
+            if len(response) > 2:
+                # data needs to be chunked due to DNS UDP packet size limitations
+                self.transmissions[tid].response = deque(self.chunk_data_for_packets(response, 2))
+                print(self.transmissions[tid].response)
+                chunk_msg = dict(success=success, chunked=True, total_chunks=len(self.transmissions[tid].response))
+                return self.chunk_string(self.encode_string(json.dumps(chunk_msg)))
+            else:
+                del self.transmissions[tid]
+                return response
+        else:
+            response = dict(success=False, error='Transmission length mismatch')
+            return self.chunk_string(self.encode_string(json.dumps(response)))
 
     @staticmethod
     def decode_bytes(s):
