@@ -1,5 +1,5 @@
-import re
 import logging
+import re
 from collections import defaultdict
 
 from app.objects.secondclass.c_relationship import Relationship
