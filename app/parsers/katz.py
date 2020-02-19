@@ -60,7 +60,7 @@ class Parser(BaseParser):
     def parse(self, blob):
         relationships = []
         try:
-            parse_data = self.parse_katz(dark)
+            parse_data = self.parse_katz(blob)
             for match in parse_data:
                 if match.logon_server != '(null)' or 'credman' in match.packages:
                     for pm in self.parse_mode:
