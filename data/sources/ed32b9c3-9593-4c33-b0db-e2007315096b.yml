@@ -22,7 +22,10 @@ rules:
     match: .*
   - action: ALLOW
     trait: file.sensitive.extension
-    match: txt
+    match: png
   - action: ALLOW
     trait: file.sensitive.extension
     match: yml  
+  - action: ALLOW
+    trait: file.sensitive.extension
+    match: wav
