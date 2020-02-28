@@ -33,3 +33,4 @@ class Obfuscation(BaseObfuscator):
         while not self.is_base64(s):
             s = s + '='
         return s
+    
