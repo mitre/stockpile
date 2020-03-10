@@ -17,16 +17,14 @@ class Obfuscation(BaseObfuscator):
         link.command = link.command.replace('=', '')
         return super().run(link)
 
+    @staticmethod
     def sh(self, link, **kwargs):
-        return 'eval "$(echo %s | base64 --decode)"' % str(self._add_padding(link.command).encode(), 'utf-8')
+        return 'eval "$(echo %s=== | base64 --decode 2>/dev/null)"' % link.command
 
+    @staticmethod
     def psh(self, link, **kwargs):
-        recoded = b64encode(self.decode_bytes(self._add_padding(link.command)).encode('UTF-16LE'))
-        return 'powershell -Enc %s' % recoded.decode('utf-8')
-
-    """ PRIVATE """
-
-    def _add_padding(self, s):
-        while not self.is_base64(s):
-            s = s + '='
-        return s
+        recoded = b64encode(link.command)
+        return '$string=%s;' +\
+            'while($string.Length %4 -ne 0) {$string="$string="};' +\
+            '$ExecutionContext.InvokeCommand.ExpandString(' +\
+            '[System.TextEncoding]::UTF8.GetString([convert]::FromBase64String($string)))' % recoded
