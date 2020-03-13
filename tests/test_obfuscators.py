@@ -50,8 +50,8 @@ class TestObfuscators(unittest.TestCase):
 
         o = CaesarCipherObfuscator(self.dummy_agent)
         obfuscated_command = o.run(self.dummy_link)
-        actual_cmd = obfuscated_command.split()[2][:-1]
-        self.assertEqual(len(self.dummy_link.command), len(actual_cmd))
+        actual_cmd = obfuscated_command.split()[2][1:-2]
+        self.assertEqual(len(self.command), len(actual_cmd))
 
 
 if __name__ == '__main__':
