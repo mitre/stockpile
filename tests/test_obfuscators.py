@@ -1,3 +1,4 @@
+import re
 import unittest
 from base64 import b64encode
 from random import seed
@@ -39,8 +40,10 @@ class TestObfuscators(unittest.TestCase):
     def test_base64_jumble(self):
         o = Base64JumbleObfuscator(self.dummy_agent)
         obfuscated_command = o.run(self.dummy_link)
-        actual_cmd = obfuscated_command.split()[2]
-        self.assertEqual(len(self.command) + 1, len(actual_cmd))
+        # create a regex to test that the command comes back as we expect it, it should have
+        # the base64 value, plus only 1 char, so d2hvYW1p. should match that pattern
+        expected_command_regex = 'eval "\\$\(echo d2hvYW1p.| rev | cut -c1- | rev | base64 --decode\)"'
+        self.assertIsNotNone(re.match(expected_command_regex, obfuscated_command))
 
     def test_caesar_cipher(self):
         seed(1)
