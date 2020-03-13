@@ -21,16 +21,16 @@ class Obfuscation(BaseObfuscator):
         link.pin = shift
         return '$encrypted = "' + encrypted + '"; $cmd = "''"; $encrypted = $encrypted.toCharArray(); ' \
                'foreach ($letter in $encrypted) {$letter = [char](([int][char]$letter) - ' + str(shift) + '); ' \
-               '$cmd += $letter;} write-host $cmd; '
+               '$cmd += $letter;} write-host $cmd;'
 
     def sh(self, link):
         decrypted = self.decode_bytes(link.command)
         encrypted, shift = self._apply_cipher(decrypted)
         link.pin = shift
-        return 'shift=$(curl -s -X POST -H "Content-Type: application/json" ' + self.agent.server + '/internals -d \'{"link":"' + link.unique + '"}\' -H "property:pin"); ' \
-               'cmd=""; chr (){ [ "$1" -lt 256 ] || return 1; printf "\\\$(printf \'%03o\' "$1")";};' \
+        return 'cmd=""; chr (){ [ "$1" -lt 256 ] || return 1; printf "\\\\$(printf \'%03o\' "$1")";};' \
                'ord (){ LC_CTYPE=C printf \'%d\' "\'$1";return $LC_CTYPE; }; ' \
-               'st="' + encrypted + '"; for i in $(seq 1 ${#st}); do x=$(ord "${st:i-1:1}"); if [[ "$x" =~ [^a-zA-Z] ]]; then x=$((x+ ' + str(-shift) + ')); fi;' \
+               'st="' + encrypted + '"; for i in $(seq 1 ${#st}); do x=$(ord "${st:i-1:1}"); ' \
+               'if [[ "$x" =~ [^a-zA-Z] ]]; then x=$((x+ ' + str(-shift) + ')); fi; ' \
                'cmd+="$(echo $(chr $x))";done;echo $cmd;'
 
     """ PRIVATE """
