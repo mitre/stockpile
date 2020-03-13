@@ -1,4 +1,5 @@
 import unittest
+from base64 import b64encode
 from random import seed
 
 from app.objects.c_agent import Agent
@@ -13,23 +14,27 @@ from app.obfuscators.caesar_cipher import Obfuscation as CaesarCipherObfuscator
 class TestObfuscators(unittest.TestCase):
 
     def setUp(self):
-        self.command = 'd2hvYW1p'
+        # for those that are curious -- when abilities are created, commands are b64 encoded
+        # by default.
+        self.command = 'whoami'
+        self.encoded_command = b64encode(self.command.strip().encode('utf-8')).decode()
         self.dummy_ability = Ability(ability_id=None, tactic=None, technique_id=None, technique=None, name=None,
                                      test=None, description=None, cleanup=None, executor='sh', platform=None,
                                      payload=None, variations=[], parsers=None, requirements=None, privilege=None)
         self.dummy_agent = Agent(paw='123', platform='linux', executors=['sh'], server='http://localhost:8888',
                                  sleep_min=0, sleep_max=0, watchdog=0)
-        self.dummy_link = Link(id='abc', operation='123', command=self.command, paw='123', ability=self.dummy_ability)
+        self.dummy_link = Link(id='abc', operation='123', command=self.encoded_command, paw='123', ability=self.dummy_ability)
 
     def test_plain_text(self):
         o = PlainTextObfuscator(self.dummy_agent)
         obfuscated_command = o.run(self.dummy_link)
-        self.assertEqual('whoami', obfuscated_command)
+        self.assertEqual(self.command, obfuscated_command)
 
     def test_base64_basic(self):
         o = Base64Obfuscator(self.dummy_agent)
         obfuscated_command = o.run(self.dummy_link)
-        self.assertEqual('eval "$(echo %s | base64 --decode)"' % self.command, obfuscated_command)
+        # string 'd2hvYW1p' is the base64 encoded value of the string 'whoami'
+        self.assertEqual('eval "$(echo %s | base64 --decode)"' % self.encoded_command, obfuscated_command)
 
     def test_base64_jumble(self):
         o = Base64JumbleObfuscator(self.dummy_agent)
