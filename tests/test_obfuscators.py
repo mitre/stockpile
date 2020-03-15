@@ -24,7 +24,8 @@ class TestObfuscators(unittest.TestCase):
                                      payload=None, variations=[], parsers=None, requirements=None, privilege=None)
         self.dummy_agent = Agent(paw='123', platform='linux', executors=['sh'], server='http://localhost:8888',
                                  sleep_min=0, sleep_max=0, watchdog=0)
-        self.dummy_link = Link(id='abc', operation='123', command=self.encoded_command, paw='123', ability=self.dummy_ability)
+        self.dummy_link = Link(id='abc', operation='123', command=self.encoded_command, paw='123',
+                               ability=self.dummy_ability)
 
     def test_plain_text(self):
         o = PlainTextObfuscator(self.dummy_agent)
@@ -42,7 +43,7 @@ class TestObfuscators(unittest.TestCase):
         obfuscated_command = o.run(self.dummy_link)
         # create a regex to test that the command comes back as we expect it, it should have
         # the base64 value, plus only 1 char, so d2hvYW1p. should match that pattern
-        expected_command_regex = 'eval "\\$\(echo d2hvYW1p.| rev | cut -c1- | rev | base64 --decode\)"'
+        expected_command_regex = 'eval "\\$\\(echo d2hvYW1p.| rev | cut -c1- | rev | base64 --decode\\)"'
         self.assertIsNotNone(re.match(expected_command_regex, obfuscated_command))
 
     def test_caesar_cipher(self):
