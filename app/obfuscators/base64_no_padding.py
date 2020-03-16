@@ -17,14 +17,12 @@ class Obfuscation(BaseObfuscator):
         link.command = link.command.replace('=', '')
         return super().run(link)
 
-    @staticmethod
     def sh(self, link, **kwargs):
         return 'eval "$(echo %s=== | base64 --decode 2>/dev/null)"' % link.command
 
-    @staticmethod
     def psh(self, link, **kwargs):
         recoded = b64encode(link.command)
         return '$string=%s;' +\
             'while($string.Length %4 -ne 0) {$string="$string="};' +\
             '$ExecutionContext.InvokeCommand.ExpandString(' +\
-            '[System.TextEncoding]::UTF8.GetString([convert]::FromBase64String($string)))' % recoded
+            '[System.Text.Encoding]::UTF8.GetString([convert]::FromBase64String($string)))' % recoded
