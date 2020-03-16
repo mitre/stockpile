@@ -18,15 +18,13 @@ class Obfuscation(BaseObfuscator):
     def psh(self, link):
         decrypted = self.decode_bytes(link.command)
         encrypted, shift = self._apply_cipher(decrypted)
-        link.pin = shift
         return '$encrypted = "' + encrypted + '"; $cmd = "''"; $encrypted = $encrypted.toCharArray(); ' \
                'foreach ($letter in $encrypted) {$letter = [char](([int][char]$letter) - ' + str(shift) + '); ' \
-               '$cmd += $letter;} write-host $cmd;'
+               '$cmd += $letter;} write-output $cmd;'
 
     def sh(self, link):
         decrypted = self.decode_bytes(link.command)
         encrypted, shift = self._apply_cipher(decrypted)
-        link.pin = shift
         return 'cmd=""; chr (){ [ "$1" -lt 256 ] || return 1; printf "\\\\$(printf \'%03o\' "$1")";};' \
                'ord (){ LC_CTYPE=C printf \'%d\' "\'$1";return $LC_CTYPE; }; ' \
                'st="' + encrypted + '"; for i in $(seq 1 ${#st}); do x=$(ord "${st:i-1:1}"); ' \
@@ -36,7 +34,7 @@ class Obfuscation(BaseObfuscator):
     """ PRIVATE """
 
     @staticmethod
-    def _apply_cipher(s, bounds=5):
+    def _apply_cipher(s, bounds=26):
         """
         Encode a command with a simple caesar cipher
         :param s: the string to encode

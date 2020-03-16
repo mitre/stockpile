@@ -29,8 +29,7 @@ async def enable(services):
     )
     await stockpile_svc.data_svc.store(
         Obfuscator(name='caesar cipher',
-                   description='A shifting caesar cipher algorithm to obfuscate commands before running them. The '
-                               'shift value can only be accessed before a command has been executed, making it '
-                               'harder for the defense to perform reverse-engineering.',
+                   description='Obfuscates commands through a caesar cipher algorithm, which uses a randomly selected '
+                               'shift value.',
                    module='plugins.stockpile.app.obfuscators.caesar_cipher')
     )
