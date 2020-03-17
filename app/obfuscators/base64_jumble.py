@@ -22,7 +22,8 @@ class Obfuscation(BaseObfuscator):
         link.command = cmd
         return super().run(link, extra=extra)
 
-    def sh(self, link, **kwargs):
+    @staticmethod
+    def sh(link, **kwargs):
         extra_chars = kwargs.get('extra')
         return 'eval "$(echo %s | rev | cut -c%s- | rev | base64 --decode)"' % (link.command, extra_chars)
 
