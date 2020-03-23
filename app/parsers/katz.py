@@ -25,6 +25,11 @@ class Parser(BaseParser):
         self.parse_mode = ['wdigest', 'credman', 'msv']
         self.log = logging.getLogger('parsing_svc')
         self.hash_check = r'([0-9a-fA-F][0-9a-fA-F] ){3}'
+        self.target_mapping = {'password': 'Password',
+                               'ntlm': 'NTLM',
+                               'sha1': 'SHA1',
+                               '_default': 'Password'
+                               }
 
     def parse_katz(self, output):
         """
@@ -58,11 +63,6 @@ class Parser(BaseParser):
         return creds
 
     def parse(self, blob):
-        target_mapping = {'password': 'Password',
-                          'ntlm': 'NTLM',
-                          'sha1': 'SHA1',
-                          '_default': 'Password'
-                          }
         relationships = []
         try:
             parse_data = self.parse_katz(blob)
@@ -77,7 +77,7 @@ class Parser(BaseParser):
                                     if len(split) > 1:
                                         match.packages[pm][0]['Username'] = split[1]
                                 for mp in self.mappers:
-                                    target_index = target_mapping.get(mp.target.split('.')[2], target_mapping['_default'])
+                                    target_index = self.target_mapping.get(mp.target.split('.')[2], self.target_mapping['_default'])
                                     if target_index in match.packages[pm][0]:
                                         relationships.append(
                                             Relationship(source=(mp.source, match.packages[pm][0]['Username']),
