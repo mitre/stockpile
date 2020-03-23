@@ -58,6 +58,11 @@ class Parser(BaseParser):
         return creds
 
     def parse(self, blob):
+        target_mapping = {'password': 'Password',
+                          'ntlm': 'NTLM',
+                          'sha1': 'SHA1',
+                          '_default': 'Password'
+                          }
         relationships = []
         try:
             parse_data = self.parse_katz(blob)
@@ -72,10 +77,11 @@ class Parser(BaseParser):
                                     if len(split) > 1:
                                         match.packages[pm][0]['Username'] = split[1]
                                 for mp in self.mappers:
+                                    target_index = target_mapping.get(mp.target.split('.')[2], target_mapping['_default'])
                                     relationships.append(
                                         Relationship(source=(mp.source, match.packages[pm][0]['Username']),
                                                      edge=mp.edge,
-                                                     target=(mp.target, match.packages[pm][0]['Password']))
+                                                     target=(mp.target, match.packages[pm][0][target_index]))
                                     )
         except Exception as error:
             self.log.warning('Mimikatz parser encountered an error - {}. Continuing...'.format(error))
