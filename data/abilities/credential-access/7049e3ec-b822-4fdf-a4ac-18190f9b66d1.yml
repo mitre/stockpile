@@ -24,4 +24,3 @@
             target: domain.user.sha1
         payloads:
         - invoke-mimi.ps1
-.user.sha1
