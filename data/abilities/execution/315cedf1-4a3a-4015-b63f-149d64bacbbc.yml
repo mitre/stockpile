@@ -14,4 +14,3 @@
           Remove-Item -Force -Path ".\Emulate-Administrator-Tasks.ps1"
         payloads:
         - Emulate-Administrator-Tasks.ps1
-nistrator-Tasks.ps1

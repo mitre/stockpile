@@ -1,7 +1,6 @@
 - id: 10a9d979-e342-418a-a9b0-002c483e0fa6
   name: Start 54ndc47
-  description: Copy 54ndc47 to remote host and start it, assumes target uses SSH keys
-    and passwordless authentication
+  description: Copy 54ndc47 to remote host and start it, assumes target uses SSH keys and passwordless authentication
   tactic: lateral-movement
   technique:
     attack_id: T1184

@@ -30,4 +30,3 @@
       edge: has_share
   - plugins.stockpile.app.requirements.no_backwards_movement:
     - source: remote.host.fqdn
-ote.host.fqdn
