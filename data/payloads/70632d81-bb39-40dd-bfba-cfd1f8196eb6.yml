@@ -60,6 +60,8 @@ standard_payloads:
   wifi.sh:
     description: Wifi manipulation script
     id: 9f639067-370a-40ba-b7ac-6f1c15d5a158
+    obfuscation_name:
+      - TODO
 special_payloads:
   minidump.go:
     description: LSASS memory dump script
