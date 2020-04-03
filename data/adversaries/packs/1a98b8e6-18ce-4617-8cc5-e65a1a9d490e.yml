@@ -2,7 +2,7 @@
 
 id: 1a98b8e6-18ce-4617-8cc5-e65a1a9d490e
 name: Thief
-description: An adversary pack to steal sensitive files
+description: An adversary to steal sensitive files
 atomic_ordering:
     - 6469befa-748a-4b9c-a96d-f191fde47d89 #create staging dir
     - 90c2efaa-8205-480d-8bb6-61d90dbaf81b #find sensitive files

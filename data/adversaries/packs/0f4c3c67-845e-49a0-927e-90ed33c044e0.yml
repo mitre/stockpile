@@ -2,7 +2,7 @@
 
 id: 0f4c3c67-845e-49a0-927e-90ed33c044e0
 name: Discovery
-description: A discovery adversary pack
+description: A discovery adversary
 atomic_ordering:
     - c0da588f-79f0-4263-8998-7496b1a40596 #active user
     - c1cd6388-3ced-48c7-a511-0434c6ba8f48 #local users
