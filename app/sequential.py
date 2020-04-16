@@ -9,9 +9,6 @@ class LogicalPlanner:
         self.next_bucket = 'sequential'   # set first bucket to execute
 
     async def sequential(self):
-        links = await self.planning_svc.get_links(operation=self.operation,
-                                                      stopping_conditions=self.stopping_conditions,
-                                                      planner=self)
         for link in await self.planning_svc.get_links(operation=self.operation,
                                                       stopping_conditions=self.stopping_conditions,
                                                       planner=self):
