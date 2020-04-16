@@ -10,20 +10,21 @@ class LogicalPlanner:
 
     async def enumeration(self):
         # use default logic -> exhaust all links in bucket
-        self.planning_svc.bucket_exhaustion('enumeration')
-        self.next_bucket = self.planning_svc.default_next_bucket('enumeration', self.state_machine)
+        await self.planning_svc.bucket_exhaustion('enumeration', self.operation)
+        self.next_bucket = await self.planning_svc.default_next_bucket('enumeration', self.state_machine)
 
     async def goals(self):
         # use default logic -> exhaust all links in bucket
-        self.planning_svc.bucket_exhaustion('goals')
-        self.next_bucket = self.planning_svc.default_next_bucket('goals', self.state_machine)
+        goal = 'collection'  # 'impact', 'exfiltration' 
+        await self.planning_svc.bucket_exhaustion(goal, self.operation)
+        self.next_bucket = await self.planning_svc.default_next_bucket('goals', self.state_machine)
 
     async def lateral_movement(self):
         # use default logic -> exhaust all links in bucket
-        self.planning_svc.bucket_exhaustion('lateral_movement')
-        self.next_bucket = self.planning_svc.default_next_bucket("lateral_movement", self.state_machine)
+        await self.planning_svc.bucket_exhaustion('lateral_movement', self.operation)
+        self.next_bucket = await self.planning_svc.default_next_bucket("lateral_movement", self.state_machine)
 
     async def misc(self):
         # use default logic -> exhaust all links in bucket
-        self.plannin_svc.bucket_exhaustion('misc')
+        await self.planning_svc.bucket_exhaustion('misc', self.operation)
         self.next_bucket = None
