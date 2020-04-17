@@ -1,7 +1,0 @@
-
-id: 788107d5-dc1e-4204-9269-38df0186d3e7
-name: caldera_attacker
-description: Protoype Planner
-module: plugins.stockpile.app.caldera_attacker
-params: {}
-ignore_enforcement_modules: []
