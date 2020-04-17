@@ -14,15 +14,15 @@
           Invoke-Mimikatz -DumpCreds
         parsers:
           plugins.stockpile.app.parsers.katz:
-            - source: domain.user.name
-              edge: has_password
-              target: domain.user.password
-            - source: domain.user.name
-              edge: has_hash
-              target: domain.user.ntlm
-            - source: domain.user.name
-              edge: has_hash
-              target: domain.user.sha1
+          - source: domain.user.name
+            edge: has_password
+            target: domain.user.password
+          - source: domain.user.name
+            edge: has_hash
+            target: domain.user.ntlm
+          - source: domain.user.name
+            edge: has_hash
+            target: domain.user.sha1
         payloads:
-          - invoke-mimi.ps1.xored
+        - invoke-mimi.ps1.xored
         cleanup: Remove-Item -Force -Path "invoke-mimi.ps1"
