@@ -76,4 +76,4 @@ special_payloads:
     service: stockpile_svc
     function: dynamically_compile
 extensions:
-  donut: plugins.stockpile.app.donut.donut_handler
+  .donut: plugins.stockpile.app.donut.donut_handler
