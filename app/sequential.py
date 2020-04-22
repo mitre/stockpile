@@ -12,9 +12,10 @@ class LogicalPlanner:
         await self.planning_svc.execute_planner(self)
 
     async def sequential(self):
+        link_ids = []
         for link in await self.planning_svc.get_links(operation=self.operation,
                                                       stopping_conditions=self.stopping_conditions,
                                                       planner=self):
-            await self.operation.apply(link)
-        self.next_bucket = None
-        
+            link_ids.append(await self.operation.apply(link))
+        await self.operation.wait_for_links_completion(link_ids)
+        self.next_bucket = None        
