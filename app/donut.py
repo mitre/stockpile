@@ -12,7 +12,7 @@ async def donut_handler(services, args) -> (str, str):
     os.replace(src=exe_path, dst=file_name)
     return donut_ext, donut_ext  # payload, display_name
 
-""" PRIVATE"""
+""" PRIVATE """
 
 
 def _write_shellcode_to_file(shellcode, file_name):
