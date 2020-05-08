@@ -66,11 +66,11 @@ class LogicalPlanner:
 
     async def impact(self):
         await self.do_bucket('impact')
-        if len(self.operation.chain) == self.current_length: # check to see if we've done anything new recently
-            if self.operation.auto_close: # we aren't making any further forward progress, and we should close
+        if len(self.operation.chain) == self.current_length:  # check to see if we've done anything new recently
+            if self.operation.auto_close:  # we aren't making any further forward progress, and we should close
                 self.next_bucket = None
             else:  # we aren't making any further forward progress, but let's wait a bit and see if that changes
-                await asyncio.sleep(60)  # Sleep for a while before we enter the flow loop again
+                await asyncio.sleep(180)  # Sleep for a while before we enter the flow loop again
                 self.planning_svc.log.debug('[buckets] Ran out of things to do for the moment. Sleeping for a bit.')
                 self.next_bucket = 'initial_access'
         else:
