@@ -8,9 +8,9 @@ class LogicalPlanner:
         self.planning_svc = planning_svc
         self.stopping_conditions = stopping_conditions
         self.stopping_condition_met = False
-        self.state_machine = ['initial_access', 'execution', 'persistence', 'privilege_escalation',
-                              'defense_evasion', 'credential_access', 'discovery', 'lateral_movement', 'collection',
-                              'command_and_control', 'exfiltration', 'impact']
+        self.state_machine = ['initial_access', 'defense_evasion', 'command_and_control', 'discovery', 'execution',
+                              'credential_access', 'privilege_escalation', 'persistence', 'lateral_movement',
+                              'collection', 'exfiltration', 'impact']
         self.next_bucket = 'initial_access'   # set first, bucket to execute
         self.current_length = 0
 
