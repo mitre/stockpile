@@ -5,13 +5,13 @@ class LogicalPlanner:
         self.planning_svc = planning_svc
         self.stopping_conditions = stopping_conditions
         self.stopping_condition_met = False
-        self.state_machine = ['atomic_sequential']
-        self.next_bucket = 'atomic_sequential'   # set first (and only) bucket to execute
+        self.state_machine = ['atomic']
+        self.next_bucket = 'atomic'   # set first (and only) bucket to execute
 
     async def execute(self):
         await self.planning_svc.execute_planner(self)
 
-    async def atomic_sequential(self):
+    async def atomic(self):
         done = False
         while not done:
             links_to_use = []
