@@ -20,3 +20,4 @@
           };
         payloads:
           - basic_port_scanner.ps1
+        timeout: 180
