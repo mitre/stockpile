@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 - id: 2fe2d5e6-7b06-4fc0-bf71-6966a1226731
   name: Disrupt WIFI
   description: Turn a computers WIFI off
@@ -14,18 +17,33 @@
           ./wifi.sh off
         cleanup: |
           ./wifi.sh on
+<<<<<<< HEAD
         payload: wifi.sh
+=======
+        payloads:
+        - wifi.sh
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     linux:
       sh:
         command: |
           ./wifi.sh off
         cleanup: |
           ./wifi.sh on
+<<<<<<< HEAD
         payload: wifi.sh
+=======
+        payloads:
+        - wifi.sh
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     windows:
       psh:
         command: |
           .\wifi.ps1 -Off
         cleanup: |
           .\wifi.ps1 -On
+<<<<<<< HEAD
         payload: wifi.ps1
+=======
+        payloads:
+        - wifi.ps1
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

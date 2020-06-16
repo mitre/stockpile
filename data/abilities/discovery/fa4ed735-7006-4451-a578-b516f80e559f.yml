@@ -12,3 +12,11 @@
       psh:
         command: |
           nslookup #{remote.host.ip}
+<<<<<<< HEAD
+=======
+        parsers:
+          plugins.stockpile.app.parsers.reverse_nslookup:
+            - source: remote.host.fqdn
+              edge: has_ip
+              target: remote.host.ip
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

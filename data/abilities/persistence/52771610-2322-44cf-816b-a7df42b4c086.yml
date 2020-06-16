@@ -26,4 +26,11 @@
           If (Test-Path ($path + ".saved")) {
             Remove-Item $path;
             Move-Item -Path ($path + ".saved") -Destination $path
+<<<<<<< HEAD
           }
+=======
+          }
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.service.modifiable
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

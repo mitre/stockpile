@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 ---
 
 - id: 13379ae1-d20e-4162-91f8-320d78a35e7f
   name: Discover local hosts
   description: Use PowerView to query the Active Directory server for a list of computers in the Domain
+=======
+- id: 13379ae1-d20e-4162-91f8-320d78a35e7f
+  name: Discover local hosts
+  description: Use PowerView to query the Active Directory server for a list of computers
+    in the Domain
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
   tactic: discovery
   technique:
     attack_id: T1018
@@ -10,10 +17,19 @@
   platforms:
     windows:
       psh:
+<<<<<<< HEAD
         payload: powerview.ps1
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
         command: |
           Import-Module .\powerview.ps1;
           Get-DomainComputer
         parsers:
           plugins.stockpile.app.parsers.gdomain:
+<<<<<<< HEAD
             - source: remote.host.fqdn
+=======
+          - source: remote.host.fqdn
+        payloads:
+        - powerview.ps1
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

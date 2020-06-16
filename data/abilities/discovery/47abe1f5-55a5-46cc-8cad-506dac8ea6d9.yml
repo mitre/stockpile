@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 - id: 47abe1f5-55a5-46cc-8cad-506dac8ea6d9
   name: Scan IP for ports
   description: Use dropped scanner to find open popular ports
@@ -11,6 +14,7 @@
     darwin:
       sh:
         command: |
+<<<<<<< HEAD
           python scanner.py -i #{remote.host.ip}
         parsers:
           plugins.stockpile.app.parsers.scan:
@@ -29,3 +33,24 @@
               target: remote.host.port
         payload: scanner.py
 
+=======
+          python3 scanner.py -i #{remote.host.ip}
+        parsers:
+          plugins.stockpile.app.parsers.scan:
+          - source: remote.host.ip
+            edge: has_open_port
+            target: remote.host.port
+        payloads:
+        - scanner.py
+    linux:
+      sh:
+        command: |
+          python3 scanner.py -i #{remote.host.ip}
+        parsers:
+          plugins.stockpile.app.parsers.scan:
+          - source: remote.host.ip
+            edge: has_open_port
+            target: remote.host.port
+        payloads:
+        - scanner.py
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

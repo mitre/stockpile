@@ -9,6 +9,15 @@
     name: Remote System Discovery
   platforms:
     windows:
+<<<<<<< HEAD:data/abilities/discovery/26c8b8b5-7b5b-4de1-a128-7d37fb14f517.yml
       psh:
         command: |
           nltest /dclist:%USERDOMAIN%
+=======
+      cmd:
+        command: |
+          nltest /dsgetdc:%USERDOMAIN%
+      psh:
+        command: |
+          nltest /dsgetdc:$env:USERDOMAIN
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be:data/abilities/discovery/26c8b8b5-7b5b-4de1-a128-7d37fb14f517.yml

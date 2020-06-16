@@ -1,19 +1,41 @@
+<<<<<<< HEAD
 from app.objects.c_relationship import Relationship
 from plugins.stockpile.app.parsers.base_parser import BaseParser
 from app.utility.logger import Logger
+=======
+import logging
+
+from app.objects.secondclass.c_fact import Fact
+from app.objects.secondclass.c_relationship import Relationship
+from app.utility.base_parser import BaseParser
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 
 
 class Parser(BaseParser):
 
     def __init__(self, parser_info):
+<<<<<<< HEAD
         self.mappers = parser_info['mappers']
         self.used_facts = parser_info['used_facts']
         self.log = Logger('Parser')
+=======
+        super().__init__(parser_info)
+        self.mappers = parser_info['mappers']
+        self.used_facts = parser_info['used_facts']
+        self.log = logging.getLogger('Parser')
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 
     def gd_parser(self, text):
         results = dict()
 
+<<<<<<< HEAD
         for block in text.split('\r\n\r\n'):
+=======
+        chunks = text.split('\n\n')
+        if text.find('\r') != -1:
+            chunks = text.split('\r\n\r\n')
+        for block in chunks:
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
             if block:
                 hostname = None
                 pvi = None
@@ -37,9 +59,15 @@ class Parser(BaseParser):
             for match in parse_data:
                 for mp in self.mappers:
                     relationships.append(
+<<<<<<< HEAD
                         Relationship(source=(mp.source, match),
                                      edge=mp.edge,
                                      target=(mp.target, None)))
+=======
+                        Relationship(source=Fact(mp.source, match),
+                                     edge=mp.edge,
+                                     target=Fact(mp.target, None)))
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
         except Exception as error:
             self.log.warning('Get-Domain parser encountered an error - {}. Continuing...'.format(error))
         return relationships

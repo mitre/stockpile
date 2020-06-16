@@ -2,7 +2,11 @@
 
 - id: 1b4fb81c-8090-426c-93ab-0a633e7a16a7
   name: Sniff network traffic
+<<<<<<< HEAD
   description: Perform a packet capture using the Windows PowerShell
+=======
+  description: Perform a packet capture
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
   tactic: credential-access
   technique:
     attack_id: T1040
@@ -21,3 +25,10 @@
           Remove-NetEventSession -Name "Capture"
           Remove-Item $ENV:UserProfile\Desktop\pcap.etl
           Remove-Item $ENV:UserProfile\Desktop\pcap.cab
+<<<<<<< HEAD
+=======
+    darwin:
+      sh:
+        command: |
+          tcpdump -i en0 & sleep 5; kill $!
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

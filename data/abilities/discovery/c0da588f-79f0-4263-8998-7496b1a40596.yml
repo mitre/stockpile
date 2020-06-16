@@ -14,12 +14,34 @@
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.user.name
+<<<<<<< HEAD
+=======
+            - source: domain.user.name
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     linux:
       sh:
         command: whoami
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.user.name
+<<<<<<< HEAD
     windows:
       psh,cmd:
         command: whoami
+=======
+            - source: domain.user.name
+    windows:
+      psh:
+        command: |
+          $env:username
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.user.name
+            - source: domain.user.name
+      cmd:
+        command: echo %username%
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.user.name
+            - source: domain.user.name
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

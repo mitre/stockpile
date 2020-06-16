@@ -8,6 +8,7 @@
     attack_id: T1145
     name: Private Keys
   platforms:
+<<<<<<< HEAD
     darwin:
       sh:
         command: |
@@ -16,3 +17,20 @@
       sh:
         command: |
           for %i in (\.key \.pgp \.gpg \.ppk. \.p12 \.pem \.pfx \.cer \.p7b \.asc) do (dir c:\ /b /s .key | findstr /e "%i")
+=======
+    windows:
+      psh:
+        command: |
+          foreach($i in @(".key",".pgp",".gpg",".ppk",".p12",".pem",".pfx",".cer",".p7b",".asc",".crt")){Get-ChildItem -Path c:\ -Depth 3 -File -Recurse -ErrorAction SilentlyContinue | Where-Object {$_.name -Match "$i$"}}
+      cmd:
+        command: |
+          for %i in (\.key \.pgp \.gpg \.ppk \.p12 \.pem \.pfx \.cer \.p7b \.asc) do (dir c:\ /b /s .key | findstr /e "%i")
+    darwin:
+      sh:
+        command: |
+          for i in .key .pgp .gpg .ppk .p12 .pem .pfx .cer .p7b .asc .crt;do find /Users -maxdepth 3 -name "*${i}" 2>/dev/null;done;
+    linux:
+      sh:
+        command: |
+          for i in .key .pgp .gpg .ppk .p12 .pem .pfx .cer .p7b .asc .crt;do find /etc -maxdepth 3 -name "*${i}" 2>/dev/null;done;
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

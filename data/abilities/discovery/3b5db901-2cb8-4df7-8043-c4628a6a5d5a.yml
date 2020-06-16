@@ -2,7 +2,11 @@
 
 - id: 3b5db901-2cb8-4df7-8043-c4628a6a5d5a
   name: Find user processes
+<<<<<<< HEAD
   description: Get process info for processes running a user
+=======
+  description: Get process info for processes running as a user
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
   tactic: discovery
   technique:
     attack_id: T1057
@@ -19,6 +23,7 @@
     windows:
       psh:
         command: |
+<<<<<<< HEAD
           $owners = @{}
           gwmi win32_process |% {$owners[$_.handle] = $_.getowner().user}
           $ps = get-process | select processname,Id,@{l="Owner";e={$owners[$_.id.tostring()]}}
@@ -27,4 +32,17 @@
                   $p
               }
           }
+=======
+          $owners = @{};
+          gwmi win32_process |% {$owners[$_.handle] = $_.getowner().user};
+          $ps = get-process | select processname,Id,@{l="Owner";e={$owners[$_.id.tostring()]}};
+          foreach($p in $ps) {
+              if($p.Owner -eq "#{host.user.name}") {
+                  $p;
+              }
+          }
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.user.name
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 

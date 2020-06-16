@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 - id: a0676fe1-cd52-482e-8dde-349b73f9aa69
   name: Preferred WIFI
   description: See the most used WIFI networks of a machine
@@ -12,15 +15,30 @@
       sh:
         command: |
           ./wifi.sh pref
+<<<<<<< HEAD
         payload: wifi.sh
+=======
+        payloads:
+        - wifi.sh
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     linux:
       sh:
         command: |
           ./wifi.sh pref
+<<<<<<< HEAD
         payload: wifi.sh
+=======
+        payloads:
+        - wifi.sh
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     windows:
       psh:
         command: |
           .\wifi.ps1 -Pref
+<<<<<<< HEAD
         payload: wifi.ps1
 
+=======
+        payloads:
+        - wifi.ps1
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

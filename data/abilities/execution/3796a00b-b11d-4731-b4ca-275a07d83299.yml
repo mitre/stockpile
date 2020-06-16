@@ -18,4 +18,15 @@
             $credential = New-Object System.Management.Automation.PSCredential $username, $securePassword;
             Start-Process Notepad.exe -NoNewWindow -PassThru -Credential $credential;
           };
+<<<<<<< HEAD
           Receive-Job -Job $job -Wait;
+=======
+          Receive-Job -Job $job -Wait;
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.user.name
+    - plugins.stockpile.app.requirements.basic:
+      - source: host.user.name
+        edge: has_password
+        target: host.user.password
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

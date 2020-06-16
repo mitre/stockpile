@@ -9,7 +9,18 @@
     name: Network Share Discovery
   platforms:
     windows:
+<<<<<<< HEAD
       psh:
         command: Get-SmbShare
       cmd:
         command: net share
+=======
+      pwsh,psh:
+        command: Get-SmbShare | ConvertTo-Json
+        parsers:
+          plugins.stockpile.app.parsers.json:
+            - source: domain.smb.share
+              json_key: Path
+              json_type:
+                - str
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

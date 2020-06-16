@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from app.objects.c_relationship import Relationship
 from plugins.stockpile.app.parsers.base_parser import BaseParser
 from app.utility.logger import Logger
@@ -5,6 +6,16 @@ from app.utility.logger import Logger
 import re
 from collections import defaultdict
 
+=======
+import logging
+import re
+from collections import defaultdict
+
+from app.objects.secondclass.c_fact import Fact
+from app.objects.secondclass.c_relationship import Relationship
+from app.utility.base_parser import BaseParser
+
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 
 class MimikatzBlock(object):
     def __init__(self):
@@ -22,9 +33,20 @@ class Parser(BaseParser):
     def __init__(self, parser_info):
         self.mappers = parser_info['mappers']
         self.used_facts = parser_info['used_facts']
+<<<<<<< HEAD
         self.parse_mode = 'wdigest'
         self.log = Logger('parsing_svc')
         self.hash_check = r'([0-9a-fA-F][0-9a-fA-F] ){3}'
+=======
+        self.parse_mode = ['wdigest', 'credman', 'msv']
+        self.log = logging.getLogger('parsing_svc')
+        self.hash_check = r'([0-9a-fA-F][0-9a-fA-F] ){3}'
+        self.target_mapping = {'password': 'Password',
+                               'ntlm': 'NTLM',
+                               'sha1': 'SHA1',
+                               '_default': 'Password'
+                               }
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 
     def parse_katz(self, output):
         """
@@ -62,6 +84,7 @@ class Parser(BaseParser):
         try:
             parse_data = self.parse_katz(blob)
             for match in parse_data:
+<<<<<<< HEAD
                 if self.parse_mode in match.packages:
                     hash_pass = re.match(self.hash_check, match.packages[self.parse_mode][0]['Password'])
                     if not hash_pass:
@@ -71,6 +94,25 @@ class Parser(BaseParser):
                                              edge=mp.edge,
                                              target=(mp.target, match.packages[self.parse_mode][0]['Password']))
                             )
+=======
+                if match.logon_server != '(null)' or 'credman' in match.packages:
+                    for pm in self.parse_mode:
+                        if pm in match.packages:
+                            hash_pass = re.match(self.hash_check, match.packages[pm][0].get('Password', ''))
+                            if not hash_pass:
+                                if pm == 'credman':
+                                    split = match.packages[pm][0]['Username'].split('\\')
+                                    if len(split) > 1:
+                                        match.packages[pm][0]['Username'] = split[1]
+                                for mp in self.mappers:
+                                    target_index = self.target_mapping.get(mp.target.split('.')[2], self.target_mapping['_default'])
+                                    if target_index in match.packages[pm][0]:
+                                        relationships.append(
+                                            Relationship(source=Fact(mp.source, match.packages[pm][0]['Username']),
+                                                         edge=mp.edge,
+                                                         target=Fact(mp.target, match.packages[pm][0][target_index]))
+                                        )
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
         except Exception as error:
             self.log.warning('Mimikatz parser encountered an error - {}. Continuing...'.format(error))
         return relationships

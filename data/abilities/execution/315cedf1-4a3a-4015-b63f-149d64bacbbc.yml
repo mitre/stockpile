@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 
  - id: 315cedf1-4a3a-4015-b63f-149d64bacbbc
@@ -16,3 +17,21 @@
            Remove-Item -Force -Path ".\Emulate-Administrator-Tasks.ps1"
          payload:
            Emulate-Administrator-Tasks.ps1
+=======
+- id: 315cedf1-4a3a-4015-b63f-149d64bacbbc
+  name: Emulate Administrator Tasks
+  description: Emulate administrator tasks on a system in a separate process
+  tactic: execution
+  technique:
+    attack_id: T1086
+    name: PowerShell
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          start powershell.exe -ArgumentList "-NoP","-StA","-ExecutionPolicy","bypass",".\Emulate-Administrator-Tasks.ps1"
+        cleanup: |
+          Remove-Item -Force -Path ".\Emulate-Administrator-Tasks.ps1"
+        payloads:
+        - Emulate-Administrator-Tasks.ps1
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

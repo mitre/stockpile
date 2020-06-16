@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
 - id: aaf34d82-aea9-4278-8ec4-789653e4f5d9
   name: GetAdminMembers
   description: Get Administrator users for a computer
@@ -11,6 +14,19 @@
     windows:
       psh:
         command: |
+<<<<<<< HEAD
           Import-Module .\PowerView.ps1 -Force;
           Get-NetUser | ConvertTo-Json
         payload: PowerView.ps1
+=======
+          Import-Module .\powerview.ps1 -Force;
+          Get-NetUser -AdminCount | ConvertTo-Json -Depth 1
+        parsers:
+          plugins.stockpile.app.parsers.json:
+          - source: domain.user.name
+            json_key: samaccountname
+            json_type:
+            - str
+        payloads:
+        - powerview.ps1
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

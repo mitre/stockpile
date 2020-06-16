@@ -3,7 +3,11 @@
 - id: aa6ec4dd-db09-4925-b9b9-43adeb154686
   name: Mount Share
   description: Mount a windows share
+<<<<<<< HEAD
   tactic: Lateral Movement
+=======
+  tactic: lateral-movement
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
   technique:
     attack_id: T1077
     name: Windows Admin Shares
@@ -14,3 +18,20 @@
           net use \\#{remote.host.fqdn}\C$ /user:#{network.domain.name}\#{domain.user.name} #{domain.user.password}
         cleanup: |
           net use \\#{remote.host.fqdn}\C$ /delete
+<<<<<<< HEAD
+=======
+        parsers:
+          plugins.stockpile.app.parsers.share_mounted:
+            - source: remote.host.fqdn
+              edge: has_share
+  requirements:
+    - plugins.stockpile.app.requirements.not_exists:
+        - source: remote.host.fqdn
+          edge: has_share
+    - plugins.stockpile.app.requirements.basic:
+        - source: domain.user.name
+          edge: has_password
+          target: domain.user.password
+    - plugins.stockpile.app.requirements.no_backwards_movement:
+        - source: remote.host.fqdn
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be

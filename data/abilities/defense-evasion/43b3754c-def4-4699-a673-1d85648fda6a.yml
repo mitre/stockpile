@@ -10,10 +10,19 @@
   platforms:
     darwin:
       sh:
+<<<<<<< HEAD
         command: unset HISTFILE
     linux:
       sh:
         command: unset HISTFILE
+=======
+        command: |
+          > $HOME/.bash_history && unset HISTFILE
+    linux:
+      sh:
+        command: |
+          > $HOME/.bash_history && unset HISTFILE
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
     windows:
       psh:
         command: Clear-History;Clear

@@ -7,6 +7,10 @@
   technique:
     attack_id: T1089
     name: Disabling Security Tools
+<<<<<<< HEAD
+=======
+  privilege: Elevated
+>>>>>>> a2b4f2d02f7a96ebd241898b844e9a36dfccc6be
   platforms:
     windows:
       psh:
