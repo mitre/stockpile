@@ -21,7 +21,7 @@ class OperationLoop:
 
     def start(self):
         """Agent loop operation:
-            - Beacon sent - where possible results are sent to server and next instructions retrieved
+            - Send beacon - where possible results are sent to server and next instructions retrieved
             - Instructions executed, results stored
             - sleep for set time
         """
