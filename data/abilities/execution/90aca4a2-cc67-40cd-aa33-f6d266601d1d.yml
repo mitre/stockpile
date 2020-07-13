@@ -1,0 +1,18 @@
+---
+
+- id: 90aca4a2-cc67-40cd-aa33-f6d266601d1d 
+  name: Kill BTC nodes
+  description: Kill all running tendermint blockchain node processes
+  tactic: execution
+  technique:
+    attack_id: 
+    name:
+  platforms:
+    linux:
+      sh:
+        command: |
+          pkill -e -f 'tendermint node'
+    darwin:
+      sh:
+        command: |
+          pkill -e -f 'tendermint node'
