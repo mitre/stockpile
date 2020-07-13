@@ -1,0 +1,5 @@
+id: 4c3ff974-948f-4293-abe3-cda1e554305b
+name: BTC Slasher
+description: Adversary to Kill Tendermint Blockchain nodes
+atomic_ordering:
+        - 90aca4a2-cc67-40cd-aa33-f6d266601d1d
