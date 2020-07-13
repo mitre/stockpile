@@ -1,0 +1,15 @@
+- id: 6e375d26-9099-4de1-a0fe-ceb8f2114bb9
+  name: Dirty Cows exploit
+  description: Exploits lack of privilege checking in writing to memory
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1068
+    name: EXploitation for Privilege Escalation.
+  platforms:
+    linux:
+      sh:
+        command: |
+          ./mempodipper;
+          /usr/bin/passwd
+        payloads:
+        - mempodipper.exe

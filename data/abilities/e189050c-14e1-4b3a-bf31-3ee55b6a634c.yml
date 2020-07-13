@@ -1,0 +1,15 @@
+---
+- id: e189050c-14e1-4b3a-bf31-3ee55b6a634c
+  name: Windows Memory Expoit
+  description: Exploit a vulnerability in windows 7 and 2008 for privilege escalation
+  tactic: privilege-escalation
+  technique:
+    name: Exploitation for Privilege escalation
+    attack_id: T1068
+  platforms:
+    windows:
+      psh:
+        command: |
+        .\meltdown.exe
+        payloads:
+          - meltdown.exe

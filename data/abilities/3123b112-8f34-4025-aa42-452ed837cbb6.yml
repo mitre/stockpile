@@ -1,0 +1,15 @@
+---
+- id: 3123b112-8f34-4025-aa42-452ed837cbb6
+  name: Windows Memory Expoit
+  description: Exploit a vulnerabile EOP bug for privilege escalation in most current windows
+  tactic: privilege-escalation
+  technique:
+    name: Exploitation for Privilege escalation
+    attack_id: T1068
+  platforms:
+    windows:
+      psh:
+        command: |
+        .\filemoveexploit.exe
+        payloads:
+          - filemoveexploit.exe
