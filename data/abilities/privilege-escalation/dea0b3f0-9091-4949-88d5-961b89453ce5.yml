@@ -1,0 +1,14 @@
+- id: dea0b3f0-9091-4949-88d5-961b89453ce5
+  name: Psexec
+  description: Use of PSexec to gain system shell
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1068
+    name: Exploitation for privilege escalation
+  platforms:
+    windows:
+      psh:
+        command: |
+          .\psexec -s powershell.exe
+        payloads:
+        - psexec.exe

