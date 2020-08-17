@@ -9,7 +9,7 @@
     linux:
       sh:
         command: |
-          ./mempodipper;
+          ./mempodipper.exe;
           /usr/bin/passwd
         payloads:
         - mempodipper.exe
