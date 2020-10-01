@@ -119,7 +119,7 @@ class Parser(BaseParser):
 
     def _process_provider(self, line, provider, provider_name, logon_session):
         if line.startswith('['):
-            self._provider_extend(provider, provider_name, logon_session) # this might indicate the start of a new account
+            self._provider_extend(provider, provider_name, logon_session)  # indicates the start of a new account
             return True, provider_name  # reset the provider
         elif line.startswith('*'):
             m = re.match(r'\s*\* (.*?)\s*: (.*)', line)
