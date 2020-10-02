@@ -81,7 +81,8 @@ class Parser(BaseParser):
                             for mp in self.mappers:
                                 target_key = self.target_mapping.get(mp.target.split('.')[-1],
                                                                      self.target_mapping['_default'])
-                                if target_key in provider:
+                                if target_key in provider and not (target_key == 'Password'
+                                                                   and provider[target_key] == '(null)'):
                                     relationships.append(
                                         Relationship(source=Fact(mp.source, username),
                                                      edge=mp.edge,
@@ -132,8 +133,7 @@ class Parser(BaseParser):
                 return True, match_group.group(1)  # reset the provider
         return False, provider_name
 
-    @staticmethod
-    def _provider_extend(provider, provider_name, logon_session):
+    def _provider_extend(self, provider, provider_name, logon_session):
         if 'Username' in provider and provider['Username'] != '(null)' and \
-                (('Password' in provider and provider['Password'] != '(null)') or 'NTLM' in provider):
+                any([cred for cred in self.target_mapping.values() if cred in provider]):
             logon_session.providers[provider_name].append(provider)
