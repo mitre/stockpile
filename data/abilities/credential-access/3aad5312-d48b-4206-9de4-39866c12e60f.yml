@@ -10,4 +10,5 @@
   platforms:
     windows:
       psh:
-        command: reg query HKCU /f password /t REG_SZ /s
+        command: |
+          reg query HKCU /f password /t REG_SZ /s
