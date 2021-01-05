@@ -1,14 +1,11 @@
----
-
-- id: 3aad5312-d48b-4206-9de4-39866c12e60f
-  name: Credentials in Registry
-  description: Search for possible credentials stored in Registry
-  tactic: credential-access
-  technique:
-    attack_id: T1552.002
-    name: "OS Credential Dumping: Credentials in Registry"
+- description: Search for possible credentials stored in Registry
+  id: 3aad5312-d48b-4206-9de4-39866c12e60f
+  name: Credentials in Registry - HKCU
   platforms:
     windows:
       psh:
-        command: |
-          reg query HKCU /f password /t REG_SZ /s
+        command: reg query HKCU /f password /t REG_SZ /s
+  tactic: credential-access
+  technique:
+    attack_id: T1552.002
+    name: 'OS Credential Dumping: Credentials in Registry'
