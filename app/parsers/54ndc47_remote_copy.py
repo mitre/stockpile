@@ -24,7 +24,7 @@ class Parser(BaseParser):
     """ PRIVATE """
 
     @staticmethod
-    def _get_remote_host(source_trait, used_facts):
+    def _get_remote_host(source_name, used_facts):
         for uf in used_facts:
-            if uf.trait == source_trait:
+            if uf.name == source_name:
                 return uf.value
