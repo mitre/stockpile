@@ -58,7 +58,7 @@ class Parser(BaseParser):
                     username = entry['username']
                     if not username.startswith(entry['windows_domain']):
                         username = entry['windows_domain'] + '\\' + username
-                    source = self.set_value(mp.source, self.used_facts[0].trait, self.used_facts)
+                    source = self.set_value(mp.source, self.used_facts[0].name, self.used_facts)
                     target = self.set_value(mp.target, username, self.used_facts)
                     relationships.append(
                         Relationship(source=Fact(mp.source, source),
