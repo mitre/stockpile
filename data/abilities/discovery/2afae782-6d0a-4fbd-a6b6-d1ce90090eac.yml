@@ -16,6 +16,7 @@
           - source: remote.host.fqdn
             edge: has_admin
             target: domain.user.name
+            restrictions: unique
         payloads:
         - powerview.ps1
   singleton: True
