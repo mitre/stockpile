@@ -23,11 +23,11 @@ class BaseRequirement:
 
     @staticmethod
     def _get_relationships(uf, relationships):
-        return [r for r in relationships if r.source.trait == uf.trait and r.source.value == uf.value]
+        return [r for r in relationships if r.source.name == uf.name and r.source.value == uf.value]
 
     @staticmethod
     def _check_target(target, match):
-        if target.trait == match.trait and target.value == match.value:
+        if target.name == match.name and target.value == match.value:
             return True
         return False
 
