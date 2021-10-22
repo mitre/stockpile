@@ -9,13 +9,18 @@
     windows:
       psh:
         command: |
-          Import-Module .\powerview.ps1;
-          $userName = "#{domain.user.name}";
-          $userPassword = "#{domain.user.password}";
-
-          $secStringPassword = ConvertTo-SecureString $userPassword -AsPlainText -Force;
-          $credObject = New-Object System.Management.Automation.PSCredential ($userName, $secStringPassword);
-          Get-NetLocalGroupMember -ComputerName #{remote.host.fqdn} -Credential $credObject
+          $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent());
+          if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+            Import-Module .\powerview.ps1;
+            Get-NetLocalGroupMember -ComputerName #{remote.host.fqdn}
+          } else {
+            Import-Module .\powerview.ps1;
+            $userName = "#{domain.user.name}";
+            $userPassword = "#{domain.user.password}";
+            $secStringPassword = ConvertTo-SecureString $userPassword -AsPlainText -Force;
+            $credObject = New-Object System.Management.Automation.PSCredential ($userName, $secStringPassword);
+            Get-NetLocalGroupMember -ComputerName #{remote.host.fqdn} -Credential $credObject
+          };
         parsers:
           plugins.stockpile.app.parsers.netlocalgroup:
           - source: remote.host.fqdn
