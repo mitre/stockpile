@@ -12,12 +12,13 @@ class LogicalPlanner:
         await self.planning_svc.execute_planner(self)
 
     async def batch(self):
-        links = await self._get_links()
+        agents_links = await self._get_links()
+        links = [link for links in agents_links.values() for link in links]
         while links:
             link_ids = [await self.operation.apply(link) for link in links]
             await self.operation.wait_for_links_completion(link_ids)
             # new links may be available now (e.g. requirements met)
-            links = await self._get_links()
+            links = [link for links in (await self._get_links()).values() for link in links]
         self.next_bucket = None
 
     async def _get_links(self):

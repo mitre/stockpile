@@ -14,10 +14,9 @@ class LogicalPlanner:
     async def atomic(self):
         links_to_use = []
 
-        # Get the first available link for each agent (make sure we maintain the order).
-        for agent in self.operation.agents:
-            possible_agent_links = await self._get_links(agent=agent)
-            next_link = await self._get_next_atomic_link(possible_agent_links)
+        all_agents_links = await self._get_links()
+        for agent, possible_links in all_agents_links.items():
+            next_link = await self._get_next_atomic_link(possible_links)
             if next_link:
                 links_to_use.append(await self.operation.apply(next_link))
 
@@ -28,8 +27,8 @@ class LogicalPlanner:
             # No more links to run.
             self.next_bucket = None
 
-    async def _get_links(self, agent=None):
-        return await self.planning_svc.get_links(operation=self.operation, agent=agent)
+    async def _get_links(self):
+        return await self.planning_svc.get_links(operation=self.operation)
 
     # Given list of links, returns the link that appears first in the adversary's atomic ordering.
     async def _get_next_atomic_link(self, links):
