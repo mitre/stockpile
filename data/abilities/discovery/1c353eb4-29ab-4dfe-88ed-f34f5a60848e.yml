@@ -11,7 +11,7 @@
     windows:
       psh:
         command: |
-          Get-ChildItem -Path #{host.system.path}
+          Get-ChildItem -Path #{file.path}
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.system.path
+      - source: file.path

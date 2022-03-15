@@ -9,18 +9,20 @@
     linux:
       sh:
         command: |
-          tar -czf #{host.dir.git}.tar.gz -C "#{host.dir.git}" .; printf #{host.dir.git}.tar.gz;
+          tar -czf #{custom.git_dir}.tar.gz -C "#{custom.git_dir}" .; printf #{custom.git_dir}.tar.gz;
         cleanup: |
-          rm #{host.dir.git}.tar.gz;
+          rm #{custom.git_dir}.tar.gz;
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
     windows:
       psh:
         command: |
-          tar -czf #{host.dir.git}.tar.gz -C #{host.dir.git} *; Write-Host #{host.dir.git}.tar.gz; exit 0;
+          tar -czf #{custom.git_dir}.tar.gz -C #{custom.git_dir} *; Write-Host #{custom.git_dir}.tar.gz; exit 0;
         cleanup: |
-          Remove-Item -Path #{host.dir.git}.tar.gz;
+          Remove-Item -Path #{custom.git_dir}.tar.gz;
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed

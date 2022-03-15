@@ -14,4 +14,5 @@
           acrnctl list
         parsers:
           plugins.stockpile.app.parsers.acrn:
-            - source: hypervisor.vm.name
+            - source: application.name
+              edge: is_hypervisor

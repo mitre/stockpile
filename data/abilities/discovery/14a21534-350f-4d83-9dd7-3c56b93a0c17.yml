@@ -14,4 +14,4 @@
           nbtstat -n
         parsers:
           plugins.stockpile.app.parsers.nbtstat:
-            - source: network.domain.name
+            - source: network.name

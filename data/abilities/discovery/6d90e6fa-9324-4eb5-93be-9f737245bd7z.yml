@@ -10,12 +10,12 @@
       psh:
         command: |
           Import-Module .\powerview.ps1;
-          Get-NetLocalGroupMember -ComputerName #{remote.host.fqdn}
+          Get-NetLocalGroupMember -ComputerName #{host.fqdn}
         parsers:
           plugins.stockpile.app.parsers.netlocalgroup:
-          - source: remote.host.fqdn
+          - source: host.fqdn
             edge: has_admin
-            target: domain.user.name
+            target: user.name
         payloads:
         - powerview.ps1
   singleton: True

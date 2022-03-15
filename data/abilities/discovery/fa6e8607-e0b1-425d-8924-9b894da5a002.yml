@@ -14,18 +14,18 @@
           date -u +"%Y-%m-%dT%H:%M:%SZ"
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.current.time
+            - source: host.current_time
     linux:
       sh:
         command: |
           date -u +"%Y-%m-%dT%H:%M:%SZ"
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.current.time
+            - source: host.current_time
     windows:
       psh:
         command: |
           Get-Date -UFormat '+%Y-%m-%dT%H:%M:%SZ'
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.current.time
+            - source: host.current_time

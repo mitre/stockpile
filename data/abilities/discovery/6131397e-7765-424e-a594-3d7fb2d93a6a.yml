@@ -13,11 +13,11 @@
           Get-NetDomain | ConvertTo-Json -Depth 1
         parsers:
           plugins.stockpile.app.parsers.json:
-          - source: domain.ad.forest
+          - source: network.ad.forest
             custom_parser_vals:
               json_key: Forest
               json_type: str
-          - source: domain.ad.name
+          - source: network.ad.name
             custom_parser_vals:
               json_key: Name
               json_type: str

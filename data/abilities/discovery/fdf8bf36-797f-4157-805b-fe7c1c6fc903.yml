@@ -11,4 +11,4 @@
     windows:
       psh:
         command: |
-          nbtstat -A #{remote.host.ip}
+          nbtstat -A #{host.ip}
