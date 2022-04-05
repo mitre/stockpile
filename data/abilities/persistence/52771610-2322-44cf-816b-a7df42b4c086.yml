@@ -14,14 +14,14 @@
     windows:
       psh:
         command: |
-          $s = Get-Service -Name #{host.service.modifiable};
+          $s = Get-Service -Name #{service.modifiable};
           if ($s.status -ne 'Stopped') { Stop-Service $s };
-          $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{host.service.modifiable}").ImagePath.split()[0];
+          $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{service.modifiable}").ImagePath.split()[0];
           $path = (Resolve-Path $exe).Path;
           Copy-Item -Path $path -Destination ($path + ".saved");
           Copy-Item -Path "C:\Windows\System32\snmptrap.exe" -Destination $path
         cleanup: |
-          $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{host.service.modifiable}").ImagePath.split()[0];
+          $exe = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\#{service.modifiable}").ImagePath.split()[0];
           $path = (Resolve-Path $exe).Path;
           If (Test-Path ($path + ".saved")) {
             Remove-Item $path;
@@ -29,4 +29,5 @@
           }
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.service.modifiable
+      - source: service.modifiable
+        edge: is_modifiable

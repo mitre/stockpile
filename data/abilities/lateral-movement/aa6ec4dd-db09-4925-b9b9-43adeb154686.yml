@@ -11,28 +11,28 @@
     windows:
       psh:
         command: |
-          net use \\#{remote.host.fqdn}\C$ /user:#{domain.user.name} #{domain.user.password}
+          net use \\#{host.fqdn}\C$ /user:#{user.name} #{user.password}
         cleanup: |
-          net use \\#{remote.host.fqdn}\C$ /delete
+          net use \\#{host.fqdn}\C$ /delete
         parsers:
           plugins.stockpile.app.parsers.share_mounted:
-            - source: remote.host.fqdn
+            - source: host.fqdn
               edge: has_share
   singleton: True
   requirements:
     - plugins.stockpile.app.requirements.not_exists:
-        - source: remote.host.fqdn
+        - source: host.fqdn
           edge: has_share
     - plugins.stockpile.app.requirements.basic:
-        - source: domain.user.name
+        - source: user.name
           edge: has_password
-          target: domain.user.password
+          target: user.password
     - plugins.stockpile.app.requirements.req_like:
-        - source: remote.host.fqdn
+        - source: host.fqdn
           edge: has_admin
-          target: domain.user.name
+          target: user.name
     - plugins.stockpile.app.requirements.reachable:
-        - source: remote.host.fqdn
+        - source: host.fqdn
           edge: isAccessibleFrom
     - plugins.stockpile.app.requirements.no_backwards_movement:
-        - source: remote.host.fqdn
+        - source: host.fqdn
