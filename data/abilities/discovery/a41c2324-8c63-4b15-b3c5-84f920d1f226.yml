@@ -8,13 +8,13 @@
   platforms:
     linux:
       sh:
-        command: 'find ~ -type f -name #{host.print.file} 2>/dev/null'
+        command: 'find ~ -type f -name #{file.path} 2>/dev/null'
         parsers:
           plugins.stockpile.app.parsers.basic:
-          - source: host.system.path
+          - source: file.path
     darwin:
       sh:
-        command: 'find ~ -type f -name #{host.print.file} 2>/dev/null'
+        command: 'find ~ -type f -name #{file.path} 2>/dev/null'
         parsers:
           plugins.stockpile.app.parsers.basic:
-          - source: host.system.path
+          - source: file.path

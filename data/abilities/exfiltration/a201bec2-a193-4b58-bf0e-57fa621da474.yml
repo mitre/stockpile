@@ -10,11 +10,11 @@
     linux:
       sh:
         command: |
-          GHUser="#{github.user.name}";
-          GHRepo="#{github.repository.name}";
-          GHPAT="#{github.access.token}";
-          GHBranch='#{github.repository.branch}';
-          LocalDirectory=#{host.dir.staged};
+          GHUser="#{custom.github_username}";
+          GHRepo="#{custom.github_repository}";
+          GHPAT="#{custom.github_token}";
+          GHBranch='#{custom.github_branch}';
+          LocalDirectory=#{file.staged_at};
           Header="Authorization: token $GHPAT";
 
           for file in $LocalDirectory/*.*; do
@@ -29,11 +29,11 @@
     windows:
       psh,pwsh:
         command: |
-          $GHUser = "#{github.user.name}";
-          $GHRepo = "#{github.repository.name}";
-          $GHPAT = "#{github.access.token}";
-          $GHBranch = '#{github.repository.branch}';
-          $LocalDirectory = "#{host.dir.staged}";
+          $GHUser = "#{custom.github_username}";
+          $GHRepo = "#{custom.github_repository}";
+          $GHPAT = "#{custom.github_token}";
+          $GHBranch = '#{custom.github_branch}';
+          $LocalDirectory = "#{file.staged_at}";
           $token = $GHUser + ":" + $GHPAT;
           $basetoken = [System.Convert]::ToBase64String([char[]]$token);
           $Headers = @{
@@ -62,4 +62,4 @@
           };
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-        - source: host.dir.staged
+        - source: file.staged_at

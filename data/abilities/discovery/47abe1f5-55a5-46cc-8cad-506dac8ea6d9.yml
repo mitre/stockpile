@@ -9,22 +9,22 @@
     darwin:
       sh:
         command: |
-          python3 scanner.py -i #{remote.host.ip}
+          python3 scanner.py -i #{host.ip}
         parsers:
           plugins.stockpile.app.parsers.scan:
-          - source: remote.host.ip
+          - source: host.ip
             edge: has_open_port
-            target: remote.host.port
+            target: port.number
         payloads:
         - scanner.py
     linux:
       sh:
         command: |
-          python3 scanner.py -i #{remote.host.ip}
+          python3 scanner.py -i #{host.ip}
         parsers:
           plugins.stockpile.app.parsers.scan:
-          - source: remote.host.ip
+          - source: host.ip
             edge: has_open_port
-            target: remote.host.port
+            target: port.number
         payloads:
         - scanner.py

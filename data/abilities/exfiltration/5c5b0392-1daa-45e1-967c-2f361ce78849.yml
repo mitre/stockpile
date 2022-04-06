@@ -14,24 +14,25 @@
     linux:
       sh:
         command: |
-          tar -C #{host.dir.staged} -czf - . | gpg -c --pinentry-mode=loopback --passphrase '#{host.archive.password}' > #{host.dir.staged}.tar.gz.gpg;
-          split -b#{file.size.chunk} '#{host.dir.staged}.tar.gz.gpg' '#{host.dir.staged}'/calderachunk;
-          rm '#{host.dir.staged}.tar.gz.gpg';
-          find '#{host.dir.staged}' -maxdepth 1 -name 'calderachunk*' 2>/dev/null;
+          tar -C #{file.staged_at} -czf - . | gpg -c --pinentry-mode=loopback --passphrase '#{custom.archive_password}' > #{file.staged_at}.tar.gz.gpg;
+          split -b#{custom.file_size_chunk} '#{file.staged_at}.tar.gz.gpg' '#{file.staged_at}'/calderachunk;
+          rm '#{file.staged_at}.tar.gz.gpg';
+          find '#{file.staged_at}' -maxdepth 1 -name 'calderachunk*' 2>/dev/null;
         cleanup: |
-          find '#{host.dir.staged}' -maxdepth 1 -name 'calderachunk*' -exec rm -rf {} \;
+          find '#{file.staged_at}' -maxdepth 1 -name 'calderachunk*' -exec rm -rf {} \;
         parsers:
           plugins.stockpile.app.parsers.basic:
-          - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
     windows:
       psh:
         command: |
-          & "C:\Program Files\7-Zip\7z.exe" a "#{host.dir.staged}.7z" "#{host.dir.staged}\*" '-p#{host.archive.password}' | Out-Null;
+          & "C:\Program Files\7-Zip\7z.exe" a "#{file.staged_at}.7z" "#{file.staged_at}\*" '-p#{custom.archive_password}' | Out-Null;
           sleep 2;
-          $Archive = Get-Item -Path "#{host.dir.staged}.7z";
-          $StageDir = "#{host.dir.staged}";
+          $Archive = Get-Item -Path "#{file.staged_at}.7z";
+          $StageDir = "#{file.staged_at}";
           $BaseName = $StageDir + "\calderachunk";
-          $UpperBound = [int32]"#{file.size.chunk}";
+          $UpperBound = [int32]"#{custom.file_size_chunk}";
           $Content = [IO.File]::OpenRead($Archive);
           $buff = New-Object byte[] $UpperBound;
           $Bytes = $idx = 0;
@@ -59,7 +60,11 @@
           Get-ChildItem -Path "$StageDir\calderachunk*" | Remove-Item;
         parsers:
           plugins.stockpile.app.parsers.basic:
-          - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
   requirements:
   - plugins.stockpile.app.requirements.paw_provenance:
-    - source: host.dir.staged
+    - source: file.staged_at
+  - plugins.stockpile.app.requirements.basic:
+      - source: file.staged_at
+        edge: is_compressed

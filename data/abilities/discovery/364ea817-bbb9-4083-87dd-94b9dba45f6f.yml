@@ -11,4 +11,4 @@
     windows:
       cmd,psh:
         command: |
-          net user #{domain.user.name} /domain
+          net user #{user.name} /domain

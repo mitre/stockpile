@@ -16,7 +16,7 @@
           $valid | ConvertTo-Json
         parsers:
           plugins.stockpile.app.parsers.json:
-            - source: host.process.id
+            - source: process.id
               custom_parser_vals:
                 json_key: Id
                 json_type: int

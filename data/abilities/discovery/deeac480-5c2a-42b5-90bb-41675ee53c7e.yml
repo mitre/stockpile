@@ -10,16 +10,16 @@
   platforms:
     windows:
       psh:
-        command: net view \\#{remote.host.fqdn} /all
+        command: net view \\#{host.fqdn} /all
         parsers:
           plugins.stockpile.app.parsers.net_view:
-          - source: remote.host.fqdn
+          - source: host.fqdn
             edge: has_share
-            target: remote.host.share
+            target: host.share
       cmd:
-        command: net view \\#{remote.host.fqdn} /all
+        command: net view \\#{host.fqdn} /all
         parsers:
           plugins.stockpile.app.parsers.net_view:
-          - source: remote.host.fqdn
+          - source: host.fqdn
             edge: has_share
-            target: remote.host.share
+            target: host.share

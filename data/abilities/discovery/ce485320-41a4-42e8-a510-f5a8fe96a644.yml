@@ -10,20 +10,20 @@
   platforms:
     linux:
       sh:
-        command: host "#{target.org.domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
+        command: host "#{custom.organization_domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: target.org.emailhost
+            - source: custom.organization_emailhost
     darwin:
       sh:
-        command: host "#{target.org.domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
+        command: host "#{custom.organization_domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: target.org.emailhost
+            - source: custom.organization_emailhost
     windows:
       psh:
         command: |
-          (nslookup -querytype=mx #{target.org.domain}. | Select-String -pattern 'mail' | Out-String).Trim()
+          (nslookup -querytype=mx #{custom.organization_domain}. | Select-String -pattern 'mail' | Out-String).Trim()
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: target.org.emailhost
+            - source: custom.organization_emailhost

@@ -11,14 +11,14 @@
         command: lpq -a
         parsers:
           plugins.stockpile.app.parsers.printer_queue:
-          - source: host.print.file
+          - source: file.name
             edge: has_size
-            target: host.print.size
+            target: file.size
     linux:
       sh:
         command: lpq -a
         parsers:
           plugins.stockpile.app.parsers.printer_queue:
-          - source: host.print.file
+          - source: file.name
             edge: has_size
-            target: host.print.size
+            target: file.size

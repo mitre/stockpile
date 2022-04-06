@@ -11,11 +11,11 @@
     darwin:
       sh:
         command: |
-          find / -type d -user #{host.user.name} \( -perm -g+w -or -perm -o+w \) 2>/dev/null -exec ls -adl {} \;
+          find / -type d -user #{user.name} \( -perm -g+w -or -perm -o+w \) 2>/dev/null -exec ls -adl {} \;
     linux:
       sh:
         command: |
-          find / -type d -user #{host.user.name} \( -perm -g+w -or -perm -o+w \) 2>/dev/null -exec ls -adl {} \;
+          find / -type d -user #{user.name} \( -perm -g+w -or -perm -o+w \) 2>/dev/null -exec ls -adl {} \;
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.user.name
+      - source: user.name

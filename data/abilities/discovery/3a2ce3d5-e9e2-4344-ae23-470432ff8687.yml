@@ -11,9 +11,9 @@
     darwin:
       sh:
         command: |
-          nmap -sV -p #{remote.host.port} #{remote.host.ip}
+          nmap -sV -p #{port.number} #{host.ip}
     linux:
       sh:
         command: |
-          nmap -sV -p #{remote.host.port} #{remote.host.ip}
+          nmap -sV -p #{port.number} #{host.ip}
 

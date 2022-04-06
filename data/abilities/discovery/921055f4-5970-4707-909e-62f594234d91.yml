@@ -11,12 +11,12 @@
     windows:
       psh:
         command: |
-          ping #{remote.host.fqdn}
+          ping #{host.fqdn}
         parsers:
           plugins.stockpile.app.parsers.firewallping:
-            - source: remote.host.fqdn
+            - source: host.fqdn
               edge: isAccessibleFrom
   requirements:
     - plugins.stockpile.app.requirements.not_exists:
-        - source: remote.host.fqdn
+        - source: host.fqdn
           edge: isAccessibleFrom

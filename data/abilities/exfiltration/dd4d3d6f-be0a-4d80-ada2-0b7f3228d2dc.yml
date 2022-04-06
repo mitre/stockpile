@@ -13,7 +13,10 @@
     linux,windows,darwin:
       native:
         command: |
-          s3upload "#{host.dir.compress}" "#{s3.source.region}" "#{s3.source.name}" "aws-#{paw}-compressed" 45s
+          s3upload "#{file.staged_at}" "#{custom.s3_region}" "#{custom.s3_name}" "aws-#{paw}-compressed" 45s
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.compress
+      - source: file.staged_at
+    - plugins.stockpile.app.requirements.basic:
+      - source: file.staged_at
+        edge: is_compressed
