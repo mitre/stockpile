@@ -9,7 +9,7 @@
     windows:
       psh:
         command: |
-          .\totallylegit.exe #{host.process.id} C:\Users\Public\creds.dmp
+          .\totallylegit.exe #{process.id} C:\Users\Public\creds.dmp
         payloads:
         - totallylegit.exe
         cleanup: |
@@ -18,4 +18,4 @@
           };
   requirements:
   - plugins.stockpile.app.requirements.paw_provenance:
-    - source: host.process.id
+    - source: process.id

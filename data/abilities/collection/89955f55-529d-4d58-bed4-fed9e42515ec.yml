@@ -11,8 +11,8 @@
     darwin:
       sh:
         command: |
-          curl #{remote.host.socket}
+          curl #{host.socket}
     linux:
       sh:
         command: |
-          curl #{remote.host.socket}
+          curl #{host.socket}

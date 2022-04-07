@@ -11,28 +11,28 @@
     darwin:
       sh:
         command: |
-          find /Users -name '*.#{file.sensitive.extension}' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
+          find /Users -name '*.#{file.is_sensitive}' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
+            - source: file.path
               edge: has_extension
-              target: file.sensitive.extension
+              target: file.is_sensitive
     windows:
       psh,pwsh:
         command: |
-          Get-ChildItem C:\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;
+          Get-ChildItem C:\Users -Recurse -Include *.#{file.is_sensitive} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;
           exit 0;
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
+            - source: file.path
               edge: has_extension
-              target: file.sensitive.extension
+              target: file.is_sensitive
     linux:
       sh:
         command: |
-          find / -name '*.#{file.sensitive.extension}' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
+          find / -name '*.#{file.is_sensitive}' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
+            - source: file.path
               edge: has_extension
-              target: file.sensitive.extension
+              target: file.is_sensitive

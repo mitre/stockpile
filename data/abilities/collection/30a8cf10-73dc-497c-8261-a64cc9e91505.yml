@@ -11,22 +11,24 @@
     linux:
       sh:
         command: |
-          tar -C #{host.dir.staged} -czf - . | gpg -c --pinentry-mode=loopback --passphrase #{host.archive.password} > #{host.dir.staged}.tar.gz.gpg && echo #{host.dir.staged}.tar.gz.gpg
+          tar -C #{file.dir} -czf - . | gpg -c --pinentry-mode=loopback --passphrase #{custom.archive_password} > #{file.dir}.tar.gz.gpg && echo #{file.dir}.tar.gz.gpg
         cleanup: |
-          rm #{host.dir.staged}.tar.gz.gpg
+          rm #{file.dir}.tar.gz.gpg
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
     windows:
       psh:
         command: |
-          & "C:\Program Files\7-Zip\7z.exe" a "#{host.dir.staged}.7z" "#{host.dir.staged}\*" "-p#{host.archive.password}" | Out-Null;
-          sleep 1; ls #{host.dir.staged}.7z | foreach {$_.FullName} | select
+          & "C:\Program Files\7-Zip\7z.exe" a "#{file.dir}.7z" "#{file.dir}\*" "-p#{custom.archive_password}" | Out-Null;
+          sleep 1; ls #{file.dir}.7z | foreach {$_.FullName} | select
         cleanup: |
-          rm #{host.dir.staged}.7z
+          rm #{file.dir}.7z
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.compress
+            - source: file.staged_at
+              edge: is_compressed
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.staged
+      - source: file.dir

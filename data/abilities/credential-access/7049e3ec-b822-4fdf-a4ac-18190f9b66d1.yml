@@ -14,14 +14,14 @@
           Invoke-Mimikatz -DumpCreds
         parsers:
           plugins.stockpile.app.parsers.katz:
-          - source: domain.user.name
+          - source: user.name
             edge: has_password
-            target: domain.user.password
-          - source: domain.user.name
+            target: user.password
+          - source: user.name
             edge: has_hash
-            target: domain.user.ntlm
-          - source: domain.user.name
+            target: user.ntlm_hash
+          - source: user.name
             edge: has_hash
-            target: domain.user.sha1
+            target: user.sha1_hash
         payloads:
         - invoke-mimi.ps1

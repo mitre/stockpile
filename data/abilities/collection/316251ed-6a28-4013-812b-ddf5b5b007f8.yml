@@ -16,7 +16,7 @@
           for i in {1..5}; do /bin/rm screen-$i.png; done;
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.screenshot.png
+            - source: file.is_screenshot
     windows:
       psh,pwsh:
         command: |
@@ -46,4 +46,4 @@
           };
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.screenshot.png
+            - source: file.is_screenshot

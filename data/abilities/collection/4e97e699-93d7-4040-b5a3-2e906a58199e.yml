@@ -11,20 +11,20 @@
     darwin:
       sh:
         command: |
-          cp "#{host.file.path[filters(technique=T1005,max=3)]}" #{host.dir.staged[filters(max=1)]}
+          cp "#{file.path[filters(technique=T1005,max=3)]}" #{file.dir[filters(max=1)]}
     linux:
       sh:
         command: |
-          cp "#{host.file.path[filters(technique=T1005,max=3)]}" #{host.dir.staged[filters(max=1)]}
+          cp "#{file.path[filters(technique=T1005,max=3)]}" #{file.dir[filters(max=1)]}
     windows:
       psh:
         command: |
-          Copy-Item #{host.file.path[filters(technique=T1005,max=3)]} #{host.dir.staged[filters(max=1)]}
+          Copy-Item #{file.path[filters(technique=T1005,max=3)]} #{file.dir[filters(max=1)]}
       cmd:
         command: |
-          copy #{host.file.path[filters(technique=T1005,max=3)]} #{host.dir.staged[filters(max=1)]}
+          copy #{file.path[filters(technique=T1005,max=3)]} #{file.dir[filters(max=1)]}
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.file.path
+      - source: file.path
     - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.dir.staged
+      - source: file.dir

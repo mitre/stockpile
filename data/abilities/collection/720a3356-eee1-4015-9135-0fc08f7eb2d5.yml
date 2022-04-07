@@ -14,11 +14,11 @@
           done;
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.git
+            - source: custom.git_dir
     windows:
       psh,pwsh:
         command: |
           Get-ChildItem C:\Users -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse | foreach {$_.parent.FullName} | Select-Object; exit 0;
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.dir.git
+            - source: custom.git_dir
