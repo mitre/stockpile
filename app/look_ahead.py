@@ -57,15 +57,15 @@ class LogicalPlanner:
         """
         self.operation = operation
         self.planning_svc = planning_svc
-        self.data_svc = planning_svc.get_service("data_svc")
+        self.data_svc = planning_svc.get_service('data_svc')
         self.ability_rewards = ability_rewards or {}
         self.depth = depth
         self.discount = discount
         self.default_reward = default_reward
         self.stopping_conditions = stopping_conditions
         self.stopping_condition_met = False
-        self.state_machine = ["look_ahead"]
-        self.next_bucket = "look_ahead"  # repeat this bucket until we run out of links
+        self.state_machine = ['look_ahead']
+        self.next_bucket = 'look_ahead'  # repeat this bucket until we run out of links
 
     async def execute(self):
         await self.planning_svc.execute_planner(self)
@@ -78,7 +78,7 @@ class LogicalPlanner:
             # that will be available to the agent to use
             ao = self.operation.adversary.atomic_ordering
             abilities = await self.data_svc.locate(
-                "abilities", match=dict(ability_id=tuple(ao))
+                'abilities', match=dict(ability_id=tuple(ao))
             )
             abilities = await agent.capabilities(abilities)
 
@@ -95,9 +95,7 @@ class LogicalPlanner:
                 ability_rewards.append(
                     (
                         ability.ability_id,
-                        await self._future_reward(
-                            agent, ability, abilities, 0
-                        ),
+                        await self._future_reward(agent, ability, abilities, 0),
                     )
                 )
 
@@ -149,9 +147,7 @@ class LogicalPlanner:
         )
         for ability in abilities_that_follow:
             future_rewards.append(
-                await self._future_reward(
-                    agent, ability, abilities, current_depth + 1
-                )
+                await self._future_reward(agent, ability, abilities, current_depth + 1)
             )
         reward = round(
             self.ability_rewards.get(current_ability.ability_id, self.default_reward)
@@ -176,7 +172,7 @@ class LogicalPlanner:
             for parser in current_executor.parsers
             for cfg in parser.parserconfigs
             for fact in [cfg.source, cfg.target]
-            if fact is not None and fact != ""
+            if fact is not None and fact != ''
         ]
         next_abilities = []
         for ability in abilities:

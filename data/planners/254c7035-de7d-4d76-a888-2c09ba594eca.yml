@@ -8,7 +8,7 @@ description: |
   parameter, and a discount factor.  The depth parameter effectively controls
   the "look-ahead" for the planner as it's scoring each action, and the
   discount factor controls how the planner weighs future rewards.
-module: plugins.research.app.look_ahead
+module: plugins.stockpile.app.look_ahead
 params:
   ability_rewards:
     4e97e699-93d7-4040-b5a3-2e906a58199e: 5 # stage files
