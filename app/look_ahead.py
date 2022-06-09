@@ -71,25 +71,19 @@ class LogicalPlanner:
         await self.planning_svc.execute_planner(self)
 
     async def look_ahead(self):
-        # get highest scoring link over all agents
+        # Get highest scoring link over all agents
         agent_link_rewards = []
         for agent in self.operation.agents:
-            # Step 1: We need to grab the full set of abilities
-            # that will be available to the agent to use
             ao = self.operation.adversary.atomic_ordering
             abilities = await self.data_svc.locate(
                 'abilities', match=dict(ability_id=tuple(ao))
             )
             abilities = await agent.capabilities(abilities)
 
-            # Step 2: Now get set of candidate links we will actually
-            # select a link from to execute
             cand_links = await self.planning_svc.get_links(
                 self.operation, agent=agent, trim=True
             )
 
-            # Step 3: Calculate rewards for each ability/executor (and
-            # all their future possible ability/action permutations)
             ability_rewards = []
             for ability in abilities:
                 ability_rewards.append(
@@ -99,9 +93,6 @@ class LogicalPlanner:
                     )
                 )
 
-            # Step 4: Select link whose ability/executor has the
-            # highest reward, given the link/ability is executable (e.g.
-            # doesn't have missing facts)
             next_link_and_reward = None
             ability_rewards = sorted(ability_rewards, key=lambda r: r[1], reverse=True)
             for ability_reward in ability_rewards:
@@ -117,7 +108,7 @@ class LogicalPlanner:
             if next_link_and_reward:
                 agent_link_rewards.append(next_link_and_reward)
 
-        # Now we have the highest scored link for each agent,
+        # Now we have the highest scoring link for each agent,
         # select the link with the highest score from all the
         # agents and push to agent
         if agent_link_rewards:
@@ -127,7 +118,6 @@ class LogicalPlanner:
             link_id = await self.operation.apply(agent_link_rewards[0][0])
             await self.operation.wait_for_links_completion([link_id])
         else:
-            # No more links to run
             self.next_bucket = None
 
     async def _future_reward(self, agent, current_ability, abilities, current_depth):
