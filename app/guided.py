@@ -12,7 +12,7 @@ from app.objects.c_agent import Agent
 from app.objects.secondclass.c_goal import Goal
 
 
-FACT_REGEX = r'#{(.*?)}'
+FACT_REGEX = r'(?<=\{).+?(?=\[)'
 EXHAUSTION_KEY = 'exhaustion'
 
 DEFAULT_HALF_LIFE_PENALTY=4
