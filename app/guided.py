@@ -12,7 +12,8 @@ from app.objects.c_agent import Agent
 from app.objects.secondclass.c_goal import Goal
 
 
-FACT_REGEX = r'(?<=\{).+?(?=\[)'
+NONLIMITED_FACT_REGEX = r'#{(.*?)}'
+LIMITED_FACT_REGEX = r'(.*?)\['
 EXHAUSTION_KEY = 'exhaustion'
 
 DEFAULT_HALF_LIFE_PENALTY=4
@@ -140,6 +141,8 @@ class LogicalPlanner:
         else:
             planner_goals = goals[:]
 
+        await self._show_attack_graph(attack_graph) # TODO: Remove before merging, just for debug purposes
+
         absolute_distance_table = await self._build_distance_table(attack_graph, goals=planner_goals)
         effective_distance_table = copy.deepcopy(absolute_distance_table)
 
@@ -200,10 +203,17 @@ class LogicalPlanner:
         """
         Adds input facts to a directed graph based on the facts present in a command template.
         """
-        executor = await agent.get_preferred_executor(ability)
-        for fact in re.findall(FACT_REGEX, executor.test, flags=re.DOTALL):
+        def add_to_graph(fact):
             if fact not in list(Agent.RESERVED):
                 graph.add_edge(fact, ability)
+
+        executor = await agent.get_preferred_executor(ability)
+        for fact in re.findall(NONLIMITED_FACT_REGEX, executor.test, flags=re.DOTALL):
+            nonlimited = re.search(LIMITED_FACT_REGEX, fact)
+            if nonlimited:
+                add_to_graph(nonlimited.group(0)[:-1])
+            else:
+                add_to_graph(fact)
         return graph
 
     async def _create_terminal_goals(self, attack_graph):
@@ -386,3 +396,29 @@ class LogicalPlanner:
             if not goal_found and len(current_goals) > 0:
                 remaining_goals.append(goal)
         return remaining_goals
+
+    async def _show_attack_graph(self, g):
+        """DEBUG function -
+        convert graph to human readable/useful nodes and pop-up window
+
+        WARN: matplotlib will create a deluge of debug messages.
+        """
+        from pathlib import Path
+        import matplotlib.pyplot as plt
+        PDF_FILE = Path.home().joinpath('guided_attack_graph.pdf')
+        g_c = nx.DiGraph()
+        for e in g.edges:
+            s, t = e
+            if not isinstance(s, str):
+                s = '{}:{}'.format(s.ability_id[:7] + "..", s.name)
+            if not isinstance(e[1], str):
+                t = '{}:{}'.format(t.ability_id[:7] + "..", t.name)
+            g_c.add_edge(s, t)
+        pos = nx.spring_layout(g_c, k=0.60, iterations=30)
+        nx.draw(g_c,
+                pos=pos,
+                with_labels=True,
+                node_color='red',
+                edge_color='black',
+                font_weight='bold')
+        plt.savefig(PDF_FILE)
