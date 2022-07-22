@@ -1,14 +1,30 @@
----
-
-- id: b6b105b9-41dc-490b-bc5c-80d699b82ce8
-  name: Find OS Version
+- name: Find OS Version
+  executors:
+  - payloads: []
+    parsers: []
+    cleanup: []
+    name: psh
+    code: null
+    language: null
+    variations: []
+    timeout: 60
+    command: '[environment]::OSVersion.Version'
+    additional_info: {}
+    platform: windows
+    uploads: []
+    build_target: null
+  delete_payload: true
+  buckets:
+  - discovery
+  repeatable: false
+  requirements: []
+  access: {}
+  plugin: stockpile
+  technique_id: T1082
+  privilege: ''
+  additional_info: {}
+  singleton: false
   description: Find OS Version
+  technique_name: System Information Discovery
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      psh:
-        command: |
-          [environment]::OSVersion.Version
+  id: b6b105b9-41dc-490b-bc5c-80d699b82ce8

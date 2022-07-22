@@ -1,0 +1,239 @@
+{
+    "id": "55e7d03c-71f0-40b2-a863-3e06b193c249",
+    "relationships": [],
+    "command": "R2V0LUNoaWxkSXRlbSBDOlxVc2VycyAtUmVjdXJzZSAtSW5jbHVkZSAqLnBuZyAtRXJyb3JBY3Rpb24gJ1NpbGVudGx5Q29udGludWUnIHwgZm9yZWFjaCB7JF8uRnVsbE5hbWV9IHwgU2VsZWN0LU9iamVjdCAtZmlyc3QgNTtleGl0IDA7",
+    "output": "True",
+    "cleanup": 0,
+    "used": [
+        {
+            "origin_type": "SEEDED",
+            "relationships": [
+                "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/fact_relationships.png) : has_extension : file.sensitive.extension(png)",
+                "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/debrief_attack_path.png) : has_extension : file.sensitive.extension(png)",
+                "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/privileged_persistence_state_machine.png) : has_extension : file.sensitive.extension(png)",
+                "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/plus.png) : has_extension : file.sensitive.extension(png)",
+                "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/file.png) : has_extension : file.sensitive.extension(png)"
+            ],
+            "unique": "file.sensitive.extensionpng",
+            "limit_count": -1,
+            "score": 176,
+            "name": "file.sensitive.extension",
+            "collected_by": [],
+            "created": "2022-06-16T19:02:02Z",
+            "technique_id": null,
+            "value": "png",
+            "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+            "trait": "file.sensitive.extension",
+            "links": [
+                "bfcc316f-5292-410f-bb4b-4733d194bf74",
+                "6b28bde7-d2f3-436a-abfc-c3314cccd652",
+                "843ef2f2-76c3-4e1c-8d43-a15835165ec6",
+                "79868d22-719d-435b-8eaf-eef5ebcda05f",
+                "e553eab8-cd29-4a2b-a1f1-1867d2a9e8e4",
+                "143e3548-cec4-40e7-a615-7bb466ae9ed3",
+                "ee5e9c12-9a36-492d-a6ad-01020ad33ad2",
+                "e3757f2d-ae51-472f-9c49-ee1c3160a340",
+                "5163a5a3-7ebd-46be-adc3-a7342de4d3a8",
+                "dd6e62b7-4b8d-4f2a-af6e-a23c69adf9e2",
+                "72ed7673-9abc-4d6c-ba8a-e55d69a1355c",
+                "4895bf32-7934-442c-a750-13b4632325e3",
+                "0065f508-b58b-4dbb-a10f-244445fdb21f",
+                "9f5441c6-aaf6-46b2-a29d-ee289f4f6f39",
+                "23cf095f-3cf9-425a-a2b8-b4f7df7d7ef2",
+                "d22fb48a-9d01-42c1-ab8d-53c096ecc634",
+                "634cf198-94d5-40a7-82f4-97a174df4012",
+                "00ee87fd-120f-4df7-81f9-46901315b908",
+                "e9971378-b3ea-4f0c-9567-5140418d6b56",
+                "b0f75deb-1371-46e2-875d-120156612a70",
+                "57f82ac3-a259-427c-b306-1bbc7f377f0f",
+                "04943034-8820-464b-8592-cb4ad52af4d7",
+                "9f2623b9-8b3a-4805-a988-35593adf66dd",
+                "dc1a1a70-6337-4cb6-8984-b829d36921df",
+                "53048d34-31c5-4013-bb80-2a377d0fbae3",
+                "c03d3788-6084-4cc4-9763-88d7da4721f3",
+                "8e52cb2c-4b83-4ae1-a81c-007f8a1be957",
+                "e62a8249-ec1b-450f-a805-4745bb21e42c",
+                "451a313e-aac3-45e1-815d-d4893ee0d257",
+                "5cd23bf9-29fb-4770-91d9-a064c9d77dbd",
+                "8d58a5fd-8b99-4559-b6f5-98f9d2bcf034",
+                "a86c897a-28ab-490f-9d10-3561791b249c",
+                "040621fd-27ed-4b2b-a3ab-6936cd135e3e",
+                "3d840c6b-8d09-45c1-99e2-d2372412e8ea",
+                "2d833b33-b6fd-42f9-87be-d3222f20ab18"
+            ]
+        }
+    ],
+    "visibility": {
+        "adjustments": [],
+        "score": 50
+    },
+    "facts": [],
+    "status": 0,
+    "executor": {
+        "additional_info": {},
+        "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+        "uploads": [],
+        "variations": [],
+        "timeout": 60,
+        "cleanup": [],
+        "language": null,
+        "name": "psh",
+        "platform": "windows",
+        "parsers": [
+            {
+                "module": "plugins.stockpile.app.parsers.basic",
+                "parserconfigs": [
+                    {
+                        "custom_parser_vals": {},
+                        "target": "file.sensitive.extension",
+                        "edge": "has_extension",
+                        "source": "host.file.path"
+                    }
+                ]
+            }
+        ],
+        "code": null,
+        "build_target": null,
+        "payloads": []
+    },
+    "deadman": false,
+    "ability": {
+        "delete_payload": true,
+        "singleton": false,
+        "executors": [
+            {
+                "additional_info": {},
+                "command": "find /Users -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                "uploads": [],
+                "variations": [],
+                "timeout": 60,
+                "cleanup": [],
+                "language": null,
+                "name": "sh",
+                "platform": "darwin",
+                "parsers": [
+                    {
+                        "module": "plugins.stockpile.app.parsers.basic",
+                        "parserconfigs": [
+                            {
+                                "custom_parser_vals": {},
+                                "target": "file.sensitive.extension",
+                                "edge": "has_extension",
+                                "source": "host.file.path"
+                            }
+                        ]
+                    }
+                ],
+                "code": null,
+                "build_target": null,
+                "payloads": []
+            },
+            {
+                "additional_info": {},
+                "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                "uploads": [],
+                "variations": [],
+                "timeout": 60,
+                "cleanup": [],
+                "language": null,
+                "name": "psh",
+                "platform": "windows",
+                "parsers": [
+                    {
+                        "module": "plugins.stockpile.app.parsers.basic",
+                        "parserconfigs": [
+                            {
+                                "custom_parser_vals": {},
+                                "target": "file.sensitive.extension",
+                                "edge": "has_extension",
+                                "source": "host.file.path"
+                            }
+                        ]
+                    }
+                ],
+                "code": null,
+                "build_target": null,
+                "payloads": []
+            },
+            {
+                "additional_info": {},
+                "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                "uploads": [],
+                "variations": [],
+                "timeout": 60,
+                "cleanup": [],
+                "language": null,
+                "name": "pwsh",
+                "platform": "windows",
+                "parsers": [
+                    {
+                        "module": "plugins.stockpile.app.parsers.basic",
+                        "parserconfigs": [
+                            {
+                                "custom_parser_vals": {},
+                                "target": "file.sensitive.extension",
+                                "edge": "has_extension",
+                                "source": "host.file.path"
+                            }
+                        ]
+                    }
+                ],
+                "code": null,
+                "build_target": null,
+                "payloads": []
+            },
+            {
+                "additional_info": {},
+                "command": "find / -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                "uploads": [],
+                "variations": [],
+                "timeout": 60,
+                "cleanup": [],
+                "language": null,
+                "name": "sh",
+                "platform": "linux",
+                "parsers": [
+                    {
+                        "module": "plugins.stockpile.app.parsers.basic",
+                        "parserconfigs": [
+                            {
+                                "custom_parser_vals": {},
+                                "target": "file.sensitive.extension",
+                                "edge": "has_extension",
+                                "source": "host.file.path"
+                            }
+                        ]
+                    }
+                ],
+                "code": null,
+                "build_target": null,
+                "payloads": []
+            }
+        ],
+        "additional_info": {},
+        "technique_name": "Data from Local System",
+        "plugin": "stockpile",
+        "tactic": "collection",
+        "requirements": [],
+        "description": "Locate files deemed sensitive",
+        "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+        "name": "Find files",
+        "privilege": null,
+        "technique_id": "T1005",
+        "buckets": [
+            "collection"
+        ],
+        "repeatable": false,
+        "access": {}
+    },
+    "finish": "2022-06-23T01:58:36Z",
+    "unique": "55e7d03c-71f0-40b2-a863-3e06b193c249",
+    "score": 176,
+    "collect": "2022-06-23T01:58:35Z",
+    "pin": 0,
+    "host": "WIN-MVUTD1RTK1F",
+    "paw": "jbsgbd",
+    "pid": "0",
+    "decide": "2022-06-23T01:58:15Z",
+    "agent_reported_time": "2022-06-23T01:58:35Z"
+}

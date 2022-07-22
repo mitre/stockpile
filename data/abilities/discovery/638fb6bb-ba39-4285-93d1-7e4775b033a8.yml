@@ -1,22 +1,58 @@
----
-- id: 638fb6bb-ba39-4285-93d1-7e4775b033a8
-  name: Find System Network Connections
+- name: Find System Network Connections
+  executors:
+  - payloads: []
+    parsers: []
+    cleanup: []
+    name: sh
+    code: null
+    language: null
+    variations: []
+    timeout: 60
+    command: netstat -anto
+    additional_info: {}
+    platform: darwin
+    uploads: []
+    build_target: null
+  - payloads: []
+    parsers: []
+    cleanup: []
+    name: sh
+    code: null
+    language: null
+    variations: []
+    timeout: 60
+    command: netstat -anto
+    additional_info: {}
+    platform: linux
+    uploads: []
+    build_target: null
+  - payloads: []
+    parsers: []
+    cleanup: []
+    name: psh
+    code: null
+    language: null
+    variations: []
+    timeout: 60
+    command: 'netstat -anto;
+
+      Get-NetTCPConnection'
+    additional_info: {}
+    platform: windows
+    uploads: []
+    build_target: null
+  delete_payload: true
+  buckets:
+  - discovery
+  repeatable: false
+  requirements: []
+  access: {}
+  plugin: stockpile
+  technique_id: T1049
+  privilege: ''
+  additional_info: {}
+  singleton: false
   description: Find System Network Connections
+  technique_name: System Network Connections Discovery
   tactic: discovery
-  technique:
-    attack_id: T1049
-    name: System Network Connections Discovery
-  platforms:
-    darwin:
-      sh:
-        command: |
-          netstat -anto
-    linux:
-      sh:
-        command: |
-          netstat -anto
-    windows:
-      psh:
-        command: |
-          netstat -anto;
-          Get-NetTCPConnection
+  id: 638fb6bb-ba39-4285-93d1-7e4775b033a8

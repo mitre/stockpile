@@ -1,0 +1,59 @@
+{'unique': '11655ee4-6ed9-4350-84bf-e079cf2f4b40', 'host': 'WIN-MVUTD1RTK1F', 'finish': '2022-06-23T01: 14: 22Z', 'decide': '2022-06-23T01: 14: 11Z', 'ability': {'name': 'Create staging directory', 'technique_name': 'Data Staged: Local Data Staging', 'description': 'create a directory for exfil staging', 'executors': [
+            {'name': 'sh', 'parsers': [
+                    {'module': 'plugins.stockpile.app.parsers.basic', 'parserconfigs': [
+                            {'target': '', 'source': 'host.dir.staged', 'custom_parser_vals': {}, 'edge': ''
+                            }
+                        ]
+                    }
+                ], 'platform': 'darwin', 'timeout': 60, 'uploads': [], 'variations': [], 'code': None, 'command': 'mkdir -p staged && echo $PWD/staged', 'payloads': [], 'build_target': None, 'additional_info': {}, 'cleanup': ['rm -rf staged'
+                ], 'language': None
+            },
+            {'name': 'sh', 'parsers': [
+                    {'module': 'plugins.stockpile.app.parsers.basic', 'parserconfigs': [
+                            {'target': '', 'source': 'host.dir.staged', 'custom_parser_vals': {}, 'edge': ''
+                            }
+                        ]
+                    }
+                ], 'platform': 'linux', 'timeout': 60, 'uploads': [], 'variations': [], 'code': None, 'command': 'mkdir -p staged && echo $PWD/staged', 'payloads': [], 'build_target': None, 'additional_info': {}, 'cleanup': ['rm -rf staged'
+                ], 'language': None
+            },
+            {'name': 'psh', 'parsers': [
+                    {'module': 'plugins.stockpile.app.parsers.basic', 'parserconfigs': [
+                            {'target': '', 'source': 'host.dir.staged', 'custom_parser_vals': {}, 'edge': ''
+                            }
+                        ]
+                    }
+                ], 'platform': 'windows', 'timeout': 60, 'uploads': [], 'variations': [], 'code': None, 'command': 'New-Item -Path "." -Name "staged" -ItemType "directory" -Force | foreach {$_.FullName
+                } | Select-Object', 'payloads': [], 'build_target': None, 'additional_info': {}, 'cleanup': ['Remove-Item -Path "staged" -recurse'
+                ], 'language': None
+            },
+            {'name': 'pwsh', 'parsers': [
+                    {'module': 'plugins.stockpile.app.parsers.basic', 'parserconfigs': [
+                            {'target': '', 'source': 'host.dir.staged', 'custom_parser_vals': {}, 'edge': ''
+                            }
+                        ]
+                    }
+                ], 'platform': 'windows', 'timeout': 60, 'uploads': [], 'variations': [], 'code': None, 'command': 'New-Item -Path "." -Name "staged" -ItemType "directory" -Force | foreach {$_.FullName
+                } | Select-Object', 'payloads': [], 'build_target': None, 'additional_info': {}, 'cleanup': ['Remove-Item -Path "staged" -recurse'
+                ], 'language': None
+            }
+        ], 'requirements': [], 'delete_payload': True, 'access': {}, 'singleton': False, 'repeatable': False, 'tactic': 'collection', 'additional_info': {}, 'plugin': 'stockpile', 'technique_id': 'T1074.001', 'buckets': ['collection'
+        ], 'ability_id': '6469befa-748a-4b9c-a96d-f191fde47d89', 'privilege': None
+    }, 'agent_reported_time': '2022-06-23T01: 14: 21Z', 'command': 'TmV3LUl0ZW0gLVBhdGggIi4iIC1OYW1lICJzdGFnZWQiIC1JdGVtVHlwZSAiZGlyZWN0b3J5IiAtRm9yY2UgfCBmb3JlYWNoIHskXy5GdWxsTmFtZX0gfCBTZWxlY3QtT2JqZWN0', 'status': 0, 'output': 'True', 'deadman': False, 'cleanup': 0, 'pid': '3916', 'paw': 'dhpwoi', 'score': 0, 'relationships': [], 'pin': 0, 'used': [], 'facts': [
+        {'score': 1, 'unique': 'host.dir.stagedC:\\Users\\KUSUBYAN\\staged', 'created': '2022-06-23T01: 14: 22Z', 'name': 'host.dir.staged', 'origin_type': 'LEARNED', 'relationships': ['host.dir.staged(C:\\Users\\KUSUBYAN\\staged)'
+            ], 'links': ['11655ee4-6ed9-4350-84bf-e079cf2f4b40'
+            ], 'limit_count': -1, 'source': 'c65a8e34-f07b-4aa3-bd51-28dd7f21f601', 'trait': 'host.dir.staged', 'technique_id': 'T1074.001', 'value': 'C:\\Users\\KUSUBYAN\\staged', 'collected_by': ['dhpwoi'
+            ]
+        }
+    ], 'executor': {'name': 'psh', 'parsers': [
+            {'module': 'plugins.stockpile.app.parsers.basic', 'parserconfigs': [
+                    {'target': '', 'source': 'host.dir.staged', 'custom_parser_vals': {}, 'edge': ''
+                    }
+                ]
+            }
+        ], 'platform': 'windows', 'timeout': 60, 'uploads': [], 'variations': [], 'code': None, 'command': 'New-Item -Path "." -Name "staged" -ItemType "directory" -Force | foreach {$_.FullName
+        } | Select-Object', 'payloads': [], 'build_target': None, 'additional_info': {}, 'cleanup': ['Remove-Item -Path "staged" -recurse'
+        ], 'language': None
+    }, 'id': '11655ee4-6ed9-4350-84bf-e079cf2f4b40', 'collect': '2022-06-23T01: 14: 21Z', 'visibility': {'score': 50, 'adjustments': []
+    }
+}

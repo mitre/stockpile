@@ -1,21 +1,56 @@
----
-
-- id: 43b3754c-def4-4699-a673-1d85648fda6a
+- additional_info: {}
+  buckets:
+  - defense-evasion
   name: Avoid logs
+  requirements: []
+  privilege: ''
+  singleton: false
   description: Stop terminal from logging history
+  technique_name: 'Indicator Removal on Host: Clear Command History'
   tactic: defense-evasion
-  technique:
-    attack_id: T1070.003
-    name: "Indicator Removal on Host: Clear Command History"
-  platforms:
-    darwin:
-      sh:
-        command: |
-          > $HOME/.bash_history && unset HISTFILE
-    linux:
-      sh:
-        command: |
-          > $HOME/.bash_history && unset HISTFILE
-    windows:
-      psh:
-        command: Clear-History;Clear
+  delete_payload: true
+  access: {}
+  plugin: stockpile
+  repeatable: false
+  executors:
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: sh
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers: []
+    platform: darwin
+    cleanup: []
+    payloads: []
+    command: '> $HOME/.bash_history && unset HISTFILE'
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: sh
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers: []
+    platform: linux
+    cleanup: []
+    payloads: []
+    command: '> $HOME/.bash_history && unset HISTFILE'
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: psh
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers: []
+    platform: windows
+    cleanup: []
+    payloads: []
+    command: Clear-History;Clear
+  technique_id: T1070.003
+  id: 43b3754c-def4-4699-a673-1d85648fda6a

@@ -1,0 +1,1552 @@
+[
+    {
+        "id": "5ba504e4-9fc3-4e43-abc9-b0a3737ffd56",
+        "relationships": [],
+        "command": "TmV3LUl0ZW0gLVBhdGggIi4iIC1OYW1lICJzdGFnZWQiIC1JdGVtVHlwZSAiZGlyZWN0b3J5IiAtRm9yY2UgfCBmb3JlYWNoIHskXy5GdWxsTmFtZX0gfCBTZWxlY3QtT2JqZWN0",
+        "output": "True",
+        "cleanup": 0,
+        "used": [],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [
+            {
+                "origin_type": "LEARNED",
+                "relationships": [
+                    "host.dir.staged(C:\\Users\\KUSUBYAN\\staged)"
+                ],
+                "unique": "host.dir.stagedC:\\Users\\KUSUBYAN\\staged",
+                "limit_count": -1,
+                "score": 1,
+                "name": "host.dir.staged",
+                "collected_by": [
+                    "jbsgbd"
+                ],
+                "created": "2022-06-23T01:57:33Z",
+                "technique_id": "T1074.001",
+                "value": "C:\\Users\\KUSUBYAN\\staged",
+                "source": "2615cff6-989b-46f6-afba-912c2c6c349f",
+                "trait": "host.dir.staged",
+                "links": [
+                    "5ba504e4-9fc3-4e43-abc9-b0a3737ffd56"
+                ]
+            }
+        ],
+        "status": 0,
+        "executor": {
+            "additional_info": {},
+            "command": "New-Item -Path \".\" -Name \"staged\" -ItemType \"directory\" -Force | foreach {$_.FullName} | Select-Object",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [
+                "Remove-Item -Path \"staged\" -recurse"
+            ],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "",
+                            "edge": "",
+                            "source": "host.dir.staged"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "mkdir -p staged && echo $PWD/staged",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm -rf staged"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "mkdir -p staged && echo $PWD/staged",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm -rf staged"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "New-Item -Path \".\" -Name \"staged\" -ItemType \"directory\" -Force | foreach {$_.FullName} | Select-Object",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "Remove-Item -Path \"staged\" -recurse"
+                    ],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "New-Item -Path \".\" -Name \"staged\" -ItemType \"directory\" -Force | foreach {$_.FullName} | Select-Object",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "Remove-Item -Path \"staged\" -recurse"
+                    ],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Data Staged: Local Data Staging",
+            "plugin": "stockpile",
+            "tactic": "collection",
+            "requirements": [],
+            "description": "create a directory for exfil staging",
+            "ability_id": "6469befa-748a-4b9c-a96d-f191fde47d89",
+            "name": "Create staging directory",
+            "privilege": null,
+            "technique_id": "T1074.001",
+            "buckets": [
+                "collection"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:57:33Z",
+        "unique": "5ba504e4-9fc3-4e43-abc9-b0a3737ffd56",
+        "score": 0,
+        "collect": "2022-06-23T01:57:32Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:57:20Z",
+        "agent_reported_time": "2022-06-23T01:57:32Z"
+    },
+    {
+        "id": "57438596-7bc9-4d19-87a3-7470387654a4",
+        "relationships": [],
+        "command": "R2V0LUNoaWxkSXRlbSBDOlxVc2VycyAtUmVjdXJzZSAtSW5jbHVkZSAqLndhdiAtRXJyb3JBY3Rpb24gJ1NpbGVudGx5Q29udGludWUnIHwgZm9yZWFjaCB7JF8uRnVsbE5hbWV9IHwgU2VsZWN0LU9iamVjdCAtZmlyc3QgNTtleGl0IDA7",
+        "output": "True",
+        "cleanup": 0,
+        "used": [
+            {
+                "origin_type": "SEEDED",
+                "relationships": [
+                    "host.file.path(/usr/share/sounds/sound-icons/cembalo-10.wav) : has_extension : file.sensitive.extension(wav)",
+                    "host.file.path(/usr/share/sounds/sound-icons/cembalo-12.wav) : has_extension : file.sensitive.extension(wav)",
+                    "host.file.path(/usr/share/sounds/sound-icons/gummy-cat-2.wav) : has_extension : file.sensitive.extension(wav)",
+                    "host.file.path(/usr/share/sounds/sound-icons/glass-water-1.wav) : has_extension : file.sensitive.extension(wav)",
+                    "host.file.path(/usr/share/sounds/sound-icons/trumpet-1.wav) : has_extension : file.sensitive.extension(wav)"
+                ],
+                "unique": "file.sensitive.extensionwav",
+                "limit_count": -1,
+                "score": 156,
+                "name": "file.sensitive.extension",
+                "collected_by": [],
+                "created": "2022-06-16T19:02:02Z",
+                "technique_id": null,
+                "value": "wav",
+                "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+                "trait": "file.sensitive.extension",
+                "links": [
+                    "fe00bc0e-9988-4dfe-b5b3-30c42ae49137",
+                    "8f495596-6f2c-4614-bc3a-72d4b094e93b",
+                    "a5a2e4dc-0f7e-4176-8113-c01c7f5b09f2",
+                    "54ee6456-7b8c-41ce-9fd8-52c39b4c9ea7",
+                    "b34a242e-f996-404c-8381-11b3849b0c3f",
+                    "f71ba327-c5ad-4f2d-804d-0af7a6e23a50",
+                    "d784404d-9ee0-4e53-9123-b1e578c01d7c",
+                    "631e10c2-fd93-44cd-bdb7-e617a8ae9cbd",
+                    "38dbb458-450b-44ad-a520-9cae539c2892",
+                    "a05351c2-0b21-4f71-843c-2212ea7dc71e",
+                    "556cb7b4-94e3-40a2-a8b5-02794c3a1744",
+                    "ae37c457-ebf6-468d-b39b-9c84f46c0ead",
+                    "6ab7291f-ea2b-49de-a657-df73b5b4403f",
+                    "1fd52005-b631-4089-9dc2-fc4fb03df1a2",
+                    "800571aa-423d-4153-ac08-76a98a9fdf2b",
+                    "f6e3bc7f-4080-4148-a52c-3bb4f0fbed88",
+                    "e1b4489c-0efc-4db3-979c-d8e2353b05a3",
+                    "94db7132-1156-4b66-9564-5e46b1124b77",
+                    "e0d9fb35-fb3e-4826-9753-236d35c9e42d",
+                    "cef0e394-1228-4369-b828-496e7d87cca4",
+                    "b8e67731-213d-41df-8984-361deb792709",
+                    "628e4fd9-6973-4cb9-88cd-cd997d9c4696",
+                    "36a1057b-9ed7-4e56-ba13-605f220b719b",
+                    "104ea908-3cc5-4a92-838a-ee721d475b3e",
+                    "aebce8c3-d237-484c-b6b1-94022d254a1c",
+                    "77e3ba27-67da-4fd9-b4bf-47fd3671be7f",
+                    "3d6967f6-bc9f-4789-951c-a4cad1597b7e",
+                    "d3108223-9492-490a-9080-c744db937fcc",
+                    "2c19dfcb-219c-426a-9b50-fde09817836e",
+                    "6482c25a-7e2f-4637-96cf-314962177f50",
+                    "8956eef1-700e-4a36-b876-be21bcd8efb1"
+                ]
+            }
+        ],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [],
+        "status": 0,
+        "executor": {
+            "additional_info": {},
+            "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "file.sensitive.extension",
+                            "edge": "has_extension",
+                            "source": "host.file.path"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "find /Users -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "find / -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Data from Local System",
+            "plugin": "stockpile",
+            "tactic": "collection",
+            "requirements": [],
+            "description": "Locate files deemed sensitive",
+            "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+            "name": "Find files",
+            "privilege": null,
+            "technique_id": "T1005",
+            "buckets": [
+                "collection"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:57:54Z",
+        "unique": "57438596-7bc9-4d19-87a3-7470387654a4",
+        "score": 156,
+        "collect": "2022-06-23T01:57:53Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:57:35Z",
+        "agent_reported_time": "2022-06-23T01:57:53Z"
+    },
+    {
+        "id": "62236e8f-b23d-4726-a6e8-f6c6d560d2f9",
+        "relationships": [],
+        "command": "R2V0LUNoaWxkSXRlbSBDOlxVc2VycyAtUmVjdXJzZSAtSW5jbHVkZSAqLnltbCAtRXJyb3JBY3Rpb24gJ1NpbGVudGx5Q29udGludWUnIHwgZm9yZWFjaCB7JF8uRnVsbE5hbWV9IHwgU2VsZWN0LU9iamVjdCAtZmlyc3QgNTtleGl0IDA7",
+        "output": "True",
+        "cleanup": 0,
+        "used": [
+            {
+                "origin_type": "SEEDED",
+                "relationships": [
+                    "host.file.path(/home/kusubyan/dev/caldera/data/abilities/discovery/4a40e448-7a28-45d8-a696-04f34df31764.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/adversaries/d3dda044-6f77-4faa-9781-02b04128c77c.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/docker-compose.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/gameboard/data/abilities/verification/4a9b51ba-1a0d-4128-a040-5535fd147dc3.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/gameboard/data/abilities/verification/0df4d46e-e202-4b29-9a19-c2540982002d.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/55301515-9315-4a5c-ac37-b1b7ae165c45.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/7c801865-b5a8-4873-8c30-6ee1f1733be4.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/fd283941-55ac-4f53-a90f-e6a09ea241db.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/69e8372d-0d1a-47c7-b20e-4e4683eddbde.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/2b677287-9e50-4ab4-9113-b3385f017b73.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/c2491ed9-5ee2-48cf-a64d-378aae790d12.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/bc826593-d737-4c11-9e1e-c3f04f32ac65.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/071bce1a-7ff5-47ea-b852-e093165e1396.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/fb448a39-b54f-447c-aa2d-8d2eb8234c1f.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/aeb8d97d-8ea6-4904-85a9-704278ba2894.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/54b2f419-9b5f-4c02-b8bc-ab63598ab917.yml) : has_extension : file.sensitive.extension(yml)",
+                    "host.file.path(/home/kusubyan/dev/caldera/data/sources/5855444b-58f3-44a7-94cc-48b396dd5ee0.yml) : has_extension : file.sensitive.extension(yml)"
+                ],
+                "unique": "file.sensitive.extensionyml",
+                "limit_count": -1,
+                "score": 171,
+                "name": "file.sensitive.extension",
+                "collected_by": [],
+                "created": "2022-06-16T19:02:02Z",
+                "technique_id": null,
+                "value": "yml",
+                "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+                "trait": "file.sensitive.extension",
+                "links": [
+                    "dcc01976-96e7-46bc-a81e-cfadcd6b0dfb",
+                    "766ee878-795d-4a59-814d-25f930308a78",
+                    "7c73dafb-b682-41ed-86cf-bc64500d4f2a",
+                    "cab069d2-7432-4df0-835e-43a2a188bec9",
+                    "646eb6ac-857c-42ad-8e61-72ddc88c4656",
+                    "90b30f52-3040-40b8-a3fd-1f1fc54b6b0d",
+                    "fc14c95d-5f1b-4aa3-bbdc-94960c13f099",
+                    "d8c95b8b-c487-4348-be88-aa6c5bdaffad",
+                    "46c16e47-1da3-46ef-bbfb-5df30fb7f4c1",
+                    "eb0417ba-97f3-4121-97c2-8c3d74763b75",
+                    "baac970e-f5b8-4592-83f4-dc1992914ea4",
+                    "d0a87c5b-0eb4-4bb2-a422-1cd527f6ec33",
+                    "d8191044-26da-49fc-bae9-055e37adc742",
+                    "cacc0430-52ed-4f17-bc60-41dfa83a5662",
+                    "9999d1f7-9e91-4499-944c-81d6acac3c0a",
+                    "bc464e68-7d89-4565-b69e-7e90d636c6fa",
+                    "33ba14d2-1ee6-4c4f-acbe-6eb297e6e38b",
+                    "5cd475ab-cf7a-462a-b5ff-f3b80f14f09b",
+                    "c47a9837-4c3d-473a-9291-5360c6bca287",
+                    "5395535f-78ea-4d52-9c64-c7c3599b3f20",
+                    "9da7f94d-b085-459f-a8bf-acc389fdb86a",
+                    "63085bfc-3c6e-4755-a6c0-debf56ed736e",
+                    "39201066-b0cb-4a24-b547-dd842dde5a1b",
+                    "12e1da7e-79d9-49b3-a7b7-22ea0e40a252",
+                    "7aa727d7-acea-4b16-b426-243694c5d0e1",
+                    "2adc9295-a573-4505-af78-8e6aabf2eaf8",
+                    "6564ebd7-65e4-4de8-bd23-fb40baed2300",
+                    "555dcd07-7094-4ced-9df0-8df10d38906e",
+                    "2889a0b3-9144-4e7c-a423-68b2bc6dd646",
+                    "38d65e8e-c89b-42ec-b114-432e844877b0",
+                    "381c9ab5-194b-4c55-afce-00ee810ed0d9",
+                    "08f012e6-6ed6-45cf-98a5-e8a63dba5d82",
+                    "8abb836d-b15e-4cd6-b4b2-4254e7def9d7",
+                    "264a3aef-6994-480f-aad4-8abfc62c2cb8"
+                ]
+            }
+        ],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [],
+        "status": 0,
+        "executor": {
+            "additional_info": {},
+            "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "file.sensitive.extension",
+                            "edge": "has_extension",
+                            "source": "host.file.path"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "find /Users -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "find / -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Data from Local System",
+            "plugin": "stockpile",
+            "tactic": "collection",
+            "requirements": [],
+            "description": "Locate files deemed sensitive",
+            "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+            "name": "Find files",
+            "privilege": null,
+            "technique_id": "T1005",
+            "buckets": [
+                "collection"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:58:15Z",
+        "unique": "62236e8f-b23d-4726-a6e8-f6c6d560d2f9",
+        "score": 171,
+        "collect": "2022-06-23T01:58:14Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:57:55Z",
+        "agent_reported_time": "2022-06-23T01:58:14Z"
+    },
+    {
+        "id": "55e7d03c-71f0-40b2-a863-3e06b193c249",
+        "relationships": [],
+        "command": "R2V0LUNoaWxkSXRlbSBDOlxVc2VycyAtUmVjdXJzZSAtSW5jbHVkZSAqLnBuZyAtRXJyb3JBY3Rpb24gJ1NpbGVudGx5Q29udGludWUnIHwgZm9yZWFjaCB7JF8uRnVsbE5hbWV9IHwgU2VsZWN0LU9iamVjdCAtZmlyc3QgNTtleGl0IDA7",
+        "output": "True",
+        "cleanup": 0,
+        "used": [
+            {
+                "origin_type": "SEEDED",
+                "relationships": [
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/fact_relationships.png) : has_extension : file.sensitive.extension(png)",
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/debrief_attack_path.png) : has_extension : file.sensitive.extension(png)",
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/privileged_persistence_state_machine.png) : has_extension : file.sensitive.extension(png)",
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/plus.png) : has_extension : file.sensitive.extension(png)",
+                    "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/file.png) : has_extension : file.sensitive.extension(png)"
+                ],
+                "unique": "file.sensitive.extensionpng",
+                "limit_count": -1,
+                "score": 176,
+                "name": "file.sensitive.extension",
+                "collected_by": [],
+                "created": "2022-06-16T19:02:02Z",
+                "technique_id": null,
+                "value": "png",
+                "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+                "trait": "file.sensitive.extension",
+                "links": [
+                    "bfcc316f-5292-410f-bb4b-4733d194bf74",
+                    "6b28bde7-d2f3-436a-abfc-c3314cccd652",
+                    "843ef2f2-76c3-4e1c-8d43-a15835165ec6",
+                    "79868d22-719d-435b-8eaf-eef5ebcda05f",
+                    "e553eab8-cd29-4a2b-a1f1-1867d2a9e8e4",
+                    "143e3548-cec4-40e7-a615-7bb466ae9ed3",
+                    "ee5e9c12-9a36-492d-a6ad-01020ad33ad2",
+                    "e3757f2d-ae51-472f-9c49-ee1c3160a340",
+                    "5163a5a3-7ebd-46be-adc3-a7342de4d3a8",
+                    "dd6e62b7-4b8d-4f2a-af6e-a23c69adf9e2",
+                    "72ed7673-9abc-4d6c-ba8a-e55d69a1355c",
+                    "4895bf32-7934-442c-a750-13b4632325e3",
+                    "0065f508-b58b-4dbb-a10f-244445fdb21f",
+                    "9f5441c6-aaf6-46b2-a29d-ee289f4f6f39",
+                    "23cf095f-3cf9-425a-a2b8-b4f7df7d7ef2",
+                    "d22fb48a-9d01-42c1-ab8d-53c096ecc634",
+                    "634cf198-94d5-40a7-82f4-97a174df4012",
+                    "00ee87fd-120f-4df7-81f9-46901315b908",
+                    "e9971378-b3ea-4f0c-9567-5140418d6b56",
+                    "b0f75deb-1371-46e2-875d-120156612a70",
+                    "57f82ac3-a259-427c-b306-1bbc7f377f0f",
+                    "04943034-8820-464b-8592-cb4ad52af4d7",
+                    "9f2623b9-8b3a-4805-a988-35593adf66dd",
+                    "dc1a1a70-6337-4cb6-8984-b829d36921df",
+                    "53048d34-31c5-4013-bb80-2a377d0fbae3",
+                    "c03d3788-6084-4cc4-9763-88d7da4721f3",
+                    "8e52cb2c-4b83-4ae1-a81c-007f8a1be957",
+                    "e62a8249-ec1b-450f-a805-4745bb21e42c",
+                    "451a313e-aac3-45e1-815d-d4893ee0d257",
+                    "5cd23bf9-29fb-4770-91d9-a064c9d77dbd",
+                    "8d58a5fd-8b99-4559-b6f5-98f9d2bcf034",
+                    "a86c897a-28ab-490f-9d10-3561791b249c",
+                    "040621fd-27ed-4b2b-a3ab-6936cd135e3e",
+                    "3d840c6b-8d09-45c1-99e2-d2372412e8ea",
+                    "2d833b33-b6fd-42f9-87be-d3222f20ab18"
+                ]
+            }
+        ],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [],
+        "status": 0,
+        "executor": {
+            "additional_info": {},
+            "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "file.sensitive.extension",
+                            "edge": "has_extension",
+                            "source": "host.file.path"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "find /Users -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Get-ChildItem C:\\Users -Recurse -Include *.#{file.sensitive.extension} -ErrorAction 'SilentlyContinue' | foreach {$_.FullName} | Select-Object -first 5;\nexit 0;",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "find / -name '*.#{file.sensitive.extension}' -type f -not -path '*/\\.*' -size -500k 2>/dev/null | head -5",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "file.sensitive.extension",
+                                    "edge": "has_extension",
+                                    "source": "host.file.path"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Data from Local System",
+            "plugin": "stockpile",
+            "tactic": "collection",
+            "requirements": [],
+            "description": "Locate files deemed sensitive",
+            "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+            "name": "Find files",
+            "privilege": null,
+            "technique_id": "T1005",
+            "buckets": [
+                "collection"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:58:36Z",
+        "unique": "55e7d03c-71f0-40b2-a863-3e06b193c249",
+        "score": 176,
+        "collect": "2022-06-23T01:58:35Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:58:15Z",
+        "agent_reported_time": "2022-06-23T01:58:35Z"
+    },
+    {
+        "id": "f3740d6e-7499-4087-81d1-5f4e06a71348",
+        "relationships": [],
+        "command": "Q29tcHJlc3MtQXJjaGl2ZSAtUGF0aCBDOlxVc2Vyc1xLVVNVQllBTlxzdGFnZWQgLURlc3RpbmF0aW9uUGF0aCBDOlxVc2Vyc1xLVVNVQllBTlxzdGFnZWQuemlwIC1Gb3JjZTtzbGVlcCAxOyBscyBDOlxVc2Vyc1xLVVNVQllBTlxzdGFnZWQuemlwIHwgZm9yZWFjaCB7JF8uRnVsbE5hbWV9IHwgc2VsZWN0",
+        "output": "True",
+        "cleanup": 0,
+        "used": [
+            {
+                "origin_type": "LEARNED",
+                "relationships": [
+                    "host.dir.staged(C:\\Users\\KUSUBYAN\\staged)"
+                ],
+                "unique": "host.dir.stagedC:\\Users\\KUSUBYAN\\staged",
+                "limit_count": -1,
+                "score": 1,
+                "name": "host.dir.staged",
+                "collected_by": [
+                    "jbsgbd"
+                ],
+                "created": "2022-06-23T01:57:33Z",
+                "technique_id": "T1074.001",
+                "value": "C:\\Users\\KUSUBYAN\\staged",
+                "source": "2615cff6-989b-46f6-afba-912c2c6c349f",
+                "trait": "host.dir.staged",
+                "links": [
+                    "5ba504e4-9fc3-4e43-abc9-b0a3737ffd56"
+                ]
+            }
+        ],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [],
+        "status": 1,
+        "executor": {
+            "additional_info": {},
+            "command": "Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;\nsleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [
+                "rm #{host.dir.staged}.zip"
+            ],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "",
+                            "edge": "",
+                            "source": "host.dir.compress"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.tar.gz"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.tar.gz"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;\nsleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.zip"
+                    ],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;\nsleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.zip"
+                    ],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Archive Collected Data: Archive via Utility",
+            "plugin": "stockpile",
+            "tactic": "exfiltration",
+            "requirements": [
+                {
+                    "relationship_match": [
+                        {
+                            "source": "host.dir.staged"
+                        }
+                    ],
+                    "module": "plugins.stockpile.app.requirements.paw_provenance"
+                }
+            ],
+            "description": "Compress a directory on the file system",
+            "ability_id": "300157e5-f4ad-4569-b533-9d1fa0e74d74",
+            "name": "Compress staged directory",
+            "privilege": null,
+            "technique_id": "T1560.001",
+            "buckets": [
+                "exfiltration"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:59:00Z",
+        "unique": "f3740d6e-7499-4087-81d1-5f4e06a71348",
+        "score": 1,
+        "collect": "2022-06-23T01:58:56Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:58:37Z",
+        "agent_reported_time": "2022-06-23T01:58:59Z"
+    },
+    {
+        "id": "66bfcfa5-a4bb-4515-bb5b-2000010c5779",
+        "relationships": [],
+        "command": "cm0gQzpcVXNlcnNcS1VTVUJZQU5cc3RhZ2VkLnppcA==",
+        "output": "True",
+        "cleanup": 1,
+        "used": [],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [],
+        "status": 1,
+        "executor": {
+            "additional_info": {},
+            "command": "Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;\nsleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [
+                "rm #{host.dir.staged}.zip"
+            ],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "",
+                            "edge": "",
+                            "source": "host.dir.compress"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.tar.gz"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.tar.gz"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;\nsleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.zip"
+                    ],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "Compress-Archive -Path #{host.dir.staged} -DestinationPath #{host.dir.staged}.zip -Force;\nsleep 1; ls #{host.dir.staged}.zip | foreach {$_.FullName} | select",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm #{host.dir.staged}.zip"
+                    ],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.compress"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Archive Collected Data: Archive via Utility",
+            "plugin": "stockpile",
+            "tactic": "exfiltration",
+            "requirements": [
+                {
+                    "relationship_match": [
+                        {
+                            "source": "host.dir.staged"
+                        }
+                    ],
+                    "module": "plugins.stockpile.app.requirements.paw_provenance"
+                }
+            ],
+            "description": "Compress a directory on the file system",
+            "ability_id": "300157e5-f4ad-4569-b533-9d1fa0e74d74",
+            "name": "Compress staged directory",
+            "privilege": null,
+            "technique_id": "T1560.001",
+            "buckets": [
+                "exfiltration"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:59:21Z",
+        "unique": "66bfcfa5-a4bb-4515-bb5b-2000010c5779",
+        "score": 0,
+        "collect": "2022-06-23T01:59:20Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:59:00Z",
+        "agent_reported_time": "2022-06-23T01:59:20Z"
+    },
+    {
+        "id": "11b982d6-d227-4ad7-bd7d-e287432acfa5",
+        "relationships": [],
+        "command": "UmVtb3ZlLUl0ZW0gLVBhdGggInN0YWdlZCIgLXJlY3Vyc2U=",
+        "output": "True",
+        "cleanup": 1,
+        "used": [],
+        "visibility": {
+            "adjustments": [],
+            "score": 50
+        },
+        "facts": [],
+        "status": 0,
+        "executor": {
+            "additional_info": {},
+            "command": "New-Item -Path \".\" -Name \"staged\" -ItemType \"directory\" -Force | foreach {$_.FullName} | Select-Object",
+            "uploads": [],
+            "variations": [],
+            "timeout": 60,
+            "cleanup": [
+                "Remove-Item -Path \"staged\" -recurse"
+            ],
+            "language": null,
+            "name": "psh",
+            "platform": "windows",
+            "parsers": [
+                {
+                    "module": "plugins.stockpile.app.parsers.basic",
+                    "parserconfigs": [
+                        {
+                            "custom_parser_vals": {},
+                            "target": "",
+                            "edge": "",
+                            "source": "host.dir.staged"
+                        }
+                    ]
+                }
+            ],
+            "code": null,
+            "build_target": null,
+            "payloads": []
+        },
+        "deadman": false,
+        "ability": {
+            "delete_payload": true,
+            "singleton": false,
+            "executors": [
+                {
+                    "additional_info": {},
+                    "command": "mkdir -p staged && echo $PWD/staged",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm -rf staged"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "darwin",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "mkdir -p staged && echo $PWD/staged",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "rm -rf staged"
+                    ],
+                    "language": null,
+                    "name": "sh",
+                    "platform": "linux",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "New-Item -Path \".\" -Name \"staged\" -ItemType \"directory\" -Force | foreach {$_.FullName} | Select-Object",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "Remove-Item -Path \"staged\" -recurse"
+                    ],
+                    "language": null,
+                    "name": "psh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                },
+                {
+                    "additional_info": {},
+                    "command": "New-Item -Path \".\" -Name \"staged\" -ItemType \"directory\" -Force | foreach {$_.FullName} | Select-Object",
+                    "uploads": [],
+                    "variations": [],
+                    "timeout": 60,
+                    "cleanup": [
+                        "Remove-Item -Path \"staged\" -recurse"
+                    ],
+                    "language": null,
+                    "name": "pwsh",
+                    "platform": "windows",
+                    "parsers": [
+                        {
+                            "module": "plugins.stockpile.app.parsers.basic",
+                            "parserconfigs": [
+                                {
+                                    "custom_parser_vals": {},
+                                    "target": "",
+                                    "edge": "",
+                                    "source": "host.dir.staged"
+                                }
+                            ]
+                        }
+                    ],
+                    "code": null,
+                    "build_target": null,
+                    "payloads": []
+                }
+            ],
+            "additional_info": {},
+            "technique_name": "Data Staged: Local Data Staging",
+            "plugin": "stockpile",
+            "tactic": "collection",
+            "requirements": [],
+            "description": "create a directory for exfil staging",
+            "ability_id": "6469befa-748a-4b9c-a96d-f191fde47d89",
+            "name": "Create staging directory",
+            "privilege": null,
+            "technique_id": "T1074.001",
+            "buckets": [
+                "collection"
+            ],
+            "repeatable": false,
+            "access": {}
+        },
+        "finish": "2022-06-23T01:59:22Z",
+        "unique": "11b982d6-d227-4ad7-bd7d-e287432acfa5",
+        "score": 0,
+        "collect": "2022-06-23T01:59:20Z",
+        "pin": 0,
+        "host": "WIN-MVUTD1RTK1F",
+        "paw": "jbsgbd",
+        "pid": "0",
+        "decide": "2022-06-23T01:59:00Z",
+        "agent_reported_time": "2022-06-23T01:59:21Z"
+    }
+]

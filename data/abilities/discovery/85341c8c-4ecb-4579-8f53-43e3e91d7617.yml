@@ -1,28 +1,93 @@
----
-
-- id: 85341c8c-4ecb-4579-8f53-43e3e91d7617
+- additional_info: {}
+  buckets:
+  - discovery
   name: Collect ARP details
+  requirements: []
+  privilege: ''
+  singleton: false
   description: Locate all active IP and FQDNs on the network
+  technique_name: Remote System Discovery
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    darwin:
-      sh:
-        command: arp -a
-        parsers:
-          plugins.stockpile.app.parsers.ipaddr:
-            - source: remote.host.ip
-    linux:
-      sh:
-        command: arp -a
-        parsers:
-          plugins.stockpile.app.parsers.ipaddr:
-            - source: remote.host.ip
-    windows:
-      psh,cmd:
-        command: arp -a
-        parsers:
-          plugins.stockpile.app.parsers.ipaddr:
-            - source: remote.host.ip
+  delete_payload: true
+  access: {}
+  plugin: stockpile
+  repeatable: false
+  executors:
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: sh
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers:
+    - parserconfigs:
+      - custom_parser_vals: {}
+        source: remote.host.ip
+        target: ''
+        edge: ''
+      module: plugins.stockpile.app.parsers.ipaddr
+    platform: darwin
+    cleanup: []
+    payloads: []
+    command: arp -a
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: sh
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers:
+    - parserconfigs:
+      - custom_parser_vals: {}
+        source: remote.host.ip
+        target: ''
+        edge: ''
+      module: plugins.stockpile.app.parsers.ipaddr
+    platform: linux
+    cleanup: []
+    payloads: []
+    command: arp -a
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: psh
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers:
+    - parserconfigs:
+      - custom_parser_vals: {}
+        source: remote.host.ip
+        target: ''
+        edge: ''
+      module: plugins.stockpile.app.parsers.ipaddr
+    platform: windows
+    cleanup: []
+    payloads: []
+    command: arp -a
+  - additional_info: {}
+    timeout: 60
+    build_target: null
+    name: cmd
+    code: null
+    variations: []
+    language: null
+    uploads: []
+    parsers:
+    - parserconfigs:
+      - custom_parser_vals: {}
+        source: remote.host.ip
+        target: ''
+        edge: ''
+      module: plugins.stockpile.app.parsers.ipaddr
+    platform: windows
+    cleanup: []
+    payloads: []
+    command: arp -a
+  technique_id: T1018
+  id: 85341c8c-4ecb-4579-8f53-43e3e91d7617
