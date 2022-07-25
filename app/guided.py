@@ -12,8 +12,9 @@ from app.objects.c_agent import Agent
 from app.objects.secondclass.c_goal import Goal
 
 
-NONLIMITED_FACT_REGEX = r'#{(.*?)}'
-LIMITED_FACT_REGEX = r'(.*?)\['
+# The two regexes are taken from this file: https://github.com/mitre/caldera/blob/master/app/utility/base_planning_svc.py
+FACT_REGEX = r'#{(.*?)}'    # Matches text contained inside #{ }
+LIMIT_REGEX = r'(.*?)\['    # Matches all text prior to '[', used to determine whether a trait contains a limit or not
 EXHAUSTION_KEY = 'exhaustion'
 
 DEFAULT_HALF_LIFE_PENALTY=4
@@ -141,8 +142,6 @@ class LogicalPlanner:
         else:
             planner_goals = goals[:]
 
-        await self._show_attack_graph(attack_graph) # TODO: Remove before merging, just for debug purposes
-
         absolute_distance_table = await self._build_distance_table(attack_graph, goals=planner_goals)
         effective_distance_table = copy.deepcopy(absolute_distance_table)
 
@@ -162,9 +161,8 @@ class LogicalPlanner:
                                                                                 goal_links)
             goal_links = await self._get_goal_links(absolute_distance_table, agent=agent)
 
-        if not len(goal_links) or not len(planner_goals):
-            self.planning_svc.log.debug('No more links available or all goals satisfied, planner complete.')
-            self.next_bucket = None
+        self.planning_svc.log.debug('No more links available or all goals satisfied, planner complete.')
+        self.next_bucket = None
 
     """ PRIVATE """
 
@@ -183,6 +181,7 @@ class LogicalPlanner:
                     for operation_agent in self.operation.agents:
                         attack_graph = await self._output_fact_edges(ability, attack_graph, operation_agent)
                         attack_graph = await self._input_fact_edges(ability, attack_graph, operation_agent)
+                attack_graph = await self._requirement_edges(ability, attack_graph)
         return attack_graph
 
     async def _output_fact_edges(self, ability, graph, agent):
@@ -190,6 +189,8 @@ class LogicalPlanner:
         Adds output facts to a directed graph based on the parserconfigs included in an ability.
         """
         executor = await agent.get_preferred_executor(ability)
+        if not executor:
+            return graph
         for parser in executor.parsers:
             for parserconfig in parser.parserconfigs:
                 graph.add_edge(ability, parserconfig.source)
@@ -208,12 +209,23 @@ class LogicalPlanner:
                 graph.add_edge(fact, ability)
 
         executor = await agent.get_preferred_executor(ability)
-        for fact in re.findall(NONLIMITED_FACT_REGEX, executor.test, flags=re.DOTALL):
-            nonlimited = re.search(LIMITED_FACT_REGEX, fact)
+        if not executor:
+            return graph
+        for fact in re.findall(FACT_REGEX, executor.test, flags=re.DOTALL):
+            nonlimited = re.search(LIMIT_REGEX, fact)
             if nonlimited:
                 add_to_graph(nonlimited.group(0)[:-1])
             else:
                 add_to_graph(fact)
+        return graph
+
+    async def _requirement_edges(self, ability, graph):
+        """
+        Adds requirement information to a directed graph.
+        """
+        for requirement in ability.requirements:
+            for relationship in requirement.relationship_match:
+                graph.add_edge(relationship['source'], ability)
         return graph
 
     async def _create_terminal_goals(self, attack_graph):
@@ -351,8 +363,13 @@ class LogicalPlanner:
 
     async def _get_supporting_links(self, link, abilities):
         """
-        Method to create all links for abilities that have zero output edges and appear earlier in the atomic ordering
-        than the chosen action.
+        This method is a quick fix that ideally should be resolved by improvements to abilities at some point in the future. 
+        It's here to capture orphaned abilities that do not have any output facts. Within the dependency graph, they would
+        look like single nodes that are not directly connected to any other components. It is still possible given the way
+        that some abilities are implemented that some of these orphaned abilities are expected to be run before others even
+        through there is not a fact dependency between them. This method gets around this by selecting all links with no
+        output facts that are earlier in the atomic ordering that the currently chosen link. This guarantees that all
+        possible dependent actions are taken prior to the chosen action.
         """
         async def has_output_facts(ability, agent):
             executor = await agent.get_preferred_executor(ability)
@@ -396,29 +413,3 @@ class LogicalPlanner:
             if not goal_found and len(current_goals) > 0:
                 remaining_goals.append(goal)
         return remaining_goals
-
-    async def _show_attack_graph(self, g):
-        """DEBUG function -
-        convert graph to human readable/useful nodes and pop-up window
-
-        WARN: matplotlib will create a deluge of debug messages.
-        """
-        from pathlib import Path
-        import matplotlib.pyplot as plt
-        PDF_FILE = Path.home().joinpath('guided_attack_graph.pdf')
-        g_c = nx.DiGraph()
-        for e in g.edges:
-            s, t = e
-            if not isinstance(s, str):
-                s = '{}:{}'.format(s.ability_id[:7] + "..", s.name)
-            if not isinstance(e[1], str):
-                t = '{}:{}'.format(t.ability_id[:7] + "..", t.name)
-            g_c.add_edge(s, t)
-        pos = nx.spring_layout(g_c, k=0.60, iterations=30)
-        nx.draw(g_c,
-                pos=pos,
-                with_labels=True,
-                node_color='red',
-                edge_color='black',
-                font_weight='bold')
-        plt.savefig(PDF_FILE)
