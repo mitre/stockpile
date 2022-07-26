@@ -373,6 +373,8 @@ class LogicalPlanner:
         """
         async def has_output_facts(ability, agent):
             executor = await agent.get_preferred_executor(ability)
+            if not executor:
+                return False
             for parser in executor.parsers:
                 if parser.parserconfigs:
                     return True
