@@ -187,7 +187,6 @@ class NBLinkProbabilities:
                 query_df = query_df.query(feat_name + " == " + str(feat_value) + "")
             else:
                 # query by link_facts (stored in dict)
-                print(feat_name)
                 for req_fact_type, req_fact_val in feature_query_dict["Link_Facts"].items():
                     # query df for links containing required fact type and required fact value
                     query_df = query_df[query_df['Link_Facts'].apply(lambda x : req_fact_type in x and req_fact_val in x.values())]
