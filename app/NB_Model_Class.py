@@ -8,10 +8,19 @@ class NBLinkProbabilities:
 
     def __init__(self):
         # NOTE: accept system data here from planner
-        self.operation_data = self.fetch_operation_data()
-        self.operations_df = self.build_operations_df()
+        # self.operation_data = self.fetch_operation_data()
+        # self.operations_df = self.build_operations_df(self.operation_data)
+        # NOTE: self.operations_df is link_success_df used in probability functions  
+        self.operation_data = None
+        self.operations_df = None
 
-    def fetch_operation_data(self):
+    async def startup_operations(self):
+        self.operation_data = await self.fetch_operation_data()
+        self.operations_df = await self.build_operations_df(self.operation_data)
+        return None
+
+
+    async def fetch_operation_data(self):
         # Create REST API calls to server to fetch operational data and current system conditions, store in df.
         # fetch past operational data
         op_url = 'http://localhost:8888/api/v2/operations'
@@ -43,7 +52,7 @@ class NBLinkProbabilities:
 
 
     # param: op_data is past operations object
-    def build_operations_df(self, op_data):
+    async def build_operations_df(self, op_data):
         ## Build DF of Past Links from Operations
         # store link info in lists, where each item corresponds to link at index
         # same index in each list gives all relevant info on link
@@ -195,13 +204,17 @@ class NBLinkProbabilities:
 
 
     # Basic Success Probability function, returns % of links with features from feature_query_dict that are succesful
-    def BaseSuccessProb(self, link_success_df, feature_query_dict):
-            query_df = self.query_link_df(link_success_df, feature_query_dict) # query dataframe for features
-            return (100 * query_df['Status'].value_counts(normalize=True)[0]) # return percentage with Status=0
+    def BaseSuccessProb(self, feature_query_dict):
+        link_success_df = self.operations_df
+        
+        query_df = self.query_link_df(link_success_df, feature_query_dict) # query dataframe for features
+        return (100 * query_df['Status'].value_counts(normalize=True)[0]) # return percentage with Status=0
 
     # NB Link Success Probability
     # Calculates Prob(Status=0 | features in feature_query_dict)
-    def NBLinkSuccessProb(self, link_success_df, feature_query_dict):    
+    def NBLinkSuccessProb(self, feature_query_dict):    
+        link_success_df = self.operations_df
+
         num_total_past_links = link_success_df.shape[0]
     
         # P(A)    Probability Status == 0

@@ -1,3 +1,6 @@
+from . import NB_Model_Class
+# import NB_Model_Class
+
 class LogicalPlanner:
 
     def __init__(self, operation, planning_svc, stopping_conditions=()):
@@ -5,19 +8,44 @@ class LogicalPlanner:
         self.planning_svc = planning_svc
         self.stopping_conditions = stopping_conditions
         self.stopping_condition_met = False
-        self.state_machine = ['atomic']
-        self.next_bucket = 'atomic'   # repeat this bucket until we run out of links.
+        self.state_machine = ['bayes_state']
+        self.next_bucket = 'bayes_state'   # repeat this bucket until we run out of links.
+        # holder for Naive Bayes probability object
+        self.NB_probability_obj = None
+
+        # create Naive Bayes probability object
+        # NOTE: INIT METHOD CAUSES INFINITE LOOP THROUGHOUT 
+        # self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities()
+        print("Naive Bayes Planner Initialized")
 
     async def execute(self):
         await self.planning_svc.execute_planner(self)
 
-    async def atomic(self):
+    async def bayes_state(self):
+        print("BAYES STATE")
+        # if operation data and probabilies not setup
+        if self.NB_probability_obj is None:
+            print("Begin Startup Operations")
+        #     # create Naive Bayes probability object
+            self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities()
+        #     # await necessary API calls + df building
+            print("Inititalized Class")
+            # await self.NB_probability_obj.startup_operations()
+
+            self.operation_data = await self.NB_probability_obj.fetch_operation_data()
+            print("Operation Data Fetched")
+            self.operations_df = await self.NB_probability_obj.build_operations_df(self.operation_data)
+
+            print("Startup Operations Completed")
+        
         links_to_use = []
 
         # Get the first available link for each agent (make sure we maintain the order).
         for agent in self.operation.agents:
             possible_agent_links = await self._get_links(agent=agent)
-            next_link = await self._get_next_atomic_link(possible_agent_links)
+            print("Possible Agent Links")
+            print(possible_agent_links)
+            next_link = await self._get_best_link(possible_agent_links)
             if next_link:
                 links_to_use.append(await self.operation.apply(next_link))
 
@@ -31,8 +59,18 @@ class LogicalPlanner:
     async def _get_links(self, agent=None):
         return await self.planning_svc.get_links(operation=self.operation, agent=agent)
 
-    # Given list of links, returns the link that appears first in the adversary's atomic ordering.
-    async def _get_next_atomic_link(self, links):
+    # Given list of links, returns the link with the highest probability of success
+    # that meets user criteria on required data and visibility.
+    # If no such link exists then return None
+    async def _get_best_link(self, links):
+        print("IN GET BEST LINKS")
+        print(links)
+        # confirm class has necessary data
+        # link to prob success dict
+        # query probability of each link and store
+        # iterate through links and select best
+        # return best link
+
         abil_id_to_link = dict()
         for link in links:
             abil_id_to_link[link.ability.ability_id] = link
