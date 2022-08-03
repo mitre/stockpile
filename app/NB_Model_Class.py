@@ -26,7 +26,12 @@ class NBLinkProbabilities:
         op_url = 'http://localhost:8888/api/v2/operations'
         headers = {'Accept': 'application/json', 'KEY' :'ADMIN123'}
 
+        print("About to call API for operation data")
+
         op_response = requests.get(op_url, headers=headers)
+        
+        print("Op data returned")
+
         op_data = pandas.DataFrame(op_response.json())
         op_data = op_data.reset_index()  # make sure indexes pair with number of rows
         return op_data

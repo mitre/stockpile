@@ -30,11 +30,11 @@ class LogicalPlanner:
             self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities()
         #     # await necessary API calls + df building
             print("Inititalized Class")
-            # await self.NB_probability_obj.startup_operations()
+            await self.NB_probability_obj.startup_operations()
 
-            self.operation_data = await self.NB_probability_obj.fetch_operation_data()
-            print("Operation Data Fetched")
-            self.operations_df = await self.NB_probability_obj.build_operations_df(self.operation_data)
+            # self.operation_data = await self.NB_probability_obj.fetch_operation_data()
+            # print("Operation Data Fetched")
+            # self.operations_df = await self.NB_probability_obj.build_operations_df(self.operation_data)
 
             print("Startup Operations Completed")
         
