@@ -242,6 +242,10 @@ class NBLinkProbabilities:
         current_feature_df = self.query_link_df(link_success_df, feature_query_dict)
         current_feature_links = current_feature_df.shape[0]
         # TODO: INSERT FLAG RELATED EXCEPTION IF TOO FEW DATAPOINTS HERE
+        # current implementation: if no datapoints of current link/setup, return None
+        if current_feature_links == 0:
+            return None
+
         prob_b = current_feature_links/num_total_past_links 
         
         # P(B|A)    Probability of current features in Status == 0 DF

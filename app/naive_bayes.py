@@ -54,6 +54,32 @@ class LogicalPlanner:
     async def _get_links(self, agent=None):
         return await self.planning_svc.get_links(operation=self.operation, agent=agent)
 
+    # helper method to _get_best_link that accepts a link object
+    # returns the usable facts from the object in a dict
+    # for use by NB Class query
+    def useful_facts(self, cur_link):
+        cur_used_global_facts = {} # key: trait, val: value    
+        # used facts of link
+        if(len(cur_link.used) > 0):
+            # iterate through facts
+            for used_fact in cur_link.used:
+                useful_fact = True
+                # check if fact unique to host through excluding unique fact types
+                if str(used_fact.trait).startswith("host."):
+                    useful_fact = False
+                if str(used_fact.trait).startswith("remote."):
+                    useful_fact = False
+                if str(used_fact.trait).startswith("file.last."):
+                    useful_fact = False
+                if str(used_fact.trait).startswith("domain.user."):
+                    useful_fact = False
+                if useful_fact:
+                    # save fact
+                    cur_used_global_facts[str(used_fact.trait)] = str(used_fact.value)
+        # save current usable facts
+        return cur_used_global_facts        
+
+
     # Given list of links, returns the link with the highest probability of success
     # that meets user criteria on required data and visibility.
     # If no such link exists then return None
@@ -61,11 +87,46 @@ class LogicalPlanner:
         print("IN GET BEST LINKS")
         print(links)
         # confirm class has necessary data
-        # link to prob success dict
-        # query probability of each link and store
-        # iterate through links and select best
-        # return best link
 
+# NBLinkSuccessProb({"Ability_ID": "90c2efaa-8205-480d-8bb6-61d90dbaf81b", "Link_Facts":{'file.sensitive.extension': 'wav'}, "Executor_Platform": "windows"})
+
+        # link index (in list) to prob success of link 
+        link_to_success_dict = dict()
+        # query probability of each link and store
+        for index in range(len(links)):
+            # get link at index
+            cur_link = links[index]
+            # use data necessary to query NB object to build query dictionary
+
+            # NOTE:
+            # with link_feature_query_dict can customize which of 16 features to query by
+
+            # current selection of features:
+            link_feature_query_dict = {
+                "Ability_ID": str(cur_link.ability.ability_id),
+                "Link_Facts": self.useful_facts(cur_link),
+                "Executor_Platform": str(cur_link.executor.platform)
+            }
+            # fetch probability of success
+            prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict)
+            print("LINK FEATURES:" , link_feature_query_dict)
+            print("LINK PROB SUCCESS:", prob_success)
+            # if returned not enough data return, skip current link
+            # otherwise save probability
+            if prob_success == None:
+                print("NO HISTORY OF SUCH LINK")
+            else:
+                link_to_success_dict[index] = prob_success
+        
+        # if some of links have sufficient history
+        if len(link_to_success_dict.key()) > 0:
+            # TODO: add visiblity related flag conditions here that run based on conditions
+            # return best link (with highest prob success)
+            print("Best Link", links[max(link_to_success_dict, key=link_to_success_dict.get)])
+            return links[max(link_to_success_dict, key=link_to_success_dict.get)]
+
+        # default atomic order implementation for links:
+        print("Defaulting to Atomic")
         abil_id_to_link = dict()
         for link in links:
             abil_id_to_link[link.ability.ability_id] = link
