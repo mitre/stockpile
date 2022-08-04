@@ -20,6 +20,8 @@ class NBLinkProbabilities:
         print("Building Link DF")
         self.operations_df = await self.build_operations_df(self.operation_data)
         print("Startup Finished")
+        pandas.set_option("display.max_columns", 30)
+        print(self.operations_df)
         return None
 
     async def fetch_operation_data(self):
@@ -67,7 +69,6 @@ class NBLinkProbabilities:
         print("Past Operations Obj:")
         print(op_data)
 
-
         ## Build DF of Past Links from Operations
         # store link info in lists, where each item corresponds to link at index
         # same index in each list gives all relevant info on link
@@ -97,37 +98,37 @@ class NBLinkProbabilities:
             agents_dict = {} # key: paw, value: [contact, trusted, privilege, architecture]
             
             # iterate through agents, filling dict with agent/host connection info
-            for agent in cur_op["host_group"]:
-                agent_paw = agent["paw"]
-                contact_type = agent["contact"]
-                trusted_status = agent["trusted"]
-                privilege = agent["privilege"]
-                architecture = agent["architecture"]
+            for agent in cur_op.agents:
+                agent_paw = agent.paw
+                contact_type = agent.contact
+                trusted_status = agent.trusted
+                privilege = agent.privilege
+                architecture = agent.architecture
                 agents_dict[agent_paw] = [contact_type, trusted_status, privilege, architecture]
             
             
             # run through each link chain within operation
-            for cur_link in cur_op["chain"]:
+            for cur_link in cur_op.chain:
             
                 # save relevant global op info
-                planners.append(cur_op["planner"]["name"])
-                obfuscators.append(cur_op["obfuscator"])
-                adversary_ids.append(cur_op["adversary"]["adversary_id"])
-                adversary_names.append(cur_op["adversary"]["name"])
+                planners.append(cur_op.planner.name)
+                obfuscators.append(cur_op.obfuscator)
+                adversary_ids.append(cur_op.adversary.adversary_id)
+                adversary_names.append(cur_op.adversary.name)
                 
                 # save relevant link info
-                ability_ids.append(cur_link["ability"]["ability_id"])
-                statuses.append(cur_link["status"])
-                command_str = str(base64.b64decode(cur_link["command"]))
+                ability_ids.append(cur_link.ability.ability_id)
+                statuses.append(cur_link.status)
+                command_str = str(base64.b64decode(cur_link.command))
                 command_str = command_str[2:len(command_str)-1] # correctly format
                 commands.append(command_str)
-                num_facts_used.append(len(cur_link["used"]))
-                visibility_scores.append(cur_link["visibility"]["score"])
-                executor_platforms.append(cur_link["executor"]["platform"])
-                executor_names.append(cur_link["executor"]["name"])
+                num_facts_used.append(len(cur_link.used))
+                visibility_scores.append(cur_link.visibility.score)
+                executor_platforms.append(cur_link.executor.platform)
+                executor_names.append(cur_link.executor.name)
                 
                 # save relevant agent related info
-                agent_paw = cur_link["paw"]
+                agent_paw = cur_link.paw
                 # if agent is in current operation report
                 if agent_paw in agents_dict.keys():
                     # save relevant agent/host data
@@ -147,24 +148,24 @@ class NBLinkProbabilities:
                 cur_used_global_facts = {} # key: trait, val: value    
                 
                 # used facts of link
-                if(len(cur_link["used"]) > 0):
+                if(len(cur_link.used) > 0):
                     
                     # iterate through facts
-                    for used_fact in cur_link["used"]:
+                    for used_fact in cur_link.used:
                         useful_fact = True
                         # check if fact unique to host through excluding unique fact types
-                        if used_fact["trait"].startswith("host."):
+                        if str(used_fact.trait).startswith("host."):
                             useful_fact = False
-                        if used_fact["trait"].startswith("remote."):
+                        if str(used_fact.trait).startswith("remote."):
                             useful_fact = False
-                        if used_fact["trait"].startswith("file.last."):
+                        if str(used_fact.trait).startswith("file.last."):
                             useful_fact = False
-                        if used_fact["trait"].startswith("domain.user."):
+                        if str(used_fact.trait).startswith("domain.user."):
                             useful_fact = False
                         
                         if useful_fact:
                             # save fact
-                            cur_used_global_facts[str(used_fact["trait"])] = str(used_fact["value"])
+                            cur_used_global_facts[str(used_fact.trait)] = str(used_fact.value)
 
                 # save current usable facts
                 usable_facts.append(cur_used_global_facts)        
