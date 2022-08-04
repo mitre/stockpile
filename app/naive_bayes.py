@@ -12,32 +12,27 @@ class LogicalPlanner:
         self.next_bucket = 'bayes_state'   # repeat this bucket until we run out of links.
         # holder for Naive Bayes probability object
         self.NB_probability_obj = None
-
-        # create Naive Bayes probability object
-        # NOTE: INIT METHOD CAUSES INFINITE LOOP THROUGHOUT 
-        # self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities()
-        print("Naive Bayes Planner Initialized")
+        print("NB Planner Initialized")
 
     async def execute(self):
-        await self.planning_svc.execute_planner(self)
-
-    async def bayes_state(self):
-        print("BAYES STATE")
-        # if operation data and probabilies not setup
+        # if operation data and probabilities not setup
         if self.NB_probability_obj is None:
-            print("Begin Startup Operations")
-        #     # create Naive Bayes probability object
-            self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities()
+            print("Begin NB Class Startup Operations")
+        #     # create Naive Bayes probability object, and pass data_svc object
+            self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities(self.planning_svc.get_service('data_svc'))
         #     # await necessary API calls + df building
             print("Inititalized Class")
             await self.NB_probability_obj.startup_operations()
 
-            # self.operation_data = await self.NB_probability_obj.fetch_operation_data()
-            # print("Operation Data Fetched")
-            # self.operations_df = await self.NB_probability_obj.build_operations_df(self.operation_data)
-
             print("Startup Operations Completed")
-        
+
+        # execute main state of planner
+        await self.planning_svc.execute_planner(self)
+
+    async def bayes_state(self):
+
+        print("BAYES STATE")
+
         links_to_use = []
 
         # Get the first available link for each agent (make sure we maintain the order).

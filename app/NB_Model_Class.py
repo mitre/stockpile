@@ -6,32 +6,38 @@ import base64
 class NBLinkProbabilities:
 
 
-    def __init__(self):
+    def __init__(self, data_svc_obj):
         # NOTE: accept system data here from planner
-        # self.operation_data = self.fetch_operation_data()
+        # self.operation_data = self.fetch_API_operation_data()
         # self.operations_df = self.build_operations_df(self.operation_data)
         # NOTE: self.operations_df is link_success_df used in probability functions  
         self.operation_data = None
         self.operations_df = None
+        self.my_data_svc = data_svc_obj
 
     async def startup_operations(self):
         self.operation_data = await self.fetch_operation_data()
+        print("Building Link DF")
         self.operations_df = await self.build_operations_df(self.operation_data)
+        print("Startup Finished")
         return None
 
-
     async def fetch_operation_data(self):
+        print("Fetching Data SVC Operation Data")
+        return await self.my_data_svc.locate('operations')
+
+
+    # DEPRECATED
+    # API Fetch of Operation Data works standalone or in Notebook, but causing issues
+    # when linked to Caldera planner implementation
+    async def fetch_API_operation_data(self):
         # Create REST API calls to server to fetch operational data and current system conditions, store in df.
         # fetch past operational data
         op_url = 'http://localhost:8888/api/v2/operations'
         headers = {'Accept': 'application/json', 'KEY' :'ADMIN123'}
 
-        print("About to call API for operation data")
-
-        op_response = requests.get(op_url, headers=headers)
+        op_response = await requests.get(op_url, headers=headers)
         
-        print("Op data returned")
-
         op_data = pandas.DataFrame(op_response.json())
         op_data = op_data.reset_index()  # make sure indexes pair with number of rows
         return op_data
@@ -56,8 +62,12 @@ class NBLinkProbabilities:
         # Agent data is for simulation of live conditions of agent for calculating link probabilities.
 
 
-    # param: op_data is past operations object
+    # param: op_data is past operations list
     async def build_operations_df(self, op_data):
+        print("Past Operations Obj:")
+        print(op_data)
+
+
         ## Build DF of Past Links from Operations
         # store link info in lists, where each item corresponds to link at index
         # same index in each list gives all relevant info on link
@@ -81,7 +91,7 @@ class NBLinkProbabilities:
         # NOTE: see useful_features.odt for analysis of useful components.
 
         # for each operation
-        for index, cur_op in op_data.iterrows():
+        for cur_op in op_data:
             
             # save info about agents into dict for later matching
             agents_dict = {} # key: paw, value: [contact, trusted, privilege, architecture]
