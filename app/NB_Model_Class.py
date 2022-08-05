@@ -5,27 +5,23 @@ import base64
 
 class NBLinkProbabilities:
 
-
     def __init__(self, data_svc_obj):
-        # NOTE: accept system data here from planner
-        # self.operation_data = self.fetch_API_operation_data()
-        # self.operations_df = self.build_operations_df(self.operation_data)
-        # NOTE: self.operations_df is link_success_df used in probability functions  
+        # self.operations_df is link_success_df used in probability functions  
         self.operation_data = None
         self.operations_df = None
         self.my_data_svc = data_svc_obj
 
     async def startup_operations(self):
+        # fetch past operation data 
         self.operation_data = await self.fetch_operation_data()
-        print("Building Link DF")
+        # build df of link success
         self.operations_df = await self.build_operations_df(self.operation_data)
-        print("Startup Finished")
         pandas.set_option("display.max_columns", 30)
         print(self.operations_df)
         return None
 
     async def fetch_operation_data(self):
-        print("Fetching Data SVC Operation Data")
+        # fetch Data SVC past operation data")
         return await self.my_data_svc.locate('operations')
 
 
@@ -66,9 +62,6 @@ class NBLinkProbabilities:
 
     # param: op_data is past operations list
     async def build_operations_df(self, op_data):
-        print("Past Operations Obj:")
-        print(op_data)
-
         ## Build DF of Past Links from Operations
         # store link info in lists, where each item corresponds to link at index
         # same index in each list gives all relevant info on link

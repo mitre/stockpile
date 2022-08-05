@@ -1,5 +1,4 @@
 from . import NB_Model_Class
-# import NB_Model_Class
 
 class LogicalPlanner:
 
@@ -18,9 +17,9 @@ class LogicalPlanner:
         # if operation data and probabilities not setup
         if self.NB_probability_obj is None:
             print("Begin NB Class Startup Operations")
-        #     # create Naive Bayes probability object, and pass data_svc object
+        #   create Naive Bayes probability object, and pass data_svc object
             self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities(self.planning_svc.get_service('data_svc'))
-        #     # await necessary API calls + df building
+        #   await necessary API calls + df building
             print("Inititalized Class")
             await self.NB_probability_obj.startup_operations()
 
@@ -49,6 +48,7 @@ class LogicalPlanner:
             await self.operation.wait_for_links_completion(links_to_use)
         else:
             # No more links to run.
+            print("Finished Operation")
             self.next_bucket = None
 
     async def _get_links(self, agent=None):
@@ -119,7 +119,7 @@ class LogicalPlanner:
                 link_to_success_dict[index] = prob_success
         
         # if some of links have sufficient history
-        if len(link_to_success_dict.key()) > 0:
+        if len(link_to_success_dict.keys()) > 0:
             # TODO: add visiblity related flag conditions here that run based on conditions
             # return best link (with highest prob success)
             print("Best Link", links[max(link_to_success_dict, key=link_to_success_dict.get)])
