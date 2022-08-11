@@ -5,10 +5,12 @@ name: naive bayes
 description: |
   The naive bayes planner makes decisions on what links and abilities to run
   based on probability of success, determined from past Caldera operation history.
-  It utilizes the user passed flags like visibility and confidence (*unimplemented corrently*)
+  It utilizes the user passed flags like visibility and minimum link data (can be customized below under params)
   to make decisions adaptable to user criteria, and run only links with the necessary
   confidence and data significance.
 module: plugins.stockpile.app.naive_bayes
-params: {}
 ignore_enforcement_modules: []
 allow_repeatable_abilities: False
+params:
+  min_link_data: 3
+   # minimum number of past link data required for naive bayes probability link planner function

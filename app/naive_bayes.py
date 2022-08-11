@@ -2,43 +2,44 @@ from . import NB_Model_Class
 
 class LogicalPlanner:
 
-    def __init__(self, operation, planning_svc, stopping_conditions=()):
+    def __init__(self, operation, planning_svc, min_link_data, stopping_conditions=()):
         self.operation = operation
         self.planning_svc = planning_svc
         self.stopping_conditions = stopping_conditions
         self.stopping_condition_met = False
         self.state_machine = ['bayes_state']
-        self.next_bucket = 'bayes_state'   # repeat this bucket until we run out of links.
+        self.next_bucket = 'bayes_state'   # repeat this bucket until we run out of links
         # holder for Naive Bayes probability object
         self.NB_probability_obj = None
+        # min number of datapoints per link for NB calculations, from parameter in planner .yml
+        self.min_link_data = min_link_data
+        print("MIN LINK DATA:", self.min_link_data)
         print("NB Planner Initialized")
 
     async def execute(self):
+        print("naive_bayes.execute()")
         # if operation data and probabilities not setup
         if self.NB_probability_obj is None:
             print("Begin NB Class Startup Operations")
         #   create Naive Bayes probability object, and pass data_svc object
             self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities(self.planning_svc.get_service('data_svc'))
         #   await necessary API calls + df building
-            print("Inititalized Class")
             await self.NB_probability_obj.startup_operations()
-
             print("Startup Operations Completed")
 
         # execute main state of planner
         await self.planning_svc.execute_planner(self)
-
+    
     async def bayes_state(self):
 
-        print("BAYES STATE")
+        print("\nbayes_state")
 
         links_to_use = []
 
         # Get the first available link for each agent (make sure we maintain the order).
         for agent in self.operation.agents:
             possible_agent_links = await self._get_links(agent=agent)
-            print("Possible Agent Links")
-            print(possible_agent_links)
+            print("Possible agent links: ", possible_agent_links)
             next_link = await self._get_best_link(possible_agent_links)
             if next_link:
                 links_to_use.append(await self.operation.apply(next_link))
@@ -48,8 +49,9 @@ class LogicalPlanner:
             await self.operation.wait_for_links_completion(links_to_use)
         else:
             # No more links to run.
-            print("Finished Operation")
+            print("El Fin. Operation Concluded.")
             self.next_bucket = None
+            self.stopping_condition_met = True
 
     async def _get_links(self, agent=None):
         return await self.planning_svc.get_links(operation=self.operation, agent=agent)
@@ -82,13 +84,10 @@ class LogicalPlanner:
 
     # Given list of links, returns the link with the highest probability of success
     # that meets user criteria on required data and visibility.
-    # If no such link exists then return None
+    # If no such link exists then default to atomic ordering planner logic
     async def _get_best_link(self, links):
-        print("IN GET BEST LINKS")
+        print("_get_best_link")
         print(links)
-        # confirm class has necessary data
-
-# NBLinkSuccessProb({"Ability_ID": "90c2efaa-8205-480d-8bb6-61d90dbaf81b", "Link_Facts":{'file.sensitive.extension': 'wav'}, "Executor_Platform": "windows"})
 
         # link index (in list) to prob success of link 
         link_to_success_dict = dict()
@@ -97,25 +96,22 @@ class LogicalPlanner:
             # get link at index
             cur_link = links[index]
             # use data necessary to query NB object to build query dictionary
-
-            # NOTE:
-            # with link_feature_query_dict can customize which of 16 features to query by
-
+            # NOTE: with link_feature_query_dict can customize which of 16 features to query by
             # current selection of features:
             link_feature_query_dict = {
                 "Ability_ID": str(cur_link.ability.ability_id),
                 "Link_Facts": self.useful_facts(cur_link),
                 "Executor_Platform": str(cur_link.executor.platform)
             }
-            # fetch probability of success
-            prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict)
-            print("LINK FEATURES:" , link_feature_query_dict)
-            print("LINK PROB SUCCESS:", prob_success)
+            # fetch probability of success of link with set of features
+            prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict, self.min_link_data)
+            print("For link:" , link_feature_query_dict)
             # if returned not enough data return, skip current link
-            # otherwise save probability
             if prob_success == None:
-                print("NO HISTORY OF SUCH LINK")
+                print("Insufficient history of current link")
+            # otherwise save probability
             else:
+                print("Link probability of success:", prob_success)
                 link_to_success_dict[index] = prob_success
         
         # if some of links have sufficient history
@@ -126,7 +122,7 @@ class LogicalPlanner:
             return links[max(link_to_success_dict, key=link_to_success_dict.get)]
 
         # default atomic order implementation for links:
-        print("Defaulting to Atomic")
+        print("Defaulting link planning to atomic ordering")
         abil_id_to_link = dict()
         for link in links:
             abil_id_to_link[link.ability.ability_id] = link

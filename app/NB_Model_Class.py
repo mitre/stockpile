@@ -40,6 +40,8 @@ class NBLinkProbabilities:
         op_data = op_data.reset_index()  # make sure indexes pair with number of rows
         return op_data
 
+    # DEPRECATED
+    # Used to fetch agent data from API prior to using operation object from data_svc and planner
     def fetch_cur_agent_data(self):
         # fetch current system conditions of active agent
         # NOTE: using first trusted agent by default, replace with valid agent(s) for operation + alive and trusted
@@ -221,7 +223,7 @@ class NBLinkProbabilities:
 
     # NB Link Success Probability
     # Calculates Prob(Status=0 | features in feature_query_dict)
-    def NBLinkSuccessProb(self, feature_query_dict):    
+    def NBLinkSuccessProb(self, feature_query_dict, min_link_data):    
         link_success_df = self.operations_df
 
         num_total_past_links = link_success_df.shape[0]
@@ -236,7 +238,7 @@ class NBLinkProbabilities:
         current_feature_links = current_feature_df.shape[0]
         # TODO: INSERT FLAG RELATED EXCEPTION IF TOO FEW DATAPOINTS HERE
         # current implementation: if no datapoints of current link/setup, return None
-        if current_feature_links == 0:
+        if current_feature_links < min_link_data:
             return None
 
         prob_b = current_feature_links/num_total_past_links 
