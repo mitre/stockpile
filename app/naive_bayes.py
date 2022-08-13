@@ -13,7 +13,9 @@ class LogicalPlanner:
         self.NB_probability_obj = None
         # min number of datapoints per link for NB calculations, from parameter in planner .yml
         self.min_link_data = min_link_data
-        print("MIN LINK DATA:", self.min_link_data)
+        # minimum probability of success needed for link to run, set by user visibility parameter
+        self.min_probability_link_success = (99.0-self.operation.visibility)/(100)  # 0-1.0
+        print("Minimum REQUIRED PROB OF SUCCESS TO RUN LINK:", self.min_probability_link_success)
         print("NB Planner Initialized")
 
     async def execute(self):
@@ -91,6 +93,10 @@ class LogicalPlanner:
 
         # link index (in list) to prob success of link 
         link_to_success_dict = dict()
+
+        # list of links with too little data for backup atomic order planning
+        links_insufficient_data = []
+
         # query probability of each link and store
         for index in range(len(links)):
             # get link at index
@@ -105,28 +111,41 @@ class LogicalPlanner:
             }
             # fetch probability of success of link with set of features
             prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict, self.min_link_data)
-            print("For link:" , link_feature_query_dict)
-            # if returned not enough data return, skip current link
+            print("For link:\n" , link_feature_query_dict)
+            # if returned not enough data return, add to links_insufficient_data list
             if prob_success == None:
+                links_insufficient_data.append(links[index])
                 print("Insufficient history of current link")
-            # otherwise save probability
+            # otherwise save probability, by link index in dict
             else:
                 print("Link probability of success:", prob_success)
                 link_to_success_dict[index] = prob_success
         
         # if some of links have sufficient history
         if len(link_to_success_dict.keys()) > 0:
-            # TODO: add visiblity related flag conditions here that run based on conditions
-            # return best link (with highest prob success)
-            print("Best Link", links[max(link_to_success_dict, key=link_to_success_dict.get)])
-            return links[max(link_to_success_dict, key=link_to_success_dict.get)]
+            # select best link (with highest prob success)
+            indexBestLink = max(link_to_success_dict, key=link_to_success_dict.get)
+            bestLink  = links[max(link_to_success_dict, key=link_to_success_dict.get)]
+            probSuccessBestLink = link_to_success_dict[indexBestLink]
+            if probSuccessBestLink >= self.min_probability_link_success:
+                # if a link exists with existing data and high enough prob success, return best success link
+                print("Best Link", links[max(link_to_success_dict, key=link_to_success_dict.get)])
+                return links[max(link_to_success_dict, key=link_to_success_dict.get)]
+            else:
+                # all links have too little data or too low prob success
+                # if all links have too low prob success
+                if  len(links_insufficient_data) == 0:
+                    # return No links
+                    print("All remaining links have too low probability. Terminating.")
+                    return None
 
-        # default atomic order implementation for links:
+        # otherwise default atomic order implementation for links:
         print("Defaulting link planning to atomic ordering")
         abil_id_to_link = dict()
-        for link in links:
+        for link in links_insufficient_data:
             abil_id_to_link[link.ability.ability_id] = link
         candidate_ids = set(abil_id_to_link.keys())
         for ab_id in self.operation.adversary.atomic_ordering:
             if ab_id in candidate_ids:
+                print("Atomic Ordering Link", abil_id_to_link[ab_id])
                 return abil_id_to_link[ab_id]
