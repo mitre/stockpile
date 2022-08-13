@@ -113,7 +113,9 @@ class LogicalPlanner:
             prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict, self.min_link_data)
             print("For link:\n" , link_feature_query_dict)
             # if returned not enough data return, add to links_insufficient_data list
-            if prob_success == None:
+            # NOTE: also added manual handle that if ability is compress staged directory
+            # then store as not enough data and default it to atomic (push to end of execution)
+            if prob_success == None or str(cur_link.ability.ability_id) == "300157e5-f4ad-4569-b533-9d1fa0e74d74":
                 links_insufficient_data.append(links[index])
                 print("Insufficient history of current link")
             # otherwise save probability, by link index in dict
