@@ -7,14 +7,15 @@ import re
 
 import networkx as nx
 
+from app.utility.base_planning_svc import BasePlanningService
 from app.objects.c_ability import Ability
 from app.objects.c_agent import Agent
 from app.objects.secondclass.c_goal import Goal
 
 
 # The two regexes are taken from this file: https://github.com/mitre/caldera/blob/master/app/utility/base_planning_svc.py
-FACT_REGEX = r'#{(.*?)}'    # Matches text contained inside #{ }
-LIMIT_REGEX = r'(.*?)\['    # Matches all text prior to '[', used to determine whether a trait contains a limit or not
+FACT_REGEX = BasePlanningService.re_variable    # Matches text contained inside #{ }
+LIMIT_REGEX = BasePlanningService.re_trait    # Matches all text prior to '[', used to determine whether a trait contains a limit or not
 EXHAUSTION_KEY = 'exhaustion'
 
 DEFAULT_HALF_LIFE_PENALTY=4
@@ -34,7 +35,7 @@ class LogicalPlanner:
     2. Compute the distance score for each ability
         -- Defined as the shortest distance -- measured in actions -- between each ability and a goal fact type
             -- To compute this, we usually have to compute (in some way) the underlying attack graph
-            -- If an action has two paths to a goal fact types, choose the /shortest/
+            -- If an action has two paths to a goal fact type, choose the /shortest/
             -- An action that immediately leads to a goal fact type gets a score of 0
             -- An action that leads to an action that leads to a goal fact type gets a score of 1, etc.
         -- Distance scores should be /reversed/ so that "goal actions" -- i.e., those initially with 0 -- get the /biggest/ score
@@ -57,7 +58,7 @@ class LogicalPlanner:
     4. Update the effective distance of each action
         -- The formula is as follows: effective_distance(A)' = effective_distance(A) + (absolute_distance(A) - effective_distance(A))/half_life_gain
 
-    5. Get all grounded links
+    5. Get all available links
 
     6. Penalize the last action executed if it did not bring us closer to the goal
         -- If the last action was not a goal action:
@@ -211,10 +212,10 @@ class LogicalPlanner:
         executor = await agent.get_preferred_executor(ability)
         if not executor:
             return graph
-        for fact in re.findall(FACT_REGEX, executor.test, flags=re.DOTALL):
+        for fact in re.findall(FACT_REGEX, executor.test):
             nonlimited = re.search(LIMIT_REGEX, fact)
             if nonlimited:
-                add_to_graph(nonlimited.group(0)[:-1])
+                add_to_graph(nonlimited.group(0).split('#{')[-1])
             else:
                 add_to_graph(fact)
         return graph
@@ -321,18 +322,13 @@ class LogicalPlanner:
         next actions for all agents in the operation.
         """
         tasked_link_ids = []
-        if agent:
-            agent_links = [link for link in links if link.paw == agent.paw]
-            if len(agent_links):
-                tasked_link = await self._task_best_action(agent_links, link_distance_table, abilities)
-                tasked_link_ids.append(tasked_link.id)
-        else:
-            for operation_agent in self.operation.agents:
-                agent_links = [link for link in links if link.paw == operation_agent.paw]
-                if not len(agent_links):
-                    continue
-                tasked_link = await self._task_best_action(agent_links, link_distance_table, abilities)
-                tasked_link_ids.append(tasked_link.id)
+        agents = [agent] if agent else self.operation.agents
+        for operation_agent in agents:
+            agent_links = [link for link in links if link.paw == operation_agent.paw]
+            if not len(agent_links):
+                continue
+            tasked_link = await self._task_best_action(agent_links, link_distance_table, abilities)
+            tasked_link_ids.append(tasked_link.id)
 
         return tasked_link_ids
 
