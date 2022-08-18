@@ -17,24 +17,26 @@ class LogicalPlanner:
         self.min_probability_link_success = (99.0-self.operation.visibility)/(100)  # 0-1.0
         print("Minimum REQUIRED PROB OF SUCCESS TO RUN LINK:", self.min_probability_link_success)
         print("NB Planner Initialized")
+        self.links_executed = 0
 
     async def execute(self):
         print("naive_bayes.execute()")
-        # if operation data and probabilities not setup
-        if self.NB_probability_obj is None:
-            print("Begin NB Class Startup Operations")
+
         #   create Naive Bayes probability object, and pass data_svc object
-            self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities(self.planning_svc.get_service('data_svc'))
-        #   await necessary API calls + df building
-            await self.NB_probability_obj.startup_operations()
-            print("Startup Operations Completed")
+        self.NB_probability_obj = NB_Model_Class.NBLinkProbabilities(self.planning_svc.get_service('data_svc'))
 
         # execute main state of planner
         await self.planning_svc.execute_planner(self)
     
     async def bayes_state(self):
 
-        print("\nbayes_state")
+        print("\nnaive_bayes.bayes_state()")
+
+        # initially build or update the past links df using past and current operation data
+        if self.links_executed % 10 == 0:
+            print("\nBuilding Past Links DF\n")
+        #   await necessary API calls + df building
+            await self.NB_probability_obj.startup_operations()
 
         links_to_use = []
 
@@ -45,7 +47,7 @@ class LogicalPlanner:
             next_link = await self._get_best_link(possible_agent_links)
             if next_link:
                 links_to_use.append(await self.operation.apply(next_link))
-
+                self.links_executed += 1
         if links_to_use:
             # Each agent will run the next available step.
             await self.operation.wait_for_links_completion(links_to_use)
@@ -110,8 +112,8 @@ class LogicalPlanner:
                 "Executor_Platform": str(cur_link.executor.platform)
             }
             # fetch probability of success of link with set of features
-            prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict, self.min_link_data)
             print("For link:\n" , link_feature_query_dict)
+            prob_success = self.NB_probability_obj.NBLinkSuccessProb(link_feature_query_dict, self.min_link_data)
             # if returned not enough data return, add to links_insufficient_data list
             # NOTE: also added manual handle that if ability is compress staged directory
             # then store as not enough data and default it to atomic (push to end of execution)
