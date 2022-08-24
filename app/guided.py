@@ -3,10 +3,10 @@ import collections
 import copy
 import heapq
 import re
-import string
 from typing import Dict, List, Tuple
 
 import networkx as nx
+import numpy as np
 
 from app.objects.c_ability import Ability
 from app.objects.c_agent import Agent
@@ -59,11 +59,14 @@ class LogicalPlanner:
 
 
     On action selection:
-    4. Update the effective distance of each action
-        -- The formula is as follows: effective_distance(A)' = effective_distance(A) + (absolute_distance(A) - effective_distance(A))/half_life_gain
 
-    5. Get all available links
+    4. Get all available links
 
+    5. Select the action with the highest score -- execute it and parse results
+        -- An action's score is the weighted sum of its fact score + its distance score
+        -- score(A) = goal_weight * effective_distance(A) + fact_score_weight * fact_score(A)
+        -- Note that fact score is the normal fact score from the reward planner
+    
     6. Penalize the last action executed if it did not bring us closer to the goal
         -- If the last action was not a goal action:
             -- Find the current max reward by iterating through each ability from step 5 and recording the /absolute_distance/ of that ability
@@ -77,12 +80,7 @@ class LogicalPlanner:
             -- Note that max_value is defined as the largest value in absolute_distance
             -- What this does is this makes sure that the goal action's score is always between (max_value) and (max_value - 1) so it will /always/ be prioritized over normal actions
 
-    7. Select the action with the highest score -- execute it and parse results
-        -- An action's score is the weighted sum of its fact score + its distance score
-        -- score(A) = goal_weight * effective_distance(A) + fact_score_weight * fact_score(A)
-        -- Note that fact score is the normal fact score from the reward planner
-
-    8. Determine if we've satisfied our goals:
+    7. Determine if we've satisfied our goals:
         8a) If we've now satisfied all of our goals, terminate
         8b) If we've satisfied a goal, but other goals remain, re-run step 2, reset effective_distance, and return to step 4
         8c) If we haven't made any changes to our goals, return to step 4
@@ -141,6 +139,7 @@ class LogicalPlanner:
         :param goals: List of Goal objects to plan towards. Providing an empty list or an Exhaustion goal will cause the planner to infer goals from the ability's dependency graph.
         """
         attack_graph = await self._build_attack_graph(ability_ids, agent)
+        await self._show_attack_graph(attack_graph)
 
         if len(goals) == 0 or goals[0].target == EXHAUSTION_KEY:
             planner_goals = await self._create_terminal_goals(attack_graph)
@@ -170,6 +169,33 @@ class LogicalPlanner:
         self.next_bucket = None
 
     """ PRIVATE """
+
+    async def _show_attack_graph(self, g):
+        """DEBUG function -
+        convert graph to human readable/useful nodes and pop-up window
+
+        WARN: matplotlib will create a deluge of debug messages.
+        """
+        from pathlib import Path
+        import matplotlib.pyplot as plt
+        PDF_FILE = Path.home().joinpath('guided_attack_graph.pdf')
+        g_c = nx.DiGraph()
+        for e in g.edges:
+            s, t = e
+            if not isinstance(s, str):
+                s = '{}:{}'.format(s.ability_id[:7] + "..", s.name)
+            if not isinstance(e[1], str):
+                t = '{}:{}'.format(t.ability_id[:7] + "..", t.name)
+            g_c.add_edge(s, t)
+        pos = nx.spring_layout(g_c, k=0.60, iterations=30)
+        nx.draw(g_c,
+                pos=pos,
+                with_labels=True,
+                node_color='red',
+                edge_color='black',
+                font_weight='bold')
+        plt.savefig(PDF_FILE)
+
 
     async def _build_attack_graph(self, ability_ids: List[str], agent: Agent) -> nx.DiGraph:
         """
@@ -308,9 +334,24 @@ class LogicalPlanner:
         Calculates the new effective distance for the last action performed.
         """
         if self.last_action.ability_id in self.goal_actions:
-            new_distance = max_value - 1 + float(effective_score + 1 - max_value) / self.goal_action_decay  # Action was a goal action, disincentivize this action to avoid local optimia
-        elif max_value > abs(absolute_score):
-            new_distance = absolute_score   # we're now closer to our goal, reset the effective distance of the last action
+            new_distance = self._calculate_goal_action_penalty(max_value, effective_score)
+        else:
+            new_distance = self._calculate_non_goal_action_penalty(max_value, absolute_score, effective_score)
+
+        return new_distance
+    
+    def _calculate_goal_action_penalty(self, max_value, effective_score):
+        """
+        Calculates new effective distance for a goal action for use when no goal was achieved.
+        """
+        return max_value - 1 + float(effective_score + 1 - max_value) / self.goal_action_decay
+    
+    def _calculate_non_goal_action_penalty(self, max_value, absolute_score, effective_score):
+        """
+        Calculates new effective distance for a non-goal action for use when no goal was achieved.
+        """
+        if max_value > abs(absolute_score):
+            new_distance = absolute_score
         else:
             new_distance = float(effective_score) / self.half_life_penalty
         
@@ -344,17 +385,11 @@ class LogicalPlanner:
         Produces the best available link based on the current distance table. The method also applies links
         that support the chosen link, but that do not actively work towards the goal.
         """
-        async def _heapsort(links: List[Tuple[float, Link]]):
-            sorted_links = []
-            for link_index, (distance_to_goal, link) in enumerate(links):
-                # Sorts on distance to goal, breaks ties first on link score and second on an autoincrementing index
-                entry = [-distance_to_goal, -link.score, link_index, link]
-                heapq.heappush(sorted_links, entry)
-            return [heapq.heappop(sorted_links)[3] for _ in range(len(sorted_links))]
 
         weighted_scores = [((link_distance_table[link.ability.ability_id] * self.goal_weight + 
                              link.score * self.fact_score_weight), link) for link in agent_links]
-        sorted_links = await _heapsort(weighted_scores)
+        tuples_to_sort = [(-distance_to_goal, -link.score, link_index, link) for link_index, (distance_to_goal, link) in enumerate(weighted_scores)]
+        sorted_links = [link for _, _, _, link in sorted(tuples_to_sort)]
         link_to_execute = sorted_links[0]
 
         supporting_links = await self._get_supporting_links(link_to_execute, ability_ids)
@@ -384,11 +419,7 @@ class LogicalPlanner:
             return False
         
         def get_list_index(item: str, list_: List[str]):
-            if item not in list_:
-                return -1
-            for index, value in enumerate(list_):
-                if value == item:
-                    return index
+            return np.where(list_ == item)[0]
 
         if self.last_action:
             last_ability_index = get_list_index(self.last_action.ability_id, ability_ids)
