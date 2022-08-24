@@ -1,7 +1,6 @@
 
 import collections
 import copy
-import heapq
 import re
 from typing import Dict, List, Tuple
 
@@ -19,7 +18,7 @@ from app.utility.base_planning_svc import BasePlanningService
 
 
 FACT_REGEX = BasePlanningService.re_variable    # Matches text contained inside #{ }
-LIMIT_REGEX = BasePlanningService.re_trait    # Matches all text prior to '[', used to determine whether a trait contains a limit or not
+LIMIT_REGEX = BasePlanningService.re_trait      # Matches all text prior to '[', used to determine whether a trait contains a limit or not
 EXHAUSTION_KEY = 'exhaustion'
 
 DEFAULT_HALF_LIFE_PENALTY = 4
@@ -385,11 +384,10 @@ class LogicalPlanner:
         Produces the best available link based on the current distance table. The method also applies links
         that support the chosen link, but that do not actively work towards the goal.
         """
-
         weighted_scores = [((link_distance_table[link.ability.ability_id] * self.goal_weight + 
                              link.score * self.fact_score_weight), link) for link in agent_links]
-        tuples_to_sort = [(-distance_to_goal, -link.score, link_index, link) for link_index, (distance_to_goal, link) in enumerate(weighted_scores)]
-        sorted_links = [link for _, _, _, link in sorted(tuples_to_sort)]
+        keys_to_sort = [(-distance_to_goal, -link.score, link_index, link) for link_index, (distance_to_goal, link) in enumerate(weighted_scores)]
+        sorted_links = [link for _, _, _, link in sorted(keys_to_sort)]
         link_to_execute = sorted_links[0]
 
         supporting_links = await self._get_supporting_links(link_to_execute, ability_ids)
