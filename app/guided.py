@@ -1,4 +1,3 @@
-
 import collections
 import copy
 import re
@@ -17,8 +16,10 @@ from app.service.planning_svc import PlanningService
 from app.utility.base_planning_svc import BasePlanningService
 
 
-FACT_REGEX = BasePlanningService.re_variable    # Matches text contained inside #{ }
-LIMIT_REGEX = BasePlanningService.re_trait      # Matches all text prior to '[', used to determine whether a trait contains a limit or not
+FACT_REGEX = BasePlanningService.re_variable  # Matches text contained inside #{ }
+LIMIT_REGEX = (
+    BasePlanningService.re_trait
+)  # Matches all text prior to '[', used to determine whether a trait contains a limit or not
 EXHAUSTION_KEY = 'exhaustion'
 
 DEFAULT_HALF_LIFE_PENALTY = 4
@@ -27,10 +28,12 @@ DEFAULT_GOAL_ACTION_DECAY = 2
 DEFAULT_GOAL_WEIGHT = 1
 DEFAULT_FACT_SCORE_WEIGHT = 0
 
+DEBUG_ATTACK_GRAPH_FILEPATH = 'guided_attack_graph.pdf'
+
 
 class LogicalPlanner:
     """
-    The guided planner makes use of distance to goals in a dependency graph to select the optimal next action.
+    The Guided planner makes use of distance to goals in a dependency graph to select the optimal next action.
 
     On operation start:
     1. Identify the set of goal fact types that we're looking for
@@ -64,8 +67,7 @@ class LogicalPlanner:
     5. Select the action with the highest score -- execute it and parse results
         -- An action's score is the weighted sum of its fact score + its distance score
         -- score(A) = goal_weight * effective_distance(A) + fact_score_weight * fact_score(A)
-        -- Note that fact score is the normal fact score from the reward planner
-    
+
     6. Penalize the last action executed if it did not bring us closer to the goal
         -- If the last action was not a goal action:
             -- Find the current max reward by iterating through each ability from step 5 and recording the /absolute_distance/ of that ability
@@ -80,9 +82,9 @@ class LogicalPlanner:
             -- What this does is this makes sure that the goal action's score is always between (max_value) and (max_value - 1) so it will /always/ be prioritized over normal actions
 
     7. Determine if we've satisfied our goals:
-        8a) If we've now satisfied all of our goals, terminate
-        8b) If we've satisfied a goal, but other goals remain, re-run step 2, reset effective_distance, and return to step 4
-        8c) If we haven't made any changes to our goals, return to step 4
+        7a) If we've now satisfied all of our goals, terminate
+        7b) If we've satisfied a goal, but other goals remain, re-run step 2, reset effective_distance, and return to step 4
+        7c) If we haven't made any changes to our goals, return to step 4
     """
 
     def __init__(
@@ -94,7 +96,8 @@ class LogicalPlanner:
         half_life_gain: float = DEFAULT_HALF_LIFE_GAIN,
         goal_action_decay: float = DEFAULT_GOAL_ACTION_DECAY,
         goal_weight: float = DEFAULT_GOAL_WEIGHT,
-        fact_score_weight: float = DEFAULT_FACT_SCORE_WEIGHT
+        fact_score_weight: float = DEFAULT_FACT_SCORE_WEIGHT,
+        debug: bool = False,
     ):
         """
         :param operation:
@@ -119,6 +122,7 @@ class LogicalPlanner:
         self.fact_score_weight = fact_score_weight
         self.last_action = None
         self.goal_actions = set()
+        self.debug = debug
 
         self.stopping_conditions = stopping_conditions
         self.stopping_condition_met = False
@@ -127,47 +131,91 @@ class LogicalPlanner:
 
     async def execute(self):
         await self.planning_svc.execute_planner(self)
-    
+
     async def guided(self):
         await self.execute_subop(ability_ids=self.ability_ids, goals=self.goals)
 
-    async def execute_subop(self, ability_ids: List[str], agent: Agent = None, goals: List[Goal] = []):
+    async def execute_subop(
+        self, ability_ids: List[str], agent: Agent = None, goals: List[Goal] = []
+    ):
         """
         :param ability_ids: List of ability IDs to plan with.
         :param agent: Agent to focus planning on. If no agent is provided, planning will focus on all agents available in the operation.
         :param goals: List of Goal objects to plan towards. Providing an empty list or an Exhaustion goal will cause the planner to infer goals from the ability's dependency graph.
         """
         attack_graph = await self._build_attack_graph(ability_ids, agent)
-        await self._show_attack_graph(attack_graph)
+        if self.debug:
+            await self._show_attack_graph(attack_graph)
 
         if len(goals) == 0 or goals[0].target == EXHAUSTION_KEY:
             planner_goals = await self._create_terminal_goals(attack_graph)
         else:
             planner_goals = goals[:]
 
-        absolute_distance_table = await self._build_distance_table(attack_graph, goals=planner_goals)
+        absolute_distance_table = await self._build_distance_table(
+            attack_graph, goals=planner_goals
+        )
         effective_distance_table = copy.deepcopy(absolute_distance_table)
 
         goal_links = await self._get_goal_links(absolute_distance_table, agent=agent)
         while len(planner_goals) > 0 and len(goal_links) > 0:
-            tasked_links = await self._task_agents(goal_links, effective_distance_table, ability_ids, agent=agent)
+            tasked_links = await self._task_agents(
+                goal_links, effective_distance_table, ability_ids, agent=agent
+            )
 
             await self.operation.wait_for_links_completion(tasked_links)
-            
+
             current_goal_count = len(planner_goals)
             planner_goals = await self._update_goals(current_goals=planner_goals)
             if len(planner_goals) < current_goal_count:
-                absolute_distance_table, effective_distance_table = await self._handle_goal_achieved(attack_graph, goals=planner_goals)
+                (
+                    absolute_distance_table,
+                    effective_distance_table,
+                ) = await self._handle_goal_achieved(attack_graph, goals=planner_goals)
             else:
-                effective_distance_table = await self._handle_no_goal_achieved(absolute_distance_table,
-                                                                                effective_distance_table,
-                                                                                goal_links)
-            goal_links = await self._get_goal_links(absolute_distance_table, agent=agent)
+                effective_distance_table = await self._handle_no_goal_achieved(
+                    absolute_distance_table, effective_distance_table, goal_links
+                )
+            goal_links = await self._get_goal_links(
+                absolute_distance_table, agent=agent
+            )
 
-        self.planning_svc.log.debug('No more links available or all goals satisfied, planner complete.')
+        self.planning_svc.log.debug(
+            'No more links available or all goals satisfied, planner complete.'
+        )
         self.next_bucket = None
 
     """ PRIVATE """
+
+    async def _build_attack_graph(
+        self, ability_ids: List[str], agent: Agent
+    ) -> nx.DiGraph:
+        """
+        Produces a directed graph that includes nodes for each ability, and nodes of each input and output fact
+        of those abilities.
+        """
+        attack_graph = nx.DiGraph()
+        for ability_id in ability_ids:
+            for ability in await self.data_svc.locate(
+                'abilities', dict(ability_id=ability_id)
+            ):
+                if agent:
+                    attack_graph = await self._output_fact_edges(
+                        ability, attack_graph, agent
+                    )
+                    attack_graph = await self._input_fact_edges(
+                        ability, attack_graph, agent
+                    )
+                else:
+                    for operation_agent in self.operation.agents:
+                        attack_graph = await self._output_fact_edges(
+                            ability, attack_graph, operation_agent
+                        )
+                        attack_graph = await self._input_fact_edges(
+                            ability, attack_graph, operation_agent
+                        )
+                attack_graph = await self._requirement_edges(ability, attack_graph)
+        return attack_graph
 
     async def _show_attack_graph(self, g):
         """DEBUG function -
@@ -177,44 +225,30 @@ class LogicalPlanner:
         """
         from pathlib import Path
         import matplotlib.pyplot as plt
-        PDF_FILE = Path.home().joinpath('guided_attack_graph.pdf')
+
+        PDF_FILE = Path.home().joinpath(DEBUG_ATTACK_GRAPH_FILEPATH)
         g_c = nx.DiGraph()
         for e in g.edges:
             s, t = e
             if not isinstance(s, str):
-                s = '{}:{}'.format(s.ability_id[:7] + "..", s.name)
+                s = '{}:{}'.format(s.ability_id[:7] + '..', s.name)
             if not isinstance(e[1], str):
-                t = '{}:{}'.format(t.ability_id[:7] + "..", t.name)
+                t = '{}:{}'.format(t.ability_id[:7] + '..', t.name)
             g_c.add_edge(s, t)
         pos = nx.spring_layout(g_c, k=0.60, iterations=30)
-        nx.draw(g_c,
-                pos=pos,
-                with_labels=True,
-                node_color='red',
-                edge_color='black',
-                font_weight='bold')
+        nx.draw(
+            g_c,
+            pos=pos,
+            with_labels=True,
+            node_color='red',
+            edge_color='black',
+            font_weight='bold',
+        )
         plt.savefig(PDF_FILE)
 
-
-    async def _build_attack_graph(self, ability_ids: List[str], agent: Agent) -> nx.DiGraph:
-        """
-        Produces a directed graph that includes nodes for each ability, and nodes of each input and output fact
-        of those abilities.
-        """
-        attack_graph = nx.DiGraph()
-        for ability_id in ability_ids:
-            for ability in await self.data_svc.locate('abilities', dict(ability_id=ability_id)):
-                if agent:
-                    attack_graph = await self._output_fact_edges(ability, attack_graph, agent)
-                    attack_graph = await self._input_fact_edges(ability, attack_graph, agent)
-                else:
-                    for operation_agent in self.operation.agents:
-                        attack_graph = await self._output_fact_edges(ability, attack_graph, operation_agent)
-                        attack_graph = await self._input_fact_edges(ability, attack_graph, operation_agent)
-                attack_graph = await self._requirement_edges(ability, attack_graph)
-        return attack_graph
-
-    async def _output_fact_edges(self, ability: Ability, graph: nx.DiGraph, agent: Agent) -> nx.DiGraph:
+    async def _output_fact_edges(
+        self, ability: Ability, graph: nx.DiGraph, agent: Agent
+    ) -> nx.DiGraph:
         """
         Adds output facts to a directed graph based on the parserconfigs included in an ability.
         """
@@ -230,10 +264,13 @@ class LogicalPlanner:
                     graph.add_edge(ability, parserconfig.edge)
         return graph
 
-    async def _input_fact_edges(self, ability: Ability, graph: nx.DiGraph, agent: Agent) -> nx.DiGraph:
+    async def _input_fact_edges(
+        self, ability: Ability, graph: nx.DiGraph, agent: Agent
+    ) -> nx.DiGraph:
         """
         Adds input facts to a directed graph based on the facts present in a command template.
         """
+
         def add_to_graph(fact: Fact):
             if fact not in list(Agent.RESERVED):
                 graph.add_edge(fact, ability)
@@ -265,12 +302,19 @@ class LogicalPlanner:
         """
         Infers goals based on which nodes in a directed graph have an outward degreee of zero.
         """
-        terminal_nodes = [node for node, degree in attack_graph.out_degree() if degree == 0]
+        terminal_nodes = [
+            node for node, degree in attack_graph.out_degree() if degree == 0
+        ]
         aggregated_goals = collections.Counter(terminal_nodes)
-        goals = [Goal(target=trait, operator='*', count=count) for trait, count in aggregated_goals.items()]
+        goals = [
+            Goal(target=trait, operator='*', count=count)
+            for trait, count in aggregated_goals.items()
+        ]
         return goals
 
-    async def _build_distance_table(self, graph: nx.DiGraph, goals: List[Goal]) -> Dict[str, float]:
+    async def _build_distance_table(
+        self, graph: nx.DiGraph, goals: List[Goal]
+    ) -> Dict[str, float]:
         """
         Constructs a table of shortest distance from each ability to one of the goals. The weights get
         inverted, so the highest score in the table is the closest action to a goal.
@@ -295,7 +339,10 @@ class LogicalPlanner:
                 if path_distance > max_dist:
                     max_dist = path_distance
 
-                if node.ability_id in ability_distances and path_distance > ability_distances[node.ability_id]:
+                if (
+                    node.ability_id in ability_distances
+                    and path_distance > ability_distances[node.ability_id]
+                ):
                     continue
 
                 ability_distances[node.ability_id] = path_distance
@@ -305,47 +352,77 @@ class LogicalPlanner:
 
         return ability_distances
 
-    async def _handle_goal_achieved(self, attack_graph: nx.DiGraph, goals: List[Goal] = None) -> Tuple[Dict[str, float], Dict[str, float]]:
+    async def _handle_goal_achieved(
+        self, attack_graph: nx.DiGraph, goals: List[Goal] = None
+    ) -> Tuple[Dict[str, float], Dict[str, float]]:
         """
         Rebuilds the distance table based on a revised set of goals.
         """
-        absolute_distance_table = await self._build_distance_table(attack_graph, goals=goals)
+        absolute_distance_table = await self._build_distance_table(
+            attack_graph, goals=goals
+        )
         effective_distance_table = copy.deepcopy(absolute_distance_table)
         return absolute_distance_table, effective_distance_table
 
-    async def _handle_no_goal_achieved(self, absolute_dist_table: Dict[str, float], effective_dist_table: Dict[str, float], goal_links: List[Goal]):
+    async def _handle_no_goal_achieved(
+        self,
+        absolute_dist_table: Dict[str, float],
+        effective_dist_table: Dict[str, float],
+        goal_links: List[Goal],
+    ):
         """
         Penalizes the weights in the current effective distance table to keep the planner out of endless loops.
         """
-        executable_link_max_val = max(absolute_dist_table[l.ability.ability_id] for l in goal_links)
+        executable_link_max_val = max(
+            absolute_dist_table[l.ability.ability_id] for l in goal_links
+        )
         last_action_effective_score = effective_dist_table[self.last_action.ability_id]
         last_action_absolute_score = absolute_dist_table[self.last_action.ability_id]
-        effective_dist_table[self.last_action.ability_id] = self._apply_effective_distance_penalty(
-            last_action_effective_score, last_action_absolute_score, executable_link_max_val)
+        effective_dist_table[
+            self.last_action.ability_id
+        ] = self._apply_effective_distance_penalty(
+            last_action_effective_score,
+            last_action_absolute_score,
+            executable_link_max_val,
+        )
 
         for ability_id, score in effective_dist_table.items():
-            effective_dist_table[ability_id] = score + float(absolute_dist_table[ability_id] - score) / \
-                                               self.half_life_gain
+            effective_dist_table[ability_id] = (
+                score
+                + float(absolute_dist_table[ability_id] - score) / self.half_life_gain
+            )
         return effective_dist_table
 
-    def _apply_effective_distance_penalty(self, effective_score: float, absolute_score: float, max_value: float) -> float:
+    def _apply_effective_distance_penalty(
+        self, effective_score: float, absolute_score: float, max_value: float
+    ) -> float:
         """
         Calculates the new effective distance for the last action performed.
         """
         if self.last_action.ability_id in self.goal_actions:
-            new_distance = self._calculate_goal_action_penalty(max_value, effective_score)
+            new_distance = self._calculate_goal_action_penalty(
+                max_value, effective_score
+            )
         else:
-            new_distance = self._calculate_non_goal_action_penalty(max_value, absolute_score, effective_score)
+            new_distance = self._calculate_non_goal_action_penalty(
+                max_value, absolute_score, effective_score
+            )
 
         return new_distance
-    
+
     def _calculate_goal_action_penalty(self, max_value, effective_score):
         """
         Calculates new effective distance for a goal action for use when no goal was achieved.
         """
-        return max_value - 1 + float(effective_score + 1 - max_value) / self.goal_action_decay
-    
-    def _calculate_non_goal_action_penalty(self, max_value, absolute_score, effective_score):
+        return (
+            max_value
+            - 1
+            + float(effective_score + 1 - max_value) / self.goal_action_decay
+        )
+
+    def _calculate_non_goal_action_penalty(
+        self, max_value, absolute_score, effective_score
+    ):
         """
         Calculates new effective distance for a non-goal action for use when no goal was achieved.
         """
@@ -353,17 +430,27 @@ class LogicalPlanner:
             new_distance = absolute_score
         else:
             new_distance = float(effective_score) / self.half_life_penalty
-        
+
         return new_distance
 
-    async def _get_goal_links(self, absolute_distance_table: Dict[str, float], agent: Agent = None) -> List[Link]:
+    async def _get_goal_links(
+        self, absolute_distance_table: Dict[str, float], agent: Agent = None
+    ) -> List[Link]:
         """
         Produces all links for abilities that are present in the absolute distance table.
         """
         links = await self.planning_svc.get_links(self.operation, agent=agent)
-        return [link for link in links if link.ability.ability_id in absolute_distance_table]
+        return [
+            link for link in links if link.ability.ability_id in absolute_distance_table
+        ]
 
-    async def _task_agents(self, links: List[Link], link_distance_table: Dict[str, float], ability_ids: List[str], agent: Agent = None) -> List[str]:
+    async def _task_agents(
+        self,
+        links: List[Link],
+        link_distance_table: Dict[str, float],
+        ability_ids: List[str],
+        agent: Agent = None,
+    ) -> List[str]:
         """
         Chooses next actions for agent provided. If no agent is provided, then the method will choose and return
         next actions for all agents in the operation.
@@ -374,32 +461,54 @@ class LogicalPlanner:
             agent_links = [link for link in links if link.paw == operation_agent.paw]
             if not len(agent_links):
                 continue
-            tasked_link = await self._task_best_action(agent_links, link_distance_table, ability_ids)
+            tasked_link = await self._task_best_action(
+                agent_links, link_distance_table, ability_ids
+            )
             tasked_link_ids.append(tasked_link.id)
 
         return tasked_link_ids
 
-    async def _task_best_action(self, agent_links: List[Link], link_distance_table: Dict[str, float], ability_ids: List[str]) -> Link:
+    async def _task_best_action(
+        self,
+        agent_links: List[Link],
+        link_distance_table: Dict[str, float],
+        ability_ids: List[str],
+    ) -> Link:
         """
         Produces the best available link based on the current distance table. The method also applies links
         that support the chosen link, but that do not actively work towards the goal.
         """
-        weighted_scores = [((link_distance_table[link.ability.ability_id] * self.goal_weight + 
-                             link.score * self.fact_score_weight), link) for link in agent_links]
-        keys_to_sort = [(-distance_to_goal, -link.score, link_index, link) for link_index, (distance_to_goal, link) in enumerate(weighted_scores)]
+        weighted_scores = [
+            (
+                (
+                    link_distance_table[link.ability.ability_id] * self.goal_weight
+                    + link.score * self.fact_score_weight
+                ),
+                link,
+            )
+            for link in agent_links
+        ]
+        keys_to_sort = [
+            (-distance_to_goal, -link.score, link_index, link)
+            for link_index, (distance_to_goal, link) in enumerate(weighted_scores)
+        ]
         sorted_links = [link for _, _, _, link in sorted(keys_to_sort)]
         link_to_execute = sorted_links[0]
 
-        supporting_links = await self._get_supporting_links(link_to_execute, ability_ids)
+        supporting_links = await self._get_supporting_links(
+            link_to_execute, ability_ids
+        )
         for supporting_link in supporting_links:
             await self.operation.apply(supporting_link)
         await self.operation.apply(link_to_execute)
         self.last_action = link_to_execute.ability
         return link_to_execute
 
-    async def _get_supporting_links(self, link: Link, ability_ids: List[str]) -> List[Link]:
+    async def _get_supporting_links(
+        self, link: Link, ability_ids: List[str]
+    ) -> List[Link]:
         """
-        This method is a quick fix that ideally should be resolved by improvements to abilities at some point in the future. 
+        This method is a quick fix that ideally should be resolved by improvements to abilities at some point in the future.
         It's here to capture orphaned abilities that do not have any output facts. Within the dependency graph, they would
         look like single nodes that are not directly connected to any other components. It is still possible given the way
         that some abilities are implemented that some of these orphaned abilities are expected to be run before others even
@@ -407,6 +516,7 @@ class LogicalPlanner:
         output facts that are earlier in the atomic ordering than the currently chosen link. This guarantees that all
         possible dependent actions are taken prior to the chosen action.
         """
+
         async def has_output_facts(ability: Ability, agent: Agent):
             executor = await agent.get_preferred_executor(ability)
             if not executor:
@@ -415,22 +525,27 @@ class LogicalPlanner:
                 if parser.parserconfigs:
                     return True
             return False
-        
-        def get_list_index(item: str, list_: List[str]):
-            return np.where(list_ == item)[0]
 
         if self.last_action:
-            last_ability_index = get_list_index(self.last_action.ability_id, ability_ids)
+            last_ability_index = np.where(self.last_action.ability_id == ability_ids)[0]
         else:
             last_ability_index = 0
-        link_ability_index = get_list_index(link.ability.ability_id, ability_ids)
+        link_ability_index = np.where(link.ability.ability_id == ability_ids)[0]
 
         agent = (await self.data_svc.locate('agents', match=dict(paw=link.paw)))[0]
         links = await self.planning_svc.get_links(self.operation, agent=agent)
         connecting_abilities = ability_ids[last_ability_index:link_ability_index]
-        connecting_abilities = await self.data_svc.locate('abilities', match=dict(ability_id=tuple(connecting_abilities)))
-        connecting_abilities = [ability for ability in connecting_abilities if not await has_output_facts(ability, agent)]
-        supporting_links = [l for ability in connecting_abilities for l in links if l.ability == ability]
+        connecting_abilities = await self.data_svc.locate(
+            'abilities', match=dict(ability_id=tuple(connecting_abilities))
+        )
+        connecting_abilities = [
+            ability
+            for ability in connecting_abilities
+            if not await has_output_facts(ability, agent)
+        ]
+        supporting_links = [
+            l for ability in connecting_abilities for l in links if l.ability == ability
+        ]
 
         return supporting_links
 
@@ -441,7 +556,9 @@ class LogicalPlanner:
         remaining_goals = []
         for goal in current_goals:
             if goal.satisfied(await self.operation.all_facts()):
-                self.planning_svc.log.debug(f'Goal {goal.target} {goal.operator} {goal.value} accomplished!')
+                self.planning_svc.log.debug(
+                    f'Goal {goal.target} {goal.operator} {goal.value} accomplished!'
+                )
             else:
                 remaining_goals.append(goal)
         return remaining_goals
