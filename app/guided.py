@@ -527,10 +527,10 @@ class LogicalPlanner:
             return False
 
         if self.last_action:
-            last_ability_index = np.where(self.last_action.ability_id == ability_ids)[0]
+            last_ability_index = np.where(self.last_action.ability_id == np.array(ability_ids))[0][0]
         else:
             last_ability_index = 0
-        link_ability_index = np.where(link.ability.ability_id == ability_ids)[0]
+        link_ability_index = np.where(link.ability.ability_id == np.array(ability_ids))[0][0]
 
         agent = (await self.data_svc.locate('agents', match=dict(paw=link.paw)))[0]
         links = await self.planning_svc.get_links(self.operation, agent=agent)
