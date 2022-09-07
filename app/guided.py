@@ -27,6 +27,7 @@ DEFAULT_HALF_LIFE_GAIN = 2
 DEFAULT_GOAL_ACTION_DECAY = 2
 DEFAULT_GOAL_WEIGHT = 1
 DEFAULT_FACT_SCORE_WEIGHT = 0
+DEFAULT_EXHAUSTION_GOAL_COUNT = 1
 
 DEBUG_ATTACK_GRAPH_FILEPATH = 'guided_attack_graph.pdf'
 
@@ -97,6 +98,7 @@ class LogicalPlanner:
         goal_action_decay: float = DEFAULT_GOAL_ACTION_DECAY,
         goal_weight: float = DEFAULT_GOAL_WEIGHT,
         fact_score_weight: float = DEFAULT_FACT_SCORE_WEIGHT,
+        exhaustion_goal_count: int = DEFAULT_EXHAUSTION_GOAL_COUNT,
         debug: bool = False,
     ):
         """
@@ -108,6 +110,7 @@ class LogicalPlanner:
         :param goal_action_decay: Weight to deprioritize a specific goal action.
         :param goal_weight: Weight for the action's distance to a goal.
         :param fact_score_weight: Weight for the action's constituent facts.
+        :param exhaustion_goal_count: Number of times to achieve a goal when using exhaustion objective.
         """
         self.operation = operation
         self.planning_svc = planning_svc
@@ -120,6 +123,7 @@ class LogicalPlanner:
         self.goal_action_decay = goal_action_decay
         self.goal_weight = goal_weight
         self.fact_score_weight = fact_score_weight
+        self.exhaustion_goal_count = exhaustion_goal_count
         self.last_action = None
         self.goal_actions = set()
         self.debug = debug
@@ -159,11 +163,11 @@ class LogicalPlanner:
 
         goal_links = await self._get_goal_links(absolute_distance_table, agent=agent)
         while len(planner_goals) > 0 and len(goal_links) > 0:
-            tasked_links = await self._task_agents(
-                goal_links, effective_distance_table, ability_ids, agent=agent
+            tasked_links = await self._task_best_action(
+                goal_links, effective_distance_table, ability_ids
             )
 
-            await self.operation.wait_for_links_completion(tasked_links)
+            await self.operation.wait_for_links_completion([link.id for link in tasked_links])
 
             current_goal_count = len(planner_goals)
             planner_goals = await self._update_goals(current_goals=planner_goals)
@@ -307,7 +311,7 @@ class LogicalPlanner:
         ]
         aggregated_goals = collections.Counter(terminal_nodes)
         goals = [
-            Goal(target=trait, operator='*', count=count)
+            Goal(target=trait, operator='*', count=count * self.exhaustion_goal_count)
             for trait, count in aggregated_goals.items()
         ]
         return goals
@@ -444,30 +448,6 @@ class LogicalPlanner:
             link for link in links if link.ability.ability_id in absolute_distance_table
         ]
 
-    async def _task_agents(
-        self,
-        links: List[Link],
-        link_distance_table: Dict[str, float],
-        ability_ids: List[str],
-        agent: Agent = None,
-    ) -> List[str]:
-        """
-        Chooses next actions for agent provided. If no agent is provided, then the method will choose and return
-        next actions for all agents in the operation.
-        """
-        tasked_link_ids = []
-        agents = [agent] if agent else self.operation.agents
-        for operation_agent in agents:
-            agent_links = [link for link in links if link.paw == operation_agent.paw]
-            if not len(agent_links):
-                continue
-            tasked_link = await self._task_best_action(
-                agent_links, link_distance_table, ability_ids
-            )
-            tasked_link_ids.append(tasked_link.id)
-
-        return tasked_link_ids
-
     async def _task_best_action(
         self,
         agent_links: List[Link],
@@ -502,7 +482,7 @@ class LogicalPlanner:
             await self.operation.apply(supporting_link)
         await self.operation.apply(link_to_execute)
         self.last_action = link_to_execute.ability
-        return link_to_execute
+        return [link_to_execute, *supporting_links]
 
     async def _get_supporting_links(
         self, link: Link, ability_ids: List[str]
