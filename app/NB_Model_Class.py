@@ -198,6 +198,8 @@ class NBLinkProbabilities:
         query_df = cur_link_success_df
         # for each feature and value
         for feat_name, feat_value in feature_query_dict.items():
+            if query_df.empty:
+                return query_df
             if feat_name != "Link_Facts" and dataTypeDict[feat_name]=='object':
                 # query by features that are strings
                 query_df = query_df.query(feat_name + " == '" + str(feat_value) + "'")
