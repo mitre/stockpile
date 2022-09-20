@@ -47,10 +47,10 @@ class LogicalPlanner:
             next_link = await self._get_best_link(possible_agent_links)
             if next_link:
                 links_to_use.append(await self.operation.apply(next_link))
-                self.links_executed += 1
         if links_to_use:
             # Each agent will run the next available step.
             await self.operation.wait_for_links_completion(links_to_use)
+            self.links_executed += 1
         else:
             # No more links to run.
             print("El Fin. Operation Concluded.")
@@ -83,7 +83,7 @@ class LogicalPlanner:
                     # save fact
                     cur_used_global_facts[str(used_fact.trait)] = str(used_fact.value)
         # save current usable facts
-        return cur_used_global_facts        
+        return cur_used_global_facts
 
 
     # Given list of links, returns the link with the highest probability of success
