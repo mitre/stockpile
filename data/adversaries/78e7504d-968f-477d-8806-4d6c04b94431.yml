@@ -14,6 +14,7 @@ atomic_ordering:
   - fdf8bf36-797f-4157-805b-fe7c1c6fc903  # nbtstat hostname lookup
   - fa4ed735-7006-4451-a578-b516f80e559f # nslookup names
 # Copy remotely
+  - aa6ec4dd-db09-4925-b9b9-43adeb154686 # Net use
   - 65048ec1-f7ca-49d3-9410-10813e472b30 # SMB copy
   - 4908fdc4-74fc-4d7c-8935-26d11ad26a8d # WinRM and SCP
 # Remote exec
