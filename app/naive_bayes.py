@@ -63,7 +63,7 @@ class LogicalPlanner:
     # helper method to _get_best_link that accepts a link object
     # returns the usable facts from the object in a dict
     # for use by NB Class query
-    def useful_facts(self, cur_link):
+    def useful_link_facts(self, cur_link):
         cur_used_global_facts = {} # key: trait, val: value    
         # used facts of link
         if(len(cur_link.used) > 0):
@@ -87,8 +87,8 @@ class LogicalPlanner:
 
 
     # Given list of links, returns the link with the highest probability of success
-    # that meets user criteria on required data and visibility.
-    # If no such link exists then default to atomic ordering planner logic
+    # that meets user criteria on required data and visibility (AKA risk).
+    # If no such link exists then default to atomic ordering planner logic for unknown links
     async def _get_best_link(self, links):
         print("_get_best_link")
         print(links)
@@ -108,7 +108,7 @@ class LogicalPlanner:
             # current selection of features:
             link_feature_query_dict = {
                 "Ability_ID": str(cur_link.ability.ability_id),
-                "Link_Facts": self.useful_facts(cur_link),
+                "Link_Facts": self.useful_link_facts(cur_link),
                 "Executor_Platform": str(cur_link.executor.platform)
             }
             # fetch probability of success of link with set of features
@@ -129,12 +129,11 @@ class LogicalPlanner:
         if len(link_to_success_dict.keys()) > 0:
             # select best link (with highest prob success)
             indexBestLink = max(link_to_success_dict, key=link_to_success_dict.get)
-            bestLink  = links[max(link_to_success_dict, key=link_to_success_dict.get)]
             probSuccessBestLink = link_to_success_dict[indexBestLink]
             if probSuccessBestLink >= self.min_probability_link_success:
                 # if a link exists with existing data and high enough prob success, return best success link
-                print("Best Link", links[max(link_to_success_dict, key=link_to_success_dict.get)])
-                return links[max(link_to_success_dict, key=link_to_success_dict.get)]
+                print("Best Link", links[indexBestLink])
+                return links[indexBestLink]
             else:
                 # all links have too little data or too low prob success
                 # if all links have too low prob success
@@ -143,7 +142,7 @@ class LogicalPlanner:
                     print("All remaining links have too low probability. Terminating.")
                     return None
 
-        # otherwise default atomic order implementation for links:
+        # otherwise for links with too little data perform atomic order planning:
         print("Defaulting link planning to atomic ordering")
         abil_id_to_link = dict()
         for link in links_insufficient_data:

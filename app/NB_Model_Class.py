@@ -1,4 +1,3 @@
-import requests
 import pandas
 import base64
 
@@ -7,15 +6,14 @@ class NBLinkProbabilities:
 
     def __init__(self, data_svc_obj):
         # self.operations_df is link_success_df used in probability functions  
-        self.operation_data = None
         self.operations_df = None
         self.my_data_svc = data_svc_obj
 
     async def startup_operations(self):
         # fetch past operation data 
-        self.operation_data = await self.fetch_operation_data()
+        operation_data = await self.fetch_operation_data()
         # build df of link success
-        self.operations_df = await self.build_operations_df(self.operation_data)
+        self.operations_df = await self.build_operations_df(operation_data)
         pandas.set_option("display.max_columns", 30)
         print(self.operations_df)
         return None
@@ -24,50 +22,12 @@ class NBLinkProbabilities:
         # fetch Data SVC past operation data")
         return await self.my_data_svc.locate('operations')
 
-
-    # DEPRECATED
-    # API Fetch of Operation Data works standalone or in Notebook, but causing issues
-    # when linked to Caldera planner implementation
-    async def fetch_API_operation_data(self):
-        # Create REST API calls to server to fetch operational data and current system conditions, store in df.
-        # fetch past operational data
-        op_url = 'http://localhost:8888/api/v2/operations'
-        headers = {'Accept': 'application/json', 'KEY' :'ADMIN123'}
-
-        op_response = await requests.get(op_url, headers=headers)
-        
-        op_data = pandas.DataFrame(op_response.json())
-        op_data = op_data.reset_index()  # make sure indexes pair with number of rows
-        return op_data
-
-    # DEPRECATED
-    # Used to fetch agent data from API prior to using operation object from data_svc and planner
-    def fetch_cur_agent_data(self):
-        # fetch current system conditions of active agent
-        # NOTE: using first trusted agent by default, replace with valid agent(s) for operation + alive and trusted
-        agents_url = 'http://localhost:8888/api/v2/agents'
-        agents_response = requests.get(agents_url, headers=headers)
-        agents_list = agents_response.json()
-        # select trusted agent
-        agent_selected = None
-        for agent in agents_list:
-            if agent["trusted"] == True:
-                # TODO: insert check for whether agent is alive
-                agent_selected = agent
-
-        if agent_selected == None:
-            print("FAILURE TO FIND AGENT")
-        else: 
-            print("Operation + Agent Data Fetched")
-        # Agent data is for simulation of live conditions of agent for calculating link probabilities.
-
-
     # param: op_data is past operations list
     async def build_operations_df(self, op_data):
-        ## Build DF of Past Links from Operations
+        # Build DF of Past Links from Operations
         # store link info in lists, where each item corresponds to link at index
         # same index in each list gives all relevant info on link
-        # later convert to df, for efficiency
+        # later converted to df, stored so for efficiency
         statuses = []
         ability_ids = []
         usable_facts = [] # contains lists of fact dicts with 0 or more items
@@ -195,7 +155,7 @@ class NBLinkProbabilities:
         # dict of features types, for querying
         dataTypeDict = dict(cur_link_success_df.dtypes)
         # df which will be repeatedly queried
-        query_df = cur_link_success_df
+        query_df = cur_link_success_df.copy()
         # for each feature and value
         for feat_name, feat_value in feature_query_dict.items():
             if query_df.empty:
@@ -240,12 +200,12 @@ class NBLinkProbabilities:
                                     
         # P(B)    Probability of current features
         current_feature_df = self.query_link_df(link_success_df, feature_query_dict)
-        current_feature_links = current_feature_df.shape[0]
+        num_current_feature_links = current_feature_df.shape[0]
         # if less items than user required params then return None
-        if current_feature_links < min_link_data:
+        if num_current_feature_links < min_link_data:
             return None
 
-        prob_b = current_feature_links/num_total_past_links 
+        prob_b = num_current_feature_links/num_total_past_links 
         
         # P(B|A)    Probability of current features in Status == 0 DF
         current_feature_status_0_df = self.query_link_df(status_0_df, feature_query_dict)
