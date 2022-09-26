@@ -98,33 +98,9 @@ class NBLinkProbabilities:
                     agent_trusted_statuses.append(None)
                     agent_privileges.append(None)
                     agent_architectures.append(None)
-                    
-                
-                cur_used_global_facts = {} # key: trait, val: value    
-                
-                # used facts of link
-                if(len(cur_link.used) > 0):
-                    
-                    # iterate through facts
-                    for used_fact in cur_link.used:
-                        useful_fact = True
-                        # check if fact unique to host through excluding unique fact types
-                        if str(used_fact.trait).startswith("host."):
-                            useful_fact = False
-                        if str(used_fact.trait).startswith("remote."):
-                            useful_fact = False
-                        if str(used_fact.trait).startswith("file.last."):
-                            useful_fact = False
-                        if str(used_fact.trait).startswith("domain.user."):
-                            useful_fact = False
-                        
-                        if useful_fact:
-                            # save fact
-                            cur_used_global_facts[str(used_fact.trait)] = str(used_fact.value)
 
                 # save current usable facts
-                usable_facts.append(cur_used_global_facts)        
-                
+                usable_facts.append(self.useful_link_facts(cur_link))        
 
         # create link success df from lists of data
         data_link_success = {
@@ -148,6 +124,31 @@ class NBLinkProbabilities:
 
         link_success_df = pandas.DataFrame(data_link_success)
         return link_success_df
+
+    # helper method for nb model class and nb planner that accepts a link object
+    # and returns the usable facts from the link in a dict
+    def useful_link_facts(self, cur_link):
+        cur_used_global_facts = {} # key: trait, val: value    
+        # used facts of link
+        if(len(cur_link.used) > 0):
+            # iterate through facts
+            for used_fact in cur_link.used:
+                useful_fact = True
+                # check if fact unique to host through excluding unique fact types
+                if str(used_fact.trait).startswith("host."):
+                    useful_fact = False
+                if str(used_fact.trait).startswith("remote."):
+                    useful_fact = False
+                if str(used_fact.trait).startswith("file.last."):
+                    useful_fact = False
+                if str(used_fact.trait).startswith("domain.user."):
+                    useful_fact = False
+                if useful_fact:
+                    # save fact
+                    cur_used_global_facts[str(used_fact.trait)] = str(used_fact.value)
+        # save current usable facts
+        return cur_used_global_facts
+
 
     # query param1 df according to features in param2 dict
     # used by probability functions to return relevant portions of df

@@ -60,32 +60,6 @@ class LogicalPlanner:
     async def _get_links(self, agent=None):
         return await self.planning_svc.get_links(operation=self.operation, agent=agent)
 
-    # helper method to _get_best_link that accepts a link object
-    # returns the usable facts from the object in a dict
-    # for use by NB Class query
-    def useful_link_facts(self, cur_link):
-        cur_used_global_facts = {} # key: trait, val: value    
-        # used facts of link
-        if(len(cur_link.used) > 0):
-            # iterate through facts
-            for used_fact in cur_link.used:
-                useful_fact = True
-                # check if fact unique to host through excluding unique fact types
-                if str(used_fact.trait).startswith("host."):
-                    useful_fact = False
-                if str(used_fact.trait).startswith("remote."):
-                    useful_fact = False
-                if str(used_fact.trait).startswith("file.last."):
-                    useful_fact = False
-                if str(used_fact.trait).startswith("domain.user."):
-                    useful_fact = False
-                if useful_fact:
-                    # save fact
-                    cur_used_global_facts[str(used_fact.trait)] = str(used_fact.value)
-        # save current usable facts
-        return cur_used_global_facts
-
-
     # Given list of links, returns the link with the highest probability of success
     # that meets user criteria on required data and visibility (AKA risk).
     # If no such link exists then default to atomic ordering planner logic for unknown links
@@ -108,7 +82,7 @@ class LogicalPlanner:
             # current selection of features:
             link_feature_query_dict = {
                 "Ability_ID": str(cur_link.ability.ability_id),
-                "Link_Facts": self.useful_link_facts(cur_link),
+                "Link_Facts": self.NB_probability_obj.useful_link_facts(cur_link),
                 "Executor_Platform": str(cur_link.executor.platform)
             }
             # fetch probability of success of link with set of features
