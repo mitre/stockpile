@@ -9,9 +9,10 @@ import numpy as np
 from app.objects.c_ability import Ability
 from app.objects.c_agent import Agent
 from app.objects.c_operation import Operation
-from app.objects.secondclass.c_link import Link
+from app.objects.secondclass.c_executor import Executor
 from app.objects.secondclass.c_goal import Goal
 from app.objects.secondclass.c_fact import Fact
+from app.objects.secondclass.c_link import Link
 from app.service.planning_svc import PlanningService
 from app.utility.base_planning_svc import BasePlanningService
 
@@ -257,7 +258,7 @@ class LogicalPlanner:
         Adds output facts to a directed graph based on the parserconfigs included in an ability.
         """
         executor = await agent.get_preferred_executor(ability)
-        if not executor:
+        if self._is_invalid_executor(executor):
             return graph
         for parser in executor.parsers:
             for parserconfig in parser.parserconfigs:
@@ -280,7 +281,7 @@ class LogicalPlanner:
                 graph.add_edge(fact, ability)
 
         executor = await agent.get_preferred_executor(ability)
-        if not executor:
+        if self._is_invalid_executor(executor):
             return graph
         for fact in re.findall(FACT_REGEX, executor.test):
             nonlimited = re.search(LIMIT_REGEX, fact)
@@ -542,3 +543,6 @@ class LogicalPlanner:
             else:
                 remaining_goals.append(goal)
         return remaining_goals
+    
+    def _is_invalid_executor(self, executor: Executor):
+        return not executor or executor.command is None
