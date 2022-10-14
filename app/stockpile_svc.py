@@ -15,10 +15,6 @@ class StockpileService(BaseService):
         self.contact_svc = services.get('contact_svc')
         self.log = self.add_service('stockpile_svc', self)
 
-    @template('stockpile.html')
-    async def splash(self, request):
-        return dict()
-
     async def dynamically_compile(self, headers):
         name, platform = headers.get('file'), headers.get('platform')
         if which('go') is not None:
