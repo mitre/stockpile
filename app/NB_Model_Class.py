@@ -1,21 +1,22 @@
-import pandas
-import base64
-
+from base64 import b64decode
 
 class NBLinkProbabilities:
 
     def __init__(self, data_svc_obj):
-        # self.operations_df is link_success_df used in probability functions  
-        self.operations_df = None
+        # self.operations_matrix stores past links for probability functions  
+        self.operations_matrix = None
         self.my_data_svc = data_svc_obj
+
+    def pretty_print_link_matrix(self, matrix_links):
+        for colval in matrix_links:
+            print ('{:4}'.format(str(colval)))
 
     async def startup_operations(self):
         # fetch past operation data 
         operation_data = await self.fetch_operation_data()
         # build df of link success
-        self.operations_df = await self.build_operations_df(operation_data)
-        pandas.set_option("display.max_columns", 30)
-        print(self.operations_df)
+        self.operations_matrix = await self.build_operations_df(operation_data)
+        self.pretty_print_link_matrix(self.operations_matrix)
         return None
 
     async def fetch_operation_data(self):
@@ -24,27 +25,28 @@ class NBLinkProbabilities:
 
     # param: op_data is past operations list
     async def build_operations_df(self, op_data):
-        # Build DF of Past Links from Operations
-        # store link info in lists, where each item corresponds to link at index
-        # same index in each list gives all relevant info on link
-        # later converted to df, stored so for efficiency
-        statuses = []
-        ability_ids = []
-        usable_facts = [] # contains lists of fact dicts with 0 or more items
-        planners = []
-        agent_protocols = []           
-        agent_trusted_statuses = []
-        agent_architectures = []
-        agent_privileges = []
-        obfuscators = []
-        adversary_ids = []
-        adversary_names = []
-        commands = []
-        num_facts_used = []
-        visibility_scores = []
-        executor_platforms = []  # platform on which agent executes it
-        executor_names = [] # name of terminal on which agent running
-        # NOTE: see useful_features.odt for analysis of useful components.
+        # Build matrix of Past Links from Operations
+        # each row is list of 16 features defining the link
+        link_success_matrix = []
+        # first row are column names
+        link_success_matrix.append([
+            "Status",
+            "Ability_ID", 
+            "Link_Facts", 
+            "Planner",
+            "Obfuscator",
+            "Adversary_ID",
+            "Adversary_Name",
+            "Command",
+            "Number_Facts",
+            "Visibility_Score",
+            "Executor_Platform",
+            "Executor_Name",
+            "Agent_Protocol",
+            "Trusted_Status",
+            "Agent_Privilege",
+            "Host_Architecture"
+        ])
 
         # for each operation
         for cur_op in op_data:
@@ -65,22 +67,24 @@ class NBLinkProbabilities:
             # run through each link chain within operation
             for cur_link in cur_op.chain:
             
+                # key: link feature, value: link value
+                cur_link_dict = {}
+
                 # save relevant global op info
-                planners.append(cur_op.planner.name)
-                obfuscators.append(cur_op.obfuscator)
-                adversary_ids.append(cur_op.adversary.adversary_id)
-                adversary_names.append(cur_op.adversary.name)
+                cur_link_dict["Planner"] = cur_op.planner.name
+                cur_link_dict["Obfuscator"] = cur_op.obfuscator
+                cur_link_dict["Adversary_ID"] = cur_op.adversary.adversary_id
+                cur_link_dict["Adversary_Name"] = cur_op.adversary.name
                 
                 # save relevant link info
-                ability_ids.append(cur_link.ability.ability_id)
-                statuses.append(cur_link.status)
-                command_str = str(base64.b64decode(cur_link.command))
-                command_str = command_str[2:len(command_str)-1] # correctly format
-                commands.append(command_str)
-                num_facts_used.append(len(cur_link.used))
-                visibility_scores.append(cur_link.visibility.score)
-                executor_platforms.append(cur_link.executor.platform)
-                executor_names.append(cur_link.executor.name)
+                cur_link_dict["Ability_ID"] = cur_link.ability.ability_id
+                cur_link_dict["Status"] = cur_link.status
+                decoded_cmd = str(b64decode(cur_link.command).decode('utf-8', errors='ignore').replace('\n', ''))
+                cur_link_dict["Command"] = decoded_cmd
+                cur_link_dict["Number_Facts"] = len(cur_link.used)
+                cur_link_dict["Visibility_Score"] = cur_link.visibility.score
+                cur_link_dict["Executor_Platform"] = cur_link.executor.platform
+                cur_link_dict["Executor_Name"] = cur_link.executor.name
                 
                 # save relevant agent related info
                 agent_paw = cur_link.paw
@@ -88,42 +92,41 @@ class NBLinkProbabilities:
                 if agent_paw in agents_dict.keys():
                     # save relevant agent/host data
                     contact_type, trusted_status, privilege, architecture = agents_dict[agent_paw]
-                    agent_protocols.append(contact_type)
-                    agent_trusted_statuses.append(trusted_status)
-                    agent_privileges.append(privilege)
-                    agent_architectures.append(architecture)
-                else: # if agent is not in current agents report (currently, 5/733 links)
+                    cur_link_dict["Agent_Protocol"] = contact_type
+                    cur_link_dict["Trusted_Status"] = trusted_status
+                    cur_link_dict["Agent_Privilege"] = privilege
+                    cur_link_dict["Host_Architecture"] = architecture
+                else: # if agent is not in current agents report
                     # insert None for nonexistant agent data
-                    agent_protocols.append(None)
-                    agent_trusted_statuses.append(None)
-                    agent_privileges.append(None)
-                    agent_architectures.append(None)
-
+                    cur_link_dict["Agent_Protocol"] = None
+                    cur_link_dict["Trusted_Status"] = None
+                    cur_link_dict["Agent_Privilege"] = None
+                    cur_link_dict["Host_Architecture"] = None
+                    
                 # save current usable facts
-                usable_facts.append(self.useful_link_facts(cur_link))        
+                cur_link_dict["Link_Facts"] = self.useful_link_facts(cur_link)        
 
-        # create link success df from lists of data
-        data_link_success = {
-            "Status" : statuses,
-            "Ability_ID" : ability_ids, 
-            "Link_Facts" : usable_facts, 
-            "Planner" : planners,
-            "Obfuscator" : obfuscators,
-            "Adversary_ID" : adversary_ids,
-            "Adversary_Name" :  adversary_names,
-            "Command" : commands,
-            "Number_Facts" : num_facts_used,
-            "Visibility_Score" : visibility_scores,
-            "Executor_Platform" : executor_platforms,
-            "Executor_Name" : executor_names,
-            "Agent_Protocol" : agent_protocols,
-            "Trusted_Status" : agent_trusted_statuses,
-            "Agent_Privilege": agent_privileges,
-            "Host_Architecture": agent_architectures
-        }
-
-        link_success_df = pandas.DataFrame(data_link_success)
-        return link_success_df
+                # create link list from dict 
+                cur_link_list = [
+                    cur_link_dict["Status"],
+                    cur_link_dict["Ability_ID"], 
+                    cur_link_dict["Link_Facts"], 
+                    cur_link_dict["Planner"],
+                    cur_link_dict["Obfuscator"],
+                    cur_link_dict["Adversary_ID"],
+                    cur_link_dict["Adversary_Name"],
+                    cur_link_dict["Command"],
+                    cur_link_dict["Number_Facts"],
+                    cur_link_dict["Visibility_Score"],
+                    cur_link_dict["Executor_Platform"],
+                    cur_link_dict["Executor_Name"],
+                    cur_link_dict["Agent_Protocol"],
+                    cur_link_dict["Trusted_Status"],
+                    cur_link_dict["Agent_Privilege"],
+                    cur_link_dict["Host_Architecture"]
+                ]
+                link_success_matrix.append(cur_link_list)
+        return link_success_matrix
 
     # helper method for nb model class and nb planner that accepts a link object
     # and returns the usable facts from the link in a dict
@@ -150,58 +153,72 @@ class NBLinkProbabilities:
         return cur_used_global_facts
 
 
-    # query param1 df according to features in param2 dict
-    # used by probability functions to return relevant portions of df
-    def query_link_df(self, cur_link_success_df, feature_query_dict):
-        # dict of features types, for querying
-        dataTypeDict = dict(cur_link_success_df.dtypes)
-        # df which will be repeatedly queried
-        query_df = cur_link_success_df.copy()
-        # for each feature and value
-        for feat_name, feat_value in feature_query_dict.items():
-            if query_df.empty:
-                return query_df
-            if feat_name != "Link_Facts" and dataTypeDict[feat_name]=='object':
-                # query by features that are strings
-                query_df = query_df.query(feat_name + " == '" + str(feat_value) + "'")
-            
-            elif feat_name != "Link_Facts" and dataTypeDict[feat_name]=='int64':
-                # query by features that are numbers
-                query_df = query_df.query(feat_name + " == " + str(feat_value) + "")
-            else:
-                # query by link_facts (stored in dict)
-                for req_fact_type, req_fact_val in feature_query_dict["Link_Facts"].items():
-                    # query df for links containing required fact type and required fact value
-                    query_df = query_df[query_df['Link_Facts'].apply(lambda x : req_fact_type in x and req_fact_val in x.values())]
+    # query param1 matrix according to features in param2 dict
+    # used by probability functions to return relevant portions of matrix
+    def query_link_matrix(self, cur_link_success_matrix, feature_query_dict):
+        # creat dict - maps matrix column name to matrix column index
+        col_name_to_index = {}
+        for index in range(len(cur_link_success_matrix[0])):
+            col_name_to_index[cur_link_success_matrix[0][index]] = index
 
-        return query_df
+        # output - queried link obj (matrix) with feature labels (columns)
+        queried_link_matrix = [cur_link_success_matrix[0]]
 
+        # iterate through matrix of links
+        for row_index in range(1, len(cur_link_success_matrix)):
+            # get link from matrix
+            cur_link = cur_link_success_matrix[row_index]
+            # passed conditions bool
+            pass_conditions = True
+            # query by each features, value in feature_query_dict
+            for feat_name, feat_value in feature_query_dict.items():
+                feat_index = col_name_to_index[feat_name]
+                if feat_name == "Link_Facts":
+                    cur_facts_dict = cur_link[feat_index]
+                    # query by link_facts (stored in dict)
+                    for req_fact_type, req_fact_val in feature_query_dict["Link_Facts"].items():
+                        # check that current link contains required fact type and required fact value
+                        if req_fact_type not in cur_facts_dict or str(cur_facts_dict[req_fact_type]) != str(req_fact_val):
+                            pass_conditions = False
+                else:
+                    if str(cur_link[feat_index]) != str(feat_value):
+                        pass_conditions = False
+            if pass_conditions:
+                queried_link_matrix.append(cur_link)
+        return queried_link_matrix
 
     # Basic Success Probability function, returns % of links with features from feature_query_dict that are succesful
     def BaseSuccessProb(self, feature_query_dict):
-        link_success_df = self.operations_df
-        
-        query_df = self.query_link_df(link_success_df, feature_query_dict) # query dataframe for features
-        return (100 * query_df['Status'].value_counts(normalize=True)[0]) # return percentage with Status=0
+        query_matrix = self.query_link_matrix(self.link_success_matrix, feature_query_dict) # query matrix for features
+        # if there is no such features
+        if len(query_matrix) <= 1:
+                return 0.0
+        # otherwise return percentage with status == 0:
+        number_success = 0.0
+        for rowIndex in range(1, len(query_matrix)):
+                if query_matrix[rowIndex][0] == 0:
+                        number_success +=1.0
+        return (100.0 * (number_success / (len(query_matrix)-1))) 
+
 
     # NB Link Success Probability
     # Calculates Prob(Status=0 | features in feature_query_dict)
-    def NBLinkSuccessProb(self, feature_query_dict, min_link_data):    
-        link_success_df = self.operations_df
+    def NBLinkSuccessProb(self, feature_query_dict, min_link_data): 
+        link_success_matrix = self.operations_matrix
 
-        num_total_past_links = link_success_df.shape[0]
-        # return None if there is 0 past link data in link_success_df
+        num_total_past_links = len(link_success_matrix)-1
+        # return None if there is 0 past link data
         if num_total_past_links == 0:
             return None
-    
+
         # P(A)    Probability Status == 0
-        status_0_df = self.query_link_df(link_success_df, {"Status" : 0})
-        status_0_past_links = status_0_df.shape[0]
+        status_0_matrix = self.query_link_matrix(link_success_matrix, {"Status" : 0})
+        status_0_past_links = len(status_0_matrix)-1
         prob_a = status_0_past_links/num_total_past_links 
                                     
         # P(B)    Probability of current features
-        current_feature_df = self.query_link_df(link_success_df, feature_query_dict)
-        num_current_feature_links = current_feature_df.shape[0]
+        current_feature_matrix = self.query_link_matrix(link_success_matrix, feature_query_dict)
+        num_current_feature_links = len(current_feature_matrix)-1
         # if less items than user required params then return None
         if num_current_feature_links < min_link_data:
             return None
@@ -209,8 +226,8 @@ class NBLinkProbabilities:
         prob_b = num_current_feature_links/num_total_past_links 
         
         # P(B|A)    Probability of current features in Status == 0 DF
-        current_feature_status_0_df = self.query_link_df(status_0_df, feature_query_dict)
-        current_feature_status_0_links = current_feature_status_0_df.shape[0]
+        current_feature_status_0_matrix = self.query_link_matrix(status_0_matrix, feature_query_dict)
+        current_feature_status_0_links = len(current_feature_status_0_matrix)-1
         prob_b_given_a = current_feature_status_0_links / status_0_past_links
         
         # NB Formula
