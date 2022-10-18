@@ -43,7 +43,6 @@ class LogicalPlanner:
         # Get the first available link for each agent (make sure we maintain the order).
         for agent in self.operation.agents:
             possible_agent_links = await self._get_links(agent=agent)
-            print("Possible agent links: ", possible_agent_links)
             next_link = await self._get_best_link(possible_agent_links)
             if next_link:
                 links_to_use.append(await self.operation.apply(next_link))
@@ -106,7 +105,7 @@ class LogicalPlanner:
             probSuccessBestLink = link_to_success_dict[indexBestLink]
             if probSuccessBestLink >= self.min_probability_link_success:
                 # if a link exists with existing data and high enough prob success, return best success link
-                print("Best Link", links[indexBestLink])
+                print("Best Link (ID):", links[indexBestLink].ability.ability_id)
                 return links[indexBestLink]
             else:
                 # all links have too little data or too low prob success
@@ -124,5 +123,5 @@ class LogicalPlanner:
         candidate_ids = set(abil_id_to_link.keys())
         for ab_id in self.operation.adversary.atomic_ordering:
             if ab_id in candidate_ids:
-                print("Atomic Ordering Link", abil_id_to_link[ab_id])
+                print("Atomic Ordering Link (ID)", ab_id)
                 return abil_id_to_link[ab_id]
