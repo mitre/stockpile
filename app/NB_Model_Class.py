@@ -1,17 +1,24 @@
 from base64 import b64decode
+from typing import List, Dict
+
+from app.service.data_svc import DataService
+from app.objects.secondclass.c_link import Link
 
 class NBLinkProbabilities:
 
-    def __init__(self, data_svc_obj):
+    def __init__(self, data_svc_obj : DataService):
         # self.operations_matrix stores past links for probability functions  
         self.operations_matrix = None
         self.my_data_svc = data_svc_obj
 
-    def pretty_print_link_matrix(self, matrix_links):
+    def pretty_print_link_matrix(self, matrix_links: List[List]):
         for colval in matrix_links:
             print ('{:4}'.format(str(colval)))
 
     async def startup_operations(self):
+        """
+        Fetches past operational data and builds matrix of past link data from it.
+        """
         # fetch past operation data 
         operation_data = await self.fetch_operation_data()
         # build df of link success
@@ -25,6 +32,7 @@ class NBLinkProbabilities:
 
     # param: op_data is past operations list
     async def build_operations_df(self, op_data):
+        
         # Build matrix of Past Links from Operations
         # each row is list of 16 features defining the link
         link_success_matrix = []
@@ -130,7 +138,7 @@ class NBLinkProbabilities:
 
     # helper method for nb model class and nb planner that accepts a link object
     # and returns the usable facts from the link in a dict
-    def useful_link_facts(self, cur_link):
+    def useful_link_facts(self, cur_link : Link):
         cur_used_global_facts = {} # key: trait, val: value    
         # used facts of link
         if(len(cur_link.used) > 0):
@@ -155,7 +163,7 @@ class NBLinkProbabilities:
 
     # query param1 matrix according to features in param2 dict
     # used by probability functions to return relevant portions of matrix
-    def query_link_matrix(self, cur_link_success_matrix, feature_query_dict):
+    def query_link_matrix(self, cur_link_success_matrix : List[List], feature_query_dict : Dict):
         # creat dict - maps matrix column name to matrix column index
         col_name_to_index = {}
         for index in range(len(cur_link_success_matrix[0])):
@@ -188,7 +196,7 @@ class NBLinkProbabilities:
         return queried_link_matrix
 
     # Basic Success Probability function, returns % of links with features from feature_query_dict that are succesful
-    def BaseSuccessProb(self, feature_query_dict):
+    def BaseSuccessProb(self, feature_query_dict : Dict):
         query_matrix = self.query_link_matrix(self.link_success_matrix, feature_query_dict) # query matrix for features
         # if there is no such features
         if len(query_matrix) <= 1:
@@ -203,7 +211,7 @@ class NBLinkProbabilities:
 
     # NB Link Success Probability
     # Calculates Prob(Status=0 | features in feature_query_dict)
-    def NBLinkSuccessProb(self, feature_query_dict, min_link_data): 
+    def NBLinkSuccessProb(self, feature_query_dict : Dict, min_link_data : int): 
         link_success_matrix = self.operations_matrix
 
         num_total_past_links = len(link_success_matrix)-1

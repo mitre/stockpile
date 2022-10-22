@@ -1,8 +1,50 @@
 from . import NB_Model_Class
 
+from typing import List, Dict
+
+
+from app.objects.c_agent import Agent
+from app.objects.c_operation import Operation
+from app.objects.secondclass.c_link import Link
+from app.objects.secondclass.c_fact import Fact
+from app.service.planning_svc import PlanningService
+
 class LogicalPlanner:
 
-    def __init__(self, operation, planning_svc, min_link_data, stopping_conditions=()):
+    """
+    The Naive Bayes Planner makes use of past operation history to run the current operation with priority to links with greatest likelihood of success.
+
+    The NB Planner recieves the following parameters:
+        - min_link_data: the minimum number of past runs of a link in existing operational 
+        data necessary for planner to utilize its probability of success. Can be custom set by user in 
+        \stockpile\data\planners\48e1a882-1606-4910-8f2d-2352eb80cba2.yml, default is 3.
+
+        -  min_probability_link_success: minimum likelihood of success necessary to run a link. Set by user through
+        visibility setting in advanced section of operation creation. Calculated as = 99.0-self.operation.visibility. Default is 48%
+
+    Algorithm of the planner:
+        While there are available links in the operation for live agents, select the links that satisfy minimum operational data settings
+        and minimum link probability of success settings and run them in order so that highest likelihood links are run first. Once those
+        are exhausted run links that do not satisfy minimum operational data settings in atomic ordering (used by atomic planner). Do not
+        ever run links that satisfy operational data restrictions but do not have the necessary minimum link probability of success.
+        Run until completed operation or all links have too low likelihood of success.
+    """
+
+    def __init__(
+        self, 
+        operation: Operation, 
+        planning_svc: PlanningService, 
+        min_link_data : int, 
+        stopping_conditions: List[Fact] = ()
+    ):
+
+        """
+        :param operation:
+        :param planning_svc:
+        :param min_link_data: Minimum num runs of link required to use past statistics on it
+        :param stopping_conditions:       
+        """
+
         self.operation = operation
         self.planning_svc = planning_svc
         self.stopping_conditions = stopping_conditions
@@ -29,6 +71,9 @@ class LogicalPlanner:
         await self.planning_svc.execute_planner(self)
     
     async def bayes_state(self):
+        """
+        Update past data storage if needed then run top priority link for each agent until operation concluded
+        """
 
         print("\nnaive_bayes.bayes_state()")
 
@@ -56,13 +101,16 @@ class LogicalPlanner:
             self.next_bucket = None
             self.stopping_condition_met = True
 
-    async def _get_links(self, agent=None):
+    async def _get_links(self, agent: Agent = None):
         return await self.planning_svc.get_links(operation=self.operation, agent=agent)
 
     # Given list of links, returns the link with the highest probability of success
     # that meets user criteria on required data and visibility (AKA risk).
     # If no such link exists then default to atomic ordering planner logic for unknown links
-    async def _get_best_link(self, links):
+    async def _get_best_link(self, links : List[Link]):
+        """
+        Selects the best link from links or None if all links don't match qualifications. 
+        """
         print("_get_best_link")
         print(links)
 
