@@ -3,11 +3,11 @@
 id: 48e1a882-1606-4910-8f2d-2352eb80cba2.yml
 name: naive bayes
 description: |
-  The naive bayes planner makes decisions on what links and abilities to run
-  based on probability of success, determined from past Caldera operation history.
-  It utilizes the user passed flags like visibility and minimum link data (can be customized below under params)
-  to make decisions adaptable to user criteria, and run only links with the necessary
-  confidence and data significance.
+  The naive bayes planner decides which links and abilities to execute at each step of the operation, by using statistics from past Caldera operational data. 
+  It utilizes the user-passed flags of visibility (set in the advanced section of operation creation) and minimum link data (set in .yml) to make decisions adaptable to 
+  user criteria and execute only links with the necessary confidence and data significance. Operations are automatically executed in the order of links' probability of success (high to low), 
+  with links with insufficient data executing last and links with sufficient past data but an insufficient likelihood of success (based on visibility setting) being dropped altogether. 
+  The NB planner allows for execution of operations with high confidence in each link and automatic prioritizing of more effective abilities. 
 module: plugins.stockpile.app.naive_bayes
 ignore_enforcement_modules: []
 allow_repeatable_abilities: False
