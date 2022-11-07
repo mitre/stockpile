@@ -1,8 +1,8 @@
 <script setup>
 import { inject, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
-import { useAbilityStore } from '../../magma/src/stores/abilityStore.js';
-import { useAdversaryStore } from '../../magma/src/stores/adversaryStore.js';
+import { useAbilityStore } from '@/stores/abilityStore.js';
+import { useAdversaryStore } from '@/stores/adversaryStore.js';
 
 const $api = inject("$api");
 
