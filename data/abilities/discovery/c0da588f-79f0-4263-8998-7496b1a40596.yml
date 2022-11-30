@@ -1,109 +1,38 @@
-- additional_info: {}
-  buckets:
-  - discovery
+---
+
+- id: c0da588f-79f0-4263-8998-7496b1a40596
   name: Identify active user
-  requirements: []
-  privilege: ''
-  singleton: false
   description: Find user running agent
-  technique_name: System Owner/User Discovery
   tactic: discovery
-  delete_payload: true
-  access: {}
-  plugin: stockpile
-  repeatable: false
-  executors:
-  - additional_info: {}
-    timeout: 60
-    build_target: null
-    name: sh
-    code: null
-    variations: []
-    language: null
-    uploads: []
-    parsers:
-    - parserconfigs:
-      - custom_parser_vals: {}
-        source: host.user.name
-        target: ''
-        edge: ''
-      - custom_parser_vals: {}
-        source: domain.user.name
-        target: ''
-        edge: ''
-      module: plugins.stockpile.app.parsers.basic
-    platform: darwin
-    cleanup: []
-    payloads: []
-    command: whoami
-  - additional_info: {}
-    timeout: 60
-    build_target: null
-    name: sh
-    code: null
-    variations: []
-    language: null
-    uploads: []
-    parsers:
-    - parserconfigs:
-      - custom_parser_vals: {}
-        source: host.user.name
-        target: ''
-        edge: ''
-      - custom_parser_vals: {}
-        source: domain.user.name
-        target: ''
-        edge: ''
-      module: plugins.stockpile.app.parsers.basic
-    platform: linux
-    cleanup: []
-    payloads: []
-    command: whoami
-  - additional_info: {}
-    timeout: 60
-    build_target: null
-    name: psh
-    code: null
-    variations: []
-    language: null
-    uploads: []
-    parsers:
-    - parserconfigs:
-      - custom_parser_vals: {}
-        source: host.user.name
-        target: ''
-        edge: ''
-      - custom_parser_vals: {}
-        source: domain.user.name
-        target: ''
-        edge: ''
-      module: plugins.stockpile.app.parsers.basic
-    platform: windows
-    cleanup: []
-    payloads: []
-    command: $env:username
-  - additional_info: {}
-    timeout: 60
-    build_target: null
-    name: cmd
-    code: null
-    variations: []
-    language: null
-    uploads: []
-    parsers:
-    - parserconfigs:
-      - custom_parser_vals: {}
-        source: host.user.name
-        target: ''
-        edge: ''
-      - custom_parser_vals: {}
-        source: domain.user.name
-        target: ''
-        edge: ''
-      module: plugins.stockpile.app.parsers.basic
-    platform: windows
-    cleanup: []
-    payloads: []
-    command: echo %username%
-  technique_id: T1033
-  id: c0da588f-79f0-4263-8998-7496b1a40596
+  technique:
+    attack_id: T1033
+    name: System Owner/User Discovery
+  platforms:
+    darwin:
+      sh:
+        command: whoami
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.user.name
+            - source: domain.user.name
+    linux:
+      sh:
+        command: whoami
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.user.name
+            - source: domain.user.name
+    windows:
+      psh:
+        command: |
+          $env:username
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.user.name
+            - source: domain.user.name
+      cmd:
+        command: echo %username%
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.user.name
+            - source: domain.user.name
