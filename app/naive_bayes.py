@@ -53,7 +53,7 @@ class LogicalPlanner:
         self.min_prob_link_success = (99.0-self.operation.visibility)/(100)
         self.links_executed = 0
         if self.decision_logging:
-            self.planning_svc.log.info("Operation started")   
+            self.planning_svc.log.debug("Operation started")   
 
     async def execute(self):
         await self.planning_svc.execute_planner(self)
@@ -78,7 +78,7 @@ class LogicalPlanner:
             self.links_executed += 1
         else:
             if self.decision_logging:
-                self.planning_svc.log.info("Operation concluded")
+                self.planning_svc.log.debug("Operation concluded")
             self.next_bucket = None
             self.stopping_condition_met = True
 
@@ -115,13 +115,13 @@ class LogicalPlanner:
             probSuccessBestLink = dict_link_index_to_prob_success[indexBestLink]
             if probSuccessBestLink >= self.min_prob_link_success:
                 if self.decision_logging:
-                    self.planning_svc.log.info("Best link selected with probability of success " + "{:.2f}".format(probSuccessBestLink*100)
+                    self.planning_svc.log.debug("Best link selected with probability of success " + "{:.2f}".format(probSuccessBestLink*100)
                     + "%" + " based on " + str(dict_link_index_to_num_observations[indexBestLink]) +" observations")
                 return links[indexBestLink]
             else:
                 if  len(links_insufficient_data) == 0:
                     if self.decision_logging:
-                        self.planning_svc.log.info("Skipping " + str(len(dict_link_index_to_prob_success.keys()))
+                        self.planning_svc.log.debug("Skipping " + str(len(dict_link_index_to_prob_success.keys()))
                         + " link(s) with insufficient likelihood of success")
                     return None
 
@@ -133,7 +133,7 @@ class LogicalPlanner:
         for ab_id in self.operation.adversary.atomic_ordering:
             if ab_id in candidate_ids:
                 if self.decision_logging:
-                    self.planning_svc.log.info("Link selected with backup atomic ordering")
+                    self.planning_svc.log.debug("Link selected with backup atomic ordering")
                 return abil_id_to_link[ab_id]
 
     async def _build_past_links_matrix(self, op_data) -> List[List]:
