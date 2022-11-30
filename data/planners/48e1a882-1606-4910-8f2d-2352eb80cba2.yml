@@ -14,3 +14,5 @@ allow_repeatable_abilities: False
 params:
   min_link_data: 3
    # minimum number of past link data required for naive bayes probability link planner function
+  decision_logging: False
+   # when True then planner logs link selection logic in INFO level system output
