@@ -1,0 +1,32 @@
+---
+
+- id: 7491aaeb-284c-4f1d-ad1e-db73d539071d
+  name: CNN Image Classifier
+  description: Applies an image classifier to a single image
+  tactic: collection
+  technique:
+    attack_id: T1074.001
+    name: "Data Staged: Local Data Staging"
+  platforms:
+    windows:
+      psh:
+        command: |
+          python ./image_classifier.py --path #{host.file.path}
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "#{host.file.path}";
+          }
+        payloads:
+          - image_classifier.py
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.file.path
+              edge: sensitive
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.file.path
+    - plugins.stockpile.app.requirements.knowledge_count:
+      - source: ta0011.t1105.python
+        count: 1
+    - plugins.stockpile.app.requirements.knowledge_count:
+      - source: ta0011.t1105.tensorflow
+        count: 1

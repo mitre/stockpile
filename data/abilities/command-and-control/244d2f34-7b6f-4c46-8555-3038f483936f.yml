@@ -1,0 +1,25 @@
+---
+
+- id: 244d2f34-7b6f-4c46-8555-3038f483936f
+  name: PIP Install Tensorflow-CPU
+  description: Use pip to install Tensorflow-CPU
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: "Ingress Tool Transfer"
+  platforms:
+    windows:
+      psh:
+        command: |
+          python -m pip install tensorflow-cpu --quiet --exists-action ignore;
+          if ($LASTEXITCODE -eq 0) {
+            echo "cpu";
+          }
+        parsers:
+          basic:
+            plugins.stockpile.app.parsers.basic:
+              - source: ta0011.t1105.tensorflow
+  requirements:
+    - plugins.stockpile.app.requirements.knowledge_count:
+      - source: ta0011.t1105.python
+        count: 1
