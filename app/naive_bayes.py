@@ -5,6 +5,17 @@ from app.objects.secondclass.c_link import Link
 from app.objects.secondclass.c_fact import Fact
 from app.service.planning_svc import PlanningService
 
+# update planner's operational data after how many links
+UPDATE_AFTER_LINKS = 10
+# Names of features collected per link from operational data
+FEATURE_NAMES = [
+    "Status",  "Ability_ID",  "Link_Facts",  "Planner",  "Obfuscator",
+    "Adversary_ID",  "Adversary_Name",  "Command",  "Number_Facts",
+    "Visibility_Score",  "Executor_Platform",  "Executor_Name",
+    "Agent_Protocol",  "Trusted_Status",  "Agent_Privilege",  "Host_Architecture"
+]
+HOST_SPECIFIC_FACT_TRAITS = ("host.", "remote.", "file.last.", "domain.user.")
+
 class LogicalPlanner:
     """
     The Naive Bayes Planner utilizes past operational history to execute operations while prioritizing likelihood of link success.
@@ -14,6 +25,12 @@ class LogicalPlanner:
         - min_link_data: the minimum number of past runs of a link in existing past operational 
         data necessary for planner to utilize its probability of success. Can be custom set by user in 
         \stockpile\data\planners\48e1a882-1606-4910-8f2d-2352eb80cba2.yml, default is 3.
+
+        - decision_logging: Boolean indicating whether planner should log link selection logic
+        in DEBUG level system output. Defaults to False, can also be changed in .yml config.
+
+        - delay_execution_links: list of link ids whose execution should be pushed back to atomic ordering
+        and treated as insufficient data to improve operation ordering. Set in config.
 
         -  min_prob_link_success: minimum calculated likelihood of success necessary to run a link. Set by user through
         visibility setting in advanced section of operation creation. Calculated as = (99.0% - operation visibility%). Default is 48%
@@ -31,14 +48,17 @@ class LogicalPlanner:
         self, 
         operation: Operation, 
         planning_svc: PlanningService, 
-        min_link_data : int, 
-        decision_logging : bool,
+        min_link_data: int, 
+        decision_logging: bool,
+        delay_execution_links: List[str],
         stopping_conditions: List[Fact] = ()
     ):
         """
         :param operation:
         :param planning_svc:
         :param min_link_data: Minimum number runs of link required to use past statistics on it
+        :param decision_logging: Whether planner should log link selection logic
+        :param delay_execution_links: link ids whose execution should be delayed to backup
         :param stopping_conditions:       
         """
         self.operation = operation
@@ -50,6 +70,7 @@ class LogicalPlanner:
         self.matrix_past_links = None
         self.min_link_data = min_link_data
         self.decision_logging = decision_logging
+        self.delay_execution_links = delay_execution_links
         self.min_prob_link_success = (99.0-self.operation.visibility)/(100)
         self.links_executed = 0
         if self.decision_logging:
@@ -62,7 +83,7 @@ class LogicalPlanner:
         """
         Update past operational data matrix if needed then run top priority link for each agent until operation concluded
         """
-        if self.links_executed % 10 == 0:
+        if self.links_executed % UPDATE_AFTER_LINKS == 0:
             past_operation_data = await self.planning_svc.get_service('data_svc').locate('operations')
             self.matrix_past_links = await self._build_past_links_matrix(past_operation_data)
 
@@ -75,7 +96,7 @@ class LogicalPlanner:
         if links_to_use:
             # Each agent will run the next available step.
             await self.operation.wait_for_links_completion(links_to_use)
-            self.links_executed += 1
+            self.links_executed += len(links_to_use)
         else:
             if self.decision_logging:
                 self.planning_svc.log.debug("Operation concluded")
@@ -92,9 +113,8 @@ class LogicalPlanner:
         dict_link_index_to_num_observations = dict()
         links_insufficient_data = []
 
-        for index in range(len(links)):
-            cur_link = links[index]
-            # NOTE: link_query_features allows customizing which of 16 features to query by
+        for index, cur_link in enumerate(links): 
+            # NOTE: link_query_features allows customizing which of FEATURE_NAMES to query by
             # current selection of features with broad scope:
             link_query_features = {
                 "Ability_ID": str(cur_link.ability.ability_id),
@@ -102,30 +122,33 @@ class LogicalPlanner:
                 "Executor_Platform": str(cur_link.executor.platform)
             }
             prob_link_success, num_link_observations = self._get_link_success_probability(link_query_features)
-            if prob_link_success == None or str(cur_link.ability.ability_id) == "300157e5-f4ad-4569-b533-9d1fa0e74d74":
-                # Manual handle that if ability is compress staged directory then store as 
-                # not enough data and default it to atomic (push to end of execution) for better operation ordering
+            if prob_link_success == None or str(cur_link.ability.ability_id) in self.delay_execution_links:
+                # config delayed links are also treated as insufficient data
                 links_insufficient_data.append(cur_link)
             else:
                 dict_link_index_to_prob_success[index] = prob_link_success
                 dict_link_index_to_num_observations[index] = num_link_observations
-        
-        if len(dict_link_index_to_prob_success.keys()) > 0:
-            indexBestLink = max(dict_link_index_to_prob_success, key=dict_link_index_to_prob_success.get)
-            probSuccessBestLink = dict_link_index_to_prob_success[indexBestLink]
-            if probSuccessBestLink >= self.min_prob_link_success:
-                if self.decision_logging:
-                    self.planning_svc.log.debug("Best link selected with probability of success " + "{:.2f}".format(probSuccessBestLink*100)
-                    + "%" + " based on " + str(dict_link_index_to_num_observations[indexBestLink]) +" observations")
-                return links[indexBestLink]
-            else:
-                if  len(links_insufficient_data) == 0:
-                    if self.decision_logging:
-                        self.planning_svc.log.debug("Skipping " + str(len(dict_link_index_to_prob_success.keys()))
-                        + " link(s) with insufficient likelihood of success")
-                    return None
 
-        # backup atomic ordering 
+        if len(dict_link_index_to_prob_success.keys()) > 0:
+            index_best_link = max(dict_link_index_to_prob_success, key=dict_link_index_to_prob_success.get)
+            prob_success_best_link = dict_link_index_to_prob_success[index_best_link]
+            if prob_success_best_link >= self.min_prob_link_success:
+                if self.decision_logging:
+                    self.planning_svc.log.debug("Best link selected with probability of success " + "{:.2f}".format(prob_success_best_link*100)
+                    + "%" + " based on " + str(dict_link_index_to_num_observations[index_best_link]) +" observations")
+                return links[index_best_link]
+            else:
+                if self.decision_logging:
+                    self.planning_svc.log.debug("Skipping " + str(len(dict_link_index_to_prob_success.keys()))
+                    + " link(s) with insufficient likelihood of success")
+        return self._backup_atomic_ordering(links_insufficient_data)
+
+    def _backup_atomic_ordering(self, links_insufficient_data : List[Link]) ->  Union[Link, None]:
+        """
+        Select a link based on atomic ordering        
+
+        :param links_insufficient_data: links with insufficient data for probability selection
+        """ 
         abil_id_to_link = dict()
         for link in links_insufficient_data:
             abil_id_to_link[link.ability.ability_id] = link
@@ -136,33 +159,13 @@ class LogicalPlanner:
                     self.planning_svc.log.debug("Link selected with backup atomic ordering")
                 return abil_id_to_link[ab_id]
 
-    async def _build_past_links_matrix(self, op_data) -> List[List]:
+    async def _build_past_links_matrix(self, op_data : List[Operation]) -> List[List]:
         """
         Build matrix of links from past operation data with each link as row described by 16 features        
 
         :param op_data: local past operational data object
         """
         matrix_link_data = []
-        feature_names = [
-            "Status",
-            "Ability_ID", 
-            "Link_Facts", 
-            "Planner",
-            "Obfuscator",
-            "Adversary_ID",
-            "Adversary_Name",
-            "Command",
-            "Number_Facts",
-            "Visibility_Score",
-            "Executor_Platform",
-            "Executor_Name",
-            "Agent_Protocol",
-            "Trusted_Status",
-            "Agent_Privilege",
-            "Host_Architecture"
-        ]
-        # first row is column names
-        matrix_link_data.append(feature_names)
 
         for cur_operation in op_data:         
             dict_agent_paw_to_info = {}
@@ -198,24 +201,7 @@ class LogicalPlanner:
 
                 dict_link_features["Link_Facts"] = self._get_useful_facts(cur_link)
 
-                link_row = [
-                    dict_link_features["Status"],
-                    dict_link_features["Ability_ID"], 
-                    dict_link_features["Link_Facts"], 
-                    dict_link_features["Planner"],
-                    dict_link_features["Obfuscator"],
-                    dict_link_features["Adversary_ID"],
-                    dict_link_features["Adversary_Name"],
-                    dict_link_features["Command"],
-                    dict_link_features["Number_Facts"],
-                    dict_link_features["Visibility_Score"],
-                    dict_link_features["Executor_Platform"],
-                    dict_link_features["Executor_Name"],
-                    dict_link_features["Agent_Protocol"],
-                    dict_link_features["Trusted_Status"],
-                    dict_link_features["Agent_Privilege"],
-                    dict_link_features["Host_Architecture"]
-                ]
+                link_row = [dict_link_features[feature] for feature in FEATURE_NAMES]
                 matrix_link_data.append(link_row)
         return matrix_link_data
 
@@ -224,10 +210,10 @@ class LogicalPlanner:
         Selects generalizable facts from link object for data querying
         """
         useful_facts = {}
-        if(len(cur_link.used) > 0):
+        if len(cur_link.used) > 0:
             for used_fact in cur_link.used:
                 # exclude fact types that are unique to a specific host
-                if str(used_fact.trait).startswith(("host.", "remote.", "file.last.", "domain.user.")) == False:
+                if str(used_fact.trait).startswith(HOST_SPECIFIC_FACT_TRAITS) == False:
                     useful_facts[str(used_fact.trait)] = str(used_fact.value)
         return useful_facts
 
@@ -239,17 +225,11 @@ class LogicalPlanner:
         :param matrix_link_data: link matrix that will be queried
         :param query_features: dict of {feature_names: values} that matrix_link_data will be queried by
         """
-        col_name_to_col_index = {}
-        list_col_names = matrix_link_data[0]
-        for index_feature_names in range(len(list_col_names)):
-            col_name_to_col_index[list_col_names[index_feature_names]] = index_feature_names
-
-        queried_link_matrix = [list_col_names]
-        for row_index in range(1, len(matrix_link_data)):
-            cur_link = matrix_link_data[row_index]
+        queried_link_matrix = []
+        for cur_link in matrix_link_data:
             row_passes_conditions = True
             for feat_name, feat_value in query_features.items():
-                feat_index = col_name_to_col_index[feat_name]
+                feat_index = FEATURE_NAMES.index(feat_name)
                 if feat_name == "Link_Facts":
                     cur_facts_dict = cur_link[feat_index]
                     for req_fact_type, req_fact_val in query_features["Link_Facts"].items():
@@ -263,24 +243,24 @@ class LogicalPlanner:
                 queried_link_matrix.append(cur_link)
         return queried_link_matrix
 
-    def _get_link_success_probability(self, query_features : Dict) -> Union[float, None]: 
+    def _get_link_success_probability(self, query_features : Dict): 
         """
         Calculates Naive Bayes probability for a link (with features and values from query_features) executing successfully.
         Returns success probability, and number of link observations in dataset.
         """
-        num_total_links = len(self.matrix_past_links)-1
+        num_total_links = len(self.matrix_past_links)
         if num_total_links == 0:
             return None, 0
         status_0_matrix = self._query_link_matrix(self.matrix_past_links, {"Status" : 0})
-        num_status_0_links = len(status_0_matrix)-1
+        num_status_0_links = len(status_0_matrix)
         prob_a = num_status_0_links/num_total_links                                   
         query_feat_matrix = self._query_link_matrix(self.matrix_past_links, query_features)
-        num_query_links = len(query_feat_matrix)-1
+        num_query_links = len(query_feat_matrix)
         # if less links with these features than user required to use probability then return None
         if num_query_links < self.min_link_data:
             return None, num_query_links
         prob_b = num_query_links/num_total_links 
         query_feat_status_0_matrix = self._query_link_matrix(status_0_matrix, query_features)
-        num_query_feat_status_0_links = len(query_feat_status_0_matrix)-1
+        num_query_feat_status_0_links = len(query_feat_status_0_matrix)
         prob_b_given_a = num_query_feat_status_0_links / num_status_0_links
         return ((prob_b_given_a * prob_a)/prob_b), num_query_links

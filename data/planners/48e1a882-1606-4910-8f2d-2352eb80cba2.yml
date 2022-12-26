@@ -16,3 +16,6 @@ params:
    # minimum number of past link data required for naive bayes probability link planner function
   decision_logging: False
    # when True then planner logs link selection logic in DEBUG level system output
+  delay_execution_links: ["300157e5-f4ad-4569-b533-9d1fa0e74d74"]
+   # link ids of links that should be treated as insufficient data and defaulted back to atomic 
+   # order execution (back of queue) for better operation ordering. Currently contains: 'compress staged directory'
