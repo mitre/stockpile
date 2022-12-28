@@ -16,9 +16,30 @@
             echo "gpu";
           }
         parsers:
-          basic:
-            plugins.stockpile.app.parsers.basic:
-              - source: ta0011.t1105.tensorflow
+          plugins.stockpile.app.parsers.basic:
+            - source: ta0011.t1105.tensorflow
+    darwin:
+      sh:
+        command: |
+          python -m pip install tensorflow-gpu<2.11 --quiet --exists-action i
+          if [[ $LASTEXITCODE -eq 0 ]]
+          then
+            echo "cpu"
+          fi
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: ta0011.t1105.tensorflow
+    linux:
+      sh:
+        command: |
+          python -m pip install tensorflow-gpu<2.11 --quiet --exists-action i
+          if [[ $LASTEXITCODE -eq 0 ]]
+          then
+            echo "cpu"
+          fi
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: ta0011.t1105.tensorflow
   requirements:
     - plugins.stockpile.app.requirements.knowledge_count:
       - source: host.gpu.name

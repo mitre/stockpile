@@ -15,3 +15,10 @@
         parsers:
           plugins.stockpile.app.parsers.json:
             - source: host.gpu.name
+    darwin:
+      sh:
+        command: |
+          system_profiler SPDisplaysDataType
+        parsers:
+          plugins.stockpile.app.parsers.system_profiler_spdisplays:
+            - source: host.gpu.name
