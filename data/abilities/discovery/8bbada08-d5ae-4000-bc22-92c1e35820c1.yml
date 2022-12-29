@@ -20,5 +20,5 @@
         command: |
           system_profiler SPDisplaysDataType
         parsers:
-          plugins.stockpile.app.parsers.system_profiler_spdisplays:
+          plugins.stockpile.app.parsers.system_profiler_spdisplaysdatatype:
             - source: host.gpu.name

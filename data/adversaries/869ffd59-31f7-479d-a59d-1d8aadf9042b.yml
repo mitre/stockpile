@@ -1,0 +1,7 @@
+---
+
+id: 869ffd59-31f7-479d-a59d-1d8aadf9042b
+name: Necromancer
+description: Adversary used for demoing NN image classification and exfiltration
+atomic_ordering:
+  - 8bbada08-d5ae-4000-bc22-92c1e35820c1

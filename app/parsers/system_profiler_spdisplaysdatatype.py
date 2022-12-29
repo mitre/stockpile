@@ -26,7 +26,7 @@ class Parser(BaseParser):
     def _locate_gpu(line):
         try:
             if GPU_TOKEN in line:
-                gpu = line.split()[1]
+                gpu = line.split(GPU_TOKEN)[1]
                 return gpu
         except Exception:
             pass

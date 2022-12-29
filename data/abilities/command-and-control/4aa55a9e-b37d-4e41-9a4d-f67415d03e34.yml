@@ -21,6 +21,5 @@
         cleanup: |
           rm Python310Installer.exe;
         parsers:
-          basic:
-            plugins.stockpile.app.parsers.basic:
-              - source: ta0011.t1105.python
+          plugins.stockpile.app.parsers.basic:
+            - source: ta0011.t1105.python
