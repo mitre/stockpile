@@ -1,0 +1,22 @@
+---
+
+- id: 15f1db6a-6cb2-40f0-9651-4ee90bab949e
+  name: Find Tensorflow model checkpoint files
+  description: Locate Tensorflow model checkpoint files
+  tactic: collection
+  technique:
+    attack_id: T1005
+    name: Data from Local System
+  platforms:
+    darwin:
+      sh:
+        command: |
+          find /Users -name '*.ckpt.*' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.file.path
+              edge: tensorflow
+  requirements:
+    - plugins.stockpile.app.requirements.knowledge_count:
+      - source: ta0011.t1105.tensorflow
+        count: 1

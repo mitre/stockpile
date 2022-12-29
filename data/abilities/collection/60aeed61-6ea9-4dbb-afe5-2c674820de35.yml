@@ -1,0 +1,22 @@
+---
+
+- id: 60aeed61-6ea9-4dbb-afe5-2c674820de35
+  name: Find Tensorflow model files
+  description: Locate Tensorflow model files
+  tactic: collection
+  technique:
+    attack_id: T1005
+    name: Data from Local System
+  platforms:
+    darwin:
+      sh:
+        command: |
+          find /Users -name 'assets' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.file.path
+              edge: tensorflow
+  requirements:
+    - plugins.stockpile.app.requirements.knowledge_count:
+      - source: ta0011.t1105.tensorflow
+        count: 1

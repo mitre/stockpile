@@ -2,7 +2,7 @@
 
 - id: 7491aaeb-284c-4f1d-ad1e-db73d539071d
   name: CNN Image Classifier
-  description: Applies an image classifier to a single image
+  description: Searches for images and applies an image classifier 
   tactic: collection
   technique:
     attack_id: T1074.001
@@ -11,10 +11,27 @@
     windows:
       psh:
         command: |
-          python ./image_classifier.py --path #{host.file.path}
-          if ($LASTEXITCODE -eq 0) {
-            Write-Output "#{host.file.path}";
-          }
+          python ./image_classifier.py --dir C:/Users
+        payloads:
+          - image_classifier.py
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.file.path
+              edge: sensitive
+    darwin:
+      sh:
+        command: |
+          python ./image_classifier.py --dir /Users
+        payloads:
+          - image_classifier.py
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.file.path
+              edge: sensitive
+    linux:
+      sh:
+        command: |
+          python ./image_classifier.py --dir /Users
         payloads:
           - image_classifier.py
         parsers:
