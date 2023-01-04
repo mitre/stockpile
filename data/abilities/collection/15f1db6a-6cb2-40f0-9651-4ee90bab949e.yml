@@ -16,7 +16,3 @@
           plugins.stockpile.app.parsers.basic:
             - source: host.file.path
               edge: tensorflow
-  requirements:
-    - plugins.stockpile.app.requirements.knowledge_count:
-      - source: ta0011.t1105.tensorflow
-        count: 1

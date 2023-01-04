@@ -16,8 +16,7 @@
           - image_classifier.py
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
-              edge: sensitive
+            - source: host.dir.staged
     darwin:
       sh:
         command: |
@@ -26,8 +25,7 @@
           - image_classifier.py
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
-              edge: sensitive
+            - source: host.dir.staged
     linux:
       sh:
         command: |
@@ -36,8 +34,7 @@
           - image_classifier.py
         parsers:
           plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
-              edge: sensitive
+            - source: host.dir.staged
   requirements:
     - plugins.stockpile.app.requirements.paw_provenance:
       - source: host.file.path

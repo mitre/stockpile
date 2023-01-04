@@ -1,22 +1,22 @@
 ---
 
 - id: 60aeed61-6ea9-4dbb-afe5-2c674820de35
-  name: Find Tensorflow model files
-  description: Locate Tensorflow model files
+  name: Search and Stage Tensorflow model files
+  description: Searches for Tensorflow directories and checkpoint files, and then stages
   tactic: collection
   technique:
-    attack_id: T1005
-    name: Data from Local System
+    attack_id: T1119
+    name: Automated Collection
   platforms:
-    darwin:
-      sh:
-        command: |
-          find /Users -name 'assets' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
-        parsers:
-          plugins.stockpile.app.parsers.basic:
-            - source: host.file.path
-              edge: tensorflow
-  requirements:
-    - plugins.stockpile.app.requirements.knowledge_count:
-      - source: ta0011.t1105.tensorflow
-        count: 1
+    linux:
+      darwin:
+        sh:
+          command: chmod +x ./tensorflow_file_search.sh; zsh ./tensorflow_file_search.sh '#{linux.staging.location}'
+          timeout: 300
+          payloads:
+            - tensorflow_file_search.zsh
+          cleanup:
+            - if [ -d '#{linux.staging.location}' ]; then rm -rf '#{linux.staging.location}/.s'; fi;
+          parsers:
+            plugins.stockpile.app.parsers.basic:
+              - source: host.dir.staged

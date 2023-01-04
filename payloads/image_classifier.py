@@ -2,7 +2,7 @@
 import argparse
 import glob
 import os
-import sys
+import shutil
 import numpy as np
 import tensorflow as tf
 
@@ -58,6 +58,8 @@ def get_argparser():
     path.add_argument('--dir')
     parser.add_argument('--class', default='volcano')
     parser.add_argument('--model', default='mobilenet')
+    parser.add_argument('--stage', required=True, help='staging directory')
+
     return parser
 
 
@@ -69,14 +71,14 @@ def main():
 
     if args['file']:
         if process_file(args['file']):
-            sys.stdout(args['file'])
+            shutil.copy(args['file'], args['stage'])
     elif args['dir']:
         matches = process_dir(
             path=args['path'],
             model=model,
             target_class=args['class']
         )
-        sys.stdout(matches)
+        _ = [shutil.copy(m, args['stage']) for m in matches]
 
 
 if __name__ == '__main__':

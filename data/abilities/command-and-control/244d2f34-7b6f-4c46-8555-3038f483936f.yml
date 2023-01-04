@@ -21,10 +21,9 @@
     darwin:
       sh:
         command: |
-          python -m pip install tensorflow-cpu --quiet --exists-action i
-          if [[ $LASTEXITCODE -eq 0 ]]
-          then
-            echo "cpu"
+          python -m pip install tensorflow-cpu --quiet --exists-action i;
+          if [[ $LASTEXITCODE -eq 0 ]] ; then
+            echo "cpu";
           fi
         parsers:
           plugins.stockpile.app.parsers.basic:
@@ -32,10 +31,9 @@
     linux:
       sh:
         command: |
-          python -m pip install tensorflow-cpu --quiet --exists-action i
-          if [[ $LASTEXITCODE -eq 0 ]]
-          then
-            echo "cpu"
+          python -m pip install tensorflow-cpu --quiet --exists-action i;
+          if [[ $LASTEXITCODE -eq 0 ]] ; then
+            echo "cpu";
           fi
         parsers:
           plugins.stockpile.app.parsers.basic:
