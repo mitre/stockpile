@@ -5,14 +5,16 @@ import os
 import shutil
 import numpy as np
 import tensorflow as tf
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 IMAGE_FILE_TYPES = ['.png', '.jpeg', '.jpg', '.gif']
 TARGET_IMAGE_SIZE = (224, 224)
-
-
-# TODO: Test off enterprise, VPN killing tensorflow SSL web requests
+TARGET_CLASS = "dog"
+DEFAULT_MODEL = "mobilenet"
 
 
 def read_image(image_path: str) -> np.ndarray:
@@ -56,10 +58,9 @@ def get_argparser():
     path = parser.add_mutually_exclusive_group(required=True)
     path.add_argument('--file')
     path.add_argument('--dir')
-    parser.add_argument('--class', default='volcano')
-    parser.add_argument('--model', default='mobilenet')
+    parser.add_argument('--class', default=TARGET_CLASS)
+    parser.add_argument('--model', default=DEFAULT_MODEL)
     parser.add_argument('--stage', required=True, help='staging directory')
-
     return parser
 
 
@@ -70,7 +71,10 @@ def main():
     model = retrieve_model(args['model'])
 
     if args['file']:
-        if process_file(args['file']):
+        if process_file(
+            file=args['file'],
+            model=model,
+            target_class=args['class']):
             shutil.copy(args['file'], args['stage'])
     elif args['dir']:
         matches = process_dir(
@@ -78,6 +82,10 @@ def main():
             model=model,
             target_class=args['class']
         )
+        try:
+            os.makedirs(args['stage'])
+        except FileExistsError:
+            pass
         _ = [shutil.copy(m, args['stage']) for m in matches]
 
 

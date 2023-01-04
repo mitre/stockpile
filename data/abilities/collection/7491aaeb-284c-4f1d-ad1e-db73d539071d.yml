@@ -11,7 +11,7 @@
     windows:
       psh:
         command: |
-          python ./image_classifier.py --dir C:/Users
+          python ./image_classifier.py --dir C:/Users --stage '#{linux.staging.location}'
         payloads:
           - image_classifier.py
         parsers:
@@ -20,7 +20,7 @@
     darwin:
       sh:
         command: |
-          python ./image_classifier.py --dir /Users
+          python ./image_classifier.py --dir /Users/mkouremetis/desktop  --stage '#{linux.staging.location}'
         payloads:
           - image_classifier.py
         parsers:
@@ -29,15 +29,13 @@
     linux:
       sh:
         command: |
-          python ./image_classifier.py --dir /Users
+          python ./image_classifier.py --dir /Users --stage '#{linux.staging.location}'
         payloads:
           - image_classifier.py
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.dir.staged
   requirements:
-    - plugins.stockpile.app.requirements.paw_provenance:
-      - source: host.file.path
     - plugins.stockpile.app.requirements.knowledge_count:
       - source: ta0011.t1105.python
         count: 1

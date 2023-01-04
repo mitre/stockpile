@@ -11,7 +11,7 @@
     darwin:
       sh:
         command: |
-          find /Users -name '*.ckpt.*' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5
+          find /Users/mkouremetis/caldera-exempt -name '*.ckpt.*' -type f -not -path '*/\.*'
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.file.path

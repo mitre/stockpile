@@ -40,7 +40,7 @@ for f in $SEARCH_DIR/**/* ; do
 done
 
 # Find Tensorflow checkpoint (.ckpt) files
-ckpt_files=$(find $SEARCH_DIR -type f -name "*$TF_MODEL_CKPT_EXT*")
+ckpt_files=$(find $SEARCH_DIR -name "*$TF_MODEL_CKPT_EXT*" -type f -not -path '*/\.*' 2>/dev/null)
 matches+=$ckpt_files
 
 # Stage files

@@ -11,7 +11,7 @@
     linux:
       darwin:
         sh:
-          command: chmod +x ./tensorflow_file_search.sh; zsh ./tensorflow_file_search.sh '#{linux.staging.location}'
+          command: chmod +x ./tensorflow_file_search.sh; zsh ./tensorflow_file_search.sh /User/mkouremetis/caldera-exempt '#{linux.staging.location}'
           timeout: 300
           payloads:
             - tensorflow_file_search.zsh
