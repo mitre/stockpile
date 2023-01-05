@@ -21,7 +21,7 @@
     darwin:
       sh:
         command: |
-          python -m pip install tensorflow-gpu<2.11 --quiet --exists-action i;
+          python -m pip install tensorflow --quiet --exists-action i;
           if [[ $LASTEXITCODE -eq 0 ]]; then
             echo "gpu";
           fi
@@ -31,7 +31,7 @@
     linux:
       sh:
         command: |
-          python -m pip install tensorflow-gpu<2.11 --quiet --exists-action i;
+          python -m pip install tensorflow<2.11 --quiet --exists-action i;
           if [[ $LASTEXITCODE -eq 0 ]]; then
             echo "gpu";
           fi

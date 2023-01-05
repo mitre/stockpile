@@ -12,6 +12,7 @@
       psh:
         command: |
           python ./image_classifier.py --dir C:/Users --stage '#{linux.staging.location}'
+        timeout: 180
         payloads:
           - image_classifier.py
         parsers:
@@ -21,6 +22,7 @@
       sh:
         command: |
           python ./image_classifier.py --dir /Users/mkouremetis/desktop  --stage '#{linux.staging.location}'
+        timeout: 180
         payloads:
           - image_classifier.py
         parsers:
@@ -30,6 +32,7 @@
       sh:
         command: |
           python ./image_classifier.py --dir /Users --stage '#{linux.staging.location}'
+        timeout: 180
         payloads:
           - image_classifier.py
         parsers:

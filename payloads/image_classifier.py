@@ -1,15 +1,20 @@
 
 import argparse
+from contextlib import redirect_stdout
 import glob
 import os
 import shutil
+import sys
 import numpy as np
-import tensorflow as tf
-import ssl
 
+# NOTE: Keep before tensorflow import, must silence tensorflow logs or else sabotages post-ability parser
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+import tensorflow as tf
+
+# NOTE: Uncomment for SSL certification trouble when behind a pesky MITM box.
+import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 IMAGE_FILE_TYPES = ['.png', '.jpeg', '.jpg', '.gif']
 TARGET_IMAGE_SIZE = (224, 224)
@@ -76,17 +81,20 @@ def main():
             model=model,
             target_class=args['class']):
             shutil.copy(args['file'], args['stage'])
+            print(args['stage'], file=sys.stdout)
     elif args['dir']:
         matches = process_dir(
-            path=args['path'],
+            path=args['dir'],
             model=model,
             target_class=args['class']
         )
-        try:
-            os.makedirs(args['stage'])
-        except FileExistsError:
-            pass
-        _ = [shutil.copy(m, args['stage']) for m in matches]
+        if matches:
+            try:
+                os.makedirs(args['stage'])
+            except FileExistsError:
+                pass
+            _ = [shutil.copy(m, args['stage']) for m in matches]
+            print(args['stage'], file=sys.stdout)
 
 
 if __name__ == '__main__':

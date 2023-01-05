@@ -8,15 +8,14 @@
     attack_id: T1119
     name: Automated Collection
   platforms:
-    linux:
-      darwin:
-        sh:
-          command: chmod +x ./tensorflow_file_search.sh; zsh ./tensorflow_file_search.sh /User/mkouremetis/caldera-exempt '#{linux.staging.location}'
-          timeout: 300
-          payloads:
-            - tensorflow_file_search.zsh
-          cleanup:
-            - if [ -d '#{linux.staging.location}' ]; then rm -rf '#{linux.staging.location}/.s'; fi;
-          parsers:
-            plugins.stockpile.app.parsers.basic:
-              - source: host.dir.staged
+    darwin:
+      sh:
+        command: chmod +x ./tensorflow_file_search.sh; zsh ./tensorflow_file_search.sh /User/mkouremetis/caldera-exempt '#{linux.staging.location}'
+        timeout: 180
+        payloads:
+          - tensorflow_file_search.zsh
+        cleanup: |
+          if [ -d '#{linux.staging.location}' ]; then rm -rf '#{linux.staging.location}/.s'; fi;
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.dir.staged
