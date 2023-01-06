@@ -16,3 +16,11 @@
           plugins.stockpile.app.parsers.basic:
             - source: host.file.path
               edge: tensorflow
+    linux:
+      sh:
+        command: |
+          find /Users -name '*.ckpt.*' -type f -not -path '*/\.*'
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.file.path
+              edge: tensorflow

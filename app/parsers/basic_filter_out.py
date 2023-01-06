@@ -16,7 +16,6 @@ class Parser(BaseParser):
     
     def parse(self, blob):
         relationships = []
-        print("----HERE----")
         for line in self.line(blob):
             for filter_ in self.filter_out:
                 if re.match(filter_, line):
