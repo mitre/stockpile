@@ -16,10 +16,10 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
-IMAGE_FILE_TYPES = ['.png', '.jpeg', '.jpg', '.gif']
+IMAGE_FILE_TYPES = ['png', 'jpeg', 'jpg', 'gif']
 TARGET_IMAGE_SIZE = (224, 224)
-TARGET_CLASS = "dog"
-DEFAULT_MODEL = "mobilenet"
+TARGET_CLASS = "mask"
+DEFAULT_MODEL = "resnet"
 
 
 def read_image(image_path: str) -> np.ndarray:
@@ -54,8 +54,12 @@ def process_dir(path: str, model, target_class: str) -> list:
 
 
 def process_file(file: np.ndarray, model, target_class) -> bool:
-    preds = predict_class(read_image(file), model)
-    return True if preds[0][0][1] != target_class else False
+    try:
+        image = read_image(file)
+    except:
+        return False
+    preds = predict_class(image, model)
+    return True if preds[0][0][1] == target_class else False
 
 
 def get_argparser():
@@ -80,7 +84,7 @@ def main():
             file=args['file'],
             model=model,
             target_class=args['class']):
-            shutil.copy(args['file'], args['stage'])
+            shutil.copy(args['file'].strip('\n'), args['stage'])
             print(args['stage'], file=sys.stdout)
     elif args['dir']:
         matches = process_dir(
@@ -93,7 +97,7 @@ def main():
                 os.makedirs(args['stage'])
             except FileExistsError:
                 pass
-            _ = [shutil.copy(m, args['stage']) for m in matches]
+            _ = [shutil.copy(m.strip('\n'), args['stage']) for m in matches]
             print(args['stage'], file=sys.stdout)
 
 

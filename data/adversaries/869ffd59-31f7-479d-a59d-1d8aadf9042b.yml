@@ -4,6 +4,7 @@ id: 869ffd59-31f7-479d-a59d-1d8aadf9042b
 name: Necromancer
 description: Adversary used for demoing Tensorflow neural network abilities
 atomic_ordering:
+  - 6469befa-748a-4b9c-a96d-f191fde47d89 # Create staging directory
   - 8bbada08-d5ae-4000-bc22-92c1e35820c1 # Find GPU
   - 15f1db6a-6cb2-40f0-9651-4ee90bab949e # Locate Tensorflow checkpoint files
   - 60aeed61-6ea9-4dbb-afe5-2c674820de35 # Find Tensorflow model and checkpoint files, and stage

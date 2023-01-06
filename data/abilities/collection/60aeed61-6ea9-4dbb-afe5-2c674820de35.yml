@@ -10,12 +10,12 @@
   platforms:
     darwin:
       sh:
-        command: chmod +x ./tensorflow_file_search.sh; zsh ./tensorflow_file_search.sh /User/mkouremetis/caldera-exempt '#{linux.staging.location}'
+        command: chmod +x ./tensorflow_file_search.zsh; zsh ./tensorflow_file_search.zsh /Users '#{host.dir.staged}'
         timeout: 180
         payloads:
           - tensorflow_file_search.zsh
         cleanup: |
-          if [ -d '#{linux.staging.location}' ]; then rm -rf '#{linux.staging.location}/.s'; fi;
+          if [ -d '#{host.dir.staged}' ]; then rm -rf '#{host.dir.staged}/.s'; fi;
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.dir.staged

@@ -11,32 +11,32 @@
     windows:
       psh:
         command: |
-          python ./image_classifier.py --dir C:/Users --stage '#{linux.staging.location}'
+          python ./image_classifier.py --dir C:/Users --stage '#{host.dir.staged}'
         timeout: 180
         payloads:
           - image_classifier.py
         parsers:
-          plugins.stockpile.app.parsers.basic:
+          plugins.stockpile.app.parsers.tensorflow_filter_out:
             - source: host.dir.staged
     darwin:
       sh:
         command: |
-          python ./image_classifier.py --dir /Users/mkouremetis/desktop  --stage '#{linux.staging.location}'
+          python ./image_classifier.py --dir /Users  --stage '#{host.dir.staged}'
         timeout: 180
         payloads:
           - image_classifier.py
         parsers:
-          plugins.stockpile.app.parsers.basic:
+          plugins.stockpile.app.parsers.tensorflow_filter_out:
             - source: host.dir.staged
     linux:
       sh:
         command: |
-          python ./image_classifier.py --dir /Users --stage '#{linux.staging.location}'
+          python ./image_classifier.py --dir /Users --stage '#{host.dir.staged}'
         timeout: 180
         payloads:
           - image_classifier.py
         parsers:
-          plugins.stockpile.app.parsers.basic:
+          plugins.stockpile.app.parsers.tensorflow_filter_out:
             - source: host.dir.staged
   requirements:
     - plugins.stockpile.app.requirements.knowledge_count:
