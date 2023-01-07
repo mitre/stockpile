@@ -31,8 +31,8 @@
     linux:
       sh:
         command: |
-          python -m pip install tensorflow-cpu --quiet --exists-action i;
-          if [[ $LASTEXITCODE -eq 0 ]] ; then
+          python3 -m pip install tensorflow-cpu --quiet --exists-action i;
+          if [[ $? -eq 0 ]] ; then
             echo "cpu";
           fi
         parsers:

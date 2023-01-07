@@ -16,7 +16,7 @@
             - source: ta0011.t1105.python
     linux:
       sh:
-        command: python --version
+        command: python3 --version
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: ta0011.t1105.python

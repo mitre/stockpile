@@ -3,11 +3,11 @@ from app.objects.secondclass.c_relationship import Relationship
 from app.utility.base_parser import BaseParser
 
 
-GPU_TOKEN = "Chipset Model: "
+GPU_TOKEN = ": "
 
 
 class Parser(BaseParser):
-    """A parser for extracting the GPUs found on a MacOS system"""
+    """A parser for extracting the GPUs found on a Linux system"""
 
     def parse(self, blob):
         relationships = []

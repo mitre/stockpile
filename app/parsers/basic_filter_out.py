@@ -18,7 +18,7 @@ class Parser(BaseParser):
         relationships = []
         for line in self.line(blob):
             for filter_ in self.filter_out:
-                if re.match(filter_, line):
+                if re.search(filter_, line):
                     continue
                 for mp in self.mappers:
                     source = self.set_value(mp.source, line, self.used_facts)

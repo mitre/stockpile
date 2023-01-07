@@ -13,14 +13,14 @@
         command: |
           find /Users -name '*.ckpt.*' -type f -not -path '*/\.*'
         parsers:
-          plugins.stockpile.app.parsers.basic:
+          plugins.stockpile.app.parsers.find:
             - source: host.file.path
               edge: tensorflow
     linux:
       sh:
         command: |
-          find /Users -name '*.ckpt.*' -type f -not -path '*/\.*'
+          find /home -name '*.ckpt.*' -type f -not -path '*/\.*'
         parsers:
-          plugins.stockpile.app.parsers.basic:
+          plugins.stockpile.app.parsers.find:
             - source: host.file.path
               edge: tensorflow

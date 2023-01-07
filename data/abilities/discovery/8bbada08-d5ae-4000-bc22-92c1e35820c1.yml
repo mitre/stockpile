@@ -22,3 +22,10 @@
         parsers:
           plugins.stockpile.app.parsers.system_profiler_spdisplaysdatatype:
             - source: host.gpu.name
+    linux:
+      sh:
+        command: |
+          lspci | grep VGA
+        parsers:
+          plugins.stockpile.app.parsers.lspci:
+            - source: host.gpu.name

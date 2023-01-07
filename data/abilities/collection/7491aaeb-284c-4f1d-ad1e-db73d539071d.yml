@@ -31,7 +31,7 @@
     linux:
       sh:
         command: |
-          python ./image_classifier.py --dir /Users --stage '#{host.dir.staged}'
+          python3 ./image_classifier.py --dir /home --stage '#{host.dir.staged}'
         timeout: 180
         payloads:
           - image_classifier.py
