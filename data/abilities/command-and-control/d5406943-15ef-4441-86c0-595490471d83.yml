@@ -32,7 +32,7 @@
       sh:
         command: |
           python3 -m pip install tensorflow --quiet --exists-action i;
-          if [[ $? -eq 0 ]]; then
+          if [ $? -eq 0 ]; then
             echo "gpu";
           fi
         parsers:

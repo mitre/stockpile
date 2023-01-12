@@ -32,7 +32,7 @@
       sh:
         command: |
           python3 -m pip install tensorflow-cpu --quiet --exists-action i;
-          if [[ $? -eq 0 ]] ; then
+          if [ $? -eq 0 ]; then
             echo "cpu";
           fi
         parsers:

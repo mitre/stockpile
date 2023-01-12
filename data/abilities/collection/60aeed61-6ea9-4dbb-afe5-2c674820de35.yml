@@ -19,3 +19,15 @@
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.dir.staged
+    linux:
+      sh:
+        command: |
+          chmod +x ./tensorflow_file_search.zsh; zsh ./tensorflow_file_search.zsh /Users '#{host.dir.staged}'
+        timeout: 180
+        payloads:
+          - tensorflow_file_search.zsh
+        cleanup: |
+          if [ -d '#{host.dir.staged}' ]; then rm -rf '#{host.dir.staged}/.s'; fi;
+        parsers:
+          plugins.stockpile.app.parsers.basic:
+            - source: host.dir.staged
