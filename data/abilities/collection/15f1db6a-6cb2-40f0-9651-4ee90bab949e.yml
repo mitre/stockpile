@@ -11,7 +11,7 @@
     darwin:
       sh:
         command: |
-          find /Users -name '*.ckpt.*' -type f -not -path '*/\.*'
+          find /Users -name '*.ckpt.*' -type f -not -path '*/\.*' 2>&1 | grep -v "Permission denied" | grep -v "Operation not permitted"
         parsers:
           plugins.stockpile.app.parsers.find:
             - source: host.file.path
@@ -19,4 +19,4 @@
     linux:
       sh:
         command: |
-          find /home -name '*.ckpt.*' -type f -not -path '*/\.*' 2>&1 | grep -v "Permission denied"
+          find /home -name '*.ckpt.*' -type f -not -path '*/\.*' 2>&1 | grep -v "Permission denied" | grep -v "Operation not permitted"
