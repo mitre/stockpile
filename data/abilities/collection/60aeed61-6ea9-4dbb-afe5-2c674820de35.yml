@@ -10,10 +10,11 @@
   platforms:
     darwin:
       sh:
-        command: chmod +x ./tensorflow_file_search.zsh; zsh ./tensorflow_file_search.zsh /Users '#{host.dir.staged}'
+        command: |
+          chmod +x ./tensorflow_file_search.sh; ./tensorflow_file_search.sh /Users '#{host.dir.staged}'
         timeout: 180
         payloads:
-          - tensorflow_file_search.zsh
+          - tensorflow_file_search.sh
         cleanup: |
           if [ -d '#{host.dir.staged}' ]; then rm -rf '#{host.dir.staged}/.s'; fi;
         parsers:

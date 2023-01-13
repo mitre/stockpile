@@ -8,7 +8,7 @@ function is_tensorflow_dir {
   assets="assets"
   variables="variables"
   if [[ " ${contents[*]} " =~ " ${assets} " ]] ; then
-    if (($contents[(Ie)$variables])) ; then
+    if [[ " ${contents[*]} " =~ " ${variables} " ]] ; then   # (($contents[(Ie)$variables])) ; then
       for i in $contents; do
         if [[ "$i"=="model.pb" ]] ; then
           return 0
