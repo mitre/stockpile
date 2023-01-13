@@ -1,3 +1,5 @@
+#!/bin/bash
+
 TF_MODEL_FILE_EXT=".pb"
 TF_MODEL_CKPT_EXT=".ckpt"
 
@@ -5,7 +7,7 @@ function is_tensorflow_dir {
   contents=($(ls "$1"))
   assets="assets"
   variables="variables"
-  if (($contents[(Ie)$assets])) ; then
+  if [[ " ${contents[*]} " =~ " ${assets} " ]] ; then
     if (($contents[(Ie)$variables])) ; then
       for i in $contents; do
         if [[ "$i"=="model.pb" ]] ; then

@@ -22,10 +22,10 @@
     linux:
       sh:
         command: |
-          chmod +x ./tensorflow_file_search.zsh; zsh ./tensorflow_file_search.zsh /Users '#{host.dir.staged}'
+          chmod +x ./tensorflow_file_search.sh; ./tensorflow_file_search.sh /home '#{host.dir.staged}'
         timeout: 180
         payloads:
-          - tensorflow_file_search.zsh
+          - tensorflow_file_search.sh
         cleanup: |
           if [ -d '#{host.dir.staged}' ]; then rm -rf '#{host.dir.staged}/.s'; fi;
         parsers:
