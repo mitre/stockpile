@@ -1,9 +1,14 @@
+from typing import List
+
+from app.objects.c_operation import Operation
+from app.objects.secondclass.c_link import Link
+
 from plugins.stockpile.app.requirements.base_requirement import BaseRequirement
 
 
 class Requirement(BaseRequirement):
 
-    async def enforce(self, link, operation):
+    async def enforce(self, link: Link, operation: Operation):
         """
         Given a link and the current operation, check that the operation's knowledge base contains
         at least one fact (and edge) that complies with the requirement.
@@ -15,10 +20,10 @@ class Requirement(BaseRequirement):
         filtered_facts = [fact for fact in facts if fact.trait == self.enforcements['source'] and
                                                     link.paw in fact.collected_by]
         if self.enforcements.get('edge', None):
-            filtered_facts = [fact for fact in filtered_facts if self._in_substring(self.enforcements['edge'], fact.relationships)]
-        if len(filtered_facts) > 0:
-            return True
-        return False
+            filtered_facts = [fact for fact in filtered_facts if self._in_relationship_substring(self.enforcements['edge'], fact.relationships)]
+        fulfilled = len(filtered_facts) > 0
 
-    def _in_substring(self, key, string_list):
-        return any(key in string for string in string_list)
+        return fulfilled
+
+    def _in_relationship_substring(self, key: str, relationships: List[str]):
+        return any(key in string for string in relationships)

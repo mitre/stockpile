@@ -1,3 +1,8 @@
+from typing import List
+
+from app.objects.c_operation import Operation
+from app.objects.secondclass.c_link import Link
+
 from plugins.stockpile.app.requirements.base_requirement import BaseRequirement
 
 
@@ -14,10 +19,10 @@ class Requirement(BaseRequirement):
         facts = await operation.all_facts()
         matching_facts = [fact for fact in facts if fact.trait == self.enforcements['source'] and
                                                     link.paw in fact.collected_by]
-        matching_edges = [fact for fact in matching_facts if self._in_substring(self.enforcements['edge'], fact.relationships)]
-        if len(matching_facts) == len(matching_edges):
-            return True
-        return False
+        matching_edges = [fact for fact in matching_facts if self._in_relationship_substring(self.enforcements['edge'], fact.relationships)]
+        fulfilled = len(matching_facts) == len(matching_edges)
 
-    def _in_substring(self, key, string_list):
-        return any(key in string for string in string_list)
+        return fulfilled
+
+    def _in_relationship_substring(self, key: str, relationships: List[str]):
+        return any(key in string for string in relationships)
