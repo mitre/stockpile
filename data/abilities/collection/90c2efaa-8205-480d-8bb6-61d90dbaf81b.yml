@@ -27,7 +27,7 @@
             - source: host.file.path
               edge: has_extension
               target: file.sensitive.extension
-    linux:
+    freebsd,linux:
       sh:
         command: |
           find / -name '*.#{file.sensitive.extension}' -type f -not -path '*/\.*' -size -500k 2>/dev/null | head -5

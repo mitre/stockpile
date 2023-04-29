@@ -12,7 +12,7 @@
       sh:
         command: |
           ls
-    linux:
+    freebsd,linux:
       sh:
         command: |
           ls

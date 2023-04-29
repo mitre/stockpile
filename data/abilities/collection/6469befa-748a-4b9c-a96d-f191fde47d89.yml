@@ -17,7 +17,7 @@
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.dir.staged
-    linux:
+    freebsd,linux:
       sh:
         command: |
           mkdir -p staged && echo $PWD/staged

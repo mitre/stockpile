@@ -12,7 +12,7 @@
       sh:
         command: |
           echo "proof that this machine was hacked." > message.txt
-    linux:
+    freebsd,linux:
       sh:
         command: |
           echo "proof that this machine was hacked." > message.txt

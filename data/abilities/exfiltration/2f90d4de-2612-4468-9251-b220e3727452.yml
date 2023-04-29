@@ -6,7 +6,7 @@
     attack_id: T1560.001
     name: 'Archive Collected Data: Archive via Utility'
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           tar -czf #{host.dir.git}.tar.gz -C "#{host.dir.git}" .; printf #{host.dir.git}.tar.gz;

@@ -11,6 +11,10 @@
       sh:
         command: |
           netstat -anto
+    freebsd:
+      sh:
+        command: |
+          netstat -aSp tcp
     linux:
       sh:
         command: |

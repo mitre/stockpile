@@ -12,7 +12,7 @@
       sh:
         cleanup: |
           rm #{payload}
-    linux:
+    freebsd,linux:
       sh:
         cleanup: |
           rm #{payload}

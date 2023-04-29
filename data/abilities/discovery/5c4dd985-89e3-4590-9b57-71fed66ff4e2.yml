@@ -15,6 +15,6 @@
     darwin:
       sh:
         command: groups
-    linux:
+    freebsd,linux:
       sh:
         command: groups
