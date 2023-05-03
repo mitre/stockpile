@@ -12,7 +12,7 @@
 
       invoke-command #{remote.host.fqdn} -scriptblock { certutil -decode \\#{local.host.fqdn}\c$\users\public\com.crt
       #{location}; invoke-wmimethod -computername . -class win32_process -name Create
-      -argumentlist "C:\users\public\splunkd.exe -server http://192.168.1.124:8888
+      -argumentlist "C:\users\public\splunkd.exe -server #{server}
       -group red" }
 
       '
