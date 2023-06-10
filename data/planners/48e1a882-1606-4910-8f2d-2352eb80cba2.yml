@@ -10,8 +10,6 @@ allow_repeatable_abilities: False
 params:
   min_link_data: 3
    # minimum number of past links (executed actions/abilities) required for naive bayes probabilistic reasoning to be applied to an ability.
-  decision_logging: False
-   # when True then planner logs link selection logic in DEBUG level system output
   delay_execution_links: ["300157e5-f4ad-4569-b533-9d1fa0e74d74"]
    # link ids of links that should be treated as insufficient data and defaulted back to atomic 
    # order execution (back of queue) for better operation ordering. Currently contains: 'compress staged directory'
