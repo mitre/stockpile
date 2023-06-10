@@ -58,7 +58,7 @@ class LogicalPlanner:
             ordering (used by atomic planner)
             - Drop any links that with sufficient past data but insufficient calculated
             probability of success
-        - Terminate when out of links or all links have too low likelihood of success.
+        - Terminate when out of links or all links have too low likelihood of success
     """
 
     def __init__(
