@@ -47,8 +47,7 @@ class LogicalPlanner:
         to atomic ordering and treated as insufficient data to improve operation ordering.
         Set in config.
         -  min_prob_link_success: minimum calculated likelihood of success necessary to
-        run a link (action). Set by user through visibility setting in advanced section of operation
-        creation. Calculated as = (99.0% - operation visibility%). Default is 48%
+        run a link (action). Set in config. Default is 49%
     Algorithm:
         - While there are available links in the operation for live agents:
             - If there are links that satisfy minimum operational data settings and minimum
@@ -65,6 +64,7 @@ class LogicalPlanner:
         self, 
         operation: Operation, 
         planning_svc: PlanningService, 
+        min_prob_link_success : float,
         min_link_data: int,
         excluded_trait_prefixes: List[str] = HOST_SPECIFIC_FACT_TRAITS,
         debug: bool = False,
@@ -74,6 +74,7 @@ class LogicalPlanner:
         """
         :param operation:
         :param planning_svc:
+        :param min_prob_link_success: minimum probability of link success necessary for it to be executed
         :param min_link_data: minimum number runs of link required to use past statistics on it
         :param excluded_trait_prefixes: list of fact trait prefixes to exclude from probability calculation
         :param debug: flag for planner to log link selection logic
@@ -91,7 +92,7 @@ class LogicalPlanner:
         self.excluded_trait_prefixes = excluded_trait_prefixes
         self.debug = debug
         self.delay_execution_links = delay_execution_links
-        self.min_prob_link_success = (99.0 - self.operation.visibility) / 100
+        self.min_prob_link_success = min_prob_link_success
         self.links_executed = 0
         self.log = self.planning_svc.log
         if self.debug:
@@ -123,7 +124,6 @@ class LogicalPlanner:
                 self.log.debug('Operation concluded')
             self.next_bucket = None
             self.stopping_condition_met = True
-
     """ PRIVATE """
 
     async def _build_past_links_matrix(self, past_operation_data: List[Operation]) -> List[List]:
@@ -211,7 +211,7 @@ class LogicalPlanner:
         if prob_success_best_link >= self.min_prob_link_success:
             if self.debug:
                 self.log.debug(
-                    f"Best link selected with probability of success {prob_success_best_link}% " + \
+                    f"Best link selected with probability of success {prob_success_best_link:.2f} " + \
                     f"based on {link_num_observations[highest_probability_link_index]} observations"
                 )
             chosen_link = links[highest_probability_link_index]
