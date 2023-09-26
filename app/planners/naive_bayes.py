@@ -49,12 +49,13 @@ class LogicalPlanner:
         -  min_prob_link_success: minimum calculated likelihood of success necessary to
         run a link (action). Set in config. Default is 49%
     Algorithm:
-        - While there are available links in the operation for live agents:
-            - If there are links that satisfy minimum operational data settings and minimum
-            link probability of success settings:
-                - Execute them in order of likelihood of success (high to low)
-            - Run all remaining links with insufficient past operational data in atomic
-            ordering (used by atomic planner)
+        - While there are available link(s) in the operation for live agent(s):
+            - If there are link(s) that satisfy minimum operational data settings and 
+            minimum link probability of success settings:
+                - Execute the link with the highest calculated probability of success
+            - Else:
+                - If there are remaining link(s) with insufficient past operational data:
+                    - Execute next link based on atomic ordering
             - Drop any links that with sufficient past data but insufficient calculated
             probability of success
         - Terminate when out of links or all links have too low likelihood of success
