@@ -39,6 +39,3 @@ atomic_ordering:
 - 5c922d92f383656401d5633ca23db497 # Linux/Mac Pad Binary to Change Hash using truncate command - Linux/macOS 
 - 4d4b29abb6b1e580e33c0035c1fc37ad # Linux/Mac Delete system and audit logs
 - 93127a8c6cdb05fd84f871a5faa9d7c7 # Darwin Disables macOS Gatekeeper
-
-
- 
