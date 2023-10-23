@@ -6,7 +6,7 @@ description: |
   The guided planner will map between links likely to achieve a given goal
   and execute the links in an order most likely to achieve the set goals
   in the shortest execution run
-module: plugins.stockpile.app.guided
+module: plugins.stockpile.app.planners.guided
 params:
   half_life_penalty: 4
   half_life_gain: 2
