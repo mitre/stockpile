@@ -68,7 +68,7 @@ func main() {
 	duration := flag.String("duration", "60", "How long the mission should run (seconds)")
 	extension := flag.String("extension", ".caldera", "What extension are we searching for")
 	message := flag.String("message", "caldera wuz here", "What message should be inserted into the files")
-	dir := flag.String("dir", "/", "Where should CALDERA start looking for files")
+	dir := flag.String("dir", "/", "Where should Caldera start looking for files")
 	flag.Parse()
 
 	modifiedFiles = make(map[string]bool)

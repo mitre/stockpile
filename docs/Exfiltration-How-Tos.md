@@ -1,6 +1,6 @@
 # Exfiltration Scenarios and Setup
 
-This document will discuss how to utilize various exfiltration abilities within CALDERA, specifically focused on the
+This document will discuss how to utilize various exfiltration abilities within Caldera, specifically focused on the
 following abilities:
 
 - Advanced File Search and Stager
@@ -56,12 +56,12 @@ Keep track of the access token and your username for the fact source.
 ### FTP
 There are a number of ways to start an FTP server depending on your OS; start the service per your operating system's 
 requirements. As a note, FTP services may not like writable chroots if configured. To avoid this, either allow writeable
-chroots or designate a specific folder for CALDERA uploads and supply that in the fact source.
+chroots or designate a specific folder for Caldera uploads and supply that in the fact source.
 
 For example, with vsftpd you can either:
 
 - Edit `/etc/vsftpd.conf` to include `allow_writable_chroot=YES`
-- Supply a writable folder in addition to the FTP server address in the CALDERA fact source. E.g. `value: 192.168.1.2/upload`
+- Supply a writable folder in addition to the FTP server address in the Caldera fact source. E.g. `value: 192.168.1.2/upload`
 
 ### AWS
 The exfiltration via AWS CLI abilities assume the AWS CLI is installed on the host machine. For use with an IAM user,
@@ -80,10 +80,10 @@ object's ACL in the destination S3 bucket. This will ensure that objects transfe
 automatically become owned by the destination bucket owner, who will then have full control of the transferred objects.
 
 ## The Fact Source
-CALDERA uses **facts** in its operations to collect and act upon information of import. For more general information, 
+Caldera uses **facts** in its operations to collect and act upon information of import. For more general information, 
 see the [docs](https://caldera.readthedocs.io/en/latest/Basic-Usage.html#facts). To aid in exfiltration testing, Stockpile
 contains a fact source for basic testing with the various facts consumed by the abilities listed above (data/sources/2ccb822c-088a-4664-8976-91be8879bc1d).
-Note that this **does not** include all facts used by other exfiltration abilities in CALDERA, such as those offered by
+Note that this **does not** include all facts used by other exfiltration abilities in Caldera, such as those offered by
 the Atomic plugin.
 
 Most of the fact source is commented-out by default excepting the search and stage ability. To plan an operation,
@@ -266,7 +266,7 @@ in the event the selected directory is not writable. These values are `c:\users\
 To support safe testing, the ability additionally has a **safe mode** option. It is **disabled by default** and will
 find all files matching the parameters set before. If this fact is changed to 'true', you can supply an identifying value
 which indicates the file is for testing. This identifying value **must be at the end** of the file. The
-default value is "_pseudo". If Safe Mode is enabled, CALDERA **will not** stage any files that do not end in "_pseudo".
+default value is "_pseudo". If Safe Mode is enabled, Caldera **will not** stage any files that do not end in "_pseudo".
 
 To provide a few examples, if safe mode is on with the value "_pseudo":
 
@@ -309,7 +309,7 @@ Whew. Let's recap a few things. So far we have:
 2. Updated the selected source file with the pertinent information about the GitHub account and ensured the lines are uncommented
 3. Adjusted and reviewed the source file for the files we want to find and exclude, provided a staging location, and provided a password
 
-With all of that in place, fire up CALDERA as normal. For this demonstration, we'll use a pre-built adversary, but you
+With all of that in place, fire up Caldera as normal. For this demonstration, we'll use a pre-built adversary, but you
 can easily add other abilities (even multi-exfil paths) to your own adversary or operation.
 
 Navigate to the Operations tab and hit "Create an Operation". Fill in the name, select "Advanced Thief via GitHub Repo"
