@@ -10,7 +10,7 @@ async def donut_handler(services, args):
     Creates .donut files from the .donut.exe files created by the
     builder plugin
 
-    :param services: CALDERA services
+    :param services: Caldera services
     :type services: dict
     :param args: HTTP request arguments
     :type args: multidict
@@ -43,7 +43,7 @@ async def _get_exe_path(services, donut_file):
             1. 'Rubeus.donut.exe'
             2. 'Rubeus.exe'
 
-    :param services: CALDERA services
+    :param services: Caldera services
     :type services: dict
     :param donut_file: Donut filename
     :type donut_file: string

@@ -21,3 +21,7 @@ folder.
 - Exfil Compressed Archive to S3 via AWS CLI
 - Transfer Compressed Archive to Separate S3 Bucket via AWS CLI
 - Scheduled Exfiltration
+
+
+*Potential Issues*
+- The `donut-shellcode` python package is not currently supported for ARM chip architectures. Thus the package cannot be installed on newer Mac systems with the M chip series.
