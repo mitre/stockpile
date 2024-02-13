@@ -14,7 +14,7 @@ class StockpileService(BaseService):
         self.data_svc = services.get('data_svc')
         self.contact_svc = services.get('contact_svc')
         self.log = self.add_service('stockpile_svc', self)
-    
+
     @template('stockpile.html')
     async def splash(self, request):
         return dict()
