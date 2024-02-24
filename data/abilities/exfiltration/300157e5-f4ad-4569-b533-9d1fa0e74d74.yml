@@ -17,7 +17,7 @@
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.dir.compress
-    linux:
+    freebsd,linux:
       sh:
         command: |
           tar -P -zcf #{host.dir.staged}.tar.gz #{host.dir.staged} && echo #{host.dir.staged}.tar.gz

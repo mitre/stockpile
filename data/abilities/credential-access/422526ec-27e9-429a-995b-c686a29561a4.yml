@@ -2,7 +2,7 @@
 
 - id: 422526ec-27e9-429a-995b-c686a29561a4
   name: Dump history
-  description: Get contents of bash history
+  description: Get contents of bash/csh history
   tactic: credential-access
   technique:
     attack_id: T1552.003
@@ -14,6 +14,12 @@
         parsers:
           plugins.stockpile.app.parsers.ssh:
             - source: remote.ssh.cmd
+    freebsd:
+      sh:
+        command: cat ~/.history
+        parsers:
+          plugins.stockpile.app.parsers.ssh:
+              - source: remote.ssh.cmd
     linux:
       sh:
         command: cat ~/.bash_history

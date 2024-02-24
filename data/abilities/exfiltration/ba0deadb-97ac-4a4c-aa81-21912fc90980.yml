@@ -9,7 +9,7 @@
     attack_id: T1537
     name: 'Transfer Data to Cloud Account'
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           LocalFile='#{host.dir.compress}';

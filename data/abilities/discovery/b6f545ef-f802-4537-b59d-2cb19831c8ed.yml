@@ -8,7 +8,7 @@
     attack_id: T1016
     name: System Network Configuration Discovery
   platforms:
-    darwin:
+    darwin,freebsd:
       sh:
         command: |
           ifconfig | grep broadcast

@@ -15,7 +15,7 @@
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.user.name
-    linux:
+    freebsd,linux:
       sh:
         command: |
           cut -d: -f1 /etc/passwd | grep -v '_' | grep -v '#'
