@@ -1,7 +1,6 @@
 id: ef4d997c-a0d1-4067-9efa-87c58682db71
 name: Defense Evasion
 description: General defense-evasion set of abilities
-objective: c495a9828-cab1-44dd-a0ca-66e58177d8c
 atomic_ordering:
 - 43b3754c-def4-4699-a673-1d85648fda6a # Windows Avoid logs
 - df94858e92a23d274ac1d70133d9150f # Windows Prevent Powershell History Logging
