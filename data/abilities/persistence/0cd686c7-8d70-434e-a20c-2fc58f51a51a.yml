@@ -1,11 +1,11 @@
-- description: After victim reboots, the host will automatically reach out to the
-    caldera server to download and execute the caldera agent. This creates persistent
-    root access even after reboot.
+- description: After target host is rebooted, it will automatically reach out to the
+    caldera server to download and execute the caldera agent, creating persistent
+    root access after reboot.
   plugin: ''
   buckets: []
   technique_id: T1053.003
   access: {}
-  name: Create persistence cronjob for root user (requires sudo)
+  name: Create persistence cron job for root user (requires sudo)
   tactic: persistence
   requirements: []
   privilege: ''
