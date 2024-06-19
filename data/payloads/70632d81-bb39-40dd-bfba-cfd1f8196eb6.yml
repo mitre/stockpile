@@ -54,6 +54,9 @@ standard_payloads:
   totallylegit.exe:
     description: Compiled minidump.go binary for dumping LSASS memory
     id: 98c0a4cf-6fc3-446e-9857-fe396a9eafee
+  transfer_suid.sh:
+    description: Script to look for executables to abuse elevation control mechanism (setuid and setgid)
+    id: be9223eb-aa91-46e8-8c32-4fecccf1c7c7
   wifi.ps1:
     description: Wifi manipulation script
     id: 28f9bf43-4f14-4965-9bd9-b70fd6993d8e
