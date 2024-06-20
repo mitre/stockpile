@@ -12,7 +12,7 @@
       sh:
         command: |
           ps
-    linux:
+    freebsd,linux:
       sh:
         command: |
           ps

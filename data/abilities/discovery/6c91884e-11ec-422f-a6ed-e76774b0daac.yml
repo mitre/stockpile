@@ -14,7 +14,7 @@
           - source: host.print.file
             edge: has_size
             target: host.print.size
-    linux:
+    freebsd,linux:
       sh:
         command: lpq -a
         parsers:

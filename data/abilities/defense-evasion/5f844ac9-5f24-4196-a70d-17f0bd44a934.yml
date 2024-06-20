@@ -25,7 +25,7 @@
           path="$(pwd)/#{exe_name}";
           num_processes=$(for id in $(pgrep -f #{exe_name}); do lsof -p $id 2> /dev/null | grep "$path"; done | wc -l);
           if [ "$num_processes" -le 1 ]; then /bin/rm -f "$path"; fi;
-    linux:
+    freebsd,linux:
       sh:
         command: |
           path="$(pwd)/#{exe_name}";

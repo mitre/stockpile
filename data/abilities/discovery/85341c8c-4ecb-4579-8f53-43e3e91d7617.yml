@@ -14,7 +14,7 @@
         parsers:
           plugins.stockpile.app.parsers.ipaddr:
             - source: remote.host.ip
-    linux:
+    freebsd,linux:
       sh:
         command: arp -a
         parsers:

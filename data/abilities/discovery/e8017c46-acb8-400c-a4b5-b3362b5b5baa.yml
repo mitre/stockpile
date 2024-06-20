@@ -12,7 +12,7 @@
       sh:
         command: |
           sudo ifconfig
-    linux:
+    freebsd,linux:
       sh:
         command: |
           sudo ifconfig
