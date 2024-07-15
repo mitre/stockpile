@@ -12,6 +12,10 @@
       sh:
         command: |
           which google-chrome
+    freebsd:
+      sh:
+        command: |
+          which chrome
     linux:
       sh:
         command: |

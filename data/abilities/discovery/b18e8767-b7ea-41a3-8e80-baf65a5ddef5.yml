@@ -12,6 +12,10 @@
       sh:
         command: |
           python3 --version;python2 --version;python --version
+    freebsd:
+      sh:
+        command: |
+          pkg version -x python3 | cut -d '-' -f2 | awk '{print $1}' && pkg version -x python2 | cut -d '-' -f2 | awk '{print $1}'
     linux:
       sh:
         command: |

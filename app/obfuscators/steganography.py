@@ -14,6 +14,7 @@ class Obfuscation(BaseObfuscator):
     def supported_platforms(self):
         return dict(
             darwin=['sh'],
+            freebsd=['sh'],
             linux=['sh']
         )
 

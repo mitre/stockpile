@@ -43,7 +43,7 @@
           $result = $sr.ReadToEnd();
           $result;
           $res.close();
-    linux:
+    freebsd,linux:
       sh:
         command: |
           LocalFile='#{host.dir.compress}';

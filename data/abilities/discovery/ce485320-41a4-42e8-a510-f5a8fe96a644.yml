@@ -8,7 +8,7 @@
     attack_id: T1018
     name: Remote System Discovery
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: host "#{target.org.domain}" | grep mail | grep -oE '[^ ]+$' | rev | cut -c 2- | rev
         parsers:
