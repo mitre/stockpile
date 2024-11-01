@@ -7,7 +7,7 @@ from app.objects.secondclass.c_fact import Fact
 from app.service.planning_svc import PlanningService
 
 
-UPDATE_AFTER_LINKS = 10  # Frequency with which to update operation/action data used for naive bayes reasoning. Frequency unit is newly executed links (actions).
+UPDATE_AFTER_LINKS = 10  # Frequency with which to update operation/action data used for bayes reasoning. Frequency unit is newly executed links (actions).
 FEATURE_NAMES = [  # Features collected per link from operational data
     "Ability_ID",
     "Adversary_ID",
@@ -30,7 +30,7 @@ HOST_SPECIFIC_FACT_TRAITS = ("host.", "remote.", "file.last.", "domain.user.")
 
 
 class LogicalPlanner:
-    """Naive Bayes Planner
+    """Bayes Planner
     The planner utilizes past operational history to execute operations while
     prioritizing likelihood of link (action) success. With sufficient local data, NB planner
     runs all operations in order of most to least effective links, while dropping
@@ -237,7 +237,7 @@ class LogicalPlanner:
 
     def _get_link_success_probability(self, query_features: Dict): 
         """
-        Calculates Naive Bayes probability for a link (with features and values
+        Calculates Bayes probability for a link (with features and values
         from query_features) executing successfully. Returns success probability,
         and number of link observations in dataset.
         """
@@ -259,7 +259,7 @@ class LogicalPlanner:
         query_features_success_links_count = len(query_features_success_matrix)
         successful_links_count = len(success_matrix)
 
-        # Naive Bayes applied to queried links (actions)
+        # Bayes applied to queried links (actions)
         prob_a = successful_links_count / total_links_count
         prob_b = query_links_count / total_links_count     
         prob_b_given_a = query_features_success_links_count / successful_links_count
