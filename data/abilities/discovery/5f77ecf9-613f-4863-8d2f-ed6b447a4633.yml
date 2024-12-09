@@ -12,7 +12,7 @@
       sh:
         command: |
           cat ~/.ssh/known_hosts
-    linux:
+    freebsd,linux:
       sh:
         command: |
           cat ~/.ssh/known_hosts

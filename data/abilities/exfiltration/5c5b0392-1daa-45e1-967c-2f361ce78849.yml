@@ -11,7 +11,7 @@
     attack_id: T1030
     name: Data Transfer Size Limits
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           tar -C #{host.dir.staged} -czf - . | gpg -c --pinentry-mode=loopback --passphrase '#{host.archive.password}' > #{host.dir.staged}.tar.gz.gpg;

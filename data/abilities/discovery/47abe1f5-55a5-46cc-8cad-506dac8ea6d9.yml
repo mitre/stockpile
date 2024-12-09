@@ -17,6 +17,17 @@
             target: remote.host.port
         payloads:
         - scanner.py
+    freebsd:
+      sh:
+        command: |
+          python3.9 scanner.py -i #{remote.host.ip}
+        parsers:
+          plugins.stockpile.app.parsers.scan:
+          - source: remote.host.ip
+            edge: has_open_port
+            target: remote.host.port
+        payloads:
+        - scanner.py
     linux:
       sh:
         command: |

@@ -12,6 +12,10 @@
       sh:
         command: |
           pwpolicy getaccountpolicies
+    freebsd:
+      sh:
+        command: |
+          cat /etc/pam.d/passwd
     linux:
       sh:
         command: |
