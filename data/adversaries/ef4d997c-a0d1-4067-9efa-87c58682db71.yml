@@ -11,7 +11,7 @@ atomic_ordering:
 - 5b93df032e230056c21a3e57334f77d1 # Windows (Admin) Privileged Disable Microsoft Defender Firewall
 - 20277ce46ffe7d08083f8b5ca524b317 # Windows Create Windows Hidden File with Attrib 
 - 0424ccb447bfa66b94162266f55ecd52 # Windows (Admin) Change Powershell Execution Policy to Bypass
-- 2f32a5c66db68b291469a3ab49be9261 # Windows File Extension Masquerading 
+- 53ea111a48f59a3bf7815f1e4a978fa5 # Windows File Extension Masquerading 
 - f1222384fe40cc71e7dea9d182014eaf # Windows Hidden Window 
 - d9c1b1283c1ad6fdda27be021c4737d3 # Windows Masquerading - non-windows exe running as windows exe
 - 9d2e91b9241ae43b517be2be98bddfd9 # Windows Indicator Removal using FSUtil
@@ -27,7 +27,7 @@ atomic_ordering:
 - 854e480af3b5e2946bb3ae44916e951a # Linux Disable iptables
 - 2929fac2296bf1041ba33c86d42d9a5a # Linux Clear Pagging Cache
 - c8e46a29cac614806da56b0be6b0e454 # Linux Clear Bash history (truncate)
-- 6401e9fc7007569199a38703f0aa0f0f # Linux Setting the HISTFILE environment variable
+- b2e76a3113cbfc8e9729b7e170a5a6aa # Linux Setting the HISTFILE environment variable
 - 8e7c28877a9c7826fece190f185b534c # Linux/Mac Use Space Before Command to Avoid Logging to History
 - 23dafb943f2f1a3e21e8204826c7b271 # Linux/Mac Execute a process from a directory masquerading as the current parent directory.
 - 379509c4b83f252bc779446f0512e936 # Linux/Mac Create a hidden file in a hidden directory 
