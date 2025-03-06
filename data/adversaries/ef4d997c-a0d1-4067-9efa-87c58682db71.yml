@@ -3,38 +3,38 @@ name: Defense Evasion
 description: General defense-evasion set of abilities
 atomic_ordering:
 - 43b3754c-def4-4699-a673-1d85648fda6a # Windows Avoid logs
-- df94858e92a23d274ac1d70133d9150f # Windows Prevent Powershell History Logging
+- 2f898b81-3e97-4abb-bc3f-a95138988370 # Windows Prevent Powershell History Logging
 - b007f6e8-4a87-4440-8888-29ceab047d9b # Windows (Admin) Disable Windows Defender All
-- 06d6ac81dae5c0f49dd3d5641eb2c81e # Windows Grant Full Access to folder for Everyone - Ryuk Ransomware Style
+- ac7e6118-473d-41ec-9ac0-ef4f1d1ed2f6 # Windows Grant Full Access to folder for Everyone - Ryuk Ransomware Style
 - e5f9de8f-3df1-4e78-ad92-a784e3f6770d # Windows Move Powershell & triage
 - fcf71ee3-d1a9-4136-b919-9e5f6da43608 # Windows Clear Sysmon Logs
-- 5b93df032e230056c21a3e57334f77d1 # Windows (Admin) Privileged Disable Microsoft Defender Firewall
-- 20277ce46ffe7d08083f8b5ca524b317 # Windows Create Windows Hidden File with Attrib 
-- 0424ccb447bfa66b94162266f55ecd52 # Windows (Admin) Change Powershell Execution Policy to Bypass
-- 2f32a5c66db68b291469a3ab49be9261 # Windows File Extension Masquerading 
-- f1222384fe40cc71e7dea9d182014eaf # Windows Hidden Window 
-- d9c1b1283c1ad6fdda27be021c4737d3 # Windows Masquerading - non-windows exe running as windows exe
-- 9d2e91b9241ae43b517be2be98bddfd9 # Windows Indicator Removal using FSUtil
-- dedfa0a54c9c13ce5714a0dc2e1f5d1a # Windows Create a Hidden User Called "$"
-- 18348573c1f989a6cca9e9bf10809700 # Windows Malicious process Masquerading as LSM.exe
-- a9c0234156994cab384418b43da52da4 # Windows (Admin) Rundll32 setupapi.dll Execution
-- d5ac8f5ec45224dc36453a9490845f23 # Windows (Admin) Masquerading as Windows LSASS process
-- 80e752c5fc69a56ccb86bc90efc5eff6 # Windows (Admin) Read volume boot sector via DOS device path (PowerShell)
-- 8478297ebb155b34c412a0fde335eccd # Linux Stop/Start UFW firewall 
-- 683115a2ceeb045e6ffbf4487322b220 # Linux Edit UFW firewall sysctl.conf file
-- 8a60db80ab6f4a6b1db758c95bacfafa # Linux Edit UFW firewall ufw.conf file
-- 0aaebed766f7120873d5ad90c23355f8 # Linux Overwrite Linux Mail Spool
-- 854e480af3b5e2946bb3ae44916e951a # Linux Disable iptables
-- 2929fac2296bf1041ba33c86d42d9a5a # Linux Clear Pagging Cache
-- c8e46a29cac614806da56b0be6b0e454 # Linux Clear Bash history (truncate)
-- 6401e9fc7007569199a38703f0aa0f0f # Linux Setting the HISTFILE environment variable
-- 8e7c28877a9c7826fece190f185b534c # Linux/Mac Use Space Before Command to Avoid Logging to History
-- 23dafb943f2f1a3e21e8204826c7b271 # Linux/Mac Execute a process from a directory masquerading as the current parent directory.
-- 379509c4b83f252bc779446f0512e936 # Linux/Mac Create a hidden file in a hidden directory 
-- 80be956df11e4a384333150807c3ccd9 # Linux/Mac Decode base64 Data into Script
-- d38cba2905e62b4c1a7e5c88137ce485 # Linux/Mac Linux Base64 Encoded Shebang in CLI
-- 326a9797b0d59b8f6d5a3c384c564b9f # Linux/Mac Base64 decoding with shell utilities
-- 5ffa5b3b330848d39dc1728365dad61c # Linux/Mac Set a file's creation timestamp
-- db8c6ba84f796a2f1fa1497b8dc1aae2 # Linux/Mac Pad Binary to Change Hash using truncate command - Linux/macOS 
-- 4d4b29abb6b1e580e33c0035c1fc37ad # Linux/Mac Delete system and audit logs
-- 93127a8c6cdb05fd84f871a5faa9d7c7 # Darwin Disables macOS Gatekeeper
+- 88d05800-a5e4-407e-9b53-ece4174f197f # Windows (Admin) Privileged Disable Microsoft Defender Firewall
+- dadb792e-4358-4d8d-9207-b771faa0daa5 # Windows Create Windows Hidden File with Attrib
+- f3a6cceb-06c9-48e5-8df8-8867a6814245 # Windows (Admin) Change Powershell Execution Policy to Bypass
+- c7fa0c3b-b57f-4cba-9118-863bf4e653fc # Windows File Extension Masquerading
+- f151ee37-9e2b-47e6-80e4-550b9f999b7a # Windows Hidden Window
+- bc15c13f-d121-4b1f-8c7d-28d95854d086 # Windows Masquerading - non-windows exe running as windows exe
+- b4115c7a-0e92-47f0-a61e-17e7218b2435 # Windows Indicator Removal using FSUtil
+- 2ec63cc2-4975-41a6-bf09-dffdfb610778 # Windows Create a Hidden User Called "$"
+- 83810c46-f45e-4485-9ab6-8ed0e9e6ed7f # Windows Malicious process Masquerading as LSM.exe
+- 71d771cd-d6b3-4f34-bc76-a63d47a10b19 # Windows (Admin) Rundll32 setupapi.dll Execution
+- 5ba5a3d1-cf3c-4499-968a-a93155d1f717 # Windows (Admin) Masquerading as Windows LSASS process
+- 88f6327e-51ec-4bbf-b2e8-3fea534eab8b # Windows (Admin) Read volume boot sector via DOS device path (PowerShell)
+- fe135572-edcd-49a2-afe6-1d39521c5a9a # Linux Stop/Start UFW firewall
+- c4ae0701-88d3-4cd8-8bce-4801ed9f97e4 # Linux Edit UFW firewall sysctl.conf file
+- c1d8c4eb-88da-4927-ae97-c7c25893803b # Linux Edit UFW firewall ufw.conf file
+- 1602ff76-ed7f-4c94-b550-2f727b4782d4 # Linux Overwrite Linux Mail Spool
+- 7784c64e-ed0b-4b65-bf63-c86db229fd56 # Linux Disable iptables
+- f790927b-ea85-4a16-b7b2-7eb44176a510 # Linux Clear Pagging Cache
+- 47966a1d-df4f-4078-af65-db6d9aa20739 # Linux Clear Bash history (truncate)
+- b3dacb6c-a9e3-44ec-bf87-38db60c5cad1 # Linux Setting the HISTFILE environment variable
+- 53b03a54-4529-4992-852d-a00b4b7215a6 # Linux/Mac Use Space Before Command to Avoid Logging to History
+- 812c3ab8-94b0-4698-a9bf-9420af23ce24 # Linux/Mac Execute a process from a directory masquerading as the current parent directory.
+- 61a782e5-9a19-40b5-8ba4-69a4b9f3d7be # Linux/Mac Create a hidden file in a hidden directory
+- f45df6be-2e1e-4136-a384-8f18ab3826fb # Linux/Mac Decode base64 Data into Script
+- 3a15c372-67c1-4430-ac8e-ec06d641ce4d # Linux/Mac Linux Base64 Encoded Shebang in CLI
+- b4f6a567-a27a-41e5-b8ef-ac4b4008bb7e # Linux/Mac Base64 decoding with shell utilities
+- 8164a4a6-f99c-4661-ac4f-80f5e4e78d2b # Linux/Mac Set a file's creation timestamp
+- e22a9e89-69c7-410f-a473-e6c212cd2292 # Linux/Mac Pad Binary to Change Hash using truncate command - Linux/macOS
+- 989cc1b1-3642-4260-a809-54f9dd559683 # Linux/Mac Delete system and audit logs
+- 2a821573-fb3f-4e71-92c3-daac7432f053 # Darwin Disables macOS Gatekeeper
