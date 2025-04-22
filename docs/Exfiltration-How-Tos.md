@@ -1,4 +1,4 @@
-# Exfiltration Scenarios and Setup
+# Stockpile: Exfiltration Walkthrough
 
 This document will discuss how to utilize various exfiltration abilities within Caldera, specifically focused on the
 following abilities:
@@ -120,7 +120,7 @@ These adversaries work nearly identically, first finding and staging files using
 compressing the staged directory via utility with a password. Once converted to an archive, the last ability is exfil
 to the selected destination.
 
-# An Example
+## An Example
 
 Let's walk through an example of exfiltrating a compressed archive to a GitHub repository. 
 
@@ -323,5 +323,5 @@ file could then be downloaded an decrypted with the default password.
 
 Operation cleanup should remove the compressed archive and the staging directory (+ contents). This cleanup does not occur until the operation is terminated, so you could add another exfiltration (e.g. to Dropbox) in the interim.
 
-# Wrap-up
+## Wrap-up
 That about does it! If you have any questions, please reach out to the team on Slack.
