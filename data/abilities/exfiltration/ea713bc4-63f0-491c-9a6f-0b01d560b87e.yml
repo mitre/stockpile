@@ -12,7 +12,7 @@
       sh:
         command: |
           curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload
-    linux:
+    freebsd,linux:
       sh:
         command: |
           curl -F "data=@#{host.dir.compress}" --header "X-Request-ID: `hostname`-#{paw}" #{server}/file/upload

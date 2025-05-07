@@ -12,6 +12,10 @@
       sh:
         command: |
           > $HOME/.bash_history && unset HISTFILE
+    freebsd:
+      sh:
+        command: |
+          > $HOME/.history && set history = 0
     linux:
       sh:
         command: |

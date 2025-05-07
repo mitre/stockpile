@@ -10,7 +10,7 @@
     attack_id: T1567.001
     name: Exfiltration to Code Repository
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: | # Temporary file needed to avoid curl length restrictions
           GHUser="#{github.user.name}";

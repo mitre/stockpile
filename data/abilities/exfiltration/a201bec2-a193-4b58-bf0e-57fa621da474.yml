@@ -7,7 +7,7 @@
     attack_id: T1567.001
     name: Exfiltration to Code Repository
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           GHUser="#{github.user.name}";

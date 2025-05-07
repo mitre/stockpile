@@ -14,6 +14,7 @@ class Obfuscation(BaseObfuscator):
         return dict(
             windows=['psh'],
             darwin=['sh'],
+            freebsd=['sh'],
             linux=['sh']
         )
 

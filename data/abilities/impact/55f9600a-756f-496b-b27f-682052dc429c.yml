@@ -7,7 +7,7 @@
         command: ./mission.go -duration 60 -extension .caldera -dir '/'
         payloads:
         - mission.go
-    linux:
+    freebsd,linux:
       sh:
         command: ./mission.go -duration 60 -extension .caldera -dir '/'
         payloads:

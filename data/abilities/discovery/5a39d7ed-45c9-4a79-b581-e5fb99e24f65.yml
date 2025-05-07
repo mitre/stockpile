@@ -42,6 +42,6 @@
     darwin:
       sh:
         command: ps aux
-    linux:
+    freebsd,linux:
       sh:
         command: ps aux

@@ -15,7 +15,7 @@
         parsers:
           plugins.stockpile.app.parsers.ssh:
             - source: remote.ssh.cmd
-    linux:
+    freebsd,linux:
       sh:
         command: |
           pip install -q stormssh 2> /dev/null && storm list | sed 's/\x1b\[[0-9;]*m//g'

@@ -8,7 +8,7 @@
     attack_id: T1048.003
     name: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           LocalFile='#{host.dir.compress}';
