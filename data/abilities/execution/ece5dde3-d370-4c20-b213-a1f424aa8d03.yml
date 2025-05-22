@@ -1,8 +1,8 @@
 ---
 
 - id: ece5dde3-d370-4c20-b213-a1f424aa8d03
-  name: Start 54ndc47 (WMI)
-  description: Remotely executes 54ndc47 over WMI
+  name: Start Sandcat Agent (WMI)
+  description: Remotely executes the Sandcat Agent over WMI
   tactic: execution
   technique:
     attack_id: T1047

@@ -1,12 +1,12 @@
 ---
 
 - id: ccdb8caf-c69e-424b-b930-551969450c57
-  name: PowerShell Invoke MimiKats
-  description: Download
-  tactic: execution
+  name: Obfuscated PowerShell Invoke MimiKatz
+  description: Run base64-encoded PowerShell command to download and execute Invoke-Mimikatz.ps1 from PowerShell Empire
+  tactic: defense-evasion
   technique:
-    attack_id: T1059.001
-    name: "Command and Scripting Interpreter: PowerShell"
+    attack_id: T1027.010
+    name: "Obfuscated Files or Information: Command Obfuscation"
   platforms:
     windows:
       psh:
