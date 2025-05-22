@@ -6,7 +6,7 @@
   tactic: discovery
   technique:
     attack_id: T1046
-    name: Network Service Scanning
+    name: Network Service Discovery
   platforms:
     windows:
       psh:

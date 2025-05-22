@@ -5,8 +5,8 @@
   description: Discover all directories containing deletable files by user
   tactic: discovery
   technique:
-    attack_id: T1082
-    name: System Information Discovery
+    attack_id: T1083
+    name: File and Directory Discovery
   platforms:
     darwin:
       sh:
