@@ -1,7 +1,7 @@
 - id: 2f90d4de-2612-4468-9251-b220e3727452
-  name: Compress Git Repository
-  description: This ability will compress a given git repository.
-  tactic: exfiltration
+  name: Compress Git Repository (tar)
+  description: This ability will compress a given git repository using tar.
+  tactic: collection
   technique:
     attack_id: T1560.001
     name: 'Archive Collected Data: Archive via Utility'
