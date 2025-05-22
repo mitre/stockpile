@@ -3,7 +3,7 @@
 - id: cc191baa-7472-4386-a2f4-42f203f1acfd
   name: SysInternals PSTool Process Discovery
   description: Process discovery via SysInternals pstool
-  tactic: collection
+  tactic: discovery
   technique:
     attack_id: T1057
     name: Process Discovery

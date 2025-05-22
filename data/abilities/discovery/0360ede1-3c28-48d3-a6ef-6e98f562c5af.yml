@@ -1,5 +1,5 @@
 - id: 0360ede1-3c28-48d3-a6ef-6e98f562c5af
-  name: GetComputers (Alice)
+  name: Get Computers in Domain
   description: Get a list of all computers in a domain
   tactic: discovery
   technique:

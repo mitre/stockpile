@@ -1,6 +1,6 @@
 - id: 6131397e-7765-424e-a594-3d7fb2d93a6a
-  name: GetDomain
-  description: Determine the Windows Domain of a computer
+  name: Get Current Domain Info (PowerView)
+  description: Determine the Windows Domain of a computer using PowerView
   tactic: discovery
   technique:
     attack_id: T1482
