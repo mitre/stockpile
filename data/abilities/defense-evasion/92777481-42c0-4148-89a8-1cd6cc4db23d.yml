@@ -1,0 +1,16 @@
+- requirements: []
+  name: Disable Windows Firewall
+  description: This ability disables windows firewall using powershell's Set-NetFirewallProfile
+    cmdlet
+  tactic: defense-evasion
+  technique_id: T1562.004
+  technique_name: 'Impair Defenses: Disable or Modify System Firewall'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+  id: 92777481-42c0-4148-89a8-1cd6cc4db23d
