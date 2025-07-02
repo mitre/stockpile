@@ -1,0 +1,40 @@
+- tactic: discovery
+  technique_name: 'Software Discovery: Security Software Discovery'
+  technique_id: T1518.001
+  name: Display Disabled Windows Firewall Profiles
+  description: This ability retrieves and outputs Windows firewall profiles only if
+    they are disabled.
+  executors:
+  - name: psh
+    platform: windows
+    command: 'Get-NetFirewallProfile | Where-Object { $_.Enabled -eq $false } | Select-Object
+      -ExpandProperty Name
+
+      '
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers:
+    - module: plugins.stockpile.app.parsers.basic
+      parserconfigs:
+      - source: host.firewall.profile
+        edge: is_disabled
+        target: ''
+        custom_parser_vals: {}
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - discovery
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 86ef2e7a-ddf4-4e3e-bec0-d4c4b4f0b822
