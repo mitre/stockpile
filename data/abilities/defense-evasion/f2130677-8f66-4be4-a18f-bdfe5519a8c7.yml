@@ -21,8 +21,8 @@
   - module: plugins.stockpile.app.requirements.paw_provenance
     relationship_match:
     - source: host.dir.staged
-      edge: has_paw
-      target: '#{paw}'
+      edge: ''
+      target: ''
   privilege: ''
   repeatable: false
   buckets:
