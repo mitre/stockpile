@@ -1,7 +1,7 @@
 - tactic: discovery
   technique_name: 'Software Discovery: Security Software Discovery'
   technique_id: T1518.001
-  name: Display Disabled Windows Firewall Profiles
+  name: Discover Disabled Windows Firewall Profiles
   description: This ability retrieves and outputs Windows firewall profiles only if
     they are disabled.
   executors:

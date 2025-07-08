@@ -1,6 +1,6 @@
 - requirements: []
-  name: Disable Windows Firewall
-  description: This ability disables windows firewall using powershell's Set-NetFirewallProfile
+  name: Disable Windows Firewall (Set-NetFirewallProfile)
+  description: Disables the domain, public, and private Windows firewall profiles using Powershell's Set-NetFirewallProfile cmdlet
     cmdlet
   tactic: defense-evasion
   technique_id: T1562.004

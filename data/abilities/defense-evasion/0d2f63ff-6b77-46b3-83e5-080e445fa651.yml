@@ -1,7 +1,7 @@
 - tactic: defense-evasion
   technique_name: 'Hide Artifacts: Hidden Files and Directories'
   technique_id: ' T1564.001'
-  name: Hidden Agent
+  name: Hide Agent Executable
   description: Ability uses windows "attrib" command to hide agent binary
   executors:
   - name: psh
