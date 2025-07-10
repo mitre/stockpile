@@ -1,0 +1,30 @@
+- tactic: defense-evasion
+  technique_name: 'Hide Artifacts: Hidden Files and Directories'
+  technique_id: ' T1564.001'
+  name: Hide Agent Executable
+  description: Uses the Windows "attrib" command to hide the agent binary
+  executors:
+  - name: psh
+    platform: windows
+    command: attrib +h "#{location}"
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - defense-evasion
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 0d2f63ff-6b77-46b3-83e5-080e445fa651

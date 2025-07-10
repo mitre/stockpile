@@ -1,0 +1,35 @@
+- tactic: defense-evasion
+  technique_name: 'Hide Artifacts: Hidden Files and Directories'
+  technique_id: ' T1564.001'
+  name: Hide Staging Directory
+  description: This ability uses the "attrib" command to hide the staging directory.
+  executors:
+  - name: psh
+    platform: windows
+    command: 'attrib +h #{host.dir.staged}'
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements:
+  - module: plugins.stockpile.app.requirements.paw_provenance
+    relationship_match:
+    - source: host.dir.staged
+      edge: ''
+      target: ''
+  privilege: ''
+  repeatable: false
+  buckets:
+  - defense-evasion
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: stockpile
+  delete_payload: true
+  id: f2130677-8f66-4be4-a18f-bdfe5519a8c7
