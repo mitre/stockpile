@@ -1,0 +1,34 @@
+- tactic: impact
+  technique_name: Inhibit System Recovery
+  technique_id: T1490
+  name: Disable Windows Recovery Environment via BCDEdit
+  description: "This ability is derived from the APT BlackCat. Modifies  Windows boot\
+    \ configuration to disable the automatic launch of Windows recovery environment\
+    \ post boot failure via BCDEdit command-line tool.\n\nCleanup re\u2011enables\
+    \ automatic launch of Windows recovery environment.\n\n"
+  executors:
+  - name: psh
+    platform: windows
+    command: bcdedit /set "{default}" recoveryenabled No
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup:
+    - bcdedit /set "{default}" recoveryenabled Yes
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - impact
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 2bfd70f3-d5ce-4a11-a730-62b9e4015ac3
