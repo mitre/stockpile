@@ -2,7 +2,7 @@
   technique_name: 'Hide Artifacts: Hidden Files and Directories'
   technique_id: ' T1564.001'
   name: Hide Agent Executable
-  description: Ability uses windows "attrib" command to hide agent binary
+  description: Uses the Windows "attrib" command to hide the agent binary
   executors:
   - name: psh
     platform: windows
