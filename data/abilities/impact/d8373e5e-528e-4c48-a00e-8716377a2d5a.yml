@@ -1,8 +1,8 @@
 - tactic: impact
   technique_name: Data Destruction
   technique_id: T1485
-  name: Clear Recycling Bin
-  description: Ability clears deletes the content of the current user's recycling
+  name: Clear Current User Recycling Bin
+  description: Deletes the contents of the current user's recycling
     bin using the Clear-RecycleBin cmdlet
   executors:
   - name: psh
@@ -14,7 +14,7 @@
     build_target: null
     payloads: []
     uploads: []
-    timeout: 6
+    timeout: 60
     parsers: []
     cleanup: []
     variations: []

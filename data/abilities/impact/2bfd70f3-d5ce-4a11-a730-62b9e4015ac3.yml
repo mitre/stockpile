@@ -2,10 +2,10 @@
   technique_name: Inhibit System Recovery
   technique_id: T1490
   name: Disable Windows Recovery Environment via BCDEdit
-  description: "This ability is derived from the APT BlackCat. Modifies  Windows boot\
+  description: "This ability emulates BlackCat ransomware inhibiting system recovery by modifying the Windows boot\
     \ configuration to disable the automatic launch of Windows recovery environment\
-    \ post boot failure via BCDEdit command-line tool.\n\nCleanup re\u2011enables\
-    \ automatic launch of Windows recovery environment.\n\n"
+    \ post boot failure via the BCDEdit command-line tool.\n\nCleanup re\u2011enables\
+    \ automatic launch of the Windows recovery environment.\n\n"
   executors:
   - name: psh
     platform: windows

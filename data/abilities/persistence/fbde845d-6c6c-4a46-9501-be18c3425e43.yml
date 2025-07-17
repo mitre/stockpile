@@ -1,9 +1,9 @@
 - tactic: persistence
   technique_name: 'Scheduled Task/Job: Scheduled Task'
   technique_id: T1053.005
-  name: Scheduled Agent Execution (schtask.exe)
-  description: This ability is derived from APT Dark Pink.  It uses schtasks.exe to
-    create a scheduled task that executes a specified agent at 09:30 every weekday.
+  name: Agent Persistence via Scheduled Task (schtask.exe)
+  description: This ability is derived from the APT Dark Pink.  It uses schtasks.exe to
+    create a scheduled task that executes the current agent executable at 09:30 every weekday.
   executors:
   - name: psh
     platform: windows

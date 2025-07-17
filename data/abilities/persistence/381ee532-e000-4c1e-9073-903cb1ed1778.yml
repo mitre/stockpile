@@ -1,12 +1,12 @@
 - tactic: persistence
   technique_name: 'Scheduled Task/Job: Scheduled Task'
   technique_id: T1053.005
-  name: Scheduled Agent Execution (New-ScheduledTask)
+  name: Agent Persistence via Scheduled Task (New-ScheduledTask cmdlet)
   description: 'This ability is derived from the APT Dark Pink. It uses the New-ScheduledTask
     cmdlet to execute the agent binary every weekday at 09:30AM.
 
 
-    Cleanup command unregisters the scheduled task.'
+    The cleanup command unregisters the scheduled task.'
   executors:
   - name: psh
     platform: windows

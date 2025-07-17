@@ -1,8 +1,8 @@
 - tactic: discovery
   technique_name: System Information Discovery
   technique_id: T1082
-  name: 'Machine GUID Discovery '
-  description: "This ability is derived from the APT BlackCat. It retrieves the Windows\
+  name: 'Machine GUID Discovery using wmic'
+  description: "This ability emulates BlackCat ransomware retrieving the local victim Windows\
     \ system\u2019s GUID and other product-related details using WMIC."
   executors:
   - name: psh
