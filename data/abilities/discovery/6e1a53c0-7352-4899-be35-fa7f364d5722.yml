@@ -12,7 +12,7 @@
       sh:
         command: |
           pwd
-    linux:
+    freebsd,linux:
       sh:
         command: |
           pwd
