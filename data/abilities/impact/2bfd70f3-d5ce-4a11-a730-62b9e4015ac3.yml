@@ -2,7 +2,7 @@
   technique_name: Inhibit System Recovery
   technique_id: T1490
   name: Disable Windows Recovery Environment via BCDEdit
-  description: "This ability emulates BlackCat ransomware inhibiting system recovery by modifying the Windows boot\
+  description: "Requires Elevated Permissions\n\nThis ability emulates BlackCat ransomware inhibiting system recovery by modifying the Windows boot\
     \ configuration to disable the automatic launch of Windows recovery environment\
     \ post boot failure via the BCDEdit command-line tool.\n\nCleanup re\u2011enables\
     \ automatic launch of the Windows recovery environment.\n\n"
@@ -22,7 +22,7 @@
     variations: []
     additional_info: {}
   requirements: []
-  privilege: ''
+  privilege: Elevated
   repeatable: false
   buckets:
   - impact
