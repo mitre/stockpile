@@ -28,7 +28,9 @@
     uploads: []
     timeout: 60
     parsers: []
-    cleanup: []
+    cleanup:
+    - Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+    -Name "Shell" -Force;
     variations: []
     additional_info: {}
   requirements: []
