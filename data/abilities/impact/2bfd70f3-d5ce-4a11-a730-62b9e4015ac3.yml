@@ -4,7 +4,7 @@
   name: Disable Windows Recovery Environment via BCDEdit
   description: "Requires Elevated Permissions\n\nThis ability emulates BlackCat ransomware inhibiting system recovery by modifying the Windows boot\
     \ configuration to disable the automatic launch of Windows recovery environment\
-    \ post boot failure via the BCDEdit command-line tool.\n\nCleanup re\u2011enables\
+    \ post boot failure via the BCDEdit command-line tool.\n\nCleanup re-enables\
     \ automatic launch of the Windows recovery environment.\n\n"
   executors:
   - name: psh
