@@ -3,7 +3,7 @@
   technique_id: T1082
   name: 'Machine GUID Discovery using wmic'
   description: "This ability emulates BlackCat ransomware retrieving the local victim Windows\
-    \ system\u2019s GUID and other product-related details using WMIC."
+    \ system's GUID and other product-related details using WMIC."
   executors:
   - name: psh
     platform: windows
