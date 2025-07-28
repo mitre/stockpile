@@ -1,11 +1,11 @@
---- 
+---
 - id: 55678719-e76e-4df9-92aa-10655bbd1cf4
   description: User enumeration
   name: cmd.exe information gathering
-  tactic: collection
+  tactic: discovery
   technique:
-    attack_id: T1059.001
-    name: "Command and Scripting Interpreter: PowerShell"
+    attack_id: T1059.003
+    name: "Command and Scripting Interpreter: Windows Command Shell"
   platforms:
     windows:
       psh:

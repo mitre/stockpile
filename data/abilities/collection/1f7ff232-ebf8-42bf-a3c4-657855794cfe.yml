@@ -5,8 +5,8 @@
   description: Grep for all emails for the given target company
   tactic: collection
   technique:
-    attack_id: T1005
-    name: Data from Local System
+    attack_id: T1114.001
+    name: "Email Collection: Local Email Collection"
   platforms:
     darwin:
       sh:

@@ -1,7 +1,7 @@
 ---
 
 - id: 6469befa-748a-4b9c-a96d-f191fde47d89
-  name: Create staging directory
+  name: Create local staging directory
   description: create a directory for exfil staging
   tactic: collection
   technique:

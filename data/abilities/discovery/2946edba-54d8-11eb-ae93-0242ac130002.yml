@@ -6,7 +6,7 @@
   tactic: discovery
   technique:
     attack_id: T1201
-    name: Password Policy Discovery for a domain
+    name: Password Policy Discovery
   platforms:
     windows:
       psh:

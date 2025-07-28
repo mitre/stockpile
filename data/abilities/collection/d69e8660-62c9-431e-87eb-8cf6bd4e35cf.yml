@@ -1,7 +1,7 @@
 ---
 
 - id: d69e8660-62c9-431e-87eb-8cf6bd4e35cf
-  name: Find IP addresses
+  name: Find IP addresses from file system
   description: Grep for IP addresses in file system per user
   tactic: collection
   technique:

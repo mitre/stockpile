@@ -1,12 +1,12 @@
 ---
 
 - id: a398986f-31b0-436a-87e9-c8e82c028f3c
-  name: Inject Sandcat into process
+  name: Inject Sandcat DLL into process
   description: Injects sandcat DLL into an available process
   tactic: defense-evasion
   technique:
-    attack_id: T1055.002
-    name: "Process Injection: Portable Executable Injection"
+    attack_id: T1055.001
+    name: "Process Injection: Dynamic-link Library Injection"
   platforms:
     windows:
       psh:
