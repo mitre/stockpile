@@ -1,4 +1,4 @@
-- tactic: persistence
+- tactic: defense-evasion
   technique_name: 'Hijack Execution Flow: DLL'
   technique_id: T1574.001
   name: Notepad++ DLL Hijack Persistence
