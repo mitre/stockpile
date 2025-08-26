@@ -1,10 +1,10 @@
 - id: 47abe1f5-55a5-46cc-8cad-506dac8ea6d9
-  name: Scan IP for ports
-  description: Use dropped scanner to find open popular ports
+  name: Scan IP for ports (Python)
+  description: Use Python scanner script to find open popular ports
   tactic: discovery
   technique:
     attack_id: T1046
-    name: Network Service Scanning
+    name: Network Service Discovery
   platforms:
     darwin:
       sh:

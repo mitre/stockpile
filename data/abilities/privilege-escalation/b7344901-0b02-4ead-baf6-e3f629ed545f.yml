@@ -1,6 +1,6 @@
 - id: b7344901-0b02-4ead-baf6-e3f629ed545f
-  description: executes the slui exe file handler hijack
-  name: Slui File Handler Hijack
+  description: Performs UAC bypass via the slui exe file handler hijack
+  name: Slui File Handler Hijack (UAC Bypass)
   platforms:
     windows:
       psh:

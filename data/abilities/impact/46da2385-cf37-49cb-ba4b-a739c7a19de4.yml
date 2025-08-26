@@ -3,8 +3,8 @@
   description: Download and execute Monero miner (xmrig) for 1 minute
   tactic: impact
   technique:
-    attack_id: T1496
-    name: Resource Hijacking
+    attack_id: T1496.001
+    name: "Resource Hijacking: Compute Hijacking"
   platforms:
     linux:
       sh:

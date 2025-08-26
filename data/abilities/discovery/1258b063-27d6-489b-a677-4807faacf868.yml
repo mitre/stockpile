@@ -3,10 +3,10 @@
 - id: 1258b063-27d6-489b-a677-4807faacf868
   name: Check Security Services
   description: "Check for security services. Security service list is based on the SUNBURST malware observed in a Solarwinds related compromise (https://research.checkpoint.com/2020/sunburst-teardrop-and-the-netsec-new-normal/)."
-  tactic: defense-evasion
+  tactic: discovery
   technique:
-    attack_id: T1497.001
-    name: "Virtualization/Sandbox Evasion: System Checks"
+    attack_id: T1518.001
+    name: "Software Discovery: Security Software Discovery"
   platforms:
     windows:
       psh,pwsh:
@@ -86,4 +86,3 @@
                   }
               }
           }
-

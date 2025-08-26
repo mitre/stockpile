@@ -6,7 +6,7 @@
   tactic: discovery
   technique:
     attack_id: T1046
-    name: Network Service Scanning
+    name: Network Service Discovery
   platforms:
     darwin:
       sh:
@@ -16,4 +16,3 @@
       sh:
         command: |
           nmap -sV -p #{remote.host.port} #{remote.host.ip}
-

@@ -1,6 +1,6 @@
 - id: de52784d-4de6-4d4e-b79e-e7b68fe037fb
-  name: Add bookmark
-  description: Add a malicous bookmark which looks like a current one
+  name: Add bookmark via AppleScript
+  description: Add a malicious bookmark which looks like a current one
   tactic: execution
   technique:
     attack_id: T1059.002
