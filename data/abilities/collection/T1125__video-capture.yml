@@ -1,0 +1,14 @@
+- id: 1977bbf0-7a03-4c48-8c2b-48f466d84876
+  name: Video Capture
+  description: Ability for Video Capture (ATT&CK T1125). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: collection
+  technique:
+    attack_id: T1125
+    name: Video Capture
+  platforms:
+    windows:
+      psh:
+        command: reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe
+          /v LastUsedTimeStart /t REG_BINARY /d a273b6f07104d601 /f reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe
+          /v LastUsedTimeStop /t REG_BINARY /d 96ef514b7204d601 /f

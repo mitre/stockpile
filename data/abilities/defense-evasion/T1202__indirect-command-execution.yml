@@ -1,0 +1,12 @@
+- id: 19aeb9e6-1946-4f1f-96dd-5e1144a620a0
+  name: Indirect Command Execution
+  description: Ability for Indirect Command Execution (ATT&CK T1202). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1202
+    name: Indirect Command Execution
+  platforms:
+    windows:
+      psh:
+        command: 'pcalua.exe -a #{process} pcalua.exe -a #{payload_path}'

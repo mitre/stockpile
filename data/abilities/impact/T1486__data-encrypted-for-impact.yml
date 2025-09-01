@@ -1,0 +1,19 @@
+- id: 404ffa62-f237-4f81-be73-adcdccf95ba6
+  name: Data Encrypted for Impact
+  description: Ability for Data Encrypted for Impact (ATT&CK T1486). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: impact
+  technique:
+    attack_id: T1486
+    name: Data Encrypted for Impact
+  platforms:
+    windows:
+      psh:
+        command: echo T1486 - Purelocker Ransom Note > %USERPROFILE%\Desktop\YOUR_FILES.txt
+    linux:
+      sh:
+        command: 'echo "#{pwd_for_encrypted_file}" | $which_gpg --batch --yes --passphrase-fd
+          0 --cipher-algo #{encryption_alg} -o #{encrypted_file_path} -c #{input_file_path}'
+    darwin:
+      sh:
+        command: '7z a -p #{file_password} -mhe=on #{encrypted_file_name} #{input_file_path}'

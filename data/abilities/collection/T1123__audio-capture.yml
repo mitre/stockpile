@@ -1,0 +1,16 @@
+- id: 26204936-8270-4fa6-8dd2-eb38e13e9110
+  name: Audio Capture
+  description: Ability for Audio Capture (ATT&CK T1123). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: collection
+  technique:
+    attack_id: T1123
+    name: Audio Capture
+  platforms:
+    windows:
+      psh:
+        command: $mic = Get-AudioDevice -Recording Set-AudioDevice -ID $mic.ID Start-Sleep
+          -Seconds 5
+    darwin:
+      sh:
+        command: 'sh #{filename} #{audiofile} #{duration}'
