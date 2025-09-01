@@ -1,0 +1,12 @@
+- id: a3761677-a4ef-4f22-96fa-497050080d44
+  name: Keychain
+  description: Ability for Keychain (ATT&CK T1142). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1142
+    name: Keychain
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

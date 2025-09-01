@@ -1,0 +1,12 @@
+- id: 88e1488c-45c7-45af-847f-a7fb06747338
+  name: Email Spoofing
+  description: Ability for Email Spoofing (ATT&CK T1672). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1672
+    name: Email Spoofing
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

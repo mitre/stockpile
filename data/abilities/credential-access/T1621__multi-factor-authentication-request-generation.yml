@@ -1,0 +1,13 @@
+- id: 5dc1b5df-08a3-4b48-8c19-fe0b1b8d3c9d
+  name: Multi-Factor Authentication Request Generation
+  description: Ability for Multi-Factor Authentication Request Generation (ATT&CK
+    T1621). Generated from Atomic Red Team procedures; review and test safely before
+    use. [AUTO-INFERRED SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1621
+    name: Multi-Factor Authentication Request Generation
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

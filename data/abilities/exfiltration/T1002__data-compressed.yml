@@ -1,0 +1,12 @@
+- id: b13f5dc0-a97b-4980-ab97-75b855a65695
+  name: Data Compressed
+  description: Ability for Data Compressed (ATT&CK T1002). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: exfiltration
+  technique:
+    attack_id: T1002
+    name: Data Compressed
+  platforms:
+    windows:
+      cmd:
+        command: type "#{file_path}" > NUL

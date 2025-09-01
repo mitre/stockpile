@@ -1,0 +1,12 @@
+- id: ca9c51d5-c977-457b-b724-b529975afc23
+  name: Revert Cloud Instance
+  description: Ability for Revert Cloud Instance (ATT&CK T1536). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1536
+    name: Revert Cloud Instance
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

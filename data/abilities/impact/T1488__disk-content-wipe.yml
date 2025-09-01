@@ -1,0 +1,12 @@
+- id: aaf7c5bf-a1c8-45fb-98c0-f647bde5ccc2
+  name: Disk Content Wipe
+  description: Ability for Disk Content Wipe (ATT&CK T1488). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1488
+    name: Disk Content Wipe
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

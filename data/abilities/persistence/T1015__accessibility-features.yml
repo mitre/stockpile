@@ -1,0 +1,12 @@
+- id: 4fc4169d-a27d-4422-8334-28b29bdf86d4
+  name: Accessibility Features
+  description: Ability for Accessibility Features (ATT&CK T1015). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1015
+    name: Accessibility Features
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

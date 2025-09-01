@@ -1,0 +1,13 @@
+- id: 6529e0de-7936-4885-8495-ca6daa6195e2
+  name: Search Victim-Owned Websites
+  description: Ability for Search Victim-Owned Websites (ATT&CK T1594). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1594
+    name: Search Victim-Owned Websites
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

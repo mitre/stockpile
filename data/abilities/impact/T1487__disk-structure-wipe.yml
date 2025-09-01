@@ -1,0 +1,12 @@
+- id: 8f28c1f7-6fd5-456c-91cf-f04320abe8e8
+  name: Disk Structure Wipe
+  description: Ability for Disk Structure Wipe (ATT&CK T1487). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1487
+    name: Disk Structure Wipe
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

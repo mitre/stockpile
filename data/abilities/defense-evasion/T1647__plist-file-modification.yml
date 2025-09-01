@@ -1,0 +1,13 @@
+- id: 2902f5fe-3e1f-4b96-a88c-6d668085554f
+  name: Plist File Modification
+  description: Ability for Plist File Modification (ATT&CK T1647). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1647
+    name: Plist File Modification
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

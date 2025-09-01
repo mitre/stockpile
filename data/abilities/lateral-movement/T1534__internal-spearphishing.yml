@@ -1,0 +1,12 @@
+- id: c42e7c7b-4f9f-4e5f-a27b-e6eeb414c6d0
+  name: Internal Spearphishing
+  description: Ability for Internal Spearphishing (ATT&CK T1534). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1534
+    name: Internal Spearphishing
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

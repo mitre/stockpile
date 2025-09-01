@@ -1,0 +1,12 @@
+- id: 184838ce-1832-4890-a103-22a9ae65daac
+  name: Serverless Execution
+  description: Ability for Serverless Execution (ATT&CK T1648). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: execution
+  technique:
+    attack_id: T1648
+    name: Serverless Execution
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Write-Output \"#{message}\""

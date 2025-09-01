@@ -1,0 +1,13 @@
+- id: 76ab7966-7ad8-46b6-884d-3d2c1298d4ae
+  name: Elevated Execution with Prompt
+  description: Ability for Elevated Execution with Prompt (ATT&CK T1514). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1514
+    name: Elevated Execution with Prompt
+  platforms:
+    windows:
+      cmd:
+        command: whoami /priv

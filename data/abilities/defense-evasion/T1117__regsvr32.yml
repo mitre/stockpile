@@ -1,0 +1,12 @@
+- id: b13f62ca-2e30-4d1f-a98f-e1661edde958
+  name: Regsvr32
+  description: Ability for Regsvr32 (ATT&CK T1117). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1117
+    name: Regsvr32
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

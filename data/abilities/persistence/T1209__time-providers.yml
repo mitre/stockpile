@@ -1,0 +1,12 @@
+- id: ede3e6b1-4a55-4a0b-bbd7-d9ee0f00d752
+  name: Time Providers
+  description: Ability for Time Providers (ATT&CK T1209). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1209
+    name: Time Providers
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

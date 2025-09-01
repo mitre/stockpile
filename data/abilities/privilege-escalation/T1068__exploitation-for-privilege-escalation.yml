@@ -1,0 +1,13 @@
+- id: d5acb51d-39eb-42ba-9d95-127f23fff690
+  name: Exploitation for Privilege Escalation
+  description: Ability for Exploitation for Privilege Escalation (ATT&CK T1068). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1068
+    name: Exploitation for Privilege Escalation
+  platforms:
+    windows:
+      cmd:
+        command: whoami /priv

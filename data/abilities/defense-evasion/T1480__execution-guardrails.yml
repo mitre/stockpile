@@ -1,0 +1,12 @@
+- id: 88b9a9f2-bfe4-4bc9-88d6-cb08b4076c06
+  name: Execution Guardrails
+  description: Ability for Execution Guardrails (ATT&CK T1480). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1480
+    name: Execution Guardrails
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

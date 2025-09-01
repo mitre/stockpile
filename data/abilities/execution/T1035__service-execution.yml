@@ -1,0 +1,12 @@
+- id: 18cf719f-3f76-4088-9764-c9636c102827
+  name: Service Execution
+  description: Ability for Service Execution (ATT&CK T1035). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: execution
+  technique:
+    attack_id: T1035
+    name: Service Execution
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Write-Output \"#{message}\""

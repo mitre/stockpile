@@ -1,0 +1,14 @@
+- id: 4e7159a3-767c-4921-b320-a80e04e799d9
+  name: Cloud Storage Object Discovery
+  description: Ability for Cloud Storage Object Discovery (ATT&CK T1619). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: discovery
+  technique:
+    attack_id: T1619
+    name: Cloud Storage Object Discovery
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano & wmic
+          process list brief

@@ -1,0 +1,13 @@
+- id: e9ed231a-9c9b-47ea-82ef-e79c3924e1fc
+  name: Cloud Application Integration
+  description: Ability for Cloud Application Integration (ATT&CK T1671). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1671
+    name: Cloud Application Integration
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

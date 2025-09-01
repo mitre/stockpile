@@ -1,0 +1,12 @@
+- id: 0dcec63c-9eec-4be4-8259-20ed34c35112
+  name: HISTCONTROL
+  description: Ability for HISTCONTROL (ATT&CK T1148). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1148
+    name: HISTCONTROL
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,13 @@
+- id: 45ab6ff3-c572-4754-b06e-861741211f87
+  name: ESXi Administration Command
+  description: Ability for ESXi Administration Command (ATT&CK T1675). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: execution
+  technique:
+    attack_id: T1675
+    name: ESXi Administration Command
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Write-Output \"#{message}\""

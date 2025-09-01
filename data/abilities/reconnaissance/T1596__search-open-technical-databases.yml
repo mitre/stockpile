@@ -1,0 +1,13 @@
+- id: 43b93285-772f-43ef-8041-85781d2fcab5
+  name: Search Open Technical Databases
+  description: Ability for Search Open Technical Databases (ATT&CK T1596). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1596
+    name: Search Open Technical Databases
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

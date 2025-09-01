@@ -1,0 +1,12 @@
+- id: 71125d3c-e86b-43d7-b134-f3ae9eda9199
+  name: Escape to Host
+  description: Ability for Escape to Host (ATT&CK T1611). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1611
+    name: Escape to Host
+  platforms:
+    windows:
+      cmd:
+        command: whoami /priv

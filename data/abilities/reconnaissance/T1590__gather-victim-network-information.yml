@@ -1,0 +1,13 @@
+- id: a8ee09a0-4f7e-449c-bfce-f9171af4f7da
+  name: Gather Victim Network Information
+  description: Ability for Gather Victim Network Information (ATT&CK T1590). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1590
+    name: Gather Victim Network Information
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

@@ -1,0 +1,13 @@
+- id: a31aa65e-9406-40f4-ac0e-6dbadd01bfa5
+  name: Bypass User Account Control
+  description: Ability for Bypass User Account Control (ATT&CK T1088). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1088
+    name: Bypass User Account Control
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

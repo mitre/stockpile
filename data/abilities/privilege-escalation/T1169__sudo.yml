@@ -1,0 +1,12 @@
+- id: 09da2838-292b-4a40-a5ea-8188cc71eef1
+  name: Sudo
+  description: Ability for Sudo (ATT&CK T1169). Generated from Atomic Red Team procedures;
+    review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1169
+    name: Sudo
+  platforms:
+    windows:
+      cmd:
+        command: whoami /priv

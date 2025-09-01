@@ -1,0 +1,12 @@
+- id: ebfcc987-f6b4-4847-907c-2d7f9a54175c
+  name: Rundll32
+  description: Ability for Rundll32 (ATT&CK T1085). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1085
+    name: Rundll32
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

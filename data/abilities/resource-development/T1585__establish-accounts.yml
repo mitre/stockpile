@@ -1,0 +1,12 @@
+- id: f51dc7f5-1c8c-4bf6-9cd9-bb1863cc555a
+  name: Establish Accounts
+  description: Ability for Establish Accounts (ATT&CK T1585). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1585
+    name: Establish Accounts
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

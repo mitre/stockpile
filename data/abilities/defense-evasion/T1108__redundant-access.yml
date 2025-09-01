@@ -1,0 +1,12 @@
+- id: 5858214c-db6e-4d8b-a599-df4a0b548dfd
+  name: Redundant Access
+  description: Ability for Redundant Access (ATT&CK T1108). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1108
+    name: Redundant Access
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

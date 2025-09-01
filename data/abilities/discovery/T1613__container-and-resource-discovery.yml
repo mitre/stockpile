@@ -1,0 +1,14 @@
+- id: 63a6c687-7bc8-4cf5-a697-a74e7567bad7
+  name: Container and Resource Discovery
+  description: Ability for Container and Resource Discovery (ATT&CK T1613). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: discovery
+  technique:
+    attack_id: T1613
+    name: Container and Resource Discovery
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano & wmic
+          process list brief

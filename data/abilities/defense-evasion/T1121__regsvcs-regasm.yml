@@ -1,0 +1,12 @@
+- id: 6b9c1aa0-a135-42b0-9a10-a501efe09cdd
+  name: Regsvcs/Regasm
+  description: Ability for Regsvcs/Regasm (ATT&CK T1121). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1121
+    name: Regsvcs/Regasm
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

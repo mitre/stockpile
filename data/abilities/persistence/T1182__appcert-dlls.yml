@@ -1,0 +1,12 @@
+- id: 97ade0b1-de12-411f-9c1e-d28ca724e23c
+  name: AppCert DLLs
+  description: Ability for AppCert DLLs (ATT&CK T1182). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1182
+    name: AppCert DLLs
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

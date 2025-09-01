@@ -1,0 +1,12 @@
+- id: 7eacc3fe-d093-44e6-9242-264c3494db85
+  name: Email Bombing
+  description: Ability for Email Bombing (ATT&CK T1667). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1667
+    name: Email Bombing
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

@@ -1,0 +1,12 @@
+- id: 33e76ca9-ed33-412d-870c-cb8dc127e721
+  name: Process Doppelgänging
+  description: Ability for Process Doppelgänging (ATT&CK T1186). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1186
+    name: Process Doppelgänging
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

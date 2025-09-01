@@ -1,0 +1,13 @@
+- id: 55bcc85b-59fc-4389-8429-e66ce76934da
+  name: Application Deployment Software
+  description: Ability for Application Deployment Software (ATT&CK T1017). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1017
+    name: Application Deployment Software
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta
