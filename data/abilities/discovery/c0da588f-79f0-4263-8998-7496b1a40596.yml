@@ -15,7 +15,7 @@
           plugins.stockpile.app.parsers.basic:
             - source: host.user.name
             - source: domain.user.name
-    linux:
+    freebsd,linux:
       sh:
         command: whoami
         parsers:

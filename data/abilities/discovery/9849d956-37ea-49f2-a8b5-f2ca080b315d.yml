@@ -12,7 +12,7 @@
       sh:
         command: |
           which go
-    linux:
+    freebsd,linux:
       sh:
         command: |
           which go

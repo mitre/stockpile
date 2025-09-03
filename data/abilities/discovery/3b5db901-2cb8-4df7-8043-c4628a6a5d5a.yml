@@ -12,7 +12,7 @@
       sh:
         command: |
           ps aux | grep #{host.user.name}
-    linux:
+    freebsd,linux:
       sh:
         command: |
           ps aux | grep #{host.user.name}

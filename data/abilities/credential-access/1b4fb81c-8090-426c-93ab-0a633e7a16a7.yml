@@ -33,3 +33,8 @@
       sh:
         command: |
           tcpdump -i en0 & sleep 5; kill $!
+    freebsd:
+      sh:
+        command: |
+          tcpdump -i em0 & sleep 5; kill $!
+

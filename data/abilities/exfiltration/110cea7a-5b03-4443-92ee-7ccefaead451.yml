@@ -6,7 +6,7 @@
     attack_id: T1029
     name: Scheduled Transfer
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           crontab -l > /tmp/origcron;

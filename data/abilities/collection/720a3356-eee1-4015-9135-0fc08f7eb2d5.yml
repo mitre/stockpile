@@ -6,7 +6,7 @@
     attack_id: T1005
     name: Data from Local System
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           for directoryname in $(find /home/ -name '.git' -type d 2>/dev/null | head -5); do

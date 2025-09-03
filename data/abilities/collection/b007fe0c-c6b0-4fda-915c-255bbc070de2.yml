@@ -16,7 +16,7 @@
       psh,pwsh:
         command: |
           Get-Clipboard -raw
-    linux:
+    freebsd,linux:
       sh:
         command: |
           xclip -o

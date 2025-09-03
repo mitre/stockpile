@@ -33,7 +33,7 @@
         parsers:
           plugins.stockpile.app.parsers.basic:
             - source: host.dir.staged
-    linux:
+    freebsd,linux:
       sh:
         command: |
           chmod +x ./file_search.sh; ./file_search.sh --extensions '#{linux.included.extensions}'

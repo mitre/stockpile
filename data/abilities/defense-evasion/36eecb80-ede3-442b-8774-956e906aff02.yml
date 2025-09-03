@@ -11,7 +11,7 @@
     darwin:
       sh:
         command: sleep 60
-    linux:
+    freebsd,linux:
       sh:
         command: sleep 60
     windows:

@@ -6,7 +6,7 @@
     attack_id: T1083
     name: File and Directory Discovery
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: 'find ~ -type f -name #{host.print.file} 2>/dev/null'
         parsers:

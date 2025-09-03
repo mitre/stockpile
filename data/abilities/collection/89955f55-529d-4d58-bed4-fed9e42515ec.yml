@@ -12,7 +12,7 @@
       sh:
         command: |
           curl #{remote.host.socket}
-    linux:
+    freebsd,linux:
       sh:
         command: |
           curl #{remote.host.socket}

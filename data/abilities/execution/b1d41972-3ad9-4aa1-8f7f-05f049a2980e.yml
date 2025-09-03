@@ -14,7 +14,7 @@
           pkill -f sandcat
         payloads:
         - sandcat.go
-    linux:
+    freebsd,linux:
       sh:
         command: |
           nohup ./sandcat.go -server #{server} &

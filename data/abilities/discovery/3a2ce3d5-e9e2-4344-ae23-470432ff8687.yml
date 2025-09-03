@@ -12,7 +12,7 @@
       sh:
         command: |
           nmap -sV -p #{remote.host.port} #{remote.host.ip}
-    linux:
+    freebsd,linux:
       sh:
         command: |
           nmap -sV -p #{remote.host.port} #{remote.host.ip}

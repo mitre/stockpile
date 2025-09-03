@@ -8,7 +8,7 @@
     attack_id: T1567.002
     name: 'Exfiltration to Cloud Storage'
   platforms:
-    linux:
+    freebsd,linux:
       sh:
         command: |
           LocalFile='#{host.dir.compress}';
