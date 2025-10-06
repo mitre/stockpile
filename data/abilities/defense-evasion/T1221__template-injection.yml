@@ -1,0 +1,12 @@
+- id: 5e9f2f14-910f-4914-9019-9dfb9431df6f
+  name: Template Injection
+  description: Ability for Template Injection (ATT&CK T1221). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1221
+    name: Template Injection
+  platforms:
+    windows:
+      psh:
+        command: start "#{docx_file}"

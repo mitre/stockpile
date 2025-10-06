@@ -1,0 +1,19 @@
+- id: ce97d9c6-4b88-475b-8dcc-7a2cbcc6482c
+  name: File and Directory Permissions Modification
+  description: Ability for File and Directory Permissions Modification (ATT&CK T1222).
+    Generated from Atomic Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1222
+    name: File and Directory Permissions Modification
+  platforms:
+    windows:
+      psh:
+        command: fsutil behavior set SymlinkEvaluation R2L:1 fsutil behavior set SymlinkEvaluation
+          R2R:1
+    linux:
+      sh:
+        command: 'chmod #{numeric_mode} #{file_or_folder}'
+    darwin:
+      sh:
+        command: 'chmod #{numeric_mode} #{file_or_folder}'
