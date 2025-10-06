@@ -1,0 +1,11 @@
+---
+
+id: 6cf9a926-177d-480d-927d-9b44ee72f95a
+name: Kerberoast Rubeus
+facts:
+  - trait: remote.host.fqdn
+    value: CHANGEME
+  - trait: remote.host.ip
+    value: CHANGEME
+rules: []
+relationships: []
