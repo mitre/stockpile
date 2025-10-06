@@ -5,8 +5,8 @@
   description: Ping the network in order to build the ARP cache
   tactic: discovery
   technique:
-    attack_id: T1016
-    name: System Network Configuration Discovery
+    attack_id: T1018
+    name: Remote System Discovery
   platforms:
     darwin:
       sh:

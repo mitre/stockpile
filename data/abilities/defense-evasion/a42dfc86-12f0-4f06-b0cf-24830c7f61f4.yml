@@ -5,8 +5,8 @@
   description: Start a new calculator process
   tactic: defense-evasion
   technique:
-    attack_id: T1055
-    name: Process Injection
+    attack_id: T1620
+    name: Reflective Code Loading
   platforms:
     windows:
       shellcode_amd64:

@@ -1,7 +1,7 @@
 ---
 
 - id: 60f63260-39bb-4136-87a0-b6c2dca799fc
-  name: Install PowerShell Core 6
+  name: Install and Execute PowerShell Core 6
   description: Download, install and start new process under PowerShell Core 6
   tactic: command-and-control
   technique:

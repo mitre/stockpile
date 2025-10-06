@@ -1,6 +1,6 @@
 - id: 10a9d979-e342-418a-a9b0-002c483e0fa6
-  name: Start 54ndc47
-  description: Copy 54ndc47 to remote host and start it, assumes target uses SSH keys and passwordless authentication
+  name: Start remote Sandcat agent (54ndc47) via SSH
+  description: Copy Sandcat agent to remote host and start it, assumes target uses SSH keys and passwordless authentication
   tactic: lateral-movement
   technique:
     attack_id: T1021.004

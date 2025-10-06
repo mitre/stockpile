@@ -8,7 +8,7 @@
   tactic: exfiltration
   technique:
     attack_id: T1567.001
-    name: Exfiltration to Code Repository
+    name: "Exfiltration Over Web Service: Exfiltration to Code Repository"
   platforms:
     linux:
       sh:

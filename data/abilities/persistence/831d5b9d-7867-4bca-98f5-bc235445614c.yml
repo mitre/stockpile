@@ -3,7 +3,7 @@
     access after reboot.
   plugin: ''
   buckets: []
-  technique_id: T1503.003
+  technique_id: T1053.003
   access: {}
   name: Create persistence cron job for current user
   tactic: persistence

@@ -1,7 +1,7 @@
 ---
 
 - id: c7ec57cd-933e-42b6-99a4-e852a9e57a33
-  name: Account Discovery (all)
+  name: Domain Account Discovery
   description: The net utility is executed via cmd to enumerate domain user accounts.
   tactic: discovery
   technique:

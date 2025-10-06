@@ -1,8 +1,8 @@
 - repeatable: false
-  name: Local FQDN
+  name: Get Local FQDN
   additional_info:
     cleanup: '[]'
-  technique_name: host discovery
+  technique_name: System Information Discovery
   executors:
   - name: psh
     additional_info: {}
@@ -22,7 +22,7 @@
     uploads: []
     build_target: null
   buckets: []
-  technique_id: TA0007
+  technique_id: 'T1082'
   delete_payload: false
   tactic: discovery
   description: Uses windows libraries to get FQDN of infected host

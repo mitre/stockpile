@@ -29,8 +29,7 @@
   technique_id: T1570
   delete_payload: true
   tactic: lateral-movement
-  description: Uses CertUtil as a LoL technique to move the .exe agent as a certificate
-    using windows-signed binaries
+  description: Uses CertUtil as a LOTL technique to base64-encode and transfer the agent binary using windows-signed binaries
   singleton: true
   plugin: ''
   requirements:
