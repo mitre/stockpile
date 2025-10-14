@@ -20,7 +20,7 @@ class Parser(BaseParser):
           - module: plugins.stockpile.app.parsers.static
             parserconfigs:
               - source: fact.name.value
-                custom_parsers_vals:
+                custom_parser_vals:
                   value: 'fact value'
 
 
