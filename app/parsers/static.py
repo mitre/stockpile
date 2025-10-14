@@ -45,11 +45,12 @@ class Parser(BaseParser):
         relationships = []
 
         for mp in self.mappers:
-            value = mp.custom_parser_vals.get("value", None)
+            source = mp.custom_parser_vals.get("source", None)
+            target = mp.custom_parser_vals.get("target", source)
 
-            if value:
-                source = self.set_value(mp.source, value, self.used_facts)
-                target = self.set_value(mp.target, value, self.used_facts)
+            if source:
+                source = self.set_value(mp.source, source, self.used_facts)
+                target = self.set_value(mp.target, target, self.used_facts)
                 relationships.append(
                     Relationship(
                         source=Fact(mp.source, source),
@@ -59,3 +60,4 @@ class Parser(BaseParser):
                 )
 
         return relationships
+
