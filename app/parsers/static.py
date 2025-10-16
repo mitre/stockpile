@@ -19,9 +19,15 @@ class Parser(BaseParser):
         parsers:
           - module: plugins.stockpile.app.parsers.static
             parserconfigs:
-              - source: fact.name.value
+              - source fact.value
                 custom_parser_vals:
-                  value: 'fact value'
+                  source: 'fact value'
+              - source: source.fact.value
+                edge: has.edge
+                target: target.fact.value
+                custom_parser_vals:
+                  source: 'source fact value'
+                  target: 'target fact value'
 
 
     Note: Output must be non-empty or parser will not be called at all.
