@@ -1,0 +1,12 @@
+- id: 1a1e6acd-55b9-4420-9afd-68b06d7edebe
+  name: Windows Admin Shares
+  description: Ability for Windows Admin Shares (ATT&CK T1077). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1077
+    name: Windows Admin Shares
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

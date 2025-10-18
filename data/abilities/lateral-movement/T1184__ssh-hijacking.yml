@@ -1,0 +1,12 @@
+- id: 59bf54f0-7c6a-4c9d-8106-777813fe7672
+  name: SSH Hijacking
+  description: Ability for SSH Hijacking (ATT&CK T1184). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1184
+    name: SSH Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

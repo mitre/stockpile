@@ -1,0 +1,13 @@
+- id: c2483d02-2923-4d43-a88e-b4021cecde57
+  name: Image File Execution Options Injection
+  description: Ability for Image File Execution Options Injection (ATT&CK T1183).
+    Generated from Atomic Red Team procedures; review and test safely before use.
+    [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1183
+    name: Image File Execution Options Injection
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

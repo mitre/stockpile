@@ -1,0 +1,12 @@
+- id: afdce970-f39b-4ecb-a52b-634d41d817e8
+  name: Hooking
+  description: Ability for Hooking (ATT&CK T1179). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1179
+    name: Hooking
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

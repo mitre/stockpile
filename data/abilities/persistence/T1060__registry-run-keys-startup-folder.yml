@@ -1,0 +1,13 @@
+- id: 2057d28f-250e-41c3-b7c6-d9ff74a07744
+  name: Registry Run Keys / Startup Folder
+  description: Ability for Registry Run Keys / Startup Folder (ATT&CK T1060). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1060
+    name: Registry Run Keys / Startup Folder
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

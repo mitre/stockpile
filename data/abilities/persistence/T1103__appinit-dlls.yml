@@ -1,0 +1,12 @@
+- id: 2c2222dd-a40a-4157-96cd-ed75ed6e6510
+  name: AppInit DLLs
+  description: Ability for AppInit DLLs (ATT&CK T1103). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1103
+    name: AppInit DLLs
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

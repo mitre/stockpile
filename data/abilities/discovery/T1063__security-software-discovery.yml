@@ -1,0 +1,14 @@
+- id: 150ff264-2810-49c9-9b4b-e41da176fb46
+  name: Security Software Discovery
+  description: Ability for Security Software Discovery (ATT&CK T1063). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: discovery
+  technique:
+    attack_id: T1063
+    name: Security Software Discovery
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano & wmic
+          process list brief

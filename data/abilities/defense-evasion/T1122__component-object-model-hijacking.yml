@@ -1,0 +1,13 @@
+- id: fea7c644-eecb-4fb3-bc7c-67bf42bfc745
+  name: Component Object Model Hijacking
+  description: Ability for Component Object Model Hijacking (ATT&CK T1122). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1122
+    name: Component Object Model Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,12 @@
+- id: a5421663-a771-4636-bde7-e522f3f11276
+  name: Implant Internal Image
+  description: Ability for Implant Internal Image (ATT&CK T1525). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1525
+    name: Implant Internal Image
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

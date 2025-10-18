@@ -1,0 +1,13 @@
+- id: be246c41-20d0-4331-b915-97d07f2b921b
+  name: Stored Data Manipulation
+  description: Ability for Stored Data Manipulation (ATT&CK T1492). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1492
+    name: Stored Data Manipulation
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

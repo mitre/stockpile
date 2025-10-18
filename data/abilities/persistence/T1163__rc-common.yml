@@ -1,0 +1,12 @@
+- id: 85a63db3-9d4a-4755-9f7b-cd65bc8efff3
+  name: Rc.common
+  description: Ability for Rc.common (ATT&CK T1163). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1163
+    name: Rc.common
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

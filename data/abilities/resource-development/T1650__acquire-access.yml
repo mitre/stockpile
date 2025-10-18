@@ -1,0 +1,12 @@
+- id: 43d2504e-7f9f-4e60-91c8-deca80243733
+  name: Acquire Access
+  description: Ability for Acquire Access (ATT&CK T1650). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1650
+    name: Acquire Access
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

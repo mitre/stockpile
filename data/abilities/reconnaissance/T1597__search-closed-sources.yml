@@ -1,0 +1,12 @@
+- id: 12e3ddca-b1f7-47e6-a58e-56c3ea2da61b
+  name: Search Closed Sources
+  description: Ability for Search Closed Sources (ATT&CK T1597). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1597
+    name: Search Closed Sources
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

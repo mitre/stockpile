@@ -1,0 +1,13 @@
+- id: 5c129166-f3d4-4a39-af44-05e03ce956fb
+  name: Exploit Public-Facing Application
+  description: Ability for Exploit Public-Facing Application (ATT&CK T1190). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1190
+    name: Exploit Public-Facing Application
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

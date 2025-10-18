@@ -1,0 +1,13 @@
+- id: cf26d6f3-71f9-4d84-a0f8-22c2c950411f
+  name: Network Boundary Bridging
+  description: Ability for Network Boundary Bridging (ATT&CK T1599). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1599
+    name: Network Boundary Bridging
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

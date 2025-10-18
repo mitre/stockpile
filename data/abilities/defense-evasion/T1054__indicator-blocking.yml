@@ -1,0 +1,12 @@
+- id: 438da9ab-b94f-454b-8040-8ceeaf8caee4
+  name: Indicator Blocking
+  description: Ability for Indicator Blocking (ATT&CK T1054). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1054
+    name: Indicator Blocking
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

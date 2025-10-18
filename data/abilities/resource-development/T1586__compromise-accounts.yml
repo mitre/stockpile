@@ -1,0 +1,12 @@
+- id: 0766a320-c8b0-495d-b2b7-a489cda3a75b
+  name: Compromise Accounts
+  description: Ability for Compromise Accounts (ATT&CK T1586). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1586
+    name: Compromise Accounts
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

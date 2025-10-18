@@ -1,0 +1,19 @@
+- id: 47ad76ae-9065-4ba1-9f27-dee86e90c6e1
+  name: Proxy
+  description: Ability for Proxy (ATT&CK T1090). Generated from Atomic Red Team procedures;
+    review and test safely before use.
+  tactic: command-and-control
+  technique:
+    attack_id: T1090
+    name: Proxy
+  platforms:
+    windows:
+      psh:
+        command: '& "#{atomics_dir}\T1090.003\src\Psiphon.bat"'
+    linux:
+      sh:
+        command: '[ "$(uname)" = ''FreeBSD'' ] && sysrc tor_enable="YES" && service
+          tor start || sudo systemctl start tor'
+    darwin:
+      sh:
+        command: osascript -e 'tell application "Terminal" to do script "tor"'

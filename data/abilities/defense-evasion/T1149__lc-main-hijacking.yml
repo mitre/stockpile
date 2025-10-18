@@ -1,0 +1,12 @@
+- id: 43c3eaa7-8662-4af1-aa22-fad838bb997d
+  name: LC_MAIN Hijacking
+  description: Ability for LC_MAIN Hijacking (ATT&CK T1149). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1149
+    name: LC_MAIN Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

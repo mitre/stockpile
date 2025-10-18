@@ -1,0 +1,12 @@
+- id: 29fd223d-a600-43e6-b80e-6db50af046e4
+  name: Space after Filename
+  description: Ability for Space after Filename (ATT&CK T1151). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1151
+    name: Space after Filename
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

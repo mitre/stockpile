@@ -1,0 +1,12 @@
+- id: 3bcb8837-68e4-4a29-af29-df5af9ad07a0
+  name: Application Shimming
+  description: Ability for Application Shimming (ATT&CK T1138). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1138
+    name: Application Shimming
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

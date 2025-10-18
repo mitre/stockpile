@@ -1,0 +1,12 @@
+- id: a82e00d4-3c6c-49eb-98ad-879e34a8c201
+  name: Startup Items
+  description: Ability for Startup Items (ATT&CK T1165). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1165
+    name: Startup Items
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

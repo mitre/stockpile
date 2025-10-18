@@ -1,0 +1,13 @@
+- id: 63c52bfc-2654-4f1c-b240-04898d0ff664
+  name: Native API
+  description: Ability for Native API (ATT&CK T1106). Generated from Atomic Red Team
+    procedures; review and test safely before use.
+  tactic: execution
+  technique:
+    attack_id: T1106
+    name: Native API
+  platforms:
+    windows:
+      psh:
+        command: C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /out:"#{output_file}"
+          /target:exe "#{source_file}" %tmp%/T1106.exe

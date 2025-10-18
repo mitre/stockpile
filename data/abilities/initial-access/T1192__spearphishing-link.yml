@@ -1,0 +1,12 @@
+- id: 4d20ad89-e238-4228-be7a-697b8a7c8a52
+  name: Spearphishing Link
+  description: Ability for Spearphishing Link (ATT&CK T1192). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1192
+    name: Spearphishing Link
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

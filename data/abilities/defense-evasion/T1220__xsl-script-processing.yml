@@ -1,0 +1,12 @@
+- id: c95cc32f-0eb2-4279-a001-c664c4a88d71
+  name: XSL Script Processing
+  description: Ability for XSL Script Processing (ATT&CK T1220). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1220
+    name: XSL Script Processing
+  platforms:
+    windows:
+      psh:
+        command: '"#{msxsl_exe}" "#{xmlfile}" "#{xslfile}"'

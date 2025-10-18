@@ -1,0 +1,12 @@
+- id: 8e3c10a6-14db-4b8c-9dc8-bbcd8d9c6ae3
+  name: Mshta
+  description: Ability for Mshta (ATT&CK T1170). Generated from Atomic Red Team procedures;
+    review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1170
+    name: Mshta
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

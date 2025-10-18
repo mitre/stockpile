@@ -1,0 +1,12 @@
+- id: 4943bf24-e39f-4890-9bde-d83eb8799ce8
+  name: Trusted Relationship
+  description: Ability for Trusted Relationship (ATT&CK T1199). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1199
+    name: Trusted Relationship
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

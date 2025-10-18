@@ -1,0 +1,13 @@
+- id: de6a59ee-1c4f-4946-be2e-9654c51d78b5
+  name: Steal Application Access Token
+  description: Ability for Steal Application Access Token (ATT&CK T1528). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1528
+    name: Steal Application Access Token
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

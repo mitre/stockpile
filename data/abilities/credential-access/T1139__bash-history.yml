@@ -1,0 +1,12 @@
+- id: 87f8d927-bc6e-43c1-b59e-7561098a8110
+  name: Bash History
+  description: Ability for Bash History (ATT&CK T1139). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1139
+    name: Bash History
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

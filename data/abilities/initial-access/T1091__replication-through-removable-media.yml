@@ -1,0 +1,16 @@
+- id: df187d74-6d10-4b9e-8c95-047de47f3ab8
+  name: Replication Through Removable Media
+  description: Ability for Replication Through Removable Media (ATT&CK T1091). Generated
+    from Atomic Red Team procedures; review and test safely before use.
+  tactic: initial-access
+  technique:
+    attack_id: T1091
+    name: Replication Through Removable Media
+  platforms:
+    windows:
+      psh:
+        command: $RemovableDrives=@() $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk
+          -filter "drivetype=2" | select-object -expandproperty DeviceID ForEach ($Drive
+          in $RemovableDrives) { write-host "Removable Drive Found:" $Drive New-Item
+          -Path $Drive/T1091Test1.txt -ItemType "file" -Force -Value "T1091 Test 1
+          has created this file to simulate malware spread to removable drives." }

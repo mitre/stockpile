@@ -1,0 +1,13 @@
+- id: 06da1b37-a542-4993-98e4-84af85b8aff0
+  name: Log Enumeration
+  description: Ability for Log Enumeration (ATT&CK T1654). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1654
+    name: Log Enumeration
+  platforms:
+    windows:
+      psh:
+        command: powershell -c {get-eventlog 'Security' | where {$_.Message -like
+          '*SYSTEM*'} | export-csv $env:temp\T1654_events.txt}

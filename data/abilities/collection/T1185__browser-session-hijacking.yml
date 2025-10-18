@@ -1,0 +1,13 @@
+- id: e894b21d-4017-4f04-b988-ed1a07c40198
+  name: Browser Session Hijacking
+  description: Ability for Browser Session Hijacking (ATT&CK T1185). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: collection
+  technique:
+    attack_id: T1185
+    name: Browser Session Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: dir "%USERPROFILE%\Documents" /S /B | head
