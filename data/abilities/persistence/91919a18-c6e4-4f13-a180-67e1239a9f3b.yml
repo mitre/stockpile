@@ -45,7 +45,7 @@
     cleanup:
     - 'Remove-Item -Path "C:\Users\Public\npp.zip" -Force;
 
-      rm "c:\Users\Public\run.txt"'
+      Remove-Item -Path "c:\Users\Public\run.txt" -Force'
     variations: []
     additional_info: {}
   requirements: []
