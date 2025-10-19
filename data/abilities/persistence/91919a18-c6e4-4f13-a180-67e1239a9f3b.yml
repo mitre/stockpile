@@ -2,7 +2,7 @@
   technique_name: 'Hijack Execution Flow: DLL'
   technique_id: T1574.001
   name: Notepad++ DLL Hijack Persistence
-  description: 'This ability exploits a vulnerability in Notepad++ v8.5.4 by downloading
+  description: 'This ability exploits Windows DLL search order behavior using Notepad++ v8.5.4 by downloading
     the portable version and installing a malicious UxTheme.dll in its directory.
     When launched, Notepad++ loads this rogue DLL due to Windows'' DLL search order,
     executing arbitrary code that deploys another agent. Code execution is achieved
