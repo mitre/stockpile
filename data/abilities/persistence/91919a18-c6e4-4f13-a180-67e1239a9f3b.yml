@@ -20,7 +20,7 @@
   executors:
   - name: psh
     platform: windows
-    command: 'curl "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.4/npp.8.5.4.portable.x64.zip"
+    command: 'Invoke-WebRequest "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.4/npp.8.5.4.portable.x64.zip"
       -OutFile "c:\Users\Public\npp.zip";
 
       Expand-Archive -Path "c:\Users\Public\npp.zip" -DestinationPath "c:\Users\Public\npp"
