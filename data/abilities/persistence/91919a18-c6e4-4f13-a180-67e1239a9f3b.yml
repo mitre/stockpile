@@ -33,8 +33,6 @@
       Move-Item -Path "UxTheme.dll" -Destination "c:\Users\Public\npp";
 
       Start-Process -Filepath "C:\Users\Public\npp\notepad++.exe";
-
-
       '
     code: null
     language: null
