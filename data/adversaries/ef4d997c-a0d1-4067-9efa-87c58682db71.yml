@@ -24,12 +24,12 @@ atomic_ordering:
 - 683115a2ceeb045e6ffbf4487322b220 # Linux Edit UFW firewall sysctl.conf file
 - 8a60db80ab6f4a6b1db758c95bacfafa # Linux Edit UFW firewall ufw.conf file
 - 0aaebed766f7120873d5ad90c23355f8 # Linux Overwrite Linux Mail Spool
-- 854e480af3b5e2946bb3ae44916e951a # Linux Disable iptables
+- 76f6af088510618953265cefe9bb54e0 # Linux Disable iptables
 - 2929fac2296bf1041ba33c86d42d9a5a # Linux Clear Pagging Cache
 - c8e46a29cac614806da56b0be6b0e454 # Linux Clear Bash history (truncate)
 - b2e76a3113cbfc8e9729b7e170a5a6aa # Linux Setting the HISTFILE environment variable
 - 8e7c28877a9c7826fece190f185b534c # Linux/Mac Use Space Before Command to Avoid Logging to History
-- 23dafb943f2f1a3e21e8204826c7b271 # Linux/Mac Execute a process from a directory masquerading as the current parent directory.
+- bef247bd0ac9b48f33f893fc937448cc # Linux/Mac Execute a process from a directory masquerading as the current parent directory.
 - 379509c4b83f252bc779446f0512e936 # Linux/Mac Create a hidden file in a hidden directory 
 - 80be956df11e4a384333150807c3ccd9 # Linux/Mac Decode base64 Data into Script
 - d38cba2905e62b4c1a7e5c88137ce485 # Linux/Mac Linux Base64 Encoded Shebang in CLI
