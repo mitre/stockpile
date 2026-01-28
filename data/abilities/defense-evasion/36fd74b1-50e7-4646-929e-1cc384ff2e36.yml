@@ -1,7 +1,9 @@
 - id: 36fd74b1-50e7-4646-929e-1cc384ff2e36
-  name: Masquerading
-  description: Ability for Masquerading (ATT&CK T1036). Generated from Atomic Red
-    Team procedures; review and test safely before use.
+  name: Masquerading - System File Copied to Unusual Location (Generated from Atomic Red Team)
+  description: |
+    Ability for Masquerading (ATT&CK T1036).
+    Copies system files to a non-system directory and executes it from there.
+    Generated from Atomic Red Team procedures (51005ac7-52e2-45e0-bdab-d17c6d4916cd); review and test safely before use.
   tactic: defense-evasion
   technique:
     attack_id: T1036
@@ -9,12 +11,10 @@
   platforms:
     windows:
       psh:
-        command: copy-item "$env:windir\System32\cmd.exe" -destination "$env:allusersprofile\cmd.exe"
-          start-process "$env:allusersprofile\cmd.exe" sleep -s 5 stop-process -name
-          "cmd" | out-null
-    linux:
-      sh:
-        command: 'mkdir $HOME/... cp $(which sh) $HOME/... $HOME/.../sh -c "echo #{test_message}"'
-    darwin:
-      sh:
-        command: 'mkdir $HOME/... cp $(which sh) $HOME/... $HOME/.../sh -c "echo #{test_message}"'
+        command: |
+          copy-item "$env:windir\System32\cmd.exe" -destination "$env:allusersprofile\cmd.exe";
+          start-process "$env:allusersprofile\cmd.exe";
+          sleep -s 5;
+          stop-process -name "cmd" | out-null;
+        cleanup: |
+          remove-item "$env:allusersprofile\cmd.exe" -force -erroraction silentlycontinue

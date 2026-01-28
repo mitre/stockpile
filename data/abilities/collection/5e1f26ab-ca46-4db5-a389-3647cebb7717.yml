@@ -1,13 +1,20 @@
 - id: 5e1f26ab-ca46-4db5-a389-3647cebb7717
-  name: Email Collection
-  description: Ability for Email Collection (ATT&CK T1114). Generated from Atomic
-    Red Team procedures; review and test safely before use.
+  name: Email Collection with PowerShell Get-Inbox (Generated from Atomic)
+  description: |
+    Ability for Email Collection: Local Email Collection (ATT&CK T1114.001). 
+    Searches through local Outlook installation, extracts mail, compresses the contents, and saves everything to a directory for later exfiltration.
+    Generated from Atomic Red Team procedures (3f1b5096-0139-4736-9b78-19bcb02bb1cb); review and test safely before use.
   tactic: collection
   technique:
-    attack_id: T1114
-    name: Email Collection
+    attack_id: T1114.001
+    name: 'Email Collection: Local Email Collection'
   platforms:
     windows:
       psh:
-        command: 'powershell -executionpolicy bypass -command "#{file_path}\Get-Inbox.ps1"
-          -file #{output_file}'
+        command: |
+          .\Get-Inbox.ps1 -file "#{host.dir.staged}\mail.csv"
+        payloads:
+          - Get-Inbox.ps1
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.dir.staged

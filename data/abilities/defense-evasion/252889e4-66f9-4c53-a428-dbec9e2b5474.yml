@@ -1,7 +1,9 @@
 - id: 252889e4-66f9-4c53-a428-dbec9e2b5474
-  name: Debugger Evasion
-  description: Ability for Debugger Evasion (ATT&CK T1622). Generated from Atomic
-    Red Team procedures; review and test safely before use.
+  name: Detect a Debugger Presence in the Machine
+  description: |
+    Ability for Debugger Evasion (ATT&CK T1622).
+    Detects a running debugger process or if the debugger is attached to a process via PowerShell.
+    Generated from Atomic Red Team procedures (58bd8c8d-3a1a-4467-a69c-439c75469b07); review and test safely before use.
   tactic: defense-evasion
   technique:
     attack_id: T1622
@@ -9,6 +11,10 @@
   platforms:
     windows:
       psh:
-        command: '# Check for common debugger processes $debuggerProcesses = Get-Process
-          | Where-Object { $_.ProcessName -match "dbg" -or $_.ProcessName -match "debug"
-          } # Check for debugging flags $debuggingFlags = [System.Diagnostics.Debugger]::IsAttached'
+        command: |
+          $debuggerProcesses = Get-Process | Where-Object {
+            $_.ProcessName -match "dbg" -or $_.ProcessName -match "debug" 
+          };
+          echo $debuggerProcesses;
+          $debuggingFlags = [System.Diagnostics.Debugger]::IsAttached;
+          echo $debuggingFlags;

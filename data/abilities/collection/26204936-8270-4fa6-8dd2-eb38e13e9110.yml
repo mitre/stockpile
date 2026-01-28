@@ -1,7 +1,10 @@
 - id: 26204936-8270-4fa6-8dd2-eb38e13e9110
-  name: Audio Capture
-  description: Ability for Audio Capture (ATT&CK T1123). Generated from Atomic Red
-    Team procedures; review and test safely before use.
+  name: Audio Capture Via AudioDeviceCmdlets Module (Generated from Atomic Red Team)
+  description: |
+    Ability for Audio Capture (ATT&CK T1123).
+    Uses AudioDeviceCmdlets to set the default recording device and simulate audio capture.
+    Module repo: [AudioDeviceCmdlets](https://github.com/frgnca/AudioDeviceCmdlets)
+    Generated from Atomic Red Team procedures (9c3ad250-b185-4444-b5a9-d69218a10c95); review and test safely before use.
   tactic: collection
   technique:
     attack_id: T1123
@@ -9,8 +12,13 @@
   platforms:
     windows:
       psh:
-        command: $mic = Get-AudioDevice -Recording Set-AudioDevice -ID $mic.ID Start-Sleep
-          -Seconds 5
+        command: |
+          if (-not (Get-Module -ListAvailable -Name AudioDeviceCmdlets)) {
+            Install-Module -Name AudioDeviceCmdlets -Force
+          }
+          $mic = Get-AudioDevice -Recording;
+          Set-AudioDevice -ID $mic.ID;
+          Start-Sleep -Seconds 5;
     darwin:
       sh:
         command: 'sh #{filename} #{audiofile} #{duration}'
