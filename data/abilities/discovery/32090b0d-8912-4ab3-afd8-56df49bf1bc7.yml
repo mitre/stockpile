@@ -1,0 +1,12 @@
+- id: 32090b0d-8912-4ab3-afd8-56df49bf1bc7
+  name: Device Driver Discovery
+  description: Ability for Device Driver Discovery (ATT&CK T1652). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1652
+    name: Device Driver Discovery
+  platforms:
+    windows:
+      psh:
+        command: driverquery /v /fo list driverquery /si /fo list

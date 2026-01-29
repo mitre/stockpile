@@ -1,0 +1,14 @@
+- id: bb02567a-6f41-4072-afbb-dd1bfd45238e
+  name: Direct Volume Access
+  description: Ability for Direct Volume Access (ATT&CK T1006). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1006
+    name: Direct Volume Access
+  platforms:
+    windows:
+      psh:
+        command: $buffer = New-Object byte[] 11 $handle = New-Object IO.FileStream
+          "\\.\#{volume}", 'Open', 'Read', 'ReadWrite' $handle.Read($buffer, 0, $buffer.Length)
+          $handle.Close() Format-Hex -InputObject $buffer

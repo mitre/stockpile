@@ -1,0 +1,12 @@
+- id: 60748ea8-3f51-4d74-bee4-5f59355f73bd
+  name: Group Policy Discovery
+  description: Ability for Group Policy Discovery (ATT&CK T1615). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1615
+    name: Group Policy Discovery
+  platforms:
+    windows:
+      psh:
+        command: gpresult /z

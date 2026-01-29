@@ -1,0 +1,27 @@
+- id: a1c9a16e-ec8f-4588-850e-606df46714e3
+  name: Active Scanning
+  description: Ability for Active Scanning (ATT&CK T1595). Generated from Atomic Red
+    Team procedures; review and test safely before use.
+  tactic: reconnaissance
+  technique:
+    attack_id: T1595
+    name: Active Scanning
+  platforms:
+    windows:
+      psh:
+        command: 'Import-Module "#{atomics_dir}/T1595.003/src/WebServerScan.ps1" Invoke-WordlistScan
+          -Target "#{target}" -Wordlist "#{wordlist}" -Timeout "#{request_timeout}"
+          -OutputFile "#{output_file}" Write-Host "Scan complete. Results saved to:
+          #{output_file}"'
+    linux:
+      sh:
+        command: 'Import-Module "#{atomics_dir}/T1595.003/src/WebServerScan.ps1" Invoke-WordlistScan
+          -Target "#{target}" -Wordlist "#{wordlist}" -Timeout "#{request_timeout}"
+          -OutputFile "#{output_file}" Write-Host "Scan complete. Results saved to:
+          #{output_file}"'
+    darwin:
+      sh:
+        command: 'Import-Module "#{atomics_dir}/T1595.003/src/WebServerScan.ps1" Invoke-WordlistScan
+          -Target "#{target}" -Wordlist "#{wordlist}" -Timeout "#{request_timeout}"
+          -OutputFile "#{output_file}" Write-Host "Scan complete. Results saved to:
+          #{output_file}"'

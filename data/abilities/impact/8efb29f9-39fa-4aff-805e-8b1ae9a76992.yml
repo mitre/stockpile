@@ -1,0 +1,21 @@
+- id: 8efb29f9-39fa-4aff-805e-8b1ae9a76992
+  name: Account Access Removal
+  description: Ability for Account Access Removal (ATT&CK T1531). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: impact
+  technique:
+    attack_id: T1531
+    name: Account Access Removal
+  platforms:
+    windows:
+      psh:
+        command: 'net user #{user_account} #{new_user_password} /add net.exe user
+          #{user_account} #{new_password}'
+    linux:
+      sh:
+        command: 'passwd #{user_account} #enter admin password > enter new password
+          > confirm new password'
+    darwin:
+      sh:
+        command: 'passwd #{user_account} #enter admin password > enter new password
+          > confirm new password'

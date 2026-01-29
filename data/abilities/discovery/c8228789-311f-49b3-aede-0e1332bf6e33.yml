@@ -1,0 +1,18 @@
+- id: c8228789-311f-49b3-aede-0e1332bf6e33
+  name: System Location Discovery
+  description: Ability for System Location Discovery (ATT&CK T1614). Generated from
+    Atomic Red Team procedures; review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1614
+    name: System Location Discovery
+  platforms:
+    windows:
+      psh:
+        command: reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language
+    linux:
+      sh:
+        command: locale
+    darwin:
+      sh:
+        command: 'curl -k #{ip_lookup_url}'
