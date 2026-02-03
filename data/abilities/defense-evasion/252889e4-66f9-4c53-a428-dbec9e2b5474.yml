@@ -1,5 +1,5 @@
 - id: 252889e4-66f9-4c53-a428-dbec9e2b5474
-  name: Detect a Debugger Presence in the Machine
+  name: Detect a Debugger Presence in the Machine (Generated from Atomic Red Team)
   description: |
     Ability for Debugger Evasion (ATT&CK T1622).
     Detects a running debugger process or if the debugger is attached to a process via PowerShell.

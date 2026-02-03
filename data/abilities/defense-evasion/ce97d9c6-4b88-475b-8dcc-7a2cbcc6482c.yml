@@ -1,19 +1,21 @@
 - id: ce97d9c6-4b88-475b-8dcc-7a2cbcc6482c
-  name: File and Directory Permissions Modification
-  description: Ability for File and Directory Permissions Modification (ATT&CK T1222).
-    Generated from Atomic Red Team procedures; review and test safely before use.
+  name: Enable Local and Remote Symbolic Links via fsutil (Generated from Atomic Red Team)
+  description: |
+    Ability for File and Directory Permissions Modification: Windows File and Directory Permissions Modification (ATT&CK T1222.001).
+    Uses fsutil to enable both remote-to-local and remote-to-remote symbolic links.
+    This allows access to files from local shortcuts with local or remote paths.
+    Ref: https://symantec-enterprise-blogs.security.com/threat-intelligence/noberus-blackcat-alphv-rust-ransomware/
+    Generated from Atomic Red Team procedures (6c4ac96f-d4fa-44f4-83ca-56d8f4a55c02); review and test safely before use.
   tactic: defense-evasion
   technique:
-    attack_id: T1222
-    name: File and Directory Permissions Modification
+    attack_id: T1222.001
+    name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
   platforms:
     windows:
       psh:
-        command: fsutil behavior set SymlinkEvaluation R2L:1 fsutil behavior set SymlinkEvaluation
-          R2R:1
-    linux:
-      sh:
-        command: 'chmod #{numeric_mode} #{file_or_folder}'
-    darwin:
-      sh:
-        command: 'chmod #{numeric_mode} #{file_or_folder}'
+        command: |
+          fsutil behavior set SymlinkEvaluation R2L:1;
+          fsutil behavior set SymlinkEvaluation R2R:1
+        cleanup: |
+          fsutil behavior set SymlinkEvaluation R2L:0;
+          fsutil behavior set SymlinkEvaluation R2R:0

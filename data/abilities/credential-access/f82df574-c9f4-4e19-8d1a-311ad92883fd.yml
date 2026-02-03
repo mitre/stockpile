@@ -1,5 +1,5 @@
 - id: f82df574-c9f4-4e19-8d1a-311ad92883fd
-  name: Brute Force Credentials of single Active Directory domain users via SMB
+  name: Brute Force Credentials of single Active Directory domain users via SMB (Generated from Atomic Red Team)
   description: |
     Ability for Brute Force: Password Guessing (ATT&CK T1110.001).
     Attempts to brute force a single Active Directory account by testing connectivity to the IPC$ share on a remote machine

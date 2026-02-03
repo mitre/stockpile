@@ -1,7 +1,11 @@
 - id: bb02567a-6f41-4072-afbb-dd1bfd45238e
-  name: Direct Volume Access
-  description: Ability for Direct Volume Access (ATT&CK T1006). Generated from Atomic
-    Red Team procedures; review and test safely before use.
+  name: Read Volume Boot Sector Via DOS Device Path (Generated From Atomic Red Team)
+  description: |
+    Ability for Direct Volume Access (ATT&CK T1006). 
+    Uses PowerShell to open a handle on the drive volume via the `\\.\` DOS device path
+    specifier and perform direct access read of the first few bytes of the volume.
+    Ref: (https://docs.microsoft.com/en-us/dotnet/standard/io/file-path-formats#dos-device-paths)
+    Generated from Atomic Red Team procedures (88f6327e-51ec-4bbf-b2e8-3fea534eab8b); review and test safely before use.
   tactic: defense-evasion
   technique:
     attack_id: T1006
@@ -9,6 +13,9 @@
   platforms:
     windows:
       psh:
-        command: $buffer = New-Object byte[] 11 $handle = New-Object IO.FileStream
-          "\\.\#{volume}", 'Open', 'Read', 'ReadWrite' $handle.Read($buffer, 0, $buffer.Length)
-          $handle.Close() Format-Hex -InputObject $buffer
+        command: |
+          $buffer = New-Object byte[] 11;
+          $handle = New-Object IO.FileStream "\\.\#{volume}", 'Open', 'Read', 'ReadWrite';
+          $handle.Read($buffer, 0, $buffer.Length);
+          $handle.Close();
+          Format-Hex -InputObject $buffer;

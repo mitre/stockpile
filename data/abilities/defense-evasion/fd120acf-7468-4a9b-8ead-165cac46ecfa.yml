@@ -1,0 +1,18 @@
+- id: fd120acf-7468-4a9b-8ead-165cac46ecfa
+  name: chmod - Change file or folder mode (numeric mode) (Generated from Atomic Red Team)
+  description: |
+    Ability for File and Directory Permissions Modification: Linux and Mac File and Directory Permissions Modification (ATT&CK T1222.002). 
+    Changes a file or folder's permissions using chmod and a specified numeric mode.
+    Generated from Atomic Red Team procedures (34ca1464-de9d-40c6-8c77-690adf36a135); review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1222.002
+    name: 'File and Directory Permissions Modification: Linux and Mac File and Directory Permissions Modification'
+  platforms:
+    linux,darwin:
+      sh:
+        command: |
+          chmod 755 #{host.dir.staged}
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.dir.staged

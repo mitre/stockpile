@@ -1,13 +1,18 @@
 - id: 6cfbcde1-608f-4fe8-8a71-c52f0b367651
-  name: Modify Registry
-  description: Ability for Modify Registry (ATT&CK T1112). Generated from Atomic Red
-    Team procedures; review and test safely before use.
+  name: Modify Registry of Current User Profile (Generated from Atomic Red Team)
+  description: |
+    Ability for Modify Registry (ATT&CK T1112).
+    Modifies the registry of the currently logged in user using reg.exe via cmd console. Upon execution, the message "The operation completed successfully."
+    will be displayed. Additionally, open Registry Editor to view the new entry in HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced.
+    Generated from Atomic Red Team procedures (1324796b-d0f6-455a-b4ae-21ffee6aa6b9); review and test safely before use.
   tactic: defense-evasion
   technique:
     attack_id: T1112
     name: Modify Registry
   platforms:
     windows:
-      psh:
-        command: reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
-          /t REG_DWORD /v HideFileExt /d 1 /f
+      psh,cmd:
+        command: |
+          reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /t REG_DWORD /v HideFileExt /d 1 /f
+        cleanup: |
+          reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v HideFileExt /f
