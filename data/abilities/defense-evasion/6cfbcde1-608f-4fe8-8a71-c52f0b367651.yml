@@ -2,7 +2,7 @@
   name: Modify Registry of Current User Profile (Generated from Atomic Red Team)
   description: |
     Ability for Modify Registry (ATT&CK T1112).
-    Modifies the registry of the currently logged in user using reg.exe via cmd console. Upon execution, the message "The operation completed successfully."
+    Modifies the registry of the currently logged in user using reg.exe. Upon execution, the message "The operation completed successfully."
     will be displayed. Additionally, open Registry Editor to view the new entry in HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced.
     Generated from Atomic Red Team procedures (1324796b-d0f6-455a-b4ae-21ffee6aa6b9); review and test safely before use.
   tactic: defense-evasion
