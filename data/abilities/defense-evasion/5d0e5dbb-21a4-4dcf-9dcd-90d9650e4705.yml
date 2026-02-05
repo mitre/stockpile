@@ -1,5 +1,5 @@
 - id: 5d0e5dbb-21a4-4dcf-9dcd-90d9650e4705
-  name: Create local account with admin privileges
+  name: Create local account with admin privileges (Generated from Atomic Red Team)
   description: |
     Ability for Valid Accounts: Local Accounts (ATT&CK T1078.003).
     Creates a new local account with elevated privileges.

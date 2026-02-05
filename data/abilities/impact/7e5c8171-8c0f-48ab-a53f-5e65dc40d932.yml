@@ -1,7 +1,9 @@
 - id: 7e5c8171-8c0f-48ab-a53f-5e65dc40d932
-  name: System Shutdown/Reboot
-  description: Ability for System Shutdown/Reboot (ATT&CK T1529). Generated from Atomic
-    Red Team procedures; review and test safely before use.
+  name: Shutdown System
+  description: |
+    Ability for System Shutdown/Reboot (ATT&CK T1529). 
+    Shuts down the target system.
+    Generated from Atomic Red Team procedures (ad254fa8-45c0-403b-8c77-e00b3d3e7a64; 6326dbc4-444b-4c04-88f4-27e94d0327cb); review and test safely before use.
   tactic: impact
   technique:
     attack_id: T1529
@@ -9,10 +11,11 @@
   platforms:
     windows:
       psh:
-        command: 'shutdown /s /t #{timeout}'
+        command: 'shutdown /s /t 5'
     linux:
       sh:
-        command: 'shutdown -r #{timeout}'
+        command: 'shutdown -r 5'
     darwin:
       sh:
-        command: 'shutdown -r #{timeout}'
+        command: 'shutdown -r 5'
+  privilege: Elevated

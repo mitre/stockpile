@@ -1,0 +1,35 @@
+- id: 4d925c07-2193-44da-be23-9fbc79e3a76e
+  name: Create A New Local User Account (Generated from Atomic Red Team)
+  description: |
+    Ability for Create Account: Local Account (ATT&CK T1136.001). 
+    Creates a new local user.
+    Generated from Atomic Red Team procedures (6657864e-0323-4206-9344-ac9cd7265a4f; 40d8eabd-e394-46f6-8785-b9bfa1d011d2; 01993ba5-1da3-4e15-a719-b690d4f0f0b2); review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1136.001
+    name: 'Create Account: Local Account'
+  platforms:
+    windows:
+      cmd:
+        command: |
+          net user /add "T1136001CMD" "T1136001_CMD!"
+        cleanup: |
+          net user "T1136001CMD" /del
+    linux:
+      sh:
+        command: |
+          useradd -M -N -r -s /bin/bash -c evil_account T1136001user
+        cleanup: |
+          userdel T1136001user
+    darwin:
+      sh:
+        command: |
+          dscl . -create /Users/T1136001user;
+          dscl . -create /Users/T1136001user UserShell /bin/zsh;
+          dscl . -create /Users/T1136001user RealName "T1136.001 User";
+          dscl . -create /Users/T1136001user UniqueID "1010";
+          dscl . -create /Users/T1136001user PrimaryGroupID 80;
+          dscl . -create /Users/T1136001user NFSHomeDirectory /Users/T1136001user
+        cleanup: |
+          dscl . -delete /Users/T1136001user
+  privilege: Elevated

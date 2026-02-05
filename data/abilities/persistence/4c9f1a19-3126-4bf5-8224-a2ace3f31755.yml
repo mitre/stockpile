@@ -1,7 +1,9 @@
 - id: 4c9f1a19-3126-4bf5-8224-a2ace3f31755
-  name: Account Manipulation
-  description: Ability for Account Manipulation (ATT&CK T1098). Generated from Atomic
-    Red Team procedures; review and test safely before use.
+  name: Manipulate Admin Account Name (Generated from Atomic Red Team)
+  description: |
+    Ability for Account Manipulation (ATT&CK T1098).
+    Changes Admin Account Name
+    Generated from Atomic Red Team procedures (5598f7cb-cf43-455e-883a-f6008c5d46af); review and test safely before use.
   tactic: persistence
   technique:
     attack_id: T1098
@@ -9,24 +11,28 @@
   platforms:
     windows:
       psh:
-        command: '$x = Get-Random -Minimum 2 -Maximum 9999 $y = Get-Random -Minimum
-          2 -Maximum 9999 $z = Get-Random -Minimum 2 -Maximum 9999 $w = Get-Random
-          -Minimum 2 -Maximum 9999 Write-Host HaHa_$x$y$z $fmm = Get-LocalGroupMember
-          -Group Administrators |?{ $_.ObjectClass -match "User" -and $_.PrincipalSource
-          -match "Local"} | Select Name foreach($member in $fmm) { if($member -like
-          "*Administrator*") { $account = $member.Name.Split("\")[-1] # strip computername\
-          $originalDescription = (Get-LocalUser -Name $account).Description Set-LocalUser
-          -Name $account -Description "atr:$account;$originalDescription".Substring(0,48)
-          # Keep original name in description Rename-LocalUser -Name $account -NewName
-          "HaHa_$x$y$z" # Required due to length limitation Write-Host "Successfully
-          Renamed $account Account on " $Env:COM …'
-    linux:
-      sh:
-        command: if [ -f ~/.ssh/authorized_keys ]; then ssh_authorized_keys=$(cat
-          ~/.ssh/authorized_keys); echo "$ssh_authorized_keys" > ~/.ssh/authorized_keys;
-          fi;
-    darwin:
-      sh:
-        command: if [ -f ~/.ssh/authorized_keys ]; then ssh_authorized_keys=$(cat
-          ~/.ssh/authorized_keys); echo "$ssh_authorized_keys" > ~/.ssh/authorized_keys;
-          fi;
+        command: |
+          $x = Get-Random -Minimum 2 -Maximum 9999;
+          $y = Get-Random -Minimum 2 -Maximum 9999;
+          $z = Get-Random -Minimum 2 -Maximum 9999;
+          $w = Get-Random -Minimum 2 -Maximum 9999;
+          Write-Host HaHa_$x$y$z;
+          $fmm = Get-LocalGroupMember -Group Administrators |?{ $_.ObjectClass -match "User" -and $_.PrincipalSource -match "Local"} | Select Name;
+          foreach($member in $fmm) {
+            if($member -like "*Administrator*") {
+              $account = $member.Name.Split("\")[-1];
+              $originalDescription = (Get-LocalUser -Name $account).Description;
+              Set-LocalUser -Name $account -Description "atr:$account;$originalDescription".Substring(0,48);
+              Rename-LocalUser -Name $account -NewName "HaHa_$x$y$z";
+              Write-Host "Successfully Renamed $account Account on " $Env:COMPUTERNAME;
+            }
+          }
+        cleanup: |
+          $list = Get-LocalUser |?{$_.Description -like "atr:*"};
+          foreach($u in $list) {
+            $u.Description -match "atr:(?<Name>[^;]+);(?<Description>.*)";
+            Set-LocalUser -Name $u.Name -Description $Matches.Description;
+            Rename-LocalUser -Name $u.Name -NewName $Matches.Name;
+            Write-Host "Successfully Reverted Account $($u.Name) to $($Matches.Name) on " $Env:COMPUTERNAME;
+          }
+  privilege: Elevated
