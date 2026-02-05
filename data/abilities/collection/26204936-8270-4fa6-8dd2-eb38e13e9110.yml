@@ -19,6 +19,3 @@
           $mic = Get-AudioDevice -Recording;
           Set-AudioDevice -ID $mic.ID;
           Start-Sleep -Seconds 5;
-    darwin:
-      sh:
-        command: 'sh #{filename} #{audiofile} #{duration}'

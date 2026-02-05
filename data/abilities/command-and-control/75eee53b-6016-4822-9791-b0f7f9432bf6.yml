@@ -22,3 +22,4 @@
           if(Test-Path $file){ Start-Process $file "/S" -ErrorAction Ignore | Out-Null }
           $file1 = "C:\Users\" + $env:username + "\Desktop\TeamViewer_Setup.exe";
           Remove-Item $file1 -ErrorAction Ignore | Out-Null
+        timeout: 180

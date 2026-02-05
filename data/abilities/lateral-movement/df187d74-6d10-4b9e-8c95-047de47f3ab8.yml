@@ -4,7 +4,7 @@
     Ability for Replication Through Removable Media (ATT&CK T1091).
     Simulates an adversary copying malware to all connected removable drives. 
     Generated from Atomic Red Team procedures (d44b7297-622c-4be8-ad88-ec40d7563c75); review and test safely before use.
-  tactic: initial-access
+  tactic: lateral-movement 
   technique:
     attack_id: T1091
     name: Replication Through Removable Media

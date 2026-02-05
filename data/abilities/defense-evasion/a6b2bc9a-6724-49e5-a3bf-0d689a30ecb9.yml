@@ -12,8 +12,8 @@
     linux,darwin:
       sh:
         command: |
-          mkdir $HOME/...
-          cp $(which sh) $HOME/...
+          mkdir $HOME/...;
+          cp $(which sh) $HOME/...;
           $HOME/.../sh -c "echo test T1036.005"
         cleanup: |
           rm -rf $HOME/.../
