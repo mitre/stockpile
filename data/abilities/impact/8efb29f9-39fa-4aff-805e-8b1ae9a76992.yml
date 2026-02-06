@@ -1,7 +1,9 @@
 - id: 8efb29f9-39fa-4aff-805e-8b1ae9a76992
-  name: Account Access Removal
-  description: Ability for Account Access Removal (ATT&CK T1531). Generated from Atomic
-    Red Team procedures; review and test safely before use.
+  name: Change User Password (Generated from Atomic Red Team)
+  description: |
+    Ability for Account Access Removal (ATT&CK T1531).
+    Changes the user password to hinder access attempts. Seen in use by LockerGoga.
+    Generated from Atomic Red Team procedures (1b99ef28-f83c-4ec5-8a08-1a56263a5bb; 3c717bf3-2ecc-4d79-8ac8-0bfbf08fbce6); review and test safely before use.
   tactic: impact
   technique:
     attack_id: T1531
@@ -9,13 +11,13 @@
   platforms:
     windows:
       psh:
-        command: 'net user #{user_account} #{new_user_password} /add net.exe user
-          #{user_account} #{new_password}'
-    linux:
+        command: |
+          net user #{host.user.name} HuHuHUHoHo283283
+    linux,darwin:
       sh:
-        command: 'passwd #{user_account} #enter admin password > enter new password
-          > confirm new password'
-    darwin:
-      sh:
-        command: 'passwd #{user_account} #enter admin password > enter new password
-          > confirm new password'
+        command: |
+          (echo "HuHuHUHoHo283283"; echo "HuHuHUHoHo283283") | passwd #{host.user.name}
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.user.name
+  privilege: Elevated

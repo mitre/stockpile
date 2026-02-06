@@ -3,8 +3,8 @@
   description: See the most used WIFI networks of a machine
   tactic: discovery
   technique:
-    attack_id: T1016
-    name: System Network Configuration Discovery
+    attack_id: T1016.002
+    name: "System Network Configuration Discovery: Wi-Fi Discovery"
   platforms:
     darwin:
       sh:

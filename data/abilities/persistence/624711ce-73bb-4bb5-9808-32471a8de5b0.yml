@@ -1,0 +1,32 @@
+- id: 624711ce-73bb-4bb5-9808-32471a8de5b0
+  name: Logon Initialization Scripts (RC Scripts) (Generated from Atomic Red Team)
+  description: |
+    Ability for Boot or Logon Initialization Scripts: RC Scripts (ATT&CK T1037.004).
+    Modifies rc.common
+    Generated from Atomic Red Team procedures (c33f3d80-5f04-419b-a13a-854d1cbdbf3a); review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1037.004
+    name: 'Boot or Logon Initialization Scripts: RC Scripts'
+  platforms:
+    linux:
+      sh:
+        command: |
+          filename='/etc/rc.common';
+          if [ ! -f $filename ]; then 
+            sudo touch $filename;
+          else 
+            sudo cp $filename /etc/rc.common.original;
+          fi;
+          printf '%s\n' '#!/bin/bash' | sudo tee /etc/rc.common;
+          echo "python3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\"" | sudo tee -a /etc/rc.common;
+          printf '%s\n' 'exit 0' | sudo tee -a /etc/rc.common;
+          sudo chmod +x /etc/rc.common;
+        cleanup: |
+          origfilename='/etc/rc.common.original';
+          if [ ! -f $origfilename ]; then 
+            sudo rm /etc/rc.common;
+          else 
+            sudo cp $origfilename /etc/rc.common && sudo rm $origfilename;
+          fi
+  privilege: Elevated

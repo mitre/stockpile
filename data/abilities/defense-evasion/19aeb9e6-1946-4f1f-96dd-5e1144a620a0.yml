@@ -1,7 +1,10 @@
 - id: 19aeb9e6-1946-4f1f-96dd-5e1144a620a0
-  name: Indirect Command Execution
-  description: Ability for Indirect Command Execution (ATT&CK T1202). Generated from
-    Atomic Red Team procedures; review and test safely before use.
+  name: Indirect Command Execution - pcalua.exe (Generated from Atomic Red Team)
+  description: |
+    Ability for Indirect Command Execution (ATT&CK T1202).
+    Uses the Program Compatibility Assistant (pcalua.exe) to invoke the execution of programs and commands from a Command-Line Interface.
+    Reference: https://twitter.com/KyleHanslovan/status/912659279806640128. 
+    Generated from Atomic Red Team procedures (cecfea7a-5f03-4cdd-8bc8-6f7c22862440); review and test safely before use.
   tactic: defense-evasion
   technique:
     attack_id: T1202
@@ -9,4 +12,6 @@
   platforms:
     windows:
       psh:
-        command: 'pcalua.exe -a #{process} pcalua.exe -a #{payload_path}'
+        command: |
+          pcalua.exe -a calc.exe;
+          pcalua.exe -a C:\Windows\System32\calc.exe;

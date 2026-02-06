@@ -1,6 +1,6 @@
 - id: 4908fdc4-74fc-4d7c-8935-26d11ad26a8d
-  name: Copy 54ndc47 (WinRM and SCP)
-  description: Copy 54ndc47 to remote host (powershell 5 or newer only) or SCP
+  name: Copy Sandcat (WinRM and SCP)
+  description: Copy Sandcat to remote host (powershell 5 or newer only) or SCP
   tactic: lateral-movement
   technique:
     attack_id: T1570

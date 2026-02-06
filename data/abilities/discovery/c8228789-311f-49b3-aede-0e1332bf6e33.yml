@@ -1,18 +1,16 @@
 - id: c8228789-311f-49b3-aede-0e1332bf6e33
-  name: System Location Discovery
-  description: Ability for System Location Discovery (ATT&CK T1614). Generated from
-    Atomic Red Team procedures; review and test safely before use.
+  name: Discover System Language by Registry Query (Generated from Atomic Red Team)
+  description: |
+    Ability for System Location Discovery: System Language Discovery (ATT&CK T1614.001).
+    Identifies System language by querying the registry on an endpoint. 
+    Upon successful execution, result in number format can be looked up to correlate the language.
+    Generated from Atomic Red Team procedures (631d4cf1-42c9-4209-8fe9-6bd4de9421be); review and test safely before use.
   tactic: discovery
   technique:
-    attack_id: T1614
-    name: System Location Discovery
+    attack_id: T1614.001
+    name: 'System Location Discovery: System Language Discovery'
   platforms:
     windows:
-      psh:
-        command: reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language
-    linux:
-      sh:
-        command: locale
-    darwin:
-      sh:
-        command: 'curl -k #{ip_lookup_url}'
+      cmd,psh:
+        command: |
+          reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language

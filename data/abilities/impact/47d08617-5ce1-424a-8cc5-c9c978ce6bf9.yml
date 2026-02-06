@@ -5,8 +5,8 @@
   description: Create a text file for the user to find
   tactic: impact
   technique:
-    attack_id: T1491
-    name: Defacement
+    attack_id: T1491.001
+    name: "Defacement: Internal Defacement"
   platforms:
     darwin:
       sh:

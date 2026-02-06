@@ -1,0 +1,17 @@
+- id: 884ccc90-57cc-4392-b5d9-bc5439fb00d2
+  name: Discover System Language with locale (Generated from Atomic Red Team)
+  description: |
+    Ability for System Location Discovery: System Language Discovery (ATT&CK T1614.001).
+    Identifies System language with the `locale` command.
+    Upon successful execution, the output will contain the environment variables that indicate
+    the 5 character locale that can be looked up to correlate the language and territory.
+    Generated from Atomic Red Team procedures (837d609b-845e-4519-90ce-edc3b4b0e138); review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1614.001
+    name: 'System Location Discovery: System Language Discovery'
+  platforms:
+    linux:
+      sh:
+        command: |
+          locale
