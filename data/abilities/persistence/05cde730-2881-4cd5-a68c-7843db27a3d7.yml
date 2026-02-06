@@ -18,4 +18,4 @@
           echo "#{location} -server #{server} -group #{group}" > %temp%\art.bat &&
           REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "%temp%\art.bat" /f
         cleanup: |
-          REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f & del #{script_path}
+          REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f & del "%temp%\art.bat"

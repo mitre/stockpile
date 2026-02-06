@@ -14,3 +14,5 @@
       psh:
         command: |
           get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv $env:temp\T1654_events.txt
+        cleanup: |
+          rm -force "$env:temp\T1654_events.txt"

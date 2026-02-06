@@ -20,7 +20,6 @@
           Set-Acl -Path $termsrvDll -AclObject $ACL;
           Copy-Item -Path "C:\Windows\System32\termsrv.dll" -Destination "C:\Windows\System32\termsrv_backup.dll" -ErrorAction Ignore;
           Add-Content -Path "C:\Windows\System32\termsrv.dll" -Value "`n" -NoNewline -ErrorAction Ignore;
-          Move-Item -Path "C:\Windows\System32\termsrv_backup.dll" -Destination "C:\Windows\System32\termsrv.dll" -Force -ErrorAction Ignore;
         cleanup: |
           Move-Item -Path "C:\Windows\System32\termsrv_backup.dll" -Destination "C:\Windows\System32\termsrv.dll" -Force -ErrorAction Ignore
   privilege: Elevated
