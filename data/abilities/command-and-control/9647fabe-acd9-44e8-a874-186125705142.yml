@@ -1,0 +1,24 @@
+- id: 9647fabe-acd9-44e8-a874-186125705142
+  name: Testing usage of uncommonly used port (Generated from Atomic Red Team)
+  description: |
+    Ability for Non-Standard Port (ATT&CK T1571).
+    Tests usage of uncommonly used port with PowerShell (Windows) or with Telnet (Linux/MacOS).
+    Generated from Atomic Red Team procedures (21fe622f-8e53-4b31-ba83-6d333c2583f4); review and test safely before use.
+  tactic: command-and-control
+  technique:
+    attack_id: T1571
+    name: Non-Standard Port
+  platforms:
+    windows:
+      psh:
+        command: 'Test-NetConnection -ComputerName #{nonstandard.port.listener} -port #{nonstandard.port.number}'
+    linux:
+      sh:
+        command: |
+          echo quit | telnet #{nonstandard.port.listener} #{nonstandard.port.number};
+          exit 0
+    darwin:
+      sh:
+        command: |
+          echo quit | telnet #{nonstandard.port.listener} #{nonstandard.port.number};
+          exit 0

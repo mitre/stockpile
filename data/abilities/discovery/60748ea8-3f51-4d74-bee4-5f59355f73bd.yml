@@ -1,0 +1,17 @@
+- id: 60748ea8-3f51-4d74-bee4-5f59355f73bd
+  name: Display Group Policy Information Via Gpresult (Generated from Atomic Red Team)
+  description: |
+    Ability for Group Policy Discovery (ATT&CK T1615). 
+    Uses the built-in Windows utility gpresult to display the Resultant Set of Policy (RSoP) information.
+    Ref: https://unit42.paloaltonetworks.com/emissary-trojan-changelog-did-operation-lotus-blossom-cause-it-to-evolve/
+    Ref: https://www.welivesecurity.com/wp-content/uploads/2020/05/ESET_Turla_ComRAT.pdf
+    Generated from Atomic Red Team procedures (0976990f-53b1-4d3f-a185-6df5be429d3b); review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1615
+    name: Group Policy Discovery
+  platforms:
+    windows:
+      psh:
+        command: |
+          gpresult /z

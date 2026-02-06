@@ -1,0 +1,17 @@
+- id: 7b2ddfb1-cc17-4d55-a10e-607bbd59f483
+  name: Enumerate PlugNPlay Camera (Generated from Atomic Red Team)
+  description: |
+    Ability for System Information Discovery (ATT&CK T1082). 
+    Enumerate PlugNPlay Camera using powershell commandlet.
+    This technique was seen in dcrat malware backdoor capabilities where it enumerate the camera info mounted on the compromised host.
+    Reference: https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+    Generated from Atomic Red Team procedures (d430bf85-b656-40e7-b238-42db01df0183); review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      psh:
+        command: |
+          Get-CimInstance -Query "SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"

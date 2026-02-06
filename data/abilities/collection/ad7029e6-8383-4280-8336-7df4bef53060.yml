@@ -1,0 +1,16 @@
+- id: ad7029e6-8383-4280-8336-7df4bef53060
+  name: Copy Sensitive File from Admin Share (Generated from Atomic Red Team)
+  description: |
+    Ability for Data from Network Shared Drive (ATT&CK T1039).
+    Copies a sensitive File from the c$ of another LAN computer with the copy cmd
+    Reference: https://twitter.com/SBousseaden/status/1211636381086339073
+    Generated from Atomic Red Team procedures (6ed67921-1774-44ba-bac6-adb51ed60660); review and test safely before use.
+  tactic: collection
+  technique:
+    attack_id: T1039
+    name: Data from Network Shared Drive
+  platforms:
+    windows:
+      psh:
+        command: |
+          copy \\#{remote.host.fqdn}\C$\#{sensitive.share.file} "#{host.dir.staged}\"
