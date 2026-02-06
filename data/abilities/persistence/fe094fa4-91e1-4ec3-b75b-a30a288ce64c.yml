@@ -1,0 +1,12 @@
+- id: fe094fa4-91e1-4ec3-b75b-a30a288ce64c
+  name: Setuid and Setgid
+  description: Ability for Setuid and Setgid (ATT&CK T1166). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1166
+    name: Setuid and Setgid
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

@@ -1,0 +1,12 @@
+- id: 64522668-925c-44c9-b017-00cf7d5ccedb
+  name: CMSTP
+  description: Ability for CMSTP (ATT&CK T1191). Generated from Atomic Red Team procedures;
+    review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1191
+    name: CMSTP
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

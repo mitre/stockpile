@@ -1,0 +1,12 @@
+- id: 48c8c8ec-a14e-4937-8248-6e5f45a74ae7
+  name: Login Item
+  description: Ability for Login Item (ATT&CK T1162). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1162
+    name: Login Item
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

@@ -1,0 +1,13 @@
+- id: 15e11d32-6a53-4b13-85de-e4d966bcd0a8
+  name: Data from Configuration Repository
+  description: Ability for Data from Configuration Repository (ATT&CK T1602). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: collection
+  technique:
+    attack_id: T1602
+    name: Data from Configuration Repository
+  platforms:
+    windows:
+      cmd:
+        command: dir "%USERPROFILE%\Documents" /S /B | head

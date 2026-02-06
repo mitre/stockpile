@@ -1,0 +1,12 @@
+- id: 85a87473-d667-4d22-9f6d-d83b08b06d31
+  name: Launch Daemon
+  description: Ability for Launch Daemon (ATT&CK T1160). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1160
+    name: Launch Daemon
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

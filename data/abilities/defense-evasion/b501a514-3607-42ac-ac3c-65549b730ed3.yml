@@ -1,0 +1,13 @@
+- id: b501a514-3607-42ac-ac3c-65549b730ed3
+  name: Modify Cloud Resource Hierarchy
+  description: Ability for Modify Cloud Resource Hierarchy (ATT&CK T1666). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1666
+    name: Modify Cloud Resource Hierarchy
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,13 @@
+- id: 33732f5d-1b4c-40d4-a24d-043d923a627b
+  name: Exfiltration Over Physical Medium
+  description: Ability for Exfiltration Over Physical Medium (ATT&CK T1052). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: exfiltration
+  technique:
+    attack_id: T1052
+    name: Exfiltration Over Physical Medium
+  platforms:
+    windows:
+      cmd:
+        command: type "#{file_path}" > NUL

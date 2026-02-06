@@ -1,0 +1,12 @@
+- id: 41bb2c6e-f2db-4a6a-8dbf-9be9c97840e6
+  name: Port Monitors
+  description: Ability for Port Monitors (ATT&CK T1013). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1013
+    name: Port Monitors
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

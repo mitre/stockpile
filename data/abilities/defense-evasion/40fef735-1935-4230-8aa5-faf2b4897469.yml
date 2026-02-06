@@ -1,0 +1,12 @@
+- id: 40fef735-1935-4230-8aa5-faf2b4897469
+  name: File Deletion
+  description: Ability for File Deletion (ATT&CK T1107). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1107
+    name: File Deletion
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

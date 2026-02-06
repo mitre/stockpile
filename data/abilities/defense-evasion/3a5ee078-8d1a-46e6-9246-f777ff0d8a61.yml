@@ -1,0 +1,13 @@
+- id: 3a5ee078-8d1a-46e6-9246-f777ff0d8a61
+  name: Install Root Certificate
+  description: Ability for Install Root Certificate (ATT&CK T1130). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1130
+    name: Install Root Certificate
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

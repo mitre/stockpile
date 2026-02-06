@@ -1,0 +1,13 @@
+- id: bf86735d-cccf-451e-8819-969896fbeba0
+  name: Spearphishing Attachment
+  description: Ability for Spearphishing Attachment (ATT&CK T1193). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1193
+    name: Spearphishing Attachment
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

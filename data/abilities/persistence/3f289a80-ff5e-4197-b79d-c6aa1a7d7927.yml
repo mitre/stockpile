@@ -1,0 +1,13 @@
+- id: 3f289a80-ff5e-4197-b79d-c6aa1a7d7927
+  name: Kernel Modules and Extensions
+  description: Ability for Kernel Modules and Extensions (ATT&CK T1215). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1215
+    name: Kernel Modules and Extensions
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

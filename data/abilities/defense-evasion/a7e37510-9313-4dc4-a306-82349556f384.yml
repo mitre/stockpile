@@ -1,0 +1,12 @@
+- id: a7e37510-9313-4dc4-a306-82349556f384
+  name: Control Panel Items
+  description: Ability for Control Panel Items (ATT&CK T1196). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1196
+    name: Control Panel Items
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

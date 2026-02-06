@@ -1,0 +1,12 @@
+- id: a7910a17-502e-4b91-9fc7-b7430b969bea
+  name: Process Hollowing
+  description: Ability for Process Hollowing (ATT&CK T1093). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1093
+    name: Process Hollowing
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

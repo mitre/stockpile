@@ -1,0 +1,13 @@
+- id: d0766f29-11dc-4b65-a9e9-c9c431c56227
+  name: Modify Cloud Compute Infrastructure
+  description: Ability for Modify Cloud Compute Infrastructure (ATT&CK T1578). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1578
+    name: Modify Cloud Compute Infrastructure
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

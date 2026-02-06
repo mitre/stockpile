@@ -1,0 +1,13 @@
+- id: eb8b1313-fa03-4baf-b133-3bbf566a4dad
+  name: Hidden Files and Directories
+  description: Ability for Hidden Files and Directories (ATT&CK T1158). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1158
+    name: Hidden Files and Directories
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

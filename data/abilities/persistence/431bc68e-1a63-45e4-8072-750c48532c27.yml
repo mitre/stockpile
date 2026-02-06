@@ -1,0 +1,12 @@
+- id: 431bc68e-1a63-45e4-8072-750c48532c27
+  name: LC_LOAD_DYLIB Addition
+  description: Ability for LC_LOAD_DYLIB Addition (ATT&CK T1161). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1161
+    name: LC_LOAD_DYLIB Addition
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

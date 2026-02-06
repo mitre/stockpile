@@ -1,0 +1,12 @@
+- id: 3b652b70-def6-4d5a-92bc-6d2a7cdbc156
+  name: Pass the Ticket
+  description: Ability for Pass the Ticket (ATT&CK T1097). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1097
+    name: Pass the Ticket
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

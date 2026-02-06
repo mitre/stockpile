@@ -1,0 +1,12 @@
+- id: 90c6518a-fa65-4c1e-8ea9-97a46529e67e
+  name: Parent PID Spoofing
+  description: Ability for Parent PID Spoofing (ATT&CK T1502). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1502
+    name: Parent PID Spoofing
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

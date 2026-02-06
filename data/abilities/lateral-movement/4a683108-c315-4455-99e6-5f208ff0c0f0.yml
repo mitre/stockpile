@@ -1,0 +1,12 @@
+- id: 4a683108-c315-4455-99e6-5f208ff0c0f0
+  name: Shared Webroot
+  description: Ability for Shared Webroot (ATT&CK T1051). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1051
+    name: Shared Webroot
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

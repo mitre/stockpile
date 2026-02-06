@@ -1,0 +1,12 @@
+- id: cf77d76a-78f3-43d6-a966-81cbbf0d607f
+  name: System Firmware
+  description: Ability for System Firmware (ATT&CK T1019). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1019
+    name: System Firmware
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

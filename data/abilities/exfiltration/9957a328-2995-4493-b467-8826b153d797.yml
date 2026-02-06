@@ -1,0 +1,12 @@
+- id: 9957a328-2995-4493-b467-8826b153d797
+  name: Data Encrypted
+  description: Ability for Data Encrypted (ATT&CK T1022). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: exfiltration
+  technique:
+    attack_id: T1022
+    name: Data Encrypted
+  platforms:
+    windows:
+      cmd:
+        command: type "#{file_path}" > NUL

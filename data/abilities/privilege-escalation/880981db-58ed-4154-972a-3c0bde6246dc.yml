@@ -1,0 +1,12 @@
+- id: 880981db-58ed-4154-972a-3c0bde6246dc
+  name: SID-History Injection
+  description: Ability for SID-History Injection (ATT&CK T1178). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1178
+    name: SID-History Injection
+  platforms:
+    windows:
+      cmd:
+        command: whoami /priv

@@ -1,0 +1,12 @@
+- id: ed77aa8e-4be4-4dd1-8329-cc03272c05c3
+  name: Compiled HTML File
+  description: Ability for Compiled HTML File (ATT&CK T1223). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1223
+    name: Compiled HTML File
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,13 @@
+- id: c2864f86-cc94-403d-9fcd-ddae835c86c8
+  name: Modify Existing Service
+  description: Ability for Modify Existing Service (ATT&CK T1031). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1031
+    name: Modify Existing Service
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

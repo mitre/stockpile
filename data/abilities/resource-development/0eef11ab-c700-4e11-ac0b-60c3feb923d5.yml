@@ -1,0 +1,12 @@
+- id: 0eef11ab-c700-4e11-ac0b-60c3feb923d5
+  name: Acquire Infrastructure
+  description: Ability for Acquire Infrastructure (ATT&CK T1583). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1583
+    name: Acquire Infrastructure
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

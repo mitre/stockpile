@@ -1,0 +1,13 @@
+- id: 0ff486e0-069a-4baf-99bd-5d249bfb59e9
+  name: Search Open Websites/Domains
+  description: Ability for Search Open Websites/Domains (ATT&CK T1593). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1593
+    name: Search Open Websites/Domains
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

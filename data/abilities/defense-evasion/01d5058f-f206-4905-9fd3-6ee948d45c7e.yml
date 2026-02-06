@@ -1,0 +1,13 @@
+- id: 01d5058f-f206-4905-9fd3-6ee948d45c7e
+  name: Unused/Unsupported Cloud Regions
+  description: Ability for Unused/Unsupported Cloud Regions (ATT&CK T1535). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1535
+    name: Unused/Unsupported Cloud Regions
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

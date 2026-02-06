@@ -1,0 +1,12 @@
+- id: 29fbe760-cb2c-400f-959d-c8720eed8566
+  name: Screensaver
+  description: Ability for Screensaver (ATT&CK T1180). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1180
+    name: Screensaver
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

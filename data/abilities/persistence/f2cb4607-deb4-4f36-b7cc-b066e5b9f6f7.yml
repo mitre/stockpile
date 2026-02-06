@@ -1,0 +1,12 @@
+- id: f2cb4607-deb4-4f36-b7cc-b066e5b9f6f7
+  name: Dylib Hijacking
+  description: Ability for Dylib Hijacking (ATT&CK T1157). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1157
+    name: Dylib Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

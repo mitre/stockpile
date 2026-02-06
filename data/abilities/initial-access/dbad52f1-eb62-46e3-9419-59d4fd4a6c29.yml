@@ -1,0 +1,12 @@
+- id: dbad52f1-eb62-46e3-9419-59d4fd4a6c29
+  name: Hardware Additions
+  description: Ability for Hardware Additions (ATT&CK T1200). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1200
+    name: Hardware Additions
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

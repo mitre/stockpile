@@ -1,0 +1,12 @@
+- id: 73c600d7-648a-4625-9880-bcb0f8192ae7
+  name: Build Image on Host
+  description: Ability for Build Image on Host (ATT&CK T1612). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1612
+    name: Build Image on Host
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,12 @@
+- id: 39dd215f-9eaa-4730-8cda-a6e369644de3
+  name: Component Firmware
+  description: Ability for Component Firmware (ATT&CK T1109). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1109
+    name: Component Firmware
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

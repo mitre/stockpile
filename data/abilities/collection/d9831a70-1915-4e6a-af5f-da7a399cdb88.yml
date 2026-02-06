@@ -1,0 +1,13 @@
+- id: d9831a70-1915-4e6a-af5f-da7a399cdb88
+  name: Data from Information Repositories
+  description: Ability for Data from Information Repositories (ATT&CK T1213). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: collection
+  technique:
+    attack_id: T1213
+    name: Data from Information Repositories
+  platforms:
+    windows:
+      cmd:
+        command: dir "%USERPROFILE%\Documents" /S /B | head

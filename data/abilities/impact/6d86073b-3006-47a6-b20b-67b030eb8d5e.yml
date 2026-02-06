@@ -1,0 +1,13 @@
+- id: 6d86073b-3006-47a6-b20b-67b030eb8d5e
+  name: Network Denial of Service
+  description: Ability for Network Denial of Service (ATT&CK T1498). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1498
+    name: Network Denial of Service
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

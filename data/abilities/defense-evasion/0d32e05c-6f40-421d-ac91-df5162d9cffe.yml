@@ -1,0 +1,13 @@
+- id: 0d32e05c-6f40-421d-ac91-df5162d9cffe
+  name: SIP and Trust Provider Hijacking
+  description: Ability for SIP and Trust Provider Hijacking (ATT&CK T1198). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1198
+    name: SIP and Trust Provider Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,13 @@
+- id: 00fde717-da8f-40e2-a8ab-734d95c89248
+  name: Cloud Instance Metadata API
+  description: Ability for Cloud Instance Metadata API (ATT&CK T1522). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1522
+    name: Cloud Instance Metadata API
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

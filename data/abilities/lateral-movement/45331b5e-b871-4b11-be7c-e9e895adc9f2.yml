@@ -1,0 +1,13 @@
+- id: 45331b5e-b871-4b11-be7c-e9e895adc9f2
+  name: Exploitation of Remote Services
+  description: Ability for Exploitation of Remote Services (ATT&CK T1210). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1210
+    name: Exploitation of Remote Services
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

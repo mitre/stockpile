@@ -1,0 +1,13 @@
+- id: 77adbdaf-76d4-4bec-abb6-ec34af990aae
+  name: File System Permissions Weakness
+  description: Ability for File System Permissions Weakness (ATT&CK T1044). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1044
+    name: File System Permissions Weakness
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

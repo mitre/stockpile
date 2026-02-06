@@ -1,0 +1,12 @@
+- id: e2b44d71-7283-4f94-a0bd-a82b2f88ebf0
+  name: Obtain Capabilities
+  description: Ability for Obtain Capabilities (ATT&CK T1588). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1588
+    name: Obtain Capabilities
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

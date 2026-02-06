@@ -1,0 +1,12 @@
+- id: 900e0560-20f2-40ea-9a8c-8ee515627e84
+  name: Plist Modification
+  description: Ability for Plist Modification (ATT&CK T1150). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1150
+    name: Plist Modification
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

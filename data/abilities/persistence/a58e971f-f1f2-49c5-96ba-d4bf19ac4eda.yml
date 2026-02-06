@@ -1,0 +1,13 @@
+- id: a58e971f-f1f2-49c5-96ba-d4bf19ac4eda
+  name: Service Registry Permissions Weakness
+  description: Ability for Service Registry Permissions Weakness (ATT&CK T1058). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1058
+    name: Service Registry Permissions Weakness
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

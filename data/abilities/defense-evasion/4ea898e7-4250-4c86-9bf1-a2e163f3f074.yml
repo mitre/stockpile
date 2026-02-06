@@ -1,0 +1,12 @@
+- id: 4ea898e7-4250-4c86-9bf1-a2e163f3f074
+  name: InstallUtil
+  description: Ability for InstallUtil (ATT&CK T1118). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1118
+    name: InstallUtil
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

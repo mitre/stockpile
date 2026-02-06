@@ -1,0 +1,13 @@
+- id: ab64fede-6e88-4669-91f2-7e6a848ed861
+  name: Disabling Security Tools
+  description: Ability for Disabling Security Tools (ATT&CK T1089). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1089
+    name: Disabling Security Tools
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*
