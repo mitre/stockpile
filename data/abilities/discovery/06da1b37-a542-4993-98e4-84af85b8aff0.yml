@@ -13,6 +13,7 @@
     windows:
       psh:
         command: |
-          get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv $env:temp\T1654_events.txt
-        cleanup: |
-          rm -force "$env:temp\T1654_events.txt"
+          get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv -encoding Unicode "#{host.dir.staged}\T1654_events.txt"
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.dir.staged
