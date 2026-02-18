@@ -1,0 +1,8 @@
+---
+
+
+id: 1ef21846-a4d4-49df-a140-66f9ab27a05f
+name: "Kerberoast Rubeus"
+description: Rubeus based Kerberoasting steps for T1558.003
+atomic_ordering:
+  - 2797bb09-3b49-4295-b5da-26333bf0b61d
