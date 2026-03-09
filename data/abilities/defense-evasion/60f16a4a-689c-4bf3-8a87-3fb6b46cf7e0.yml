@@ -1,0 +1,13 @@
+- id: 60f16a4a-689c-4bf3-8a87-3fb6b46cf7e0
+  name: DLL Search Order Hijacking
+  description: Ability for DLL Search Order Hijacking (ATT&CK T1038). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1038
+    name: DLL Search Order Hijacking
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

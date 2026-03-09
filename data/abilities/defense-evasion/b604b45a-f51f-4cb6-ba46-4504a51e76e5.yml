@@ -1,0 +1,12 @@
+- id: b604b45a-f51f-4cb6-ba46-4504a51e76e5
+  name: Timestomp
+  description: Ability for Timestomp (ATT&CK T1099). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1099
+    name: Timestomp
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

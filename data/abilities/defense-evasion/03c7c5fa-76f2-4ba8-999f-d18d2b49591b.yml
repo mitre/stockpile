@@ -1,0 +1,12 @@
+- id: 03c7c5fa-76f2-4ba8-999f-d18d2b49591b
+  name: Hidden Users
+  description: Ability for Hidden Users (ATT&CK T1147). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1147
+    name: Hidden Users
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

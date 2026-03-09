@@ -1,0 +1,12 @@
+- id: 1d76fa08-b8e2-439e-8c9b-68485febc76e
+  name: Re-opened Applications
+  description: Ability for Re-opened Applications (ATT&CK T1164). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1164
+    name: Re-opened Applications
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

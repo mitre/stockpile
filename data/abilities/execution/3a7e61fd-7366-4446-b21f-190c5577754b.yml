@@ -1,0 +1,12 @@
+- id: 3a7e61fd-7366-4446-b21f-190c5577754b
+  name: Source
+  description: Ability for Source (ATT&CK T1153). Generated from Atomic Red Team procedures;
+    review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: execution
+  technique:
+    attack_id: T1153
+    name: Source
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Write-Output \"#{message}\""

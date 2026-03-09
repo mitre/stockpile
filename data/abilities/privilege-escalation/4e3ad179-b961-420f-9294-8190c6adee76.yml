@@ -1,0 +1,12 @@
+- id: 4e3ad179-b961-420f-9294-8190c6adee76
+  name: Sudo Caching
+  description: Ability for Sudo Caching (ATT&CK T1206). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1206
+    name: Sudo Caching
+  platforms:
+    windows:
+      cmd:
+        command: whoami /priv

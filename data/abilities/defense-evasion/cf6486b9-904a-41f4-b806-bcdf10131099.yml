@@ -1,0 +1,12 @@
+- id: cf6486b9-904a-41f4-b806-bcdf10131099
+  name: Modify System Image
+  description: Ability for Modify System Image (ATT&CK T1601). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1601
+    name: Modify System Image
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

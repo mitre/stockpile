@@ -1,0 +1,13 @@
+- id: 976e94ac-5587-4b51-9f7d-f86f4ad0e521
+  name: Network Share Connection Removal
+  description: Ability for Network Share Connection Removal (ATT&CK T1126). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1126
+    name: Network Share Connection Removal
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,13 @@
+- id: 7d15c660-477a-4599-8fbc-ea2e916fc587
+  name: Phishing for Information
+  description: Ability for Phishing for Information (ATT&CK T1598). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1598
+    name: Phishing for Information
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

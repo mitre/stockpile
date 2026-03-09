@@ -1,0 +1,13 @@
+- id: d338efcd-7a5f-475d-8a20-dc5ffa049cbf
+  name: Exploitation for Defense Evasion
+  description: Ability for Exploitation for Defense Evasion (ATT&CK T1211). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1211
+    name: Exploitation for Defense Evasion
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

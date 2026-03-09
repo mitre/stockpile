@@ -1,0 +1,12 @@
+- id: fb67dfcb-511b-4f22-ba92-d6e2f08ae751
+  name: Code Signing
+  description: Ability for Code Signing (ATT&CK T1116). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1116
+    name: Code Signing
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

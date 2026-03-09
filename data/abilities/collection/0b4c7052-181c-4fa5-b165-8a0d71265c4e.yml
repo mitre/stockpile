@@ -1,0 +1,13 @@
+- id: 0b4c7052-181c-4fa5-b165-8a0d71265c4e
+  name: Data from Cloud Storage
+  description: Ability for Data from Cloud Storage (ATT&CK T1530). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: collection
+  technique:
+    attack_id: T1530
+    name: Data from Cloud Storage
+  platforms:
+    windows:
+      cmd:
+        command: dir "%USERPROFILE%\Documents" /S /B | head

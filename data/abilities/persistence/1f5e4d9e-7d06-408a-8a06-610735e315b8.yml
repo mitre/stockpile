@@ -1,0 +1,13 @@
+- id: 1f5e4d9e-7d06-408a-8a06-610735e315b8
+  name: Change Default File Association
+  description: Ability for Change Default File Association (ATT&CK T1042). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1042
+    name: Change Default File Association
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

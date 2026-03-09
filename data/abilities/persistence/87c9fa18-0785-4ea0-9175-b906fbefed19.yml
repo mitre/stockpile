@@ -1,0 +1,12 @@
+- id: 87c9fa18-0785-4ea0-9175-b906fbefed19
+  name: Path Interception
+  description: Ability for Path Interception (ATT&CK T1034). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1034
+    name: Path Interception
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

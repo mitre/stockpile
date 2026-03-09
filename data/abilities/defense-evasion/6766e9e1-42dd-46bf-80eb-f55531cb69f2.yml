@@ -1,0 +1,12 @@
+- id: 6766e9e1-42dd-46bf-80eb-f55531cb69f2
+  name: Web Session Cookie
+  description: Ability for Web Session Cookie (ATT&CK T1506). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1506
+    name: Web Session Cookie
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

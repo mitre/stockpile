@@ -1,0 +1,13 @@
+- id: 1fcd171f-d8a4-4c97-ab05-e7d635a02aa1
+  name: Spearphishing via Service
+  description: Ability for Spearphishing via Service (ATT&CK T1194). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1194
+    name: Spearphishing via Service
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

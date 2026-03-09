@@ -1,0 +1,12 @@
+- id: d85bdbdf-5409-4f1f-aa35-ab6ec9b73bf4
+  name: Drive-by Compromise
+  description: Ability for Drive-by Compromise (ATT&CK T1189). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1189
+    name: Drive-by Compromise
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

@@ -1,0 +1,12 @@
+- id: 95644299-6d28-4974-b50c-7bb8213ed999
+  name: Taint Shared Content
+  description: Ability for Taint Shared Content (ATT&CK T1080). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1080
+    name: Taint Shared Content
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

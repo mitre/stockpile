@@ -1,0 +1,12 @@
+- id: aeeaa400-d6a2-46e4-8754-b33207ef4a8d
+  name: Bootkit
+  description: Ability for Bootkit (ATT&CK T1067). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1067
+    name: Bootkit
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

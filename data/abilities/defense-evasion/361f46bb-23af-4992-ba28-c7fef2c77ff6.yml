@@ -1,0 +1,12 @@
+- id: 361f46bb-23af-4992-ba28-c7fef2c77ff6
+  name: Hidden Window
+  description: Ability for Hidden Window (ATT&CK T1143). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1143
+    name: Hidden Window
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

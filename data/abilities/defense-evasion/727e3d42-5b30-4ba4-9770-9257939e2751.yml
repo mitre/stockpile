@@ -1,0 +1,12 @@
+- id: 727e3d42-5b30-4ba4-9770-9257939e2751
+  name: Clear Command History
+  description: Ability for Clear Command History (ATT&CK T1146). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1146
+    name: Clear Command History
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

@@ -1,0 +1,12 @@
+- id: 3b3ccd7b-5c6b-4c3f-9775-14f7b0868964
+  name: Pass the Hash
+  description: Ability for Pass the Hash (ATT&CK T1075). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1075
+    name: Pass the Hash
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

@@ -1,0 +1,12 @@
+- id: f5ef6a36-32cf-4a02-bdd1-757c0a5acdcf
+  name: Winlogon Helper DLL
+  description: Ability for Winlogon Helper DLL (ATT&CK T1004). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1004
+    name: Winlogon Helper DLL
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

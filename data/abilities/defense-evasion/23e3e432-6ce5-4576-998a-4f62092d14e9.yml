@@ -1,0 +1,12 @@
+- id: 23e3e432-6ce5-4576-998a-4f62092d14e9
+  name: Gatekeeper Bypass
+  description: Ability for Gatekeeper Bypass (ATT&CK T1144). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1144
+    name: Gatekeeper Bypass
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*
