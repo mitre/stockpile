@@ -11,11 +11,16 @@ ABILITIES_ROOT = os.path.join(REPO_ROOT, 'data', 'abilities')
 
 def _iter_commands():
     for yml_path in glob.glob(f'{ABILITIES_ROOT}/**/*.yml', recursive=True):
-        with open(yml_path) as fh:
+        with open(yml_path, encoding='utf-8') as fh:
             try:
-                entries = yaml.safe_load(fh) or []
-            except yaml.YAMLError:
-                continue
+                data = yaml.safe_load(fh)
+            except yaml.YAMLError as exc:
+                raise AssertionError(f"YAML parse error in {yml_path}: {exc}") from exc
+        # Top-level may be a list of ability entries or a single dict entry.
+        if isinstance(data, dict):
+            entries = [data]
+        else:
+            entries = data or []
         for entry in entries:
             for platform, execs in (entry.get('platforms') or {}).items():
                 for exec_name, exec_def in (execs or {}).items():
