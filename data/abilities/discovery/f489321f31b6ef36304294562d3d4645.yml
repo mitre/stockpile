@@ -1,0 +1,11 @@
+- id: f489321f31b6ef36304294562d3d4645
+  name: IP Neighbour Show
+  description: Collect neighbour/ARP table using the ip command, installing iproute2 if needed
+  tactic: discovery
+  technique:
+    attack_id: T1016
+    name: System Network Configuration Discovery
+  platforms:
+    linux:
+      sh:
+        command: 'if [ -x "$(command -v ip)" ]; then : ; else apt-get install iproute2 -y; fi; ip neighbour show'
