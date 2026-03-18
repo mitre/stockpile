@@ -2,13 +2,16 @@
 
 import base64
 import importlib.util
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+
 
 def _load_obfuscator(name):
-    path = f'/tmp/stockpile-pytest/app/obfuscators/{name}.py'
+    path = _REPO_ROOT / 'app' / 'obfuscators' / f'{name}.py'
     spec = importlib.util.spec_from_file_location(f'obfuscators.{name}', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -41,8 +44,10 @@ class TestBase64Jumble:
     def test_run_jumbles_command(self):
         o = self.Cls()
         link = _make_link('echo hello')
-        original_cmd = link.command
-        o.run(link)
+        # Seed the random source so the test is deterministic: always insert 'Z'
+        # characters, which guarantees the jumbled string is no longer valid base64.
+        with patch('random.choice', return_value='Z'):
+            o.run(link)
         # After jumbling, command should not be valid base64 anymore
         assert not o.is_base64(link.command)
 

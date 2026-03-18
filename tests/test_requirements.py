@@ -2,6 +2,7 @@
 
 import importlib.util
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -9,9 +10,11 @@ from tests.conftest import (
     FakeFact, FakeRelationship, FakeLink, FakeOperation, FakeAgent, FakeMapper,
 )
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+
 
 def _load_requirement(name):
-    path = f'/tmp/stockpile-pytest/app/requirements/{name}.py'
+    path = _REPO_ROOT / 'app' / 'requirements' / f'{name}.py'
     spec = importlib.util.spec_from_file_location(f'requirements.{name}', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

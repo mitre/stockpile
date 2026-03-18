@@ -5,19 +5,27 @@ import importlib.util
 import os
 import sys
 import types
+from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock, patch, mock_open
 
 import pytest
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
 
-# Shim the 'donut' package since it's not installed
-_donut_shim = types.ModuleType('donut')
-_donut_shim.create = MagicMock(return_value=b'\x00\x01\x02shellcode')
-sys.modules['donut'] = _donut_shim
+
+@pytest.fixture(autouse=True, scope='module')
+def _donut_module_shim(tmp_path_factory):
+    """Install a fake 'donut' package into sys.modules for the duration of the
+    module, then remove it on teardown so other test modules are not polluted."""
+    shim = types.ModuleType('donut')
+    shim.create = MagicMock(return_value=b'\x00\x01\x02shellcode')
+    sys.modules['donut'] = shim
+    yield shim
+    sys.modules.pop('donut', None)
 
 
 def _load_donut():
-    path = '/tmp/stockpile-pytest/app/donut.py'
+    path = _REPO_ROOT / 'app' / 'donut.py'
     spec = importlib.util.spec_from_file_location('donut_handler_mod', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

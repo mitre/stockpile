@@ -1,6 +1,7 @@
 """Exhaustive tests for all planners in app/planners/."""
 
 import importlib.util
+from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock, patch
 
 import pytest
@@ -10,9 +11,11 @@ from tests.conftest import (
     FakeFact, FakeAdversary, FakeGoal, FakeObjective, FakeParser, FakeParserConfig,
 )
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+
 
 def _load_planner(name):
-    path = f'/tmp/stockpile-pytest/app/planners/{name}.py'
+    path = _REPO_ROOT / 'app' / 'planners' / f'{name}.py'
     spec = importlib.util.spec_from_file_location(f'planners.{name}', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

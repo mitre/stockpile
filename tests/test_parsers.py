@@ -3,18 +3,20 @@
 import importlib.util
 import json
 import sys
+from pathlib import Path
 
 import pytest
 
 from tests.conftest import FakeFact, FakeMapper, FakeRelationship
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
 
 # ---------------------------------------------------------------------------
 # Helper to load a parser module from disk
 # ---------------------------------------------------------------------------
 
 def _load_parser(name):
-    path = f'/tmp/stockpile-pytest/app/parsers/{name}.py'
+    path = _REPO_ROOT / 'app' / 'parsers' / f'{name}.py'
     spec = importlib.util.spec_from_file_location(f'parsers.{name}', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

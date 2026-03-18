@@ -278,7 +278,8 @@ def _install_caldera_shims():
 
         @staticmethod
         def line(blob):
-            return blob.splitlines()
+            # Match the real BaseParser.line: split on '\n', strip '\r', skip empty
+            return [x.rstrip('\r') for x in blob.split('\n') if x]
 
         @staticmethod
         def broadcastip(blob):
@@ -348,9 +349,12 @@ _install_caldera_shims()
 # Now wire the base_requirement into the plugins namespace so that
 # the concrete requirement modules can import it
 import importlib
+from pathlib import Path as _Path
+
+_CONFTEST_REPO_ROOT = _Path(__file__).resolve().parents[1]
 _br_spec = importlib.util.spec_from_file_location(
     'plugins.stockpile.app.requirements.base_requirement',
-    '/tmp/stockpile-pytest/app/requirements/base_requirement.py',
+    _CONFTEST_REPO_ROOT / 'app' / 'requirements' / 'base_requirement.py',
 )
 _br_mod = importlib.util.module_from_spec(_br_spec)
 _br_spec.loader.exec_module(_br_mod)

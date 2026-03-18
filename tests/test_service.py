@@ -1,13 +1,16 @@
 """Tests for app/stockpile_svc.py."""
 
 import importlib.util
+from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock, patch
 
 import pytest
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+
 
 def _load_service():
-    path = '/tmp/stockpile-pytest/app/stockpile_svc.py'
+    path = _REPO_ROOT / 'app' / 'stockpile_svc.py'
     spec = importlib.util.spec_from_file_location('stockpile_svc', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -40,13 +43,15 @@ class TestStockpileService:
         assert result == dict()
 
     @pytest.mark.asyncio
-    @patch('shutil.which', return_value='/usr/bin/go')
-    async def test_dynamically_compile_with_go(self, mock_which):
+    async def test_dynamically_compile_with_go(self):
         svc, services = self._make_svc()
         services['file_svc'].find_file_path = AsyncMock(return_value=('stockpile', '/path/to/file'))
         services['file_svc'].compile_go = AsyncMock()
         headers = {'file': 'agent', 'platform': 'linux'}
-        name, result = await svc.dynamically_compile(headers)
+        # stockpile_svc.py uses 'from shutil import which', so patch the name
+        # on the loaded module rather than shutil.which to ensure the mock takes effect.
+        with patch.object(self._mod, 'which', return_value='/usr/bin/go'):
+            name, result = await svc.dynamically_compile(headers)
         assert name == 'agent-linux'
         assert result == 'agent-linux'
         services['file_svc'].compile_go.assert_awaited_once()

@@ -3,13 +3,16 @@
 import importlib.util
 import os
 import asyncio
+from pathlib import Path
 from unittest.mock import MagicMock, AsyncMock, patch, mock_open
 
 import pytest
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+
 
 def _load_packer(name):
-    path = f'/tmp/stockpile-pytest/app/packers/{name}.py'
+    path = _REPO_ROOT / 'app' / 'packers' / f'{name}.py'
     spec = importlib.util.spec_from_file_location(f'packers.{name}', path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -113,11 +116,11 @@ class TestUpxPacker:
         assert result is True
 
     @pytest.mark.asyncio
-    async def test_pack_success(self, mod):
+    async def test_pack_success(self, mod, tmp_path):
         file_svc = MagicMock()
         file_svc.log = MagicMock()
         packer = mod.Packer(file_svc=file_svc)
-        packer.packer_folder = '/tmp/test_upx_packer'
+        packer.packer_folder = str(tmp_path / 'upx_packer')
 
         os.makedirs(packer.packer_folder, exist_ok=True)
         packed_contents = b'packed binary data'
@@ -138,17 +141,12 @@ class TestUpxPacker:
         assert filename == 'testfile'
         assert result == packed_contents
 
-        # Cleanup
-        import shutil
-        if os.path.exists(packer.packer_folder):
-            shutil.rmtree(packer.packer_folder)
-
     @pytest.mark.asyncio
-    async def test_pack_failure_raises(self, mod):
+    async def test_pack_failure_raises(self, mod, tmp_path):
         file_svc = MagicMock()
         file_svc.log = MagicMock()
         packer = mod.Packer(file_svc=file_svc)
-        packer.packer_folder = '/tmp/test_upx_fail'
+        packer.packer_folder = str(tmp_path / 'upx_fail')
         os.makedirs(packer.packer_folder, exist_ok=True)
 
         async def fake_communicate():
@@ -162,16 +160,12 @@ class TestUpxPacker:
             with pytest.raises(Exception, match='Error encountered when packing'):
                 await packer.pack('testfile', b'data')
 
-        import shutil
-        if os.path.exists(packer.packer_folder):
-            shutil.rmtree(packer.packer_folder)
-
     @pytest.mark.asyncio
-    async def test_pack_cleans_up_on_failure(self, mod):
+    async def test_pack_cleans_up_on_failure(self, mod, tmp_path):
         file_svc = MagicMock()
         file_svc.log = MagicMock()
         packer = mod.Packer(file_svc=file_svc)
-        packer.packer_folder = '/tmp/test_upx_cleanup'
+        packer.packer_folder = str(tmp_path / 'upx_cleanup')
         os.makedirs(packer.packer_folder, exist_ok=True)
 
         async def fake_communicate():
@@ -187,10 +181,6 @@ class TestUpxPacker:
 
         packed_file = os.path.join(packer.packer_folder, 'testfile')
         assert not os.path.exists(packed_file)
-
-        import shutil
-        if os.path.exists(packer.packer_folder):
-            shutil.rmtree(packer.packer_folder)
 
     def test_packer_folder_default(self, mod):
         packer = mod.Packer(file_svc=MagicMock())
