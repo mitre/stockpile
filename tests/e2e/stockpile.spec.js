@@ -5,10 +5,14 @@ const CALDERA_URL = process.env.CALDERA_URL || 'http://localhost:8888';
 const PLUGIN_ROUTE = '/#/plugins/stockpile';
 
 // ---------------------------------------------------------------------------
-// Helper: navigate to the stockpile plugin page inside magma
+// Helper: navigate to the stockpile plugin page inside magma.
+// Uses 'domcontentloaded' (faster than 'networkidle') and waits for the
+// Stockpile heading to confirm the Vue component has rendered.
 // ---------------------------------------------------------------------------
 async function navigateToStockpile(page) {
-  await page.goto(`${CALDERA_URL}${PLUGIN_ROUTE}`, { waitUntil: 'networkidle' });
+  await page.goto(`${CALDERA_URL}${PLUGIN_ROUTE}`, { waitUntil: 'domcontentloaded' });
+  // Explicit UI guard: wait until the plugin heading is present before proceeding.
+  await page.locator('h2', { hasText: 'Stockpile' }).waitFor({ state: 'visible', timeout: 15_000 });
 }
 
 // ===========================================================================
@@ -42,7 +46,9 @@ test.describe('Stockpile plugin page load', () => {
 
   test('should show numeric ability count or placeholder', async ({ page }) => {
     await navigateToStockpile(page);
-    const abilityCount = page.locator('.card >> h1.is-size-1').first();
+    // Anchor to the abilities card by label rather than positional index.
+    const abilityCard = page.locator('.card', { hasText: 'abilities' });
+    const abilityCount = abilityCard.locator('h1.is-size-1');
     await expect(abilityCount).toBeVisible({ timeout: 15_000 });
     const text = await abilityCount.textContent();
     expect(text?.trim()).toMatch(/^(\d+|---)$/);
@@ -50,7 +56,9 @@ test.describe('Stockpile plugin page load', () => {
 
   test('should show numeric adversary count or placeholder', async ({ page }) => {
     await navigateToStockpile(page);
-    const adversaryCount = page.locator('.card >> h1.is-size-1').nth(1);
+    // Anchor to the adversaries card by label rather than positional index.
+    const adversaryCard = page.locator('.card', { hasText: 'adversaries' });
+    const adversaryCount = adversaryCard.locator('h1.is-size-1');
     await expect(adversaryCount).toBeVisible({ timeout: 15_000 });
     const text = await adversaryCount.textContent();
     expect(text?.trim()).toMatch(/^(\d+|---)$/);
@@ -173,21 +181,43 @@ test.describe('Stockpile obfuscator configuration', () => {
     }
   });
 
-  test('should include base64 or steganography obfuscator from stockpile', async ({ page }) => {
+  test('should include base64 or caesar obfuscator from stockpile', async ({ page }) => {
     const response = await page.request.get(`${CALDERA_URL}/api/v2/obfuscators`);
     const obfuscators = await response.json();
-    // Stockpile typically ships base64, caesar_cipher, or steganography
-    expect(obfuscators.length).toBeGreaterThanOrEqual(1);
+    // Stockpile ships base64_jumble, base64_no_padding, caesar_cipher, and steganography.
+    // Verify at least one of the known stockpile obfuscator names is present.
+    const names = obfuscators.map((o) => o.name?.toLowerCase() || '');
+    const hasStockpileObfuscator = names.some(
+      (n) => n.includes('base64') || n.includes('caesar') || n.includes('steganography')
+    );
+    expect(hasStockpileObfuscator).toBeTruthy();
   });
 });
 
 // ===========================================================================
-// 5. Error states
+// 5. Adversary listing
+// ===========================================================================
+test.describe('Stockpile adversary listing', () => {
+  test('adversaries API should return objects with name and description', async ({ page }) => {
+    const response = await page.request.get(`${CALDERA_URL}/api/v2/adversaries`);
+    expect(response.ok()).toBeTruthy();
+    const adversaries = await response.json();
+    expect(Array.isArray(adversaries)).toBeTruthy();
+    // Every adversary must expose both name and description fields.
+    for (const adv of adversaries) {
+      expect(adv).toHaveProperty('name');
+      expect(adv).toHaveProperty('description');
+    }
+  });
+});
+
+// ===========================================================================
+// 6. Error states
 // ===========================================================================
 test.describe('Stockpile error states', () => {
   test('should handle invalid plugin route gracefully', async ({ page }) => {
     const resp = await page.goto(`${CALDERA_URL}/#/plugins/nonexistent-plugin`, {
-      waitUntil: 'networkidle',
+      waitUntil: 'domcontentloaded',
     });
     // The app should still load (Vue router fallback) even if plugin doesn't exist
     expect(resp?.status()).toBeLessThan(500);
@@ -213,8 +243,9 @@ test.describe('Stockpile error states', () => {
       })
     );
     await navigateToStockpile(page);
-    // Count should show "---" placeholder when 0 stockpile abilities
-    const abilityCount = page.locator('.card >> h1.is-size-1').first();
+    // Count should show "---" placeholder when 0 stockpile abilities; anchor by label.
+    const abilityCard = page.locator('.card', { hasText: 'abilities' });
+    const abilityCount = abilityCard.locator('h1.is-size-1');
     await expect(abilityCount).toBeVisible({ timeout: 15_000 });
     const text = await abilityCount.textContent();
     expect(text?.trim()).toMatch(/^(0|---)$/);
@@ -229,7 +260,9 @@ test.describe('Stockpile error states', () => {
       })
     );
     await navigateToStockpile(page);
-    const adversaryCount = page.locator('.card >> h1.is-size-1').nth(1);
+    // Anchor to the adversaries card by label rather than positional index.
+    const adversaryCard = page.locator('.card', { hasText: 'adversaries' });
+    const adversaryCount = adversaryCard.locator('h1.is-size-1');
     await expect(adversaryCount).toBeVisible({ timeout: 15_000 });
     const text = await adversaryCount.textContent();
     expect(text?.trim()).toMatch(/^(0|---)$/);
