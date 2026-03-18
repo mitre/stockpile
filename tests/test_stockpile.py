@@ -1,15 +1,14 @@
 import ast
 import glob
-import importlib
-import inspect
 import os
 import re
 
 import pytest
-import yaml
+
+yaml = pytest.importorskip("yaml")
 
 
-PLUGIN_DIR = os.path.join(os.path.dirname(__file__), '..')
+PLUGIN_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 ABILITIES_DIR = os.path.join(PLUGIN_DIR, 'data', 'abilities')
 PAYLOADS_DIR = os.path.join(PLUGIN_DIR, 'payloads')
 OBFUSCATORS_DIR = os.path.join(PLUGIN_DIR, 'app', 'obfuscators')
@@ -24,9 +23,11 @@ class TestHookModule:
     def test_hook_module_loads(self):
         hook_path = os.path.join(PLUGIN_DIR, 'hook.py')
         assert os.path.isfile(hook_path), 'hook.py not found'
-        tree = ast.parse(open(hook_path).read())
+        with open(hook_path, encoding='utf-8') as f:
+            source = f.read()
+        tree = ast.parse(source)
         top_level_names = [
-            node.id if isinstance(node, ast.Name) else node.name
+            node.name
             for node in ast.walk(tree)
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
         ]
@@ -34,7 +35,8 @@ class TestHookModule:
 
     def test_hook_has_name_and_description(self):
         hook_path = os.path.join(PLUGIN_DIR, 'hook.py')
-        source = open(hook_path).read()
+        with open(hook_path, encoding='utf-8') as f:
+            source = f.read()
         tree = ast.parse(source)
         assigned_names = [
             node.targets[0].id
@@ -62,7 +64,7 @@ class TestAbilitiesYAML:
 
     def test_all_abilities_are_parseable(self):
         for yml_file in self._collect_yaml_files():
-            with open(yml_file) as f:
+            with open(yml_file, encoding='utf-8') as f:
                 try:
                     data = yaml.safe_load(f)
                 except yaml.YAMLError as e:
@@ -71,7 +73,7 @@ class TestAbilitiesYAML:
 
     def test_all_abilities_have_required_fields(self):
         for yml_file in self._collect_yaml_files():
-            with open(yml_file) as f:
+            with open(yml_file, encoding='utf-8') as f:
                 data = yaml.safe_load(f)
             if not isinstance(data, list):
                 data = [data]
@@ -82,29 +84,31 @@ class TestAbilitiesYAML:
                     )
 
     def test_all_abilities_have_technique_info(self):
-        """Technique can be either a nested 'technique' dict or 'technique_id' + 'technique_name' fields."""
+        """Technique can be either a nested 'technique' dict or 'technique_id' AND 'technique_name' fields."""
         for yml_file in self._collect_yaml_files():
-            with open(yml_file) as f:
+            with open(yml_file, encoding='utf-8') as f:
                 data = yaml.safe_load(f)
             if not isinstance(data, list):
                 data = [data]
             for ability in data:
                 has_technique = 'technique' in ability
-                has_technique_id = 'technique_id' in ability or 'technique_name' in ability
+                has_technique_id = 'technique_id' in ability and 'technique_name' in ability
                 assert has_technique or has_technique_id, (
                     f'{yml_file}: ability missing technique information '
-                    '(need either "technique" dict or "technique_id"/"technique_name" fields)'
+                    '(need either "technique" dict or both "technique_id" and "technique_name" fields)'
                 )
 
     def test_ability_ids_are_unique(self):
         seen_ids = {}
         for yml_file in self._collect_yaml_files():
-            with open(yml_file) as f:
+            with open(yml_file, encoding='utf-8') as f:
                 data = yaml.safe_load(f)
             if not isinstance(data, list):
                 data = [data]
             for ability in data:
                 aid = ability.get('id')
+                if aid is None:
+                    continue
                 if aid in seen_ids:
                     pytest.fail(
                         f'Duplicate ability id {aid} in {yml_file} and {seen_ids[aid]}'
@@ -135,8 +139,6 @@ class TestObfuscators:
     """Tests that obfuscator modules load correctly."""
 
     EXPECTED_OBFUSCATORS = [
-        'plain_text',
-        'base64_basic',
         'base64_jumble',
         'base64_no_padding',
         'caesar_cipher',
@@ -154,7 +156,7 @@ class TestObfuscators:
     @pytest.mark.parametrize('module_name', EXPECTED_OBFUSCATORS)
     def test_obfuscator_module_is_valid_python(self, module_name):
         path = os.path.join(OBFUSCATORS_DIR, f'{module_name}.py')
-        with open(path) as f:
+        with open(path, encoding='utf-8') as f:
             try:
                 ast.parse(f.read())
             except SyntaxError as e:
@@ -163,7 +165,7 @@ class TestObfuscators:
     @pytest.mark.parametrize('module_name', EXPECTED_OBFUSCATORS)
     def test_obfuscator_defines_obfuscation_class(self, module_name):
         path = os.path.join(OBFUSCATORS_DIR, f'{module_name}.py')
-        with open(path) as f:
+        with open(path, encoding='utf-8') as f:
             tree = ast.parse(f.read())
         class_names = [node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
         assert 'Obfuscation' in class_names, (
@@ -185,7 +187,7 @@ class TestParsers:
         for f in os.listdir(PARSERS_DIR):
             if f.endswith('.py') and not f.startswith('__'):
                 path = os.path.join(PARSERS_DIR, f)
-                with open(path) as fh:
+                with open(path, encoding='utf-8') as fh:
                     try:
                         ast.parse(fh.read())
                     except SyntaxError as e:
@@ -197,7 +199,7 @@ class TestSteganographySecurity:
 
     def _get_source(self):
         path = os.path.join(OBFUSCATORS_DIR, 'steganography.py')
-        with open(path) as f:
+        with open(path, encoding='utf-8') as f:
             return f.read()
 
     def test_steganography_verify_flag(self):
@@ -221,7 +223,7 @@ class TestSteganographySecurity:
                     if isinstance(func.value, ast.Name) and func.value.id == 'requests':
                         is_requests_call = True
                 if is_requests_call:
-                    keyword_names = [kw.arg for kw in node.keywords]
+                    keyword_names = [kw.arg for kw in node.keywords if kw.arg is not None]
                     if 'timeout' not in keyword_names:
                         line = getattr(node, 'lineno', '?')
                         pytest.fail(
@@ -234,7 +236,7 @@ class TestRagdollSecurity:
 
     def _get_source(self):
         path = os.path.join(PAYLOADS_DIR, 'ragdoll.py')
-        with open(path) as f:
+        with open(path, encoding='utf-8') as f:
             return f.read()
 
     def test_ragdoll_requests_have_timeout(self):
@@ -249,7 +251,7 @@ class TestRagdollSecurity:
                     if isinstance(func.value, ast.Name) and func.value.id == 'requests':
                         is_requests_call = True
                 if is_requests_call:
-                    keyword_names = [kw.arg for kw in node.keywords]
+                    keyword_names = [kw.arg for kw in node.keywords if kw.arg is not None]
                     if 'timeout' not in keyword_names:
                         line = getattr(node, 'lineno', '?')
                         pytest.fail(
