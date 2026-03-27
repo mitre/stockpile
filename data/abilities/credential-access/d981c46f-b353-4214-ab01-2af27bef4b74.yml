@@ -1,0 +1,13 @@
+- id: d981c46f-b353-4214-ab01-2af27bef4b74
+  name: Multi-Factor Authentication Interception
+  description: Ability for Multi-Factor Authentication Interception (ATT&CK T1111).
+    Generated from Atomic Red Team procedures; review and test safely before use.
+    [AUTO-INFERRED SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1111
+    name: Multi-Factor Authentication Interception
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

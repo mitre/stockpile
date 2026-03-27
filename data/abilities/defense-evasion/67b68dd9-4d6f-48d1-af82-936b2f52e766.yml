@@ -1,0 +1,12 @@
+- id: 67b68dd9-4d6f-48d1-af82-936b2f52e766
+  name: Software Packing
+  description: Ability for Software Packing (ATT&CK T1045). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1045
+    name: Software Packing
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

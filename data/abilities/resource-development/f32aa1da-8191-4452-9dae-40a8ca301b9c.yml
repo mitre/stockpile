@@ -1,0 +1,12 @@
+- id: f32aa1da-8191-4452-9dae-40a8ca301b9c
+  name: Develop Capabilities
+  description: Ability for Develop Capabilities (ATT&CK T1587). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1587
+    name: Develop Capabilities
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

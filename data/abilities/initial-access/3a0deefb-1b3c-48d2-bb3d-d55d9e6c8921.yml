@@ -1,0 +1,12 @@
+- id: 3a0deefb-1b3c-48d2-bb3d-d55d9e6c8921
+  name: Wi-Fi Networks
+  description: Ability for Wi-Fi Networks (ATT&CK T1669). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: initial-access
+  technique:
+    attack_id: T1669
+    name: Wi-Fi Networks
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname

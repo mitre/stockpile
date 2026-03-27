@@ -1,0 +1,12 @@
+- id: e392d0ca-3bf2-4436-a7ee-f1bb2c7e78b6
+  name: Securityd Memory
+  description: Ability for Securityd Memory (ATT&CK T1167). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: credential-access
+  technique:
+    attack_id: T1167
+    name: Securityd Memory
+  platforms:
+    windows:
+      cmd:
+        command: cmdkey /list & reg query "HKLM\SAM" /reg:64 /v "" 2>nul

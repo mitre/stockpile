@@ -1,0 +1,13 @@
+- id: 3ae9b052-09ae-4c9c-adb9-5a3fd06cd6c0
+  name: Malicious Shell Modification
+  description: Ability for Malicious Shell Modification (ATT&CK T1156). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1156
+    name: Malicious Shell Modification
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

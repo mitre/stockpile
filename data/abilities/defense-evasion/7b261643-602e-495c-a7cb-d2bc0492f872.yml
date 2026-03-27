@@ -1,0 +1,12 @@
+- id: 7b261643-602e-495c-a7cb-d2bc0492f872
+  name: Launchctl
+  description: Ability for Launchctl (ATT&CK T1152). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1152
+    name: Launchctl
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

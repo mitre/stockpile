@@ -1,0 +1,13 @@
+- id: bcef4216-bd02-409b-9d68-8e5c4a4baeb4
+  name: Remote Desktop Protocol
+  description: Ability for Remote Desktop Protocol (ATT&CK T1076). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: lateral-movement
+  technique:
+    attack_id: T1076
+    name: Remote Desktop Protocol
+  platforms:
+    windows:
+      cmd:
+        command: net view && net use && qwinsta

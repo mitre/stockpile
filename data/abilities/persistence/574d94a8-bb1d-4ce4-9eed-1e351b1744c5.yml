@@ -1,0 +1,12 @@
+- id: 574d94a8-bb1d-4ce4-9eed-1e351b1744c5
+  name: Launch Agent
+  description: Ability for Launch Agent (ATT&CK T1159). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1159
+    name: Launch Agent
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

@@ -1,0 +1,14 @@
+- id: 5ac19e74-599f-4f15-97b2-af52b0f8dc44
+  name: Virtual Machine Discovery
+  description: Ability for Virtual Machine Discovery (ATT&CK T1673). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: discovery
+  technique:
+    attack_id: T1673
+    name: Virtual Machine Discovery
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano & wmic
+          process list brief

@@ -1,0 +1,12 @@
+- id: 987ba54a-7ffc-46bb-ad80-81b5cacafeef
+  name: Trap
+  description: Ability for Trap (ATT&CK T1154). Generated from Atomic Red Team procedures;
+    review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: execution
+  technique:
+    attack_id: T1154
+    name: Trap
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Write-Output \"#{message}\""

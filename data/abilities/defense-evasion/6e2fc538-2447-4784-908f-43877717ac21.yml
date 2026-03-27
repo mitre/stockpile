@@ -1,0 +1,12 @@
+- id: 6e2fc538-2447-4784-908f-43877717ac21
+  name: Weaken Encryption
+  description: Ability for Weaken Encryption (ATT&CK T1600). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1600
+    name: Weaken Encryption
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

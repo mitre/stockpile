@@ -1,0 +1,12 @@
+- id: 4f9eabdd-ce45-45b7-a9e2-7f58bdbd1495
+  name: New Service
+  description: Ability for New Service (ATT&CK T1050). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1050
+    name: New Service
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

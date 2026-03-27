@@ -1,0 +1,12 @@
+- id: bf23d651-89bf-4f8a-ac43-4475ddb148ab
+  name: PowerShell Profile
+  description: Ability for PowerShell Profile (ATT&CK T1504). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1504
+    name: PowerShell Profile
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

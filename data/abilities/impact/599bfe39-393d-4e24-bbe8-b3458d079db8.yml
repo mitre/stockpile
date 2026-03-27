@@ -1,0 +1,12 @@
+- id: 599bfe39-393d-4e24-bbe8-b3458d079db8
+  name: Financial Theft
+  description: Ability for Financial Theft (ATT&CK T1657). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1657
+    name: Financial Theft
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

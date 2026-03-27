@@ -1,0 +1,13 @@
+- id: 5d520a0c-a47e-4b6f-b24a-5adbff5d7485
+  name: Compromise Infrastructure
+  description: Ability for Compromise Infrastructure (ATT&CK T1584). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1584
+    name: Compromise Infrastructure
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

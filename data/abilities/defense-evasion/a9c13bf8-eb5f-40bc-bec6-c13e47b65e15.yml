@@ -1,0 +1,12 @@
+- id: a9c13bf8-eb5f-40bc-bec6-c13e47b65e15
+  name: DLL Side-Loading
+  description: Ability for DLL Side-Loading (ATT&CK T1073). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1073
+    name: DLL Side-Loading
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

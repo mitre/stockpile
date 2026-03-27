@@ -1,0 +1,13 @@
+- id: df8b8ac2-92a4-4bb3-bbfd-4ebf13634a4b
+  name: Security Support Provider
+  description: Ability for Security Support Provider (ATT&CK T1101). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1101
+    name: Security Support Provider
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

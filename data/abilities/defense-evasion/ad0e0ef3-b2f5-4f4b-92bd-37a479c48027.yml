@@ -1,0 +1,12 @@
+- id: ad0e0ef3-b2f5-4f4b-92bd-37a479c48027
+  name: Compile After Delivery
+  description: Ability for Compile After Delivery (ATT&CK T1500). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1500
+    name: Compile After Delivery
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

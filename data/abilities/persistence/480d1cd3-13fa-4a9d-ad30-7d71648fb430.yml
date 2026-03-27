@@ -1,0 +1,13 @@
+- id: 480d1cd3-13fa-4a9d-ad30-7d71648fb430
+  name: Compromise Host Software Binary
+  description: Ability for Compromise Host Software Binary (ATT&CK T1554). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1554
+    name: Compromise Host Software Binary
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

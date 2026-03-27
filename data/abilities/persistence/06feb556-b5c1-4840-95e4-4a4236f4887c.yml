@@ -1,0 +1,12 @@
+- id: 06feb556-b5c1-4840-95e4-4a4236f4887c
+  name: Authentication Package
+  description: Ability for Authentication Package (ATT&CK T1131). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1131
+    name: Authentication Package
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

@@ -1,0 +1,12 @@
+- id: b051a153-f80a-4e21-bbe9-8a951af4736f
+  name: Hypervisor
+  description: Ability for Hypervisor (ATT&CK T1062). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1062
+    name: Hypervisor
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

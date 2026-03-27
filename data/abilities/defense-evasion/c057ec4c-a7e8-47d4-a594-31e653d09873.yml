@@ -1,0 +1,12 @@
+- id: c057ec4c-a7e8-47d4-a594-31e653d09873
+  name: NTFS File Attributes
+  description: Ability for NTFS File Attributes (ATT&CK T1096). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1096
+    name: NTFS File Attributes
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

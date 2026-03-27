@@ -1,0 +1,13 @@
+- id: 39f19df4-940d-43ea-90db-7f14e6b54cd8
+  name: Extra Window Memory Injection
+  description: Ability for Extra Window Memory Injection (ATT&CK T1181). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1181
+    name: Extra Window Memory Injection
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

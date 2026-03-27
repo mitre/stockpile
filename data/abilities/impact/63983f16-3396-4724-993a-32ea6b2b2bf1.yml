@@ -1,0 +1,13 @@
+- id: 63983f16-3396-4724-993a-32ea6b2b2bf1
+  name: Runtime Data Manipulation
+  description: Ability for Runtime Data Manipulation (ATT&CK T1494). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1494
+    name: Runtime Data Manipulation
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

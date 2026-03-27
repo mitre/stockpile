@@ -1,0 +1,12 @@
+- id: 8e102e01-86cb-4c31-b700-b37b82fdbaca
+  name: Stage Capabilities
+  description: Ability for Stage Capabilities (ATT&CK T1608). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: resource-development
+  technique:
+    attack_id: T1608
+    name: Stage Capabilities
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

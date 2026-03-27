@@ -1,0 +1,12 @@
+- id: 734143ea-1f10-4ba4-aea3-de85a94664e0
+  name: Disk Wipe
+  description: Ability for Disk Wipe (ATT&CK T1561). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: impact
+  technique:
+    attack_id: T1561
+    name: Disk Wipe
+  platforms:
+    windows:
+      cmd:
+        command: 'echo "impact-simulation: #{message}"'

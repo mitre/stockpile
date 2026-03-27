@@ -1,0 +1,12 @@
+- id: fe1f6964-f108-43b5-98b4-ced6b371b38a
+  name: Power Settings
+  description: Ability for Power Settings (ATT&CK T1653). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1653
+    name: Power Settings
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

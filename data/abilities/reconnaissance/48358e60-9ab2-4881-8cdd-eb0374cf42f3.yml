@@ -1,0 +1,13 @@
+- id: 48358e60-9ab2-4881-8cdd-eb0374cf42f3
+  name: Gather Victim Org Information
+  description: Ability for Gather Victim Org Information (ATT&CK T1591). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1591
+    name: Gather Victim Org Information
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

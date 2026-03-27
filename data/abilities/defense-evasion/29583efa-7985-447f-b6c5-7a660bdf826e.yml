@@ -1,0 +1,13 @@
+- id: 29583efa-7985-447f-b6c5-7a660bdf826e
+  name: Indicator Removal from Tools
+  description: Ability for Indicator Removal from Tools (ATT&CK T1066). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1066
+    name: Indicator Removal from Tools
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

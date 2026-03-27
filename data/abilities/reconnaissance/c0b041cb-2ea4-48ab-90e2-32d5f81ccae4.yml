@@ -1,0 +1,13 @@
+- id: c0b041cb-2ea4-48ab-90e2-32d5f81ccae4
+  name: Gather Victim Identity Information
+  description: Ability for Gather Victim Identity Information (ATT&CK T1589). Generated
+    from Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: reconnaissance
+  technique:
+    attack_id: T1589
+    name: Gather Victim Identity Information
+  platforms:
+    windows:
+      cmd:
+        command: whoami & hostname & ipconfig /all & arp -a & netstat -ano

@@ -1,0 +1,12 @@
+- id: e30e3f43-be41-4d39-9fd4-8561daad172a
+  name: Impersonation
+  description: Ability for Impersonation (ATT&CK T1656). Generated from Atomic Red
+    Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1656
+    name: Impersonation
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

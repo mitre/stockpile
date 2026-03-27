@@ -1,0 +1,12 @@
+- id: b88b64f7-5a8c-4270-834f-abce36465ec3
+  name: Scripting
+  description: Ability for Scripting (ATT&CK T1064). Generated from Atomic Red Team
+    procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1064
+    name: Scripting
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

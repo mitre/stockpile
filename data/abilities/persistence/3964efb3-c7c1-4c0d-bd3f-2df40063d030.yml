@@ -1,0 +1,12 @@
+- id: 3964efb3-c7c1-4c0d-bd3f-2df40063d030
+  name: Exclusive Control
+  description: Ability for Exclusive Control (ATT&CK T1668). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1668
+    name: Exclusive Control
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

@@ -1,0 +1,12 @@
+- id: 2111d046-c358-4086-9d5c-4e825e17dfc3
+  name: Netsh Helper DLL
+  description: Ability for Netsh Helper DLL (ATT&CK T1128). Generated from Atomic
+    Red Team procedures; review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1128
+    name: Netsh Helper DLL
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V

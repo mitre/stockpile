@@ -1,0 +1,13 @@
+- id: 455ea73d-1b65-43a0-9c09-2e0c1ad42302
+  name: Application Access Token
+  description: Ability for Application Access Token (ATT&CK T1527). Generated from
+    Atomic Red Team procedures; review and test safely before use. [AUTO-INFERRED
+    SAFE STUB]
+  tactic: defense-evasion
+  technique:
+    attack_id: T1527
+    name: Application Access Token
+  platforms:
+    windows:
+      cmd:
+        command: wevtutil el | findstr /I Security & attrib %USERPROFILE%\*.*

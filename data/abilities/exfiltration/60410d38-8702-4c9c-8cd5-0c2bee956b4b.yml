@@ -1,0 +1,13 @@
+- id: 60410d38-8702-4c9c-8cd5-0c2bee956b4b
+  name: Exfiltration Over Other Network Medium
+  description: Ability for Exfiltration Over Other Network Medium (ATT&CK T1011).
+    Generated from Atomic Red Team procedures; review and test safely before use.
+    [AUTO-INFERRED SAFE STUB]
+  tactic: exfiltration
+  technique:
+    attack_id: T1011
+    name: Exfiltration Over Other Network Medium
+  platforms:
+    windows:
+      cmd:
+        command: type "#{file_path}" > NUL

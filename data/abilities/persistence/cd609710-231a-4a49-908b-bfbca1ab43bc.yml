@@ -1,0 +1,12 @@
+- id: cd609710-231a-4a49-908b-bfbca1ab43bc
+  name: Emond
+  description: Ability for Emond (ATT&CK T1519). Generated from Atomic Red Team procedures;
+    review and test safely before use. [AUTO-INFERRED SAFE STUB]
+  tactic: persistence
+  technique:
+    attack_id: T1519
+    name: Emond
+  platforms:
+    windows:
+      cmd:
+        command: schtasks /Query /FO LIST /V
