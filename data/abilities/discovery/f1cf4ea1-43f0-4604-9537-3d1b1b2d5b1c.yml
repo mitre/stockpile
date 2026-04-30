@@ -1,10 +1,10 @@
 - id: f1cf4ea1-43f0-4604-9537-3d1b1b2d5b1c
-  name: GetServiceAccounts
+  name: Get Service Principal Names
   description: Get Service Accounts for a domain
   tactic: discovery
   technique:
-    attack_id: T1033
-    name: System Owner/User Discovery
+    attack_id: T1087.002
+    name: "Account Discovery: Domain Account"
   platforms:
     windows:
       psh:

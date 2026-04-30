@@ -12,7 +12,7 @@ class BaseRequirement:
         """
         if not self._check_edge(relationship.edge):
             return False
-        if 'target' in self.enforcements.keys():
+        if self.enforcements.get('target', None):
             for fact in used_facts:
                 if self._check_target(relationship.target, fact):
                     return True

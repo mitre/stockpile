@@ -1,0 +1,32 @@
+- tactic: impact
+  technique_name: Data Destruction
+  technique_id: T1485
+  name: Clear Current User Recycling Bin
+  description: Deletes the contents of the current user's recycling
+    bin using the Clear-RecycleBin cmdlet
+  executors:
+  - name: psh
+    platform: windows
+    command: Clear-RecycleBin -Force -ErrorAction SilentlyContinue; Write-Output "Recycle
+      bin is empty"
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - impact
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: d8373e5e-528e-4c48-a00e-8716377a2d5a

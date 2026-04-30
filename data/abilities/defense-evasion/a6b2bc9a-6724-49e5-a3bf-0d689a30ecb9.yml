@@ -1,0 +1,19 @@
+- id: a6b2bc9a-6724-49e5-a3bf-0d689a30ecb9
+  name: Execute Process From Directory Masquerading As Current Parent Dir (Generated from Atomic Red Team)
+  description: |
+    Ability for Masquerading: Match Legitimate Resource Name or Location (ATT&CK T1036.005).
+    Creates and executes a process from a directory masquerading as the current parent directory (`...` instead of the normal `..`)
+    Generated from Atomic Red Team procedures (812c3ab8-94b0-4698-a9bf-9420af23ce24); review and test safely before use.
+  tactic: defense-evasion
+  technique:
+    attack_id: T1036.005
+    name: 'Masquerading: Match Legitimate Resource Name or Location'
+  platforms:
+    linux,darwin:
+      sh:
+        command: |
+          mkdir $HOME/...;
+          cp $(which sh) $HOME/...;
+          $HOME/.../sh -c "echo test T1036.005"
+        cleanup: |
+          rm -rf $HOME/.../

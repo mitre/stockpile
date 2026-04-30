@@ -1,10 +1,10 @@
 - id: aaf34d82-aea9-4278-8ec4-789653e4f5d9
-  name: GetAdminMembers
+  name: Enumerate Administrator Accounts
   description: Get Administrator users for a computer
   tactic: discovery
   technique:
-    attack_id: T1033
-    name: System Owner/User Discovery
+    attack_id: T1087
+    name: Account Discovery
   platforms:
     windows:
       psh:

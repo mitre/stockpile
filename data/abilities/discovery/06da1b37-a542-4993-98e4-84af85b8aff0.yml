@@ -1,0 +1,19 @@
+- id: 06da1b37-a542-4993-98e4-84af85b8aff0
+  name: Get-EventLog To Enumerate Windows Security Log (Generated from Atomic Red Team)
+  description: |
+    Ability for Log Enumeration (ATT&CK T1654).
+    Uses the built-in PowerShell commandlet Get-EventLog to search for 'SYSTEM' keyword and saves results to a text file.
+    Reference: https://thedfirreport.com/2023/04/03/malicious-iso-file-leads-to-domain-wide-ransomware/.
+    Generated from Atomic Red Team procedures (a9030b20-dd4b-4405-875e-3462c6078fdc); review and test safely before use.
+  tactic: discovery
+  technique:
+    attack_id: T1654
+    name: Log Enumeration
+  platforms:
+    windows:
+      psh:
+        command: |
+          get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv -encoding Unicode "#{host.dir.staged}\T1654_events.txt"
+  requirements:
+    - plugins.stockpile.app.requirements.paw_provenance:
+      - source: host.dir.staged

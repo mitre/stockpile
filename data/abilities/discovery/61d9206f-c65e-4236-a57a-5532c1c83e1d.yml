@@ -1,0 +1,31 @@
+- tactic: discovery
+  technique_name: System Information Discovery
+  technique_id: T1082
+  name: 'Machine GUID Discovery using wmic'
+  description: "This ability emulates BlackCat ransomware retrieving the local victim Windows\
+    \ system's GUID and other product-related details using WMIC."
+  executors:
+  - name: psh
+    platform: windows
+    command: 'wmic csproduct '
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - discovery
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: stockpile
+  delete_payload: true
+  id: 61d9206f-c65e-4236-a57a-5532c1c83e1d

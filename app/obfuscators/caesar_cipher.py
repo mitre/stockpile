@@ -41,5 +41,5 @@ class Obfuscation(BaseObfuscator):
         :param bounds: the number of unicode code points to shift
         :return: a tuple containing the encoded command and the shift value
         """
-        shift = randint(1, bounds)
+        shift = randint(1, bounds)  # nosec B311
         return ''.join([chr(ord(c) + shift) if c.isalpha() else c for c in s]), shift

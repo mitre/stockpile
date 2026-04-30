@@ -30,6 +30,5 @@ class Parser(BaseParser):
                                      target=Fact(mp.target, None)
                                      )
                     )
-        except Exception:
+        except Exception:  # nosec B110
             pass
-        return relationships

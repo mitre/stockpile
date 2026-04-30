@@ -3,8 +3,8 @@
   description: Downloads random meme and sets as desktop background
   tactic: impact
   technique:
-    attack_id: T1491
-    name: Defacement
+    attack_id: T1491.001
+    name: "Defacement: Internal Defacement"
   platforms:
     windows:
       psh,pwsh:
