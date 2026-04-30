@@ -46,4 +46,4 @@ class Obfuscation(BaseObfuscator):
 
     @staticmethod
     def _random_char():
-        return random.choice(string.ascii_letters + string.digits)
+        return random.choice(string.ascii_letters + string.digits)  # nosec B311
