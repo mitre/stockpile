@@ -3,7 +3,7 @@ import datetime
 import json
 import os
 import platform
-import subprocess
+import subprocess  # nosec B404
 import socket
 import time
 import stat
@@ -67,7 +67,7 @@ class OperationLoop:
         cmd = self._decode_bytes(i['command'])
         execution_timestamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
         try:
-            output = subprocess.check_output(cmd, shell=True, timeout=i['timeout'])
+            output = subprocess.check_output(cmd, shell=True, timeout=i['timeout'])  # nosec B602
         except subprocess.CalledProcessError as e:
             output = e.output
         return dict(output=self._encode_string(output.decode('utf-8', errors='ignore')), pid=os.getpid(), status=0, id=i['id'], agent_reported_time=execution_timestamp), i['sleep']

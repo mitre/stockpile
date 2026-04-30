@@ -26,7 +26,7 @@ class Parser(BaseParser):
         self.providers = ['wdigest', 'credman', 'msv', 'kerberos', 'ssp']
         self.log = logging.getLogger('parsing_svc')
         self.hash_check = r'([0-9a-fA-F][0-9a-fA-F] ){3}'
-        self.target_mapping = {'password': 'Password',
+        self.target_mapping = {'password': 'Password',  # nosec B105
                                'ntlm': 'NTLM',
                                'sha1': 'SHA1',
                                '_default': 'Password'

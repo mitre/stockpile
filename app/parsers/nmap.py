@@ -26,6 +26,5 @@ class Parser(BaseParser):
             if 'open' in line:
                 port = line.split()[0].split('/')[0]
                 return int(port)
-        except Exception:
+        except Exception:  # nosec B110
             pass
-        return None

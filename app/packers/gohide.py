@@ -40,4 +40,4 @@ class Packer:
 
     @staticmethod
     def get_random_replacement(old_string):
-        return ''.join(random.choices(string.ascii_letters + string.digits, k=len(old_string))).encode('utf-8')
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=len(old_string))).encode('utf-8')  # nosec B311

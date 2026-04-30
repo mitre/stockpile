@@ -8,7 +8,7 @@ from app.utility.base_parser import BaseParser
 
 
 class Parser(BaseParser):
-    exclude = ['0.0.0.0', '127.0.0.1']
+    exclude = ['0.0.0.0', '127.0.0.1']  # nosec B104
     subnet_exclude = ['.255', '.0', '.1']
 
     def parse(self, blob):
